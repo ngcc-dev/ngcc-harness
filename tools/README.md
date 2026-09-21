@@ -12,7 +12,9 @@ Each issue has a stable ID of the form `xxx-yy-z`: `xxx-yy` is the candidate
 algorithm ID and `z` is that candidate's sequential report number. The runner
 prints the relevant ID beside each runtime witness. The complete list, including
 findings without a runnable witness, is `security/vulnerabilities.csv`; run
-`make check-vulnerabilities` to validate its IDs and checker coverage.
+`make check-vulnerabilities` to validate its IDs, statuses, and checker coverage.
+Every issue has its own `Severity`, `Status`, `Layer`, `Affected`, `Discovery`,
+`Exploitation`, `Credit`, and `Date` metadata in the corresponding report.
 
 ## Running everything
 
@@ -43,23 +45,27 @@ than always firing.
 
 | check | defect | candidates |
 |---|---|---|
-| `hash-collide-zeropad` | `H(M) == H(M‖0000000)`; the byte-aligned padding branch writes `0x01` where MSB-first `pad10*` needs `0x80` | Eijen (hash-09) |
+| `hash-collide-zeropad` | `H(M) == H(M‖0000000)` because byte-aligned input follows the specification's LSB-first `0x01` convention while partial-byte API input is handled MSB-first | Eijen (hash-09) |
 | `hash-collide-rate` | `pad10*1` puts both padding bits in one position when `\|M\| mod r == r-1` | MasterCube (hash-17) |
 | `hash-prefix` | no domain separation, so the short digest is a byte-exact prefix of the long one | Megascon (hash-18), Mozi (hash-20) |
 | `kem-ct-flip` | the FO implicit-rejection branch is dead code, so modified ciphertexts still return the original shared secret | Aigis-Enc+ (kem-01) |
 | `kem-reject-mask` | the rejection mask is not normalised to all-ones, so the returned value retains the low 7 bits of every byte of the valid secret | CheetahKEM (kem-09), LoongKEM (kem-18) |
 | `kex-pfs-recovery` | recorded ciphertexts plus later compromise of the API long-term keys recover the exact completed-session key | AFS-KEX (kex-02) |
 | `sign-fors-forgery` | repeated two-bit FORS addressing permits an adaptive chosen-message signature forgery | CEDRUS+C 160f (sign-03) |
-| `sig-malleable` | non-canonical trailing encoding bytes, so a distinct signature verifies for the same message (SUF-CMA) | Aigis-Sig+ (sign-01), CS (sign-07) |
+| `sig-malleable` | non-canonical trailing encoding bytes yield a distinct valid signature (SUF-CMA); malformed Aigis hint counts also exercise its verifier stack write | Aigis-Sig+ (sign-01), CS (sign-07) |
 | `sig-hint-padding` | unused fixed-size hint slots are not checked, so a distinct encoding verifies for the same message (SUF-CMA) | MORNING-ATLAS (sign-15) |
-| `sig-accept-all` | the verifier discards its result and accepts anything | UVW (sign-32) |
+| `sig-accept-all` | the verifier discards its result and accepts anything; the guarded all-zero call also records the UVW-128/-256 crash | UVW (sign-32) |
 | `sig-uninit-verdict` | with `NDEBUG`, required verifier checks disappear and an all-zero signature's verdict depends on stale stack contents | SQIsign2D2 Level2-eff uncompressed (sign-25) |
 | `keygen-determinism` | key generation ignores the seeded DRNG, so two different seeds give the same key | Galas (sign-12) |
 | `keygen-fresh` | the seed is ignored but an internal generator advances within a process, so the defect shows as an identical *first* key in every fresh process | HEP-QC (kem-17), VDOO (sign-33) |
+| `kem-enc-fresh` | the first key, ciphertext, and shared secret are identical across fresh processes despite different API seeds | HEP-QC (kem-17) |
+| `sig-random-fresh` | different messages in fresh processes receive the same 16-byte signing salt despite different API seeds | VDOO (sign-33) |
 
 VDOO needs `keygen-fresh` rather than `keygen-determinism`: its unseeded
 generator carries a counter, so two keys made in one process differ and an
 in-process test would wrongly clear it.
+`sig-random-fresh` additionally changes the message between processes; the
+repeated signature tail is VDOO's encoded salt.
 
 Polar-KEM has its own reproducer, `kem-29/reproduce_public_recovery.py`, because
 the break is specific: the submission ships `polarkem_recover_message(pk, ct, mu)`

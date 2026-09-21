@@ -24,15 +24,14 @@ when the construction makes the corresponding attack valid.
 | `kem-17-2` | HEP-QC-7 (`kem-17`) | The 512-bit set fixes `seedKEM` and `K` at 32 bytes, and derives the complete keypair from `seedKEM`. | At most `2^256` public keys; enumerate seeds and match the public key to recover the decapsulation key. Delivered-key capacity is also at most 256 bits. |
 | `kem-12-1` | CTL-512 (`kem-12`) | The short-key format regenerates `f,g` from one 32-byte seed and recomputes `h=f^-1 g mod q`. | At most `2^256` public keys; seed enumeration recovers the target trapdoor data despite the nominal 512-bit lattice parameters. |
 | `sign-02-1` | BiT-512 (`sign-02`) | `mu=H(tr || M)` is a 512-bit unsalted message representative. | A generic collision costs about `2^256`; ask for a signature on one colliding message and transfer it to the other. |
-| `sign-06-1` | COMPASS-SIG-512 (`sign-06`) | `mu=H(pk || M)` is instantiated as a 512-bit unsalted message representative. | The same generic `2^256` collision-and-transfer forgery caps classical EUF-CMA security. |
-| `sign-18-1` | Origami-512 (`sign-18`) | The PDF explicitly compresses every message with a fixed 64-byte `H_msg` before deriving `Hash(target || H_msg(M) || salt)`. | A collision in `H_msg` costs about `2^256` and survives every later salt value, transferring a signature to the other message. |
+| `sign-18-1` | Origami-384/-512 (`sign-18`) | The PDF explicitly compresses every message with a fixed 64-byte `H_msg` before deriving `Hash(target || H_msg(M) || salt)`. | A collision in `H_msg` costs about `2^256` and survives every later salt value, transferring a signature to the other message. This is below both claimed classical security levels. |
 | `sign-31-1` | TSUOV-512 (`sign-31`) | The PDF defines `Expand_mu(seed_pk || M) := pseudohash(512, ...)`, then hashes `mu || salt`. | A roughly `2^256` `Expand_mu` collision transfers signatures; the later salt does not repair the colliding prehash. |
 
-VDOO-512 (`sign-33-3`) has a separate normative proof gap. Its salt is fixed at
-16 bytes while its EUF-CMA bound contains
+VDOO-256/-512 (`sign-33-3`) have a separate normative proof gap. Their salt is
+fixed at 16 bytes while the EUF-CMA bound contains
 `(q_s+q_h) q_s 2^-|salt|`. The term is already `2^-127` for one signing and one
 hash query, and becomes order one around `2^64` signing queries. This prevents
-the stated proof from substantiating 512-bit EUF-CMA security, but is not by
+the stated proof from substantiating either advertised EUF-CMA level, but is not by
 itself a concrete forgery.
 
 The MEGASCON (`hash-18`) and MOZI (`hash-20`) cross-variant prefix relations are
@@ -46,19 +45,19 @@ an individual advertised variant.
 
 | Finding | Candidate | Submitted behavior | Classification |
 |---|---|---|---|
-| `kem-11-1` | COMPASS-KEM-512 (`kem-11`) | The IND-CPA keypair is derived from one 32-byte root and the KEM returns 32-byte keys, although the normative `n=512` algorithms use `n`-bit values. | Implementation/specification conformance break; key search and delivered-key capacity are at most 256 bits. |
-| `kem-12-2` | CTL-512 (`kem-12`) | The adapter returns a 48-byte shared secret and uses a 48-byte `c2`; the PDF assigns 64 bytes to Level 5 `c2`. | Implementation/specification conformance break; delivered-key capacity is at most 384 bits. |
-| `sign-06-2` | COMPASS-SIG-512 (`sign-06`) | KeyGen draws one 32-byte root, while the PDF requires an `n=512`-bit root. | Implementation/specification conformance break; at most `2^256` generated public keys. |
+| `kem-11-1` | COMPASS-KEM-384/-512 (`kem-11`) | Both IND-CPA keypairs are derived from one 32-byte root and both KEMs return 32-byte keys. The normative algorithms use `n`-bit values, although the PDF also contradictorily calls this a “32-byte core seed.” | Implementation/specification conformance break; key search and delivered-key capacity are at most 256 bits for both parameter sets. |
+| `kem-12-2` | CTL-512 (`kem-12`) | The adapter returns a 48-byte shared secret and uses a 48-byte `c2`; the PDF assigns 64 bytes to CTL-512 `c2`. | Implementation/specification conformance break; delivered-key capacity is at most 384 bits. |
+| `sign-06-1`, `sign-06-2` | COMPASS-SIG-384/-512 (`sign-06`) | Both implementations use a 64-byte unsalted `mu=H(pk || M)` and draw KeyGen from one 32-byte root. The PDF requires an `n`-bit root but leaves the hash output length undefined. | A `2^256` collision ceiling and at most `2^256` generated public keys. The seed is a direct conformance defect; the hash ceiling is an implementation choice enabled by a specification omission. |
 | `sign-08-1` | DARTS-512 (`sign-08`) | The implementation's unsalted `mu=H1(pk,M)` is 64 bytes. | Confirmed `2^256` collision ceiling; the PDF names `H1` but omits its output length. |
-| `sign-22-1`, `sign-22-2` | Rhyme-512 (`sign-22`) | Both the full keypair root and unsalted message representative are fixed at 32 and 64 bytes respectively. | Two `2^256` ceilings. The PDF leaves both `rho_0` and `H_gen` output length undefined, so this is also a specification omission. |
-| `kex-06-1` | MAMBA-NIKE-512 (`kex-06`) | The static CBD secret polynomial is deterministically sampled from a 32-byte noise seed. | Implementation/specification conformance break; for the public `rho`, enumerate noise seeds and match `b` in `2^256` work. |
-| `sign-33-2` | VDOO-512 (`sign-33`) | The wrapper hashes arbitrary messages to 32 bytes before the specified signing transform. | About `2^128` generic collision-and-transfer work; the exact truncation is a source-level choice rather than a clear normative parameter. |
+| `sign-22-1`, `sign-22-2` | Rhyme SHAKE/SM3-384/-512 (`sign-22`) | All four implementations fix the full keypair root and unsalted message representative at 32 and 64 bytes respectively. | Two `2^256` ceilings. The PDF leaves both `rho_0` and `H_gen` output length undefined, so this is also a specification omission. |
+| `kex-06-1` | MAMBA-NIKE-384/-512 (`kex-06`) | Both static CBD secret polynomials are deterministically sampled from a 32-byte noise seed. | Implementation/specification conformance break; for the public `rho`, enumerate noise seeds and match `b` in `2^256` work. |
+| `sign-33-2` | VDOO-256/-512 (`sign-33`) | Both wrappers hash arbitrary messages to 32 bytes before the specified signing transform. | About `2^128` generic collision-and-transfer work, below both claims; the exact truncation is a source-level choice rather than a clear normative parameter. |
 | `sign-15-3` | MORNING-ATLAS-192 (`sign-15`) | The source uses `kappa=64`, giving `log2(C(128,64) 2^64)=188.17143` challenge bits; the PDF uses 69. | Implementation-only parameter mismatch. |
 
 ## Cleared false positives and audit limits
 
 - DARTS-512, FLIT-512, DKEM-512, DTRU-2048, WeaverKEM-512, and TSUOV-512
-  use 64-byte Level-5 key seeds. Apparent 32-byte hits came from lower-level
+  use 64-byte key seeds in their 512-bit parameter sets. Apparent 32-byte hits came from lower-level
   conditional branches.
 - NTRE-512 and MAMBA-Viper-512 use two independent 32-byte secret-generating
   inputs, not a single 256-bit root. MAMBA-Frost-512 uses substantially more
@@ -69,5 +68,6 @@ an individual advertised variant.
   alone prove an IND-CCA distinguisher. Likewise, the registered `2^256`
   attacks are mathematical security ceilings, not computations attempted by
   this harness.
-- The source review prioritizes claimed Level-5/512-bit instances. Absence
+- The source review prioritizes claimed 512-bit instances, with registered
+  384-bit extensions where the same ceiling also violates that set's claim. Absence
   from this report is not evidence that a candidate has no design flaw.

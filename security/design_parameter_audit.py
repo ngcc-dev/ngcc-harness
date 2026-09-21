@@ -220,7 +220,10 @@ def registered_checks() -> list[Finding]:
     # VDOO: the salt and proof term are both normative specification text.
     vdoo_spec_path = ROOT / "sign-33/sign-33-spec.pdf"
     vdoo_spec = extract_pdf(vdoo_spec_path)
-    has_level = bool(re.search(r"512-bit classical", vdoo_spec, re.I))
+    has_levels = all(
+        re.search(pattern, vdoo_spec, re.I | re.S)
+        for pattern in (r"VDOO-256.*256-bit classical", r"VDOO-512.*512-bit classical")
+    )
     has_salt = bool(re.search(r"fix the salt length at 16 bytes", vdoo_spec, re.I))
     has_bound = "2−|salt|" in vdoo_spec or "2-|salt|" in vdoo_spec
     findings.append(
@@ -228,12 +231,12 @@ def registered_checks() -> list[Finding]:
             "vdoo-level5-salt-proof-bound",
             "sign-33",
             "specification_parameter_and_proof_gap",
-            "confirmed" if has_level and has_salt and has_bound else "not_reproduced",
-            "The Level-5 claim is 512 classical bits, but the specification fixes a "
-            "128-bit salt and its own EUF-CMA bound contains "
+            "confirmed" if has_levels and has_salt and has_bound else "not_reproduced",
+            "VDOO-256 and VDOO-512 claim 256 and 512 classical bits, but the "
+            "specification fixes a 128-bit salt and its own EUF-CMA bound contains "
             "(q_s+q_h)q_s*2^-128.  At q_s=q_h=1 this proof term is "
             "2^-127; at q_s=2^64 it is already order one.  This makes the "
-            "stated proof incapable of substantiating 512-bit EUF-CMA security; "
+            "stated proof incapable of substantiating either EUF-CMA claim; "
             "it is not by itself a concrete forgery.",
             ["sign-33/sign-33-spec.pdf (physical pages 19-20)"],
         )
@@ -245,11 +248,18 @@ def registered_checks() -> list[Finding]:
         "kem-11/Implementations and Test_Vectors/Implementations/"
         "Reference_Implementation/COMPASS-KEM-512/params.h"
     )
+    compass384_dir = compass_params_path.parent.parent / "COMPASS-KEM-384"
+    compass384_params_path = compass384_dir / "params.h"
+    compass384_indcpa_path = compass384_dir / "indcpa.c"
+    compass384_kem_path = compass384_dir / "kem.c"
     compass_indcpa_path = compass_params_path.with_name("indcpa.c")
     compass_kem_path = compass_params_path.with_name("kem.c")
     compass_params = compass_params_path.read_text(encoding="utf-8", errors="replace")
     compass_indcpa = compass_indcpa_path.read_text(encoding="utf-8", errors="replace")
     compass_kem = compass_kem_path.read_text(encoding="utf-8", errors="replace")
+    compass384_params = compass384_params_path.read_text(encoding="utf-8", errors="replace")
+    compass384_indcpa = compass384_indcpa_path.read_text(encoding="utf-8", errors="replace")
+    compass384_kem = compass384_kem_path.read_text(encoding="utf-8", errors="replace")
     compass_reproduced = all(
         (
             re.search(r"#define\s+COMPASS_KEM_N\s+512\b", compass_params),
@@ -257,6 +267,11 @@ def registered_checks() -> list[Finding]:
             re.search(r"#define\s+COMPASS_KEM_SSBYTES\s+32\b", compass_params),
             "indcpa_keypair_derand(pk, sk, coins)" in compass_kem,
             "memcpy(buf, coins, COMPASS_KEM_SYMBYTES)" in compass_indcpa,
+            re.search(r"#define\s+COMPASS_KEM_SYMBYTES\s+32\b", compass384_params),
+            re.search(r"#define\s+COMPASS_KEM_SSBYTES\s+32\b", compass384_params),
+            "indcpa_keypair_derand(pk, sk, coins)" in compass384_kem,
+            "memcpy(buf, coins, COMPASS_KEM_SYMBYTES)" in compass384_indcpa,
+            re.search(r"32-byte core seed", extract_pdf(ROOT / "kem-11/kem-11-spec.pdf"), re.I),
         )
     )
     findings.append(
@@ -265,9 +280,10 @@ def registered_checks() -> list[Finding]:
             "kem-11",
             "implementation_specification_conformance_break",
             "confirmed" if compass_reproduced else "not_reproduced",
-            "The PDF's 512-bit set has n=512 and specifies an n-bit initial "
-            "key-generation seed and K in B^(n/8).  The implementation instead "
-            "sets both SYMBYTES and SSBYTES to 32.  The public/secret IND-CPA "
+            "The PDF specifies an n-bit initial key-generation seed and K in "
+            "B^(n/8), but its implementation notes also mention a 32-byte core "
+            "seed.  The 384- and 512-bit implementations set both SYMBYTES and "
+            "SSBYTES to 32.  Each public/secret IND-CPA "
             "keypair is a deterministic function of the first 256-bit coins "
             "value, so exhaustive seed enumeration recovers it in at most "
             "2^256 trials; the delivered shared key is also only 256 bits.",
@@ -276,6 +292,9 @@ def registered_checks() -> list[Finding]:
                 str(compass_params_path.relative_to(ROOT)),
                 str(compass_indcpa_path.relative_to(ROOT)),
                 str(compass_kem_path.relative_to(ROOT)),
+                str(compass384_params_path.relative_to(ROOT)),
+                str(compass384_indcpa_path.relative_to(ROOT)),
+                str(compass384_kem_path.relative_to(ROOT)),
             ],
         )
     )
@@ -368,7 +387,7 @@ def registered_checks() -> list[Finding]:
             "kem-12",
             "implementation_specification_conformance_break",
             "confirmed" if ctl_output_reproduced else "not_reproduced",
-            "The Level-5 adapter returns a 48-byte shared secret, so its "
+            "The CTL-512 adapter returns a 48-byte shared secret, so its "
             "delivered-key capacity is at most 384 bits.  It also instantiates "
             "the ciphertext hash component c2 at 48 bytes, whereas the PDF "
             "explicitly assigns 64 bytes to CTL-512.  Output length alone is "
@@ -385,10 +404,19 @@ def registered_checks() -> list[Finding]:
     # VDOO: unlike the salt, the 32-byte inner digest is a source-level choice.
     config_path = ROOT / "sign-33/Implementation/Reference_Implementation/vdoo_512/vdoo_config.h"
     api_path = ROOT / "sign-33/Implementation/Reference_Implementation/vdoo_512/api.c"
+    config256_path = ROOT / "sign-33/Implementation/Reference_Implementation/vdoo_256/vdoo_config.h"
+    api256_path = ROOT / "sign-33/Implementation/Reference_Implementation/vdoo_256/api.c"
     config = config_path.read_text(encoding="utf-8", errors="replace")
     api = api_path.read_text(encoding="utf-8", errors="replace")
-    prehash_reproduced = bool(re.search(r"#define\s+HASH_LEN\s+32\b", config)) and all(
-        token in api for token in ("digest[HASH_LEN]", "hash_msg(digest, HASH_LEN")
+    config256 = config256_path.read_text(encoding="utf-8", errors="replace")
+    api256 = api256_path.read_text(encoding="utf-8", errors="replace")
+    prehash_reproduced = all(
+        (
+            re.search(r"#define\s+HASH_LEN\s+32\b", config),
+            re.search(r"#define\s+HASH_LEN\s+32\b", config256),
+            all(token in api for token in ("digest[HASH_LEN]", "hash_msg(digest, HASH_LEN")),
+            all(token in api256 for token in ("digest[HASH_LEN]", "hash_msg(digest, HASH_LEN")),
+        )
     )
     findings.append(
         Finding(
@@ -396,7 +424,7 @@ def registered_checks() -> list[Finding]:
             "sign-33",
             "implementation_specification_conformance_break",
             "confirmed" if prehash_reproduced else "not_reproduced",
-            "VDOO-512 reduces each message to a 256-bit inner digest before "
+            "VDOO-256 and VDOO-512 reduce each message to a 256-bit inner digest before "
             "signing.  A generic collision in that digest (about 2^128 work) "
             "transfers a signature between the colliding messages.  Algorithm 4 "
             "instead types H as {0,1}* -> F_q^m, so the 32-byte truncation is "
@@ -404,6 +432,8 @@ def registered_checks() -> list[Finding]:
             [
                 str(config_path.relative_to(ROOT)),
                 str(api_path.relative_to(ROOT)),
+                str(config256_path.relative_to(ROOT)),
+                str(api256_path.relative_to(ROOT)),
                 "sign-33/sign-33-spec.pdf (physical pages 8-9, 21-23)",
             ],
         )
@@ -433,7 +463,7 @@ def registered_checks() -> list[Finding]:
 
     # A plain, unsalted n-bit message representative provides only n/2 bits of
     # collision resistance: collide two messages, request a signature on one,
-    # and transfer it to the other.  These three Level-5 specifications make
+    # and transfer it to the other.  These 512-bit parameter sets make
     # that 512-bit representative explicit while claiming 512 classical bits.
     bit_spec_path = ROOT / "sign-02/sign-02-spec.pdf"
     bit_spec = extract_pdf(bit_spec_path)
@@ -477,8 +507,13 @@ def registered_checks() -> list[Finding]:
     )
     origami_header_path = origami_dir / "origami.h"
     origami_adapter_path = origami_dir / "SIG_AlgorithmInstance.c"
+    origami384_dir = origami_dir.parent / "Origami-384"
+    origami384_header_path = origami384_dir / "origami.h"
+    origami384_adapter_path = origami384_dir / "SIG_AlgorithmInstance.c"
     origami_header = origami_header_path.read_text(encoding="utf-8", errors="replace")
     origami_adapter = origami_adapter_path.read_text(encoding="utf-8", errors="replace")
+    origami384_header = origami384_header_path.read_text(encoding="utf-8", errors="replace")
+    origami384_adapter = origami384_adapter_path.read_text(encoding="utf-8", errors="replace")
     origami_reproduced = all(
         (
             re.search(r"Origami-512.*512-bit", origami_spec, re.I | re.S),
@@ -487,6 +522,9 @@ def registered_checks() -> list[Finding]:
             re.search(r"target.*hµ.*salt", origami_spec, re.I),
             re.search(r"#define\s+BYTES_DIGEST\s+64\b", origami_header),
             "pseudohash(BYTES_DIGEST * 8, m" in origami_adapter,
+            re.search(r"Origami-384.*384", origami_spec, re.I | re.S),
+            re.search(r"#define\s+BYTES_DIGEST\s+64\b", origami384_header),
+            "pseudohash(BYTES_DIGEST * 8, m" in origami384_adapter,
         )
     )
     findings.append(
@@ -495,8 +533,9 @@ def registered_checks() -> list[Finding]:
             "sign-18",
             "specification_design_break",
             "confirmed" if origami_reproduced else "not_reproduced",
-            "Origami-512 claims 512-bit classical security but first compresses "
-            "the message with a fixed 64-byte H_msg, then derives the salted "
+            "Origami-384 and Origami-512 claim 384- and 512-bit classical "
+            "security but first compress each message with the same fixed "
+            "64-byte H_msg, then derive the salted "
             "target from target||H_msg(message)||salt.  A roughly 2^256 generic "
             "collision in H_msg therefore transfers a requested signature from "
             "one colliding message to the other; the later salt does not repair "
@@ -506,6 +545,8 @@ def registered_checks() -> list[Finding]:
                 "sign-18/sign-18-spec.pdf (physical pages 14-16, 50-52)",
                 str(origami_header_path.relative_to(ROOT)),
                 str(origami_adapter_path.relative_to(ROOT)),
+                str(origami384_header_path.relative_to(ROOT)),
+                str(origami384_adapter_path.relative_to(ROOT)),
             ],
         )
     )
@@ -538,7 +579,7 @@ def registered_checks() -> list[Finding]:
             "a signature across the colliding messages for the signature's "
             "same salt.  The PDF's own EUF-CMA bound includes a digest-"
             "collision term but does not account for this concrete birthday "
-            "ceiling when claiming Level 5.",
+            "ceiling when claiming 512-bit classical security.",
             [
                 "sign-31/sign-31-spec.pdf (physical pages 18-21, 27-29)",
                 str(tsuov_params_path.relative_to(ROOT)),
@@ -553,31 +594,41 @@ def registered_checks() -> list[Finding]:
     compass_sig_dir = ROOT / "sign-06/Implementations/Reference_Implementation/COMPASS-SIG-512"
     compass_sig_params_path = compass_sig_dir / "params.h"
     compass_sig_sign_path = compass_sig_dir / "sign.c"
+    compass_sig384_dir = compass_sig_dir.parent / "COMPASS-SIG-384"
+    compass_sig384_params_path = compass_sig384_dir / "params.h"
+    compass_sig384_sign_path = compass_sig384_dir / "sign.c"
     compass_sig_params = compass_sig_params_path.read_text(encoding="utf-8", errors="replace")
     compass_sig_sign = compass_sig_sign_path.read_text(encoding="utf-8", errors="replace")
+    compass_sig384_params = compass_sig384_params_path.read_text(encoding="utf-8", errors="replace")
+    compass_sig384_sign = compass_sig384_sign_path.read_text(encoding="utf-8", errors="replace")
     compass_sig_hash_reproduced = all(
         (
             re.search(r"512-bit.*security", compass_sig_spec, re.I | re.S),
             re.search(r"µ\s*=\s*H\(pk.*?m\)", compass_sig_spec, re.I | re.S),
             re.search(r"#define\s+CRHBYTES\s+64\b", compass_sig_params),
             "shake256_squeeze(mu, CRHBYTES" in compass_sig_sign,
+            re.search(r"#define\s+CRHBYTES\s+64\b", compass_sig384_params),
+            "shake256_squeeze(mu, CRHBYTES" in compass_sig384_sign,
         )
     )
     findings.append(
         Finding(
             "compass-sig512-message-representative-collision",
             "sign-06",
-            "specification_design_break",
+            "implementation_security_ceiling_spec_length_underspecified",
             "confirmed" if compass_sig_hash_reproduced else "not_reproduced",
-            "COMPASS-SIG-512 binds the message through the unsalted value "
-            "mu=H(pk||m), instantiated as 64 bytes.  Thus a generic 2^256 "
+            "COMPASS-SIG specifies the unsalted value mu=H(pk||m) but not H's "
+            "output length.  The 384- and 512-bit implementations instantiate "
+            "mu as 64 bytes.  Thus a generic 2^256 "
             "collision-and-signature-transfer attack bounds classical EUF-CMA "
-            "security below the claimed 512 bits, independent of its lattice "
-            "parameters.",
+            "security below both classical claims, independent of the lattice "
+            "parameters.  This is an implementation ceiling and specification omission.",
             [
                 "sign-06/sign-06-spec.pdf (physical pages 5, 8-10, 13)",
                 str(compass_sig_params_path.relative_to(ROOT)),
                 str(compass_sig_sign_path.relative_to(ROOT)),
+                str(compass_sig384_params_path.relative_to(ROOT)),
+                str(compass_sig384_sign_path.relative_to(ROOT)),
             ],
         )
     )
@@ -588,6 +639,9 @@ def registered_checks() -> list[Finding]:
             re.search(r"#define\s+SEEDBYTES\s+32\b", compass_sig_params),
             "get_random_number(&drng_algorithm, seed, SEEDBYTES * 8)" in compass_sig_sign,
             "shake256(seedbuf, 2*SEEDBYTES + CRHBYTES, seed, SEEDBYTES)" in compass_sig_sign,
+            re.search(r"#define\s+SEEDBYTES\s+32\b", compass_sig384_params),
+            "get_random_number(&drng_algorithm, seed, SEEDBYTES * 8)" in compass_sig384_sign,
+            "shake256(seedbuf, 2*SEEDBYTES + CRHBYTES, seed, SEEDBYTES)" in compass_sig384_sign,
         )
     )
     findings.append(
@@ -596,21 +650,23 @@ def registered_checks() -> list[Finding]:
             "sign-06",
             "implementation_specification_conformance_break",
             "confirmed" if compass_sig_seed_reproduced else "not_reproduced",
-            "The COMPASS-SIG PDF requires an n-bit KeyGen seed and sets n=512 "
-            "at Level 5.  The implementation instead draws one 32-byte root "
-            "and deterministically expands the entire keypair from it, limiting "
+            "The COMPASS-SIG PDF requires an n-bit KeyGen seed.  The 384- and "
+            "512-bit implementations instead draw one 32-byte root "
+            "and deterministically expand the entire keypair from it, limiting "
             "the public-key support to at most 2^256 and enabling generic seed "
             "enumeration in that many trials.",
             [
                 "sign-06/sign-06-spec.pdf (physical pages 7, 13)",
                 str(compass_sig_params_path.relative_to(ROOT)),
                 str(compass_sig_sign_path.relative_to(ROOT)),
+                str(compass_sig384_params_path.relative_to(ROOT)),
+                str(compass_sig384_sign_path.relative_to(ROOT)),
             ],
         )
     )
 
     # The DARTS PDF names H1 but does not give its output type/length.  The
-    # implementation makes the resulting Level-5 ceiling unambiguous.
+    # implementation makes the resulting DARTS-512 ceiling unambiguous.
     darts_spec_path = ROOT / "sign-08/sign-08-spec.pdf"
     darts_spec = extract_pdf(darts_spec_path)
     darts_dir = ROOT / "sign-08/Implementations/Reference_Implementation/DARTS512"
@@ -656,12 +712,33 @@ def registered_checks() -> list[Finding]:
     rhyme_sign_path = rhyme_dir / "src/sign.c"
     rhyme_params = rhyme_params_path.read_text(encoding="utf-8", errors="replace")
     rhyme_sign = rhyme_sign_path.read_text(encoding="utf-8", errors="replace")
+    rhyme_root = rhyme_dir.parents[1]
+    rhyme_extra_variants = [
+        rhyme_root / family / f"{family}-{bits}"
+        for family in ("Rhyme-SHAKE", "Rhyme-SM3")
+        for bits in (384, 512)
+        if (family, bits) != ("Rhyme-SHAKE", 512)
+    ]
+    rhyme_variant_sources = [
+        (
+            variant / "include/params.h",
+            variant / "src/sign.c",
+            (variant / "include/params.h").read_text(encoding="utf-8", errors="replace"),
+            (variant / "src/sign.c").read_text(encoding="utf-8", errors="replace"),
+        )
+        for variant in rhyme_extra_variants
+    ]
     rhyme_hash_reproduced = all(
         (
             re.search(r"512-bit classical security", rhyme_spec, re.I),
             re.search(r"µ\s*←\s*Hgen\s*\(seedA\s*,\s*bgen\s*,\s*M", rhyme_spec),
             re.search(r"#define\s+CRHBYTES\s+64\b", rhyme_params),
             "rhyme_shake256_squeeze(mu, CRHBYTES" in rhyme_sign,
+            all(
+                re.search(r"#define\s+CRHBYTES\s+64\b", params)
+                and "rhyme_shake256_squeeze(mu, CRHBYTES" in source
+                for _, _, params, source in rhyme_variant_sources
+            ),
         )
     )
     findings.append(
@@ -670,17 +747,17 @@ def registered_checks() -> list[Finding]:
             "sign-22",
             "implementation_security_ceiling_spec_length_underspecified",
             "confirmed" if rhyme_hash_reproduced else "not_reproduced",
-            "Rhyme-512 claims 512 classical bits and uses the unsalted "
-            "message binding mu=H_gen(pk,M).  Its implementation fixes mu at "
-            "64 bytes, enabling generic collision-and-signature transfer in "
-            "about 2^256 work.  The algorithm is normative but the PDF does "
+            "Rhyme's unsalted message binding is mu=H_gen(pk,M).  The SHAKE "
+            "and SM3 384- and 512-bit implementations fix mu at 64 bytes, "
+            "enabling generic collision-and-signature transfer in about "
+            "2^256 work.  The algorithm is normative but the PDF does "
             "not define H_gen's output length, so this is not labeled a clean "
             "specification parameter break.",
             [
                 "sign-22/sign-22-spec.pdf (physical pages 29-32, 50-51)",
                 str(rhyme_params_path.relative_to(ROOT)),
                 str(rhyme_sign_path.relative_to(ROOT)),
-            ],
+            ] + [str(path.relative_to(ROOT)) for pair in rhyme_variant_sources for path in pair[:2]],
         )
     )
     rhyme_seed_reproduced = all(
@@ -689,6 +766,12 @@ def registered_checks() -> list[Finding]:
             re.search(r"#define\s+SEEDBYTES\s+32\b", rhyme_params),
             "randombytes(root, SEEDBYTES)" in rhyme_sign,
             "rhyme_shake256_hash(seedbuf, sizeof seedbuf, root, SEEDBYTES)" in rhyme_sign,
+            all(
+                re.search(r"#define\s+SEEDBYTES\s+32\b", params)
+                and "randombytes(root, SEEDBYTES)" in source
+                and "rhyme_shake256_hash(seedbuf, sizeof seedbuf, root, SEEDBYTES)" in source
+                for _, _, params, source in rhyme_variant_sources
+            ),
         )
     )
     findings.append(
@@ -697,7 +780,8 @@ def registered_checks() -> list[Finding]:
             "sign-22",
             "implementation_security_ceiling_spec_length_underspecified",
             "confirmed" if rhyme_seed_reproduced else "not_reproduced",
-            "Rhyme-512 expands its entire keypair from one 32-byte root, so "
+            "The SHAKE and SM3 Rhyme-384 and Rhyme-512 implementations expand "
+            "each entire keypair from one 32-byte root, so "
             "the public-key support is at most 2^256 and a generic seed search "
             "can recover a target signing key in that many trials.  Algorithm 5 "
             "uses an abstract rho_0-bit root but never assigns rho_0 in the "
@@ -707,7 +791,7 @@ def registered_checks() -> list[Finding]:
                 "sign-22/sign-22-spec.pdf (physical pages 29, 50-51)",
                 str(rhyme_params_path.relative_to(ROOT)),
                 str(rhyme_sign_path.relative_to(ROOT)),
-            ],
+            ] + [str(path.relative_to(ROOT)) for pair in rhyme_variant_sources for path in pair[:2]],
         )
     )
 
@@ -719,8 +803,13 @@ def registered_checks() -> list[Finding]:
     nike_dir = ROOT / "kex-06/Implementations/Reference_Implementation/MAMBA-NIKE-512"
     nike_params_path = nike_dir / "params.h"
     nike_source_path = nike_dir / "nike.c"
+    nike384_dir = nike_dir.parent / "MAMBA-NIKE-384"
+    nike384_params_path = nike384_dir / "params.h"
+    nike384_source_path = nike384_dir / "nike.c"
     nike_params = nike_params_path.read_text(encoding="utf-8", errors="replace")
     nike_source = nike_source_path.read_text(encoding="utf-8", errors="replace")
+    nike384_params = nike384_params_path.read_text(encoding="utf-8", errors="replace")
+    nike384_source = nike384_source_path.read_text(encoding="utf-8", errors="replace")
     nike_reproduced = all(
         (
             re.search(r"MAMBA-NIKE-512.*512-bit Classical Security", nike_spec, re.I | re.S),
@@ -729,6 +818,10 @@ def registered_checks() -> list[Finding]:
             re.search(r"unsigned char noiseseed\[32\]", nike_source),
             "nike_randombytes(noiseseed, 32)" in nike_source,
             "poly_getnoise(sk,noiseseed,0)" in nike_source,
+            re.search(r"#define\s+NIKE_SECURITY_BITS\s+384\b", nike384_params),
+            re.search(r"unsigned char noiseseed\[32\]", nike384_source),
+            "nike_randombytes(noiseseed, 32)" in nike384_source,
+            "poly_getnoise(sk,noiseseed,0)" in nike384_source,
         )
     )
     findings.append(
@@ -737,9 +830,10 @@ def registered_checks() -> list[Finding]:
             "kex-06",
             "implementation_specification_conformance_break",
             "confirmed" if nike_reproduced else "not_reproduced",
-            "MAMBA-NIKE-512 claims 512-bit passive KE security and normatively "
-            "samples its static secret polynomial from the full CBD.  The "
-            "implementation instead generates that polynomial deterministically "
+            "MAMBA-NIKE-384 and MAMBA-NIKE-512 claim 384- and 512-bit passive "
+            "KE security and normatively sample each static secret polynomial "
+            "from the full CBD.  Both implementations instead generate that "
+            "polynomial deterministically "
             "from a 32-byte noise seed.  For the public rho contained in a target "
             "key, enumerate 2^256 noise seeds, regenerate s and b, and match b to "
             "recover the static secret.  The independent rho seed is public and "
@@ -748,6 +842,8 @@ def registered_checks() -> list[Finding]:
                 "kex-06/kex-06-spec.pdf (physical pages 7-10, 12-15)",
                 str(nike_params_path.relative_to(ROOT)),
                 str(nike_source_path.relative_to(ROOT)),
+                str(nike384_params_path.relative_to(ROOT)),
+                str(nike384_source_path.relative_to(ROOT)),
             ],
         )
     )
@@ -789,10 +885,9 @@ def main() -> int:
             f"{len(ceilings)} are hash instances"
         )
         for finding in registered + prefix_findings:
-            label = finding.report_id or finding.check
             print(
                 f"{finding.status:20} {finding.candidate:8} "
-                f"{label}: {finding.detail}"
+                f"{finding.check}: {finding.detail}"
             )
     return 0 if all(f.status == "confirmed" for f in registered) else 1
 

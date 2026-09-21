@@ -116,8 +116,9 @@ static void seed_lib(unsigned char tag)
 /* ---------------------------------------------------------------- hashes */
 
 /* Eijen: for every byte-aligned M, H(M) == H(M || 0000000).
- * The byte-aligned padding branch writes 0x01 instead of 0x80, which is
- * exactly what the partial-byte branch produces after seven zero bits. */
+ * Byte-aligned input uses the specification's LSB-first 0x01 delimiter,
+ * while partial-byte API input is MSB-first and also produces 0x01 after
+ * seven explicit zero bits. */
 static int hash_collide_zeropad(void)
 {
     ngcc_hash_fn h = sym("CryptHash");
@@ -462,6 +463,69 @@ static int keygen_fresh(const char *seedarg)
     return 0;
 }
 
+/* HEP-QC: emit digests of the first key, ciphertext and shared secret from a
+ * fresh process.  tools/reproduce.sh invokes this twice with different API
+ * seeds; the candidate ignores both seeds and repeats all three objects. */
+static int kem_enc_fresh(const char *seedarg)
+{
+    if (g_meta->type != NGCC_TYPE_KEM) {
+        fprintf(stderr, "kem-enc-fresh needs a KEM library\n"); exit(2);
+    }
+    const ngcc_meta_kem_t *m = (const ngcc_meta_kem_t *)g_meta;
+    ngcc_kem_keygen_fn kg = sym("kem_keygen");
+    ngcc_kem_enc_fn en = sym("kem_enc");
+    unsigned char tag = (unsigned char)strtoul(seedarg, NULL, 0);
+    unsigned char *pk = calloc(m->pk_len, 1), *sk = calloc(m->sk_len, 1),
+                  *ct = calloc(m->ct_len, 1), *ss = calloc(m->ss_len, 1);
+    unsigned long long pl=m->pk_len, sl=m->sk_len, cl=m->ct_len, ssl=m->ss_len;
+    seed_lib(tag);
+    if (kg(pk,&pl,sk,&sl) || en(pk,pl,ss,&ssl,ct,&cl)) {
+        fprintf(stderr, "keygen/enc failed\n"); exit(2);
+    }
+    uint64_t hp=1469598103934665603ULL, hc=hp, hs=hp;
+    for (unsigned long long i=0; i<pl; i++) { hp ^= pk[i]; hp *= 1099511628211ULL; }
+    for (unsigned long long i=0; i<cl; i++) { hc ^= ct[i]; hc *= 1099511628211ULL; }
+    for (unsigned long long i=0; i<ssl; i++) { hs ^= ss[i]; hs *= 1099511628211ULL; }
+    printf("FRESHENC %s seed=0x%02x pk=%016llx ct=%016llx ss=%016llx\n",
+           g_meta->instance, tag, (unsigned long long)hp,
+           (unsigned long long)hc, (unsigned long long)hs);
+    free(pk); free(sk); free(ct); free(ss);
+    return 0;
+}
+
+/* VDOO: key generation and signing consume a private global generator that
+ * ignores the API seed.  Across fresh processes, different messages therefore
+ * receive the same 16-byte signature salt (and the source uses the continued
+ * stream for its vinegar and diagonal randomness). */
+static int sig_random_fresh(const char *seedarg, const char *msgarg)
+{
+    if (g_meta->type != NGCC_TYPE_SIG) {
+        fprintf(stderr, "sig-random-fresh needs a signature library\n"); exit(2);
+    }
+    const ngcc_meta_sig_t *m = (const ngcc_meta_sig_t *)g_meta;
+    ngcc_sig_keygen_fn kg = sym("sig_keygen");
+    ngcc_sig_sign_fn sg = sym("sig_sign");
+    unsigned char tag = (unsigned char)strtoul(seedarg, NULL, 0);
+    unsigned char msgtag = (unsigned char)strtoul(msgarg, NULL, 0);
+    unsigned char msg[32];
+    for (size_t i=0; i<sizeof msg; i++) msg[i] = (unsigned char)(msgtag + 13*i);
+    unsigned char *pk = calloc(m->pk_len, 1), *sk = calloc(m->sk_len, 1),
+                  *sn = calloc(m->sn_len + sizeof msg + 64, 1);
+    unsigned long long pl=m->pk_len, sl=m->sk_len, nl=m->sn_len;
+    seed_lib(tag);
+    if (kg(pk,&pl,sk,&sl) || sg(sk,sl,msg,sizeof msg,sn,&nl) || nl < 16) {
+        fprintf(stderr, "keygen/sign failed\n"); exit(2);
+    }
+    uint64_t hp=1469598103934665603ULL, ht=hp;
+    for (unsigned long long i=0; i<pl; i++) { hp ^= pk[i]; hp *= 1099511628211ULL; }
+    for (unsigned long long i=nl-16; i<nl; i++) { ht ^= sn[i]; ht *= 1099511628211ULL; }
+    printf("FRESHSIGN %s seed=0x%02x msg=0x%02x pk=%016llx tail16=%016llx\n",
+           g_meta->instance, tag, msgtag,
+           (unsigned long long)hp, (unsigned long long)ht);
+    free(pk); free(sk); free(sn);
+    return 0;
+}
+
 /* ------------------------------------------------------------------ main */
 
 static void usage(void)
@@ -478,7 +542,9 @@ static void usage(void)
       "  sig-accept-all       <lib>            verifier accepts anything        (UVW)\n"
       "  sig-uninit-verdict   <lib>            verdict depends on stale stack   (SQIsign2D2)\n"
       "  keygen-determinism   <lib>            seed ignored, same key           (Galas, VDOO)\n"
-      "  keygen-fresh         <lib> <seed>     per-process key digest           (HEP-QC)\n");
+      "  keygen-fresh         <lib> <seed>     per-process key digest           (HEP-QC, VDOO)\n"
+      "  kem-enc-fresh        <lib> <seed>     per-process encapsulation digest (HEP-QC)\n"
+      "  sig-random-fresh     <lib> <seed> <m> repeated signing salt            (VDOO)\n");
     exit(2);
 }
 
@@ -502,6 +568,8 @@ int main(int argc, char **argv)
     if (!strcmp(check, "sig-uninit-verdict")) return sig_uninit_verdict();
     if (!strcmp(check, "keygen-determinism")) return keygen_determinism();
     if (!strcmp(check, "keygen-fresh"))       { if (argc < 4) usage(); return keygen_fresh(argv[3]); }
+    if (!strcmp(check, "kem-enc-fresh"))      { if (argc < 4) usage(); return kem_enc_fresh(argv[3]); }
+    if (!strcmp(check, "sig-random-fresh"))   { if (argc < 5) usage(); return sig_random_fresh(argv[3], argv[4]); }
     usage();
     return 2;
 }

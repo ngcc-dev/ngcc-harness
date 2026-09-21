@@ -15,7 +15,8 @@ source files cited by this audit. See `DESIGN_PARAMETER_AUDIT.md` for the
 classification rules and limits.
 
 `vulnerabilities.csv` is the complete public inventory of stable `xxx-yy-z`
-issue IDs. Its verification field is one of `runtime`, `static`,
+issue IDs and issue-local substantiation statuses. Its verification field is
+one of `runtime`, `static`,
 `runtime+static`, or `review`; `review` means the source/specification finding
 is identified here without claiming a cheap automated witness. Validate the
 inventory with:

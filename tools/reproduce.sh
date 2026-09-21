@@ -119,12 +119,13 @@ if [ -z "$only" ] || [ "$only" = sign-03 ]; then
 fi
 
 echo
-echo "== sign-01-1 / sign-07-1: SUF-CMA malleability (High) =="
-run sign-01 "sign-01-1" CONFIRMED sig-malleable sign-01/lib/libAigis-sig1.so
+echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack write =="
+run sign-01 "sign-01-1/sign-01-2" CONFIRMED sig-malleable sign-01/lib/libAigis-sig1.so
+echo "== sign-07-1: SUF-CMA malleability (High) =="
 run sign-07 "sign-07-1" CONFIRMED sig-malleable sign-07/lib/libCS-128.so
 
 echo
-echo "== sign-15-2 MORNING-ATLAS: ignored hint padding violates SUF-CMA (Critical) =="
+echo "== sign-15-2 MORNING-ATLAS: ignored hint padding violates SUF-CMA (High) =="
 for l in sign-15/lib/*.so; do
     run sign-15 "sign-15-2" CONFIRMED sig-hint-padding "$l"
 done
@@ -135,9 +136,9 @@ run sign-25 "sign-25-1" CONFIRMED sig-uninit-verdict sign-25/lib/libSQISign2Dsqu
 run sign-25 "[control sign-25-1]" NOT-CONFIRMED sig-uninit-verdict sign-25/lib/libSQISign2Dsquare-Level2-eff_compressed.so
 
 echo
-echo "== sign-32-1 UVW: verifier accepts anything (Critical) =="
-run sign-32 "sign-32-1" CONFIRMED sig-accept-all sign-32/lib/libUVW-128.so
-run sign-32 "sign-32-1" CONFIRMED sig-accept-all sign-32/lib/libUVW-256.so
+echo "== sign-32-1 / sign-32-2 UVW: universal acceptance and verifier crashes =="
+run sign-32 "sign-32-1/sign-32-2" CONFIRMED sig-accept-all sign-32/lib/libUVW-128.so
+run sign-32 "sign-32-1/sign-32-2" CONFIRMED sig-accept-all sign-32/lib/libUVW-256.so
 
 echo
 echo "== sign-12-1 Galas: key generation ignores the seed (Critical) =="
@@ -165,6 +166,27 @@ elif [ -z "$only" ] || [ "$only" = kem-17 ]; then
     echo "SKIP   kem-17 (build it: make -C kem-17)"; skipped=$((skipped + 1))
 fi
 
+echo
+echo "== kem-17-3 HEP-QC: first encapsulation repeats in every fresh process (Critical) =="
+if { [ -z "$only" ] || [ "$only" = kem-17 ]; } && [ -f kem-17/lib/libhep-qc-1.so ]; then
+    a=$("$A" kem-enc-fresh kem-17/lib/libhep-qc-1.so 0x01 | cut -d' ' -f4-)
+    b=$("$A" kem-enc-fresh kem-17/lib/libhep-qc-1.so 0x99 | cut -d' ' -f4-)
+    c=$("$A" kem-enc-fresh kem-01/lib/libAigis-enc1.so 0x01 | cut -d' ' -f4-)
+    d=$("$A" kem-enc-fresh kem-01/lib/libAigis-enc1.so 0x99 | cut -d' ' -f4-)
+    if [ "$a" = "$b" ]; then
+        echo "kem-17-3  ATTACK kem-enc-fresh        hep-qc-1 CONFIRMED identical first pk, ciphertext and secret across different seeds ($a)"
+    else
+        echo "UNEXPECTED hep-qc-1 first encapsulations differ across seeds"; fail=$((fail + 1))
+    fi
+    if [ "$c" != "$d" ]; then
+        echo "[control kem-17-3] ATTACK kem-enc-fresh Aigis-enc1 NOT-CONFIRMED first encapsulations differ across seeds, as they should"
+    else
+        echo "UNEXPECTED control Aigis-enc1 first encapsulations identical"; fail=$((fail + 1))
+    fi
+elif [ -z "$only" ] || [ "$only" = kem-17 ]; then
+    echo "SKIP   kem-17 (build it: make -C kem-17)"; skipped=$((skipped + 1))
+fi
+
 # VDOO advances an unseeded counter within a process, so successive in-process
 # keys differ; the defect shows as an identical FIRST key per fresh process.
 if { [ -z "$only" ] || [ "$only" = sign-33 ]; } && [ -f sign-33/lib/libvdoo_128.so ]; then
@@ -174,6 +196,20 @@ if { [ -z "$only" ] || [ "$only" = sign-33 ]; } && [ -f sign-33/lib/libvdoo_128.
         echo "sign-33-1 ATTACK keygen-fresh         VDOO-128 CONFIRMED identical first key across two fresh processes with different seeds ($a)"
     else
         echo "UNEXPECTED VDOO-128 keys differ across seeds"; fail=$((fail + 1))
+    fi
+elif [ -z "$only" ] || [ "$only" = sign-33 ]; then
+    echo "SKIP   sign-33 (build it: make -C sign-33)"; skipped=$((skipped + 1))
+fi
+
+echo
+echo "== sign-33-4 VDOO: signing salt repeats across fresh processes and messages (Critical) =="
+if { [ -z "$only" ] || [ "$only" = sign-33 ]; } && [ -f sign-33/lib/libvdoo_128.so ]; then
+    a=$("$A" sig-random-fresh sign-33/lib/libvdoo_128.so 0x01 0x10 | awk '{print $5, $6}')
+    b=$("$A" sig-random-fresh sign-33/lib/libvdoo_128.so 0x99 0x12 | awk '{print $5, $6}')
+    if [ "$a" = "$b" ]; then
+        echo "sign-33-4 ATTACK sig-random-fresh     VDOO-128 CONFIRMED identical key and salt across different seeds and messages ($a)"
+    else
+        echo "UNEXPECTED VDOO-128 fresh-process key or salt differs"; fail=$((fail + 1))
     fi
 elif [ -z "$only" ] || [ "$only" = sign-33 ]; then
     echo "SKIP   sign-33 (build it: make -C sign-33)"; skipped=$((skipped + 1))
