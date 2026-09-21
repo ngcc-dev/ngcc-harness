@@ -45,7 +45,7 @@ data/           machine-readable parameters, candidate metadata and spec provena
 <id>/           specification and extracted pseudocode/parameters for every candidate;
                 included reference sources and a Makefile where needed by this harness,
                 kat.sha256 manifest, and patches/ where shipped source cannot
-                compile as-is; kex-02, sign-03 and kem-29 also have
+                compile as-is; kex-02, kex-05, sign-03 and kem-29 also have
                 candidate-local reproducer source
 downloads.csv   candidate list with archive URLs from niccs.org.cn
 download.sh     optional: fetch original archives into orig/<id>/orig.zip

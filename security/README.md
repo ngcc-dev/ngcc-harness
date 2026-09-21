@@ -25,3 +25,14 @@ inventory with:
 make check-vulnerabilities
 python3 security/check_vulnerability_ids.py --reports ../ngcc1
 ```
+
+The LoomKEX correctness reproducer uses only the submitted scalar reference
+implementation. Run `make -C kex-05 replay` followed by
+`tools/reproduce.sh kex-05`; see `LOOM_FAILURE_SEARCH.md` for the deterministic
+witness and full-search methodology.
+
+`security/loom_state_rollback_key_recovery.c` is the conditional `kex-05-2`
+exploit. Given a restorable serialized pass-1 state, it recovers the complete
+ephemeral Loom-KEM secret and predicts the final AKE secret. The report's
+rollback/cloning/concurrency limitation is part of the finding, not optional
+deployment guidance.

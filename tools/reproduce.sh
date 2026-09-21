@@ -109,6 +109,42 @@ if [ -z "$only" ] || [ "$only" = kex-02 ]; then
 fi
 
 echo
+echo "== kex-05-1 LoomKEX-256: honest exchange aborts at pass 3 (High) =="
+if [ -z "$only" ] || [ "$only" = kex-05 ]; then
+    if [ -x kex-05/reproduce_failure ]; then
+        witness=$(mktemp)
+        out=$(kex-05/reproduce_failure 136129 1 1 "$witness" 0 2>&1)
+        rc=$?
+        digest=$(sed '/^implementation=/d' "$witness" | sha256sum | awk '{print $1}')
+        rm -f "$witness"
+        if [ "$rc" -eq 0 ] && [ "$digest" = 609a6a22da51acd82856d7ed8f125b07373d9ac21af7ee663ac9a6604d4f7689 ]; then
+            echo "kex-05-1  ATTACK honest-failure       LoomKEX-256 CONFIRMED pass3 returned -3; normalized witness sha256=$digest"
+        else
+            echo "UNEXPECTED LoomKEX-256 replay rc=$rc digest=$digest: $out"; fail=$((fail + 1))
+        fi
+    else
+        echo "SKIP   kex-05 (build it: make -C kex-05 replay)"; skipped=$((skipped + 1))
+    fi
+fi
+
+echo
+echo "== kex-05-2 LoomKEX-256: rollback-state ephemeral-key recovery (High) =="
+if [ -z "$only" ] || [ "$only" = kex-05 ]; then
+    if [ -x kex-05/reproduce_state_rollback_key_recovery ]; then
+        out=$(kex-05/reproduce_state_rollback_key_recovery 2>&1)
+        rc=$?
+        case "$out" in
+            *"ATTACK kex-05-2"*"CONFIRMED"*"rollback_queries=4532"*"recovered_coefficients=1024"*"honest_passes=4"*"shared_secret_match=yes"*)
+                [ "$rc" -eq 0 ] && printf '%s\n' "$out" || { echo "UNEXPECTED kex-05-2 exit status $rc"; fail=$((fail + 1)); }
+                ;;
+            *) echo "UNEXPECTED kex-05-2 output (rc=$rc): $out"; fail=$((fail + 1)) ;;
+        esac
+    else
+        echo "SKIP   kex-05 kex-05-2 (build it: make -C kex-05 exploit)"; skipped=$((skipped + 1))
+    fi
+fi
+
+echo
 echo "== sign-03-1 CEDRUS+C: adaptive FORS leaf-accumulation forgery (Critical) =="
 if [ -z "$only" ] || [ "$only" = sign-03 ]; then
     if [ -x sign-03/reproduce_forgery ] && [ -f sign-03/lib/libCEDRUSC-160f.so ]; then
