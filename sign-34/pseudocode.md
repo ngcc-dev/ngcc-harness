@@ -204,8 +204,14 @@ Discrepancies (all on the specification side except the last two):
   Decompress symbol set, and the norm test bounds it again. No exploitable
   path was found, but the guard does not do what its comment says.
 
-Not verified: `SamplerPrecomp` (Alg. 7) and the two rejection probabilities
-Δ1, Δ2 of Alg. 10 were read for structure only; the fixed-point Q-format
-arithmetic in `fpr.c`/`sampler.c` and the `ntrugen` basis completion (Alg. 5)
-were not checked against the spec numerically. The rANS frequency tables were
-not re-derived. §5 security analysis was not audited.
+Subsequent review verified that `SamplerPrecomp` (Alg. 7) is implemented with
+the wrong basis orientation: `sigma_p_set_slot()` subtracts the row Gram
+matrix, while the specification's column-basis convention requires
+`B_hat B_hat^*`. Public signatures reproduce the resulting key-dependent
+anisotropy; see `sign-34-1` in [report.md](report.md). The same review confirmed
+the non-injective radix-`q` public-key packing recorded as `sign-34-2`.
+
+The two rejection probabilities Δ1 and Δ2, the remaining fixed-point Q-format
+arithmetic, and the `ntrugen` basis completion (Alg. 5) were not checked
+numerically. The rANS frequency tables were not re-derived. The remainder of
+§5 was not audited.

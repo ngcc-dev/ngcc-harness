@@ -85,6 +85,40 @@ for l in kem-18/lib/*.so; do run kem-18 "kem-18-1" CONFIRMED kem-reject-mask "$l
 run kem-22 "[control kem-09-1/kem-18-1]" NOT-CONFIRMED kem-reject-mask kem-22/lib/libMithril-128.so
 
 echo
+echo "== kem-36-1 TRIKE: specified maximum threshold rejects honest ciphertexts (High) =="
+if [ -z "$only" ] || [ "$only" = kem-36 ]; then
+    if [ -f kem-36/lib/libTRIKE-2.so ]; then
+        out=$(python3 security/trike_threshold_differential.py --trials 32 2>&1)
+        rc=$?
+        case "$out" in
+            *'"confirmed": true'*'"shipped_min_failures": 0'*'"specified_max_failures": 32'*)
+                [ "$rc" -eq 0 ] && echo "kem-36-1  ATTACK trike-threshold       TRIKE-2 CONFIRMED shipped-min=32/32 specified-max=0/32" || fail=$((fail + 1))
+                ;;
+            *) echo "UNEXPECTED kem-36-1 output (rc=$rc): $out"; fail=$((fail + 1)) ;;
+        esac
+    else
+        echo "SKIP   kem-36 (build it: make -C kem-36)"; skipped=$((skipped + 1))
+    fi
+fi
+
+echo
+echo "== kem-38-2 UVW: stable list-decoding failure oracle (Medium) =="
+if [ -z "$only" ] || [ "$only" = kem-38 ]; then
+    if [ -f kem-38/lib/libUVW-KEM-128.so ]; then
+        out=$(python3 security/kem_mutation_oracle.py kem-38/lib/libUVW-KEM-128.so --bits 0,846 2>&1)
+        rc=$?
+        case "$out" in
+            *'"-1": 1'*'"-2": 1'*)
+                [ "$rc" -eq 0 ] && echo "kem-38-2  ATTACK kem-failure-oracle     UVW-KEM-128 CONFIRMED mutations expose both -2 decoder and -1 validation failures" || fail=$((fail + 1))
+                ;;
+            *) echo "UNEXPECTED kem-38-2 output (rc=$rc): $out"; fail=$((fail + 1)) ;;
+        esac
+    else
+        echo "SKIP   kem-38 (build it: make -C kem-38)"; skipped=$((skipped + 1))
+    fi
+fi
+
+echo
 echo "== kem-29-1 Polar-KEM: public-key-only shared-secret recovery (Critical) =="
 if [ -z "$only" ] || [ "$only" = kem-29 ]; then
     if [ -f kem-29/lib/libPolarKEM-128.so ]; then
@@ -159,6 +193,23 @@ echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack wr
 run sign-01 "sign-01-1/sign-01-2" CONFIRMED sig-malleable sign-01/lib/libAigis-sig1.so
 echo "== sign-07-1: SUF-CMA malleability (High) =="
 run sign-07 "sign-07-1" CONFIRMED sig-malleable sign-07/lib/libCS-128.so
+
+echo
+echo "== sign-07-2 CS: verifier challenge-sign blindness enables universal forgery (High) =="
+if [ -z "$only" ] || [ "$only" = sign-07 ]; then
+    if [ -x sign-07/forgery_CS-128-scaled-tau3 ] && [ -f sign-07/lib/libCS-128-scaled-tau3.so ]; then
+        sign-07/forgery_CS-128-scaled-tau3 sign-07/lib/libCS-128-scaled-tau3.so --threads 4 || fail=$((fail + 1))
+        for i in CS-128 CS-256 CS-512; do
+            sign-07/forgery_$i sign-07/lib/lib$i.so --control --threads 4 --trials 200000 || fail=$((fail + 1))
+        done
+    else
+        echo "SKIP   sign-07 sign-07-2 (build it: make -C sign-07 exploit)"; skipped=$((skipped + 1))
+    fi
+fi
+
+echo
+echo "== sign-11-5 FlexTree: unchecked PORS padding is malleable (Medium) =="
+run sign-11 "sign-11-5" CONFIRMED sig-pors-padding sign-11/lib/libFlextree-160f.so
 
 echo
 echo "== sign-15-2 MORNING-ATLAS: ignored hint padding violates SUF-CMA (High) =="
@@ -249,6 +300,16 @@ if { [ -z "$only" ] || [ "$only" = sign-33 ]; } && [ -f sign-33/lib/libvdoo_128.
     fi
 elif [ -z "$only" ] || [ "$only" = sign-33 ]; then
     echo "SKIP   sign-33 (build it: make -C sign-33)"; skipped=$((skipped + 1))
+fi
+
+echo
+echo "== sign-34-1 / sign-34-2 YuanYang.DSA: transcript leakage and public-key aliases =="
+if [ -z "$only" ] || [ "$only" = sign-34 ]; then
+    if [ -x sign-34/reproduce_transcript_leak ] && [ -f sign-34/lib/libyuanyang-512.so ]; then
+        sign-34/reproduce_transcript_leak sign-34/lib/libyuanyang-512.so 4000 || fail=$((fail + 1))
+    else
+        echo "SKIP   sign-34 (build it: make -C sign-34 exploit)"; skipped=$((skipped + 1))
+    fi
 fi
 
 echo

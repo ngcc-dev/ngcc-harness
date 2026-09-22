@@ -3,9 +3,15 @@
 
 libs: $(LIBS)
 
-test: $(TESTS)
-	@cat $(addprefix results/,$(addsuffix .log,$(INSTANCES))) | grep '^RESULT' > results/summary.tsv; \
-	  echo "$(NGCC_ID): $$(grep -c ' PASS' results/summary.tsv) pass, $$(grep -vc ' PASS' results/summary.tsv) fail (results/summary.tsv)"
+test: test-prep
+	@rc=0; $(MAKE) --no-print-directory -k $(TESTS) || rc=$$?; \
+	  cat $(addprefix results/,$(addsuffix .log,$(INSTANCES))) | grep '^RESULT' > results/summary.tsv; \
+	  echo "$(NGCC_ID): $$(grep -c ' PASS' results/summary.tsv) pass, $$(grep -vc ' PASS' results/summary.tsv) fail (results/summary.tsv)"; \
+	  exit $$rc
+
+$(TESTS): | test-prep
+test-prep: | results
+	@rm -f results/summary.tsv
 
 # manifest targets run sequentially: they all rewrite $(NGCC_MANIFEST)
 manifest: libs
@@ -18,4 +24,4 @@ list:
 clean:
 	rm -rf build lib src results kat
 
-.PHONY: libs test manifest list clean
+.PHONY: libs test test-prep manifest list clean

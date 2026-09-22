@@ -113,6 +113,17 @@ static void seed_lib(unsigned char tag)
     if (s(seed, sizeof seed) != 0) { fprintf(stderr, "ngcc_seed failed\n"); exit(2); }
 }
 
+/* Seed schedule used by the repository-wide security audit.  Keep it
+ * separate from the older attack-driver schedule so published deterministic
+ * witnesses can be replayed byte-for-byte. */
+static void seed_lib_audit(unsigned char tag)
+{
+    int (*s)(const unsigned char *, unsigned long long) = sym("ngcc_seed");
+    unsigned char seed[64];
+    for (int i = 0; i < 64; i++) seed[i] = (unsigned char)(tag + 29 * i);
+    if (s(seed, sizeof seed) != 0) { fprintf(stderr, "ngcc_seed failed\n"); exit(2); }
+}
+
 /* ---------------------------------------------------------------- hashes */
 
 /* Eijen: for every byte-aligned M, H(M) == H(M || 0000000).
@@ -339,6 +350,51 @@ static int sig_hint_padding(void)
         offset, changed == 0 ? "ACCEPTED" : (changed == -99 ? "CRASHED" : "rejected"));
 }
 
+/* FlexTree-160f: the verifier decodes the PORS portion without checking an
+ * unused padding bit.  Mutating the known padding position therefore creates
+ * a distinct signature for the same message without an exhaustive bit scan. */
+static int sig_pors_padding(void)
+{
+    const ngcc_meta_sig_t *m = (const ngcc_meta_sig_t *)g_meta;
+    ngcc_sig_keygen_fn kg = sym("sig_keygen");
+    ngcc_sig_sign_fn sg = sym("sig_sign");
+    ngcc_sig_verify_fn vf = sym("sig_verify");
+    const unsigned long long offset = 3613;
+
+    if (strcmp(g_meta->instance, "Flextree-160f")) {
+        fprintf(stderr, "sig-pors-padding needs the Flextree-160f library\n"); exit(2);
+    }
+    if (offset >= m->sn_len) { fprintf(stderr, "unexpected signature layout\n"); exit(2); }
+
+    /* Keep the original audit's deterministic transcript so the selected
+     * PORS instance has the same unused-node boundary as its published bit
+     * 28911 witness. */
+    static const unsigned char original[] = "NGCC low hanging fruit signature message";
+    unsigned char msg[sizeof original];
+    memcpy(msg, original, sizeof original);
+    unsigned long long mn = sizeof msg - 1;
+    size_t sn_cap = (size_t)m->sn_len + (size_t)mn + 64;
+    unsigned char *pk = calloc(m->pk_len, 1), *sk = calloc(m->sk_len, 1),
+                  *sn = calloc(sn_cap, 1);
+    unsigned long long pl = m->pk_len, sl = m->sk_len, nl = m->sn_len;
+    seed_lib_audit(0x11);
+    if (kg(pk, &pl, sk, &sl) || sg(sk, sl, msg, mn, sn, &nl)) {
+        fprintf(stderr, "keygen/sign failed\n"); exit(2);
+    }
+    if (vf(pk, pl, sn, nl, msg, mn)) {
+        fprintf(stderr, "valid signature rejected\n"); exit(2);
+    }
+
+    memcpy(msg, original, sizeof original);
+    sn[offset] ^= 0x80;
+    int changed = GUARDED(vf(pk, pl, sn, nl, msg, mn), -99);
+    sn[offset] ^= 0x80;
+    free(pk); free(sk); free(sn);
+    return verdict("sig-pors-padding", changed == 0,
+        "bit 7 of unchecked PORS byte %llu: modified signature %s for the same message",
+        offset, changed == 0 ? "ACCEPTED" : (changed == -99 ? "CRASHED" : "rejected"));
+}
+
 /* UVW: sig_verify discards its result and returns success unconditionally. */
 static int sig_accept_all(void)
 {
@@ -539,6 +595,7 @@ static void usage(void)
       "  kem-ct-flip          <lib>            dead implicit rejection          (Aigis-Enc+)\n"
       "  sig-malleable        <lib>            SUF-CMA malleability             (Aigis-Sig+, CS)\n"
       "  sig-hint-padding     <lib>            ignored hint encoding            (MORNING-ATLAS)\n"
+      "  sig-pors-padding     <lib>            unchecked PORS padding            (FlexTree)\n"
       "  sig-accept-all       <lib>            verifier accepts anything        (UVW)\n"
       "  sig-uninit-verdict   <lib>            verdict depends on stale stack   (SQIsign2D2)\n"
       "  keygen-determinism   <lib>            seed ignored, same key           (Galas, VDOO)\n"
@@ -564,6 +621,7 @@ int main(int argc, char **argv)
     if (!strcmp(check, "kem-ct-flip"))        return kem_ct_flip();
     if (!strcmp(check, "sig-malleable"))      return sig_malleable();
     if (!strcmp(check, "sig-hint-padding"))   return sig_hint_padding();
+    if (!strcmp(check, "sig-pors-padding"))   return sig_pors_padding();
     if (!strcmp(check, "sig-accept-all"))     return sig_accept_all();
     if (!strcmp(check, "sig-uninit-verdict")) return sig_uninit_verdict();
     if (!strcmp(check, "keygen-determinism")) return keygen_determinism();

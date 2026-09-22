@@ -14,6 +14,28 @@ extracted pseudocode/parameter tables; some additionally contain the exact
 source files cited by this audit. See `DESIGN_PARAMETER_AUDIT.md` for the
 classification rules and limits.
 
+Additional focused validators and runtime witnesses are:
+
+```sh
+# FlexTree design/source arithmetic for sign-11-1 through sign-11-8
+python3 security/flextree_kudinov_validation.py
+# TRIKE shipped-minimum versus specified-maximum whole-KEM differential
+make -C kem-36 lib/libTRIKE-2.so
+python3 security/trike_threshold_differential.py --trials 1000
+# UVW decoder-versus-validation failure oracle
+make -C kem-38 lib/libUVW-KEM-128.so
+python3 security/kem_mutation_oracle.py kem-38/lib/libUVW-KEM-128.so --bits 0,846
+# CS scaled universal forgery, FactoDSA reduced algebraic lead, YuanYang witnesses
+make -C sign-07 exploit
+make -C sign-10/cryptanalysis test
+make -C sign-34 exploit
+```
+
+`CODE_PARAMETER_AUDIT.md` consolidates the Mito-E, TRIKE, and UVW source and
+runtime evidence. FactoDSA remains a Lead: its reduced-size recovery is
+runnable, but its submitted-size work factors and final forgery step have not
+been demonstrated.
+
 `vulnerabilities.csv` is the complete public inventory of stable `xxx-yy-z`
 issue IDs and issue-local substantiation statuses. Its verification field is
 one of `runtime`, `static`,

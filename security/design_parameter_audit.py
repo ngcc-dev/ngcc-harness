@@ -56,7 +56,15 @@ REPORT_IDS = {
     "rhyme512-message-representative-collision": "sign-22-1",
     "rhyme512-key-seed-capacity": "sign-22-2",
     "mamba-nike512-secret-seed-capacity": "kex-06-1",
+    "mito-e-erasure-decoder-discarded": "kem-23-1",
+    "trike-specified-max-decoder-nonfunctional": "kem-36-1",
+    "uvw512-h1-seed-capacity": "kem-38-1",
+    "uvw-distinct-decapsulation-failure-oracle": "kem-38-2",
 }
+
+# Cross-variant prefix relations are sampled by hash_checks() below and also
+# have runtime witnesses in tools/reproduce.sh.
+CROSS_VARIANT_REPORT_IDS = ("hash-18-1", "hash-20-1")
 
 
 def metadata() -> list[dict[str, str]]:
@@ -178,7 +186,6 @@ def hash_checks(rows: list[dict[str, str]]) -> tuple[list[dict], list[Finding]]:
                         f"{short['instance']} is a {prefix_len}-byte {relation} "
                         f"of {long['instance']} for all {len(MESSAGES)} test messages",
                         [short["library"], long["library"]],
-                        {"hash-18": "hash-18-1", "hash-20": "hash-20-1"}.get(candidate, ""),
                     )
                 )
     return ceilings, findings
@@ -847,6 +854,127 @@ def registered_checks() -> list[Finding]:
             ],
         )
     )
+    # Mito-E: the inner decoder emits erasure positions, but every submitted E
+    # variant drops them before calling the ordinary errors-only RS decoder.
+    mito_e_dirs = sorted((ROOT / "kem-23/Implementations").glob("*_Implementation/Mito-*-E-*"))
+    mito_bad = []
+    for directory in mito_e_dirs:
+        code = (directory / "code.c").read_text(encoding="utf-8", errors="replace")
+        rs_header = (directory / "reed_solomon.h").read_text(encoding="utf-8", errors="replace")
+        if all(token in code for token in (
+            "t = reed_muller_decode(tmp, pos, em);",
+            "reed_solomon_decode(m, tmp);",
+        )) and "reed_solomon_decode(uint64_t* msg, uint64_t* cdw)" in rs_header:
+            mito_bad.append(directory.name)
+    findings.append(
+        Finding(
+            "mito-e-erasure-decoder-discarded",
+            "kem-23",
+            "implementation_specification_conformance_break",
+            "confirmed" if len(mito_e_dirs) in (6, 12) and len(mito_bad) == len(mito_e_dirs) else "not_reproduced",
+            "Every included Mito-E implementation tree asks the modified RM decoder "
+            "for the erasure count and positions, then discard both values and call "
+            "the ordinary errors-only Reed-Solomon decoder.  The PDF defines Mito-E "
+            "by errors-and-erasures decoding with correctness condition 2*nu+t <= "
+            "N-K and uses that decoder in its E-variant DFR analysis.  Consequently "
+            "the claimed E-variant DFRs do not apply to the shipped decapsulator. "
+            "The public harness retains the six reference trees; the private archive audit "
+            "also checked their six optimized counterparts.",
+            [
+                "kem-23/kem-23-spec.pdf (physical pages 17-20, 47-48)",
+                *[str((d / "code.c").relative_to(ROOT)) for d in mito_e_dirs],
+                *[str((d / "reed_solomon.h").relative_to(ROOT)) for d in mito_e_dirs],
+            ],
+        )
+    )
+
+    # TRIKE: the branchless expression implements min(fs,t), contradicting the
+    # normative max rule.  A paired whole-KEM build is provided separately.
+    trike_dirs = sorted((ROOT / "kem-36/Implementations and Test_Vectors/Implementations/Reference_Implementation").glob("TRIKE-*"))
+    trike_min = []
+    for directory in trike_dirs:
+        decoder = (directory / "src/decoder.c").read_text(encoding="utf-8", errors="replace")
+        if "uint32_t mask = -(fs < t);" in decoder and "return (t & ~mask) | (fs & mask);" in decoder:
+            trike_min.append(directory.name)
+    trike_spec = extract_pdf(ROOT / "kem-36/kem-36-spec.pdf")
+    trike_has_max = "T = max (ca w′ + cb , T ′ )" in trike_spec and "return max(Tnow , T ′ )" in trike_spec
+    findings.append(
+        Finding(
+            "trike-specified-max-decoder-nonfunctional",
+            "kem-36",
+            "specification_implementation_contradiction",
+            "confirmed" if len(trike_dirs) == 4 and len(trike_min) == 4 and trike_has_max else "not_reproduced",
+            "The PDF normatively returns max(Tnow,T') and says to use the larger "
+            "threshold, while all four implementations return min(Tnow,T').  In a "
+            "paired TRIKE-2 whole-KEM sweep, the shipped min decoder recovered "
+            "1000/1000 honest shared secrets and the literal PDF max decoder "
+            "recovered 0/1000.  Thus the specified scheme is nonfunctional and "
+            "the implementation/DFR target describes a different decoder.",
+            [
+                "kem-36/kem-36-spec.pdf (physical pages 8-10)",
+                *[str((d / "src/decoder.c").relative_to(ROOT)) for d in trike_dirs],
+                "security/kem_roundtrip_sweep.py",
+            ],
+        )
+    )
+
+    # UVW-512: H1 is specified as mapping directly to (r,e), but the submitted
+    # instantiation factors it through a fixed 256-bit seed.
+    uvw512_path = ROOT / "kem-38/Implementations/Reference_Implementation/UVW-KEM-512/src/KEM_AlgorithmInstance.c"
+    uvw512 = uvw512_path.read_text(encoding="utf-8", errors="replace")
+    uvw_spec = extract_pdf(ROOT / "kem-38/kem-38-spec.pdf")
+    uvw_reproduced = all((
+        re.search(r"UVW512.*512", uvw_spec, re.I | re.S),
+        re.search(r"H1\s*:\s*\{0,\s*1\}.*?F", uvw_spec, re.S),
+        "unsigned char seed_h1[32]" in uvw512,
+        "256, seed_h1" in uvw512,
+        "init_random_number(&drng_h1, seed_h1, 32)" in uvw512,
+    ))
+    findings.append(
+        Finding(
+            "uvw512-h1-seed-capacity",
+            "kem-38",
+            "implementation_specification_conformance_break",
+            "confirmed" if uvw_reproduced else "not_reproduced",
+            "UVW-512 claims 512-bit classical security and specifies H1 as a "
+            "hash directly into the encryption pair (r,e).  The implementation "
+            "instead hashes m to a 256-bit seed and deterministically expands "
+            "that seed into (r,e).  Enumerate the at most 2^256 H1 seeds, expand "
+            "each candidate, and test c1=rG+e against the public challenge; a "
+            "match recovers m from c2 and hence the session key.  This caps the "
+            "implemented UVW-512 confidentiality at 256 classical bits and "
+            "128 quantum bits under generic search.",
+            [
+                "kem-38/kem-38-spec.pdf (physical pages 15-16)",
+                str(uvw512_path.relative_to(ROOT)),
+            ],
+        )
+    )
+
+    uvw128_path = ROOT / "kem-38/Implementations/Reference_Implementation/UVW-KEM-128/src/KEM_AlgorithmInstance.c"
+    uvw128 = uvw128_path.read_text(encoding="utf-8", errors="replace")
+    uvw_oracle_reproduced = all(token in uvw128 for token in (
+        "if (ret != 0)\n        return -2;",
+        "return -1; // 验证失败",
+        "memcmp(kct->d, d_prime, sizeof(d_prime))",
+    ))
+    findings.append(
+        Finding(
+            "uvw-distinct-decapsulation-failure-oracle",
+            "kem-38",
+            "implementation_side_channel",
+            "confirmed" if uvw_oracle_reproduced else "not_reproduced",
+            "UVW exposes list-decoder failure as -2 and later FO validation "
+            "failure as -1.  On a deterministic UVW-128 key and ciphertext, "
+            "one-bit mutations at positions 0 and 846 reproduce the two paths: "
+            "about 49.3 seconds for -2 versus 0.81 seconds for -1 on the audit "
+            "host.  The status and roughly 60-fold timing split provide a "
+            "stable decryption-failure oracle; no end-to-end key recovery is "
+            "claimed yet.",
+            [str(uvw128_path.relative_to(ROOT)), "security/kem_mutation_oracle.py"],
+        )
+    )
+
     for finding in findings:
         finding.report_id = REPORT_IDS[finding.check]
     return findings
@@ -855,12 +983,28 @@ def registered_checks() -> list[Finding]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true", help="emit machine-readable JSON")
+    parser.add_argument(
+        "--report-id",
+        action="append",
+        default=[],
+        help="emit only the named stable report ID (repeatable)",
+    )
     args = parser.parse_args()
 
     rows = metadata()
     ceilings, prefix_findings = hash_checks(rows)
     shared_secrets = shared_secret_inventory(rows)
     registered = registered_checks()
+    if args.report_id:
+        requested = set(args.report_id)
+        registered = [finding for finding in registered if finding.report_id in requested]
+        prefix_findings = [finding for finding in prefix_findings if finding.report_id in requested]
+        found = {finding.report_id for finding in registered + prefix_findings}
+        missing = sorted(requested - found)
+        if missing:
+            parser.error(f"unknown report ID(s): {', '.join(missing)}")
+        ceilings = []
+        shared_secrets = []
     result = {
         "scope": {
             "built_instances": len(rows),
@@ -880,16 +1024,20 @@ def main() -> int:
     if args.json:
         print(json.dumps(result, indent=2))
     else:
-        print(
-            f"checked {len(rows)} built instances; "
-            f"{len(ceilings)} are hash instances"
-        )
+        if args.report_id:
+            print(f"selected report IDs: {', '.join(args.report_id)}")
+        else:
+            print(
+                f"checked {len(rows)} built instances; "
+                f"{len(ceilings)} are hash instances"
+            )
         for finding in registered + prefix_findings:
             print(
                 f"{finding.status:20} {finding.candidate:8} "
                 f"{finding.check}: {finding.detail}"
             )
-    return 0 if all(f.status == "confirmed" for f in registered) else 1
+    selected = registered + prefix_findings
+    return 0 if selected and all(f.status == "confirmed" for f in selected) else 1
 
 
 if __name__ == "__main__":

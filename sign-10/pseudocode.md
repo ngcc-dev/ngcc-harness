@@ -174,3 +174,15 @@ split/scale search, and any estimator claim in §3.2.
 Known from `security_findings.md` (not re-derived): Facto-DSA-512 ships **no
 KAT file** (NOKAT); -128 and -256 pass KAT. Parameter/estimator validation and
 hash-domain auditing are open there as well.
+
+## Subsequent algebraic-recovery review
+
+`sign-10-1` observes that the hidden `n`-dimensional linear subspace
+`K2 = ker(L2)` lies in the public zero locus. A random `(n+1)`-dimensional
+subspace of the `2n`-dimensional ambient space must intersect it, converting
+the specification's `q^n` point search into a restricted polynomial-system
+solve. The implementation in `cryptanalysis/` recovers the exact `K2` from
+public reduced instances through `n=7` and recovers an equivalent triangular
+map at `n=6`. Full-size solving degree and the final container-identification
+step are not demonstrated; [report.md](report.md) therefore records a Lead,
+not a confirmed forgery.

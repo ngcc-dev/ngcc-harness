@@ -15,9 +15,13 @@ kem-17-1;Confirmed;runtime;Publicly reproducible secret keys
 kem-17-2;Confirmed;static;HEP-QC-7 has at most 256 bits of key-generation support
 kem-17-3;Confirmed;runtime;First encapsulation in each process is publicly reproducible
 kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
+kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
 kem-24-1;Probable;review;Encryption omits the specified rounding constant
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
 kem-32-1;Confirmed;review;Debug path retains the secret error vector
+kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every tested honest ciphertext
+kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
+kem-38-2;Confirmed;runtime+static;UVW exposes a stable list-decoding failure oracle
 kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's independence premise
 kex-02-1;Confirmed;runtime;The ephemeral key is generated once as long-term state
 kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret to 64 bits
@@ -32,7 +36,17 @@ sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time ke
 sign-06-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-06-2;Confirmed;static;The implementation expands the entire key pair from a 256-bit root
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
+sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
 sign-08-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
+sign-10-1;Lead;review;The hidden zero subspace has an unpriced algebraic recovery path
+sign-11-1;Confirmed;static;PORS counter grinding reduces every claimed security level
+sign-11-2;Confirmed;static;The specified deterministic mode is length-extendable
+sign-11-3;Confirmed;static;The specified OTS verifier omits its encoding checks
+sign-11-4;Confirmed;static;A 256-bit SM3 state caps the 384- and 512-bit sets
+sign-11-5;Confirmed;runtime+static;Unchecked PORS padding makes signatures malleable
+sign-11-6;Confirmed;static;The specified PORS tree reuses leaf hash addresses
+sign-11-7;Confirmed;static;The implementation leaves 1 to 4 OTS digest bits unchecked
+sign-11-8;Confirmed;static;Complementary constant-sum rounding breaks interoperability
 sign-12-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-15-1;Confirmed;review;Returned-length error causes an out-of-bounds heap disclosure
 sign-15-2;Confirmed;runtime;Trivial hint-padding malleability violates SUF-CMA
@@ -48,3 +62,5 @@ sign-33-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-33-2;Confirmed;static;A 256-bit implementation prehash limits forgery security to 128 bits
 sign-33-3;Proof gap;static;The VDOO-256 and -512 proof bound contains a 128-bit salt term
 sign-33-4;Confirmed;runtime;Signing reuses a publicly predictable randomness stream
+sign-34-1;Confirmed;runtime;Wrong perturbation covariance leaks secret-basis information
+sign-34-2;Confirmed;runtime;Non-injective public-key packing creates key aliases

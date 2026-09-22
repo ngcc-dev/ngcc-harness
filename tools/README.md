@@ -50,11 +50,17 @@ than always firing.
 | `hash-prefix` | no domain separation, so the short digest is a byte-exact prefix of the long one | Megascon (hash-18), Mozi (hash-20) |
 | `kem-ct-flip` | the FO implicit-rejection branch is dead code, so modified ciphertexts still return the original shared secret | Aigis-Enc+ (kem-01) |
 | `kem-reject-mask` | the rejection mask is not normalised to all-ones, so the returned value retains the low 7 bits of every byte of the valid secret | CheetahKEM (kem-09), LoongKEM (kem-18) |
+| `trike-threshold` | the PDF's maximum threshold rejects every honest ciphertext in the paired whole-KEM test, while the shipped minimum threshold succeeds | TRIKE (kem-36) |
+| `kem-failure-oracle` | ciphertext mutations distinguish list-decoder failure from later validation failure by return code and timing | UVW-KEM (kem-38) |
 | `kex-pfs-recovery` | recorded ciphertexts plus later compromise of the API long-term keys recover the exact completed-session key | AFS-KEX (kex-02) |
 | `honest-failure` | a deterministic honest four-pass exchange aborts when the initiator cannot decapsulate the responder's ciphertext | LoomKEX-256 (kex-05) |
 | `state-rollback-key-recovery` | chosen pass-2 queries against a restored pass-1 state recover the complete ephemeral KEM secret and predict the final AKE secret | LoomKEX-256 (kex-05) |
 | `sign-fors-forgery` | repeated two-bit FORS addressing permits an adaptive chosen-message signature forgery | CEDRUS+C 160f (sign-03) |
 | `sig-malleable` | non-canonical trailing encoding bytes yield a distinct valid signature (SUF-CMA); malformed Aigis hint counts also exercise its verifier stack write | Aigis-Sig+ (sign-01), CS (sign-07) |
+| `sig-forge-support-grind` | challenge signs are invisible to verification, reducing a universal forgery to a grind over supports; the identical scaled attack completes at tau=3 | CS (sign-07) |
+| `sig-pors-padding` | unused PORS authentication-node padding is unchecked and can be changed without invalidating a signature | FlexTree (sign-11) |
+| `sig-transcript-leak` | row/column Gram confusion leaves key-dependent variance and covariance in public signatures | YuanYang.DSA (sign-34) |
+| `pk-noncanonical` | radix-q packing accepts distinct public-key byte strings that decode to the same coefficients | YuanYang.DSA (sign-34) |
 | `sig-hint-padding` | unused fixed-size hint slots are not checked, so a distinct encoding verifies for the same message (SUF-CMA) | MORNING-ATLAS (sign-15) |
 | `sig-accept-all` | the verifier discards its result and accepts anything; the guarded all-zero call also records the UVW-128/-256 crash | UVW (sign-32) |
 | `sig-uninit-verdict` | with `NDEBUG`, required verifier checks disappear and an all-zero signature's verdict depends on stale stack contents | SQIsign2D2 Level2-eff uncompressed (sign-25) |
@@ -93,6 +99,24 @@ coefficients and predicts an honest exchange's final shared secret. This is a
 conditional rollback/cloning/concurrent-evaluation attack, not a claim about a
 strictly linear deployment that irrevocably consumes state. Build it with
 `make -C kex-05 exploit`.
+
+CS has a candidate-local universal-forgery driver. At the submitted parameter
+sets it verifies the free-transcript construction and runs bounded negative
+controls; the full support grind is intentionally infeasible. The same attack
+completes after changing only CS-128's `tau` from 23 to 3, and the submitted
+verifier accepts the forged signature. Build it with `make -C sign-07 exploit`.
+
+YuanYang.DSA's public-data witness decodes ordinary signatures and measures the
+key-dependent per-slot dispersion left by the faulty covariance calculation. A
+synthetic spherical transcript is the negative control. The same executable
+also constructs a byte-distinct public-key alias and verifies the same
+signature under it. It does not claim complete signing-key recovery. Build it
+with `make -C sign-34 exploit`.
+
+The FactoDSA code under `sign-10/cryptanalysis/` demonstrates reduced-size
+algebraic recovery of the hidden zero subspace and subsequent central-map
+structure. Full-size costs remain extrapolated and no submitted-size forgery is
+claimed, so `sign-10-1` remains a review-classified Lead.
 
 CEDRUS+C has a candidate-local `sign-03/reproduce_forgery` driver. It obtains
 1,000 signatures on distinct chosen messages, catalogs the disclosed FORS

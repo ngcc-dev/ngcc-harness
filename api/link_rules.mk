@@ -131,8 +131,11 @@ test-$(1): lib/lib$(1).so $(HARNESS) | results kat
 	    $$(if $$(wildcard $(NGCC_MANIFEST)),--kat-sha $(NGCC_MANIFEST)) --label $(1) \
 	    $$(if $$(KATNAME_$(1)),--kat-name '$$(KATNAME_$(1))') $$(TESTFLAGS_$(1)) $(NGCC_TESTFLAGS) \
 	    $$< > results/$(1).log 2>&1; rc=$$$$?; \
-	  tail -1 results/$(1).log | grep -q '^RESULT' || echo "RESULT $(NGCC_ID) $(1) CRASH exit=$$$$rc" >> results/$(1).log; \
-	  tail -1 results/$(1).log
+	  if ! tail -1 results/$(1).log | grep -q '^RESULT'; then \
+	    echo "RESULT $(NGCC_ID) $(1) CRASH exit=$$$$rc" >> results/$(1).log; \
+	    test $$$$rc -ne 0 || rc=7; \
+	  fi; \
+	  tail -1 results/$(1).log; exit $$$$rc
 .PHONY: test-$(1)
 TESTS += test-$(1)
 
