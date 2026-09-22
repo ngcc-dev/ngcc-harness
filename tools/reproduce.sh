@@ -208,6 +208,19 @@ if [ -z "$only" ] || [ "$only" = sign-07 ]; then
 fi
 
 echo
+echo "== sign-10-1 Facto-DSA: hidden-zero-subspace algebraic recovery lead (High) =="
+if [ -z "$only" ] || [ "$only" = sign-10 ]; then
+    if [ -x sign-10/cryptanalysis/build/selftest ] &&
+       [ -x sign-10/cryptanalysis/build/attack1 ] &&
+       [ -x sign-10/cryptanalysis/build/attack3 ]; then
+        make -C sign-10/cryptanalysis test || fail=$((fail + 1))
+    else
+        echo "SKIP   sign-10 (build it: make -C sign-10/cryptanalysis)"
+        skipped=$((skipped + 1))
+    fi
+fi
+
+echo
 echo "== sign-11-5 FlexTree: unchecked PORS padding is malleable (Medium) =="
 run sign-11 "sign-11-5" CONFIRMED sig-pors-padding sign-11/lib/libFlextree-160f.so
 

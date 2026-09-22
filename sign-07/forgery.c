@@ -46,7 +46,8 @@
  *       work and the check reports NOT-CONFIRMED once the trial budget runs
  *       out; it is expected to confirm only for the scaled-down instance
  *       built from the same sources by patches/scaled-tau3/params.h, whose
- *       only change is a smaller tau (see that file).
+ *       tau is smaller and the encoding/bound constants receive the
+ *       compensating edits documented in that file.
  *
  * Key generation and the final verdict go through the submitted API only.  The
  * transcript construction and the grinder call the submission's own compiled

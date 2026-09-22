@@ -5,8 +5,8 @@
  * as a *spherical* discrete Gaussian of width sigma_sig over the coset, so
  * that a transcript can be simulated from the public key alone.  The submitted
  * reference implementation builds the perturbation covariance from the Gram
- * matrix of the basis *rows* instead of the Gram matrix of the basis
- * *columns* (keygen/perturbation.c, sigma_p_set_slot()), and the two differ
+ * product B^*B (the Gram matrix of the basis vectors) instead of B B^*
+ * (keygen/perturbation.c, sigma_p_set_slot()), and the two differ
  * because B = [(f,g) | (F^,G^)] is not symmetric.  The result is a first-order,
  * key-dependent anisotropy in every signature:
  *

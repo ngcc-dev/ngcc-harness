@@ -7,9 +7,9 @@
  * The forgery of reproduce_forgery.c costs C(n,tau) hash calls.  At the
  * submitted tau = 23 that is 2^108.08, which is a real but not runnable
  * number, so this instance lowers tau to 3 (C(256,3) = 2^21.4) and leaves
- * everything else structurally identical.  The three companion edits exist
- * only to keep the rANS alphabets that encodings.c hard-codes the same size,
- * and they keep all three verification bounds bit-identical to CS-128:
+ * the remaining structure intact.  Companion edits keep the rANS alphabets
+ * that encodings.c hard-codes the same size.  They preserve the z0 and z1
+ * verification bounds, while tightening the z2' bound:
  *
  *   tau  23 -> 3, taup 4 (so N = ceil(tau/taup) = 1, was 6)
  *   B0  116 -> 111   keeps M_HB_Z0 = 2*((B0-N)+1)+1 = 223 and B0-N   = 110

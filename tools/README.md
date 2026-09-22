@@ -103,15 +103,17 @@ strictly linear deployment that irrevocably consumes state. Build it with
 CS has a candidate-local universal-forgery driver. At the submitted parameter
 sets it verifies the free-transcript construction and runs bounded negative
 controls; the full support grind is intentionally infeasible. The same attack
-completes after changing only CS-128's `tau` from 23 to 3, and the submitted
-verifier accepts the forged signature. Build it with `make -C sign-07 exploit`.
+completes on a scaled CS-128 instance that reduces `tau` from 23 to 3 and makes
+the documented companion encoding/bound changes. The scaled verifier accepts
+the forged signature. Build it with `make -C sign-07 exploit`.
 
 YuanYang.DSA's public-data witness decodes ordinary signatures and measures the
 key-dependent per-slot dispersion left by the faulty covariance calculation. A
 synthetic spherical transcript is the negative control. The same executable
 also constructs a byte-distinct public-key alias and verifies the same
-signature under it. It does not claim complete signing-key recovery. Build it
-with `make -C sign-34 exploit`.
+signature under it. Its 4,000-signature sample is needed for the `sign-34-1`
+statistical test, not for the `sign-34-2` encoding witness. It does not claim
+complete signing-key recovery. Build it with `make -C sign-34 exploit`.
 
 The FactoDSA code under `sign-10/cryptanalysis/` demonstrates reduced-size
 algebraic recovery of the hidden zero subspace and subsequent central-map

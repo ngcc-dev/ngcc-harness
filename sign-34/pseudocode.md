@@ -205,10 +205,10 @@ Discrepancies (all on the specification side except the last two):
   path was found, but the guard does not do what its comment says.
 
 Subsequent review verified that `SamplerPrecomp` (Alg. 7) is implemented with
-the wrong basis orientation: `sigma_p_set_slot()` subtracts the row Gram
-matrix, while the specification's column-basis convention requires
-`B_hat B_hat^*`. Public signatures reproduce the resulting key-dependent
-anisotropy; see `sign-34-1` in [report.md](report.md). The same review confirmed
+the wrong matrix product: `sigma_p_set_slot()` subtracts `B_hat^* B_hat`, the
+Gram matrix of the basis vectors, while the specification's column-basis
+convention requires `B_hat B_hat^*`. Public signatures reproduce the resulting
+key-dependent anisotropy; see `sign-34-1` in [report.md](report.md). The same review confirmed
 the non-injective radix-`q` public-key packing recorded as `sign-34-2`.
 
 The two rejection probabilities Δ1 and Δ2, the remaining fixed-point Q-format

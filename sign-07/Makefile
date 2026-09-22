@@ -75,7 +75,8 @@ endef
 $(foreach i,CS-128 CS-256 CS-512,$(eval $(call forge_rule,$(i))))
 
 # Scaled-down instance: the CS-128 sources compiled against
-# patches/scaled-tau3/params.h, whose only substantive change is tau 23 -> 3.
+# patches/scaled-tau3/params.h.  It reduces tau from 23 to 3 and makes the
+# compensating B0/B1/B2/M0 edits documented in that file.
 # The forgery costs C(n,tau) hash calls, so this is the same attack at a
 # runnable size; the submitted sets are covered by the control run, which uses
 # the identical code and trial budget and finds nothing.
