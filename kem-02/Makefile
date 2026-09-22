@@ -41,8 +41,19 @@ $(eval $(call AMOEBA,Amoeba256,Amoeba-1152,256))
 $(eval $(call AMOEBA,Amoeba384,Amoeba-1728,384))
 $(eval $(call AMOEBA,Amoeba512,Amoeba-2304,512))
 
+# Attack-only build: export the candidate's CPA encryption and hash helpers so
+# a chosen-plaintext experiment can construct valid FO ciphertexts. The normal
+# harness library remains limited by api/link_exports.map.
+lib/libAmoeba128_attack.so: build/Amoeba128/shim.o $(OBJS_Amoeba128) | lib
+	$(CC) -shared -Wl,-Bsymbolic -Wl,--no-undefined -Wl,-z,noexecstack -o $@ $^ -lm
+
 include ../api/link_finish.mk
 
 .PHONY: exploit
 exploit:
 	python3 reproduce_incomplete_compare.py
+
+PYTHON ?= python3
+.PHONY: exploit-key-recovery
+exploit-key-recovery: lib/libAmoeba128_attack.so
+	OPENBLAS_NUM_THREADS=4 $(PYTHON) recover_amoeba576.py --recover

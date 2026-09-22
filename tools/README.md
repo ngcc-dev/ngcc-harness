@@ -80,6 +80,12 @@ the break is specific: the submission ships `polarkem_recover_message(pk, ct, mu
 and `polarkem_derive_valid_secret(mu, ct, ss)`, which together recover the
 session key from public data alone. `reproduce.sh` runs it.
 
+Amoeba-576's `kem-02/recover_amoeba576.py` uses NumPy and SciPy to recover all
+576 secret coefficients through the submitted decapsulation path, then rebuilds
+a key and checks fresh honest shared secrets. Set `AMOEBA_PYTHON` when running
+`tools/reproduce.sh kem-02` if those dependencies live in a separate Python or
+Sage environment.
+
 AFS-KEX has candidate-local C128/C256/C512 `reproduce_pfs_break*` drivers. Each
 records an honest exchange, erases both live session states, then treats the API
 long-term secret keys as compromised. Their first halves contain the composite

@@ -118,6 +118,11 @@ for l in kem-01/lib/*.so; do
 done
 
 echo
+echo "== kem-02-1 Amoeba-576: chosen-ciphertext full secret-key recovery (Critical) =="
+run_target kem-02 "kem-02-1" make -C kem-02 exploit-key-recovery \
+    PYTHON="${AMOEBA_PYTHON:-python3}"
+
+echo
 echo "== kem-09-1 / kem-18-1: rejection mask leaks the secret (Critical) =="
 for l in kem-09/lib/*.so; do run kem-09 "kem-09-1" CONFIRMED kem-reject-mask "$l"; done
 for l in kem-18/lib/*.so; do run kem-18 "kem-18-1" CONFIRMED kem-reject-mask "$l"; done
