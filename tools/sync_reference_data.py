@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import the public specification and parameter dataset from an ngcc1 tree."""
+"""Import the public specification and parameter dataset from a source checkout."""
 from __future__ import annotations
 
 import argparse
@@ -173,7 +173,7 @@ def validate(ids: list[str]) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("source", nargs="?", type=Path, help="ngcc1 checkout to import")
+    parser.add_argument("source", nargs="?", type=Path, help="source checkout to import")
     parser.add_argument("--check", action="store_true", help="validate the checked-in dataset only")
     args = parser.parse_args()
     ids = candidate_ids(ROOT / "downloads.csv")

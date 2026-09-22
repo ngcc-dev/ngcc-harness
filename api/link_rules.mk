@@ -35,7 +35,8 @@
 #                    instance's ALGORITHM_INSTANCE
 #   TESTFLAGS_<label> extra harness flags (e.g. --full)
 #
-# Candidate-wide overrides: NGCC_CFLAGS, NGCC_CXXFLAGS, NGCC_LDLIBS, NGCC_KAT_DIR.
+# Candidate-wide overrides: NGCC_CFLAGS, NGCC_CXXFLAGS, NGCC_LDLIBS,
+# NGCC_KAT_DIR, NGCC_TEST_INSTANCES (when not every built instance shipped a KAT).
 #
 # Targets: all (default) | test | manifest | clean | list
 # The candidate Makefile must end with:  include $(API)/link_finish.mk

@@ -29,12 +29,17 @@ python3 security/kem_mutation_oracle.py kem-38/lib/libUVW-KEM-128.so --bits 0,84
 make -C sign-07 exploit
 make -C sign-10/cryptanalysis test
 make -C sign-34 exploit
+# New candidate-local witnesses are included in the aggregate runner
+tools/reproduce.sh hash-14
+tools/reproduce.sh kem-06
+tools/reproduce.sh sign-04
 ```
 
 `CODE_PARAMETER_AUDIT.md` consolidates the Mito-E, TRIKE, and UVW source and
-runtime evidence. FactoDSA remains a Lead: its reduced-size recovery is
-runnable, but its submitted-size work factors and final forgery step have not
-been demonstrated.
+runtime evidence. FactoDSA finding `sign-10-1` remains a Lead: its reduced-size
+recovery is runnable, but its submitted-size work factors have not been
+demonstrated. The independently tracked `sign-10-2` public-key signing trapdoor
+has a complete confirmed forgery witness.
 
 `vulnerabilities.csv` is the complete public inventory of stable `xxx-yy-z`
 issue IDs and issue-local substantiation statuses. Its verification field is
@@ -45,7 +50,7 @@ inventory with:
 
 ```sh
 make check-vulnerabilities
-python3 security/check_vulnerability_ids.py --reports ../ngcc1
+python3 security/check_vulnerability_ids.py --reports /path/to/report-checkout
 ```
 
 The LoomKEX correctness reproducer uses only the submitted scalar reference

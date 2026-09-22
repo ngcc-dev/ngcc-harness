@@ -189,10 +189,13 @@ wrapped in `XOF_SM3` — the same Table-1.4-vs-Table-1.5 collapse as (a).
 **Not verified.** The `rho`/`LowerBound` correspondence (Alg 3/4/5/6) was only checked at
 the interface level — the ~9.8 MB machine-generated binomial tables were not recomputed, and
 `gen_pors_precomputed.py` ships without a digest manifest (already noted in
-`security_findings.md`, "Prioritized experiments"). The constant-sum encoding
-`IntSeq_w`/`C_cs` of Algorithm 9 line 6 was not traced line-by-line through `wots.c`;
-`WANTED_CHECKSUM` in `params-flextree-*.h` equals `(sum_j w_j - len)/2`, consistent with the
-spec's `cs = floor(sum_j (w_j - 1) / 2)`, but the search loop itself was not audited.
+`security_findings.md`, "Prioritized experiments").
+
+**Constant-sum discrepancy (verified).** Algorithm 9 explicitly uses
+`floor(sum_j(w_j-1)/2)`. The code accumulates the complementary digit sum and compares it
+with the floored `WANTED_CHECKSUM`; for FlexTree-384f and FlexTree-512s this makes the
+accepted original-digit sums the ceilings 1170 and 1566, rather than the specified floors
+1169 and 1565. The specified signer terminates, but the two definitions do not interoperate.
 Cross-reference: `security_findings.md` reports no established claim violations, and one
 unexplained observation (a flipped-bit signature at byte 3613 of a Flextree-160f signature
 being accepted) that is orthogonal to the checks above.

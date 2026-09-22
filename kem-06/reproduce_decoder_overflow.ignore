@@ -1,0 +1,4 @@
+# Isolate the reported decoder path.  The submitted finite-field primitive
+# rbc_elt_ur_mul independently touches a caller stack redzone during every
+# honest multiplication, before the decoder witness is reached.
+fun:rbc_elt_ur_mul

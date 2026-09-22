@@ -32,3 +32,7 @@ $(eval $(call MOZI_XOF,MOZI-512-XOF,1024))
 $(eval $(call MOZI_XOF,MOZI-512-XOF,2048))
 
 include ../api/link_finish.mk
+
+.PHONY: reproduce-forum
+reproduce-forum:
+	python3 validate_spec_marker.py

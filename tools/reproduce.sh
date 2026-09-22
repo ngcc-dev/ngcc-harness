@@ -52,6 +52,21 @@ run() {
     return 0
 }
 
+# run_target <candidate> <report-id(s)> <command...>
+run_target() {
+    cand=$1; label=$2; shift 2
+    [ -n "$only" ] && [ "$only" != "$cand" ] && return 0
+    if "$@"; then
+        echo "$label  REPRODUCER PASS"
+    else
+        echo "UNEXPECTED $label reproducer failure"
+        fail=$((fail + 1))
+    fi
+}
+
+echo "== hash-04-3 / hash-04-4 CHAMP: square-root preimages and full-size writes =="
+run_target hash-04 "hash-04-3/hash-04-4" make -C hash-04 reproduce
+
 echo "== hash-09-1 Eijen: trivial collisions (Critical) =="
 for l in hash-09/lib/*.so; do
     run hash-09 "hash-09-1" CONFIRMED hash-collide-zeropad "$l"
@@ -73,6 +88,30 @@ run hash-20 "hash-20-1" CONFIRMED hash-prefix hash-20/lib/libMOZI-384.so     has
 run hash-04 "[control hash-18-1/hash-20-1]" NOT-CONFIRMED hash-prefix hash-04/lib/libCHAMP-512.so hash-04/lib/libCHAMP-1024.so
 
 echo
+echo "== hash-14-1 Laurus: function-domain separation loss =="
+run_target hash-14 "hash-14-1" make -C hash-14 reproduce
+
+echo
+echo "== hash-17-2 MasterCube: inverse-round mismatch =="
+run_target hash-17 "hash-17-2" make -C hash-17 reproduce-inverse
+
+echo
+echo "== hash-19-1 MoFang: deterministic full-round collisions =="
+run_target hash-19 "hash-19-1" make -C hash-19 reproduce
+
+echo
+echo "== hash-21-1 / hash-21-2 Neulaser: state-merger collisions =="
+run_target hash-21 "hash-21-1/hash-21-2" make -C hash-21 reproduce
+
+echo
+echo "== hash-24-1 QSH: invariant-subspace distinguisher =="
+run_target hash-24 "hash-24-1" make -C hash-24 reproduce
+
+echo
+echo "== hash-26-1 CHIME: invariant-subspace collision bounds =="
+run_target hash-26 "hash-26-1" make -C hash-26 reproduce
+
+echo
 echo "== kem-01-1 Aigis-Enc+: dead implicit rejection (Critical) =="
 for l in kem-01/lib/*.so; do
     run kem-01 "kem-01-1" CONFIRMED kem-ct-flip "$l"
@@ -83,6 +122,17 @@ echo "== kem-09-1 / kem-18-1: rejection mask leaks the secret (Critical) =="
 for l in kem-09/lib/*.so; do run kem-09 "kem-09-1" CONFIRMED kem-reject-mask "$l"; done
 for l in kem-18/lib/*.so; do run kem-18 "kem-18-1" CONFIRMED kem-reject-mask "$l"; done
 run kem-22 "[control kem-09-1/kem-18-1]" NOT-CONFIRMED kem-reject-mask kem-22/lib/libMithril-128.so
+
+echo
+echo "== kem-06-1 / kem-06-2 BRA: decoder and field out-of-bounds accesses =="
+if [ -z "$only" ] || [ "$only" = kem-06 ]; then
+    run_target kem-06 "kem-06-1" make -C kem-06 exploit
+    run_target kem-06 "kem-06-2" make -C kem-06 exploit-field
+fi
+
+echo
+echo "== kem-17-4 HEP-QC: public EPC-P column fingerprint =="
+run_target kem-17 "kem-17-4" python3 kem-17/reproduce_epcp_fingerprint.py
 
 echo
 echo "== kem-36-1 TRIKE: specified maximum threshold rejects honest ciphertexts (High) =="
@@ -189,6 +239,10 @@ if [ -z "$only" ] || [ "$only" = sign-03 ]; then
 fi
 
 echo
+echo "== sign-04-1 / sign-04-2 CEDRUS-alpha: WOTS truncation and address aliases =="
+run_target sign-04 "sign-04-1/sign-04-2" make -C sign-04 exploit
+
+echo
 echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack write =="
 run sign-01 "sign-01-1/sign-01-2" CONFIRMED sig-malleable sign-01/lib/libAigis-sig1.so
 echo "== sign-07-1: SUF-CMA malleability (High) =="
@@ -221,6 +275,10 @@ if [ -z "$only" ] || [ "$only" = sign-10 ]; then
 fi
 
 echo
+echo "== sign-10-2 Facto-DSA: public-key universal signing trapdoor =="
+run_target sign-10 "sign-10-2" make -C sign-10 reproduce-forgery
+
+echo
 echo "== sign-11-5 FlexTree: unchecked PORS padding is malleable (Medium) =="
 run sign-11 "sign-11-5" CONFIRMED sig-pors-padding sign-11/lib/libFlextree-160f.so
 
@@ -234,6 +292,14 @@ echo
 echo "== sign-25-1 SQIsign2D2: verifier verdict depends on stale stack state (Critical) =="
 run sign-25 "sign-25-1" CONFIRMED sig-uninit-verdict sign-25/lib/libSQISign2Dsquare-Level2-eff_uncompressed.so
 run sign-25 "[control sign-25-1]" NOT-CONFIRMED sig-uninit-verdict sign-25/lib/libSQISign2Dsquare-Level2-eff_compressed.so
+
+echo
+echo "== sign-18-2 Origami: signature constraint-subspace recovery =="
+run_target sign-18 "sign-18-2" python3 sign-18/reproduce_signature_subspace.py
+
+echo
+echo "== sign-29-1 Tins: one-signature witness recovery =="
+run_target sign-29 "sign-29-1" make -C sign-29 exploit
 
 echo
 echo "== sign-32-1 / sign-32-2 UVW: universal acceptance and verifier crashes =="

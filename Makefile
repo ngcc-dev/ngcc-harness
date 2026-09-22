@@ -10,7 +10,7 @@
 #   make manifest        (re)compute kat.sha256 manifests (needs the Test_Vectors present)
 #   make clean           remove all build outputs, libraries, results, harness
 
-NGCC1 ?= ../ngcc1
+REFERENCE_SOURCE ?=
 CANDIDATES := $(sort $(patsubst %/Makefile,%,$(wildcard sign-*/Makefile kem-*/Makefile kex-*/Makefile hash-*/Makefile)))
 
 .PHONY: all harness tools exploits test test-prep status reproduce design-audit check-vulnerabilities check-reference-data sync-reference-data manifest clean $(CANDIDATES) \
@@ -77,7 +77,8 @@ check-reference-data:
 	python3 tools/sync_reference_data.py --check
 
 sync-reference-data:
-	python3 tools/sync_reference_data.py $(NGCC1)
+	@test -n "$(REFERENCE_SOURCE)" || { echo "set REFERENCE_SOURCE=/path/to/source-checkout" >&2; exit 2; }
+	python3 tools/sync_reference_data.py "$(REFERENCE_SOURCE)"
 
 manifest: $(addprefix manifest-,$(CANDIDATES))
 $(addprefix manifest-,$(CANDIDATES)): manifest-%: %

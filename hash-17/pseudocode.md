@@ -78,10 +78,11 @@ A <- A XOR RC        # RC[i] = [0x243F^i, 0x6A88^i, 0x85A3^i, 0x08D3^i,
                      # XORed into the first row of A0xy only (frac(pi))
 return A
 ```
-`Cube-p-ir` (Algorithm 2) is the exact inverse: the steps in reverse order, with
-`ShiftRows` conjugated by an `A0xy <-> A1xy` slice swap (because ShiftRows on
-the two slices are mutual inverses) and `MAndRX` run with the halves swapped.
-Every other layer is an involution.
+`Cube-p-ir` (Algorithm 2) is intended to be the exact inverse, with the steps
+in reverse order. The published algorithm and the submitted implementation
+both fail that identity: `MixColumns` is not itself an involution across both
+slices, and the implementation retains an extra slice exchange after already
+reversing the nonlinear calls. See `hash-17-2`.
 
 ### `Cube-f(A)` — the ZIP transformation (spec Algorithm 4)
 ```

@@ -120,6 +120,18 @@ algebraic recovery of the hidden zero subspace and subsequent central-map
 structure. Full-size costs remain extrapolated and no submitted-size forgery is
 claimed, so `sign-10-1` remains a review-classified Lead.
 
+The newer candidate-local witnesses are invoked by the same runner: CHAMP,
+Laurus, MasterCube, MoFang, Neulaser, QSH and CHIME under their `hash-*`
+directories; BRA and HEP-QC under `kem-06` and `kem-17`; and CEDRUS-alpha,
+Facto-DSA, Origami and Tins under their `sign-*` directories. Static-only
+validators for MEGASCON, MOZI, ZC-EDMC, Amoeba, YuanYang.KEM and DOVE are listed
+as `static` in `security/vulnerabilities.csv` and checked by
+`security/check_vulnerability_ids.py`.
+
+Facto-DSA's separate `sign-10/reproduce_forgery.py` demonstrates `sign-10-2`:
+the public key exposes a universal signing trapdoor. This complete confirmed
+forgery is independent of the submitted-size recovery claim in `sign-10-1`.
+
 CEDRUS+C has a candidate-local `sign-03/reproduce_forgery` driver. It obtains
 1,000 signatures on distinct chosen messages, catalogs the disclosed FORS
 leaves at the implementation's four reachable bottom addresses, and grinds a

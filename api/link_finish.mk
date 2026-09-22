@@ -1,11 +1,13 @@
 # NGCC uniform build rules, second half. Include at the END of a candidate
 # Makefile, after all $(eval $(call ngcc_instance,...)) lines.
 
+NGCC_TEST_INSTANCES ?= $(INSTANCES)
+
 libs: $(LIBS)
 
 test: test-prep
 	@rc=0; $(MAKE) --no-print-directory -k $(TESTS) || rc=$$?; \
-	  cat $(addprefix results/,$(addsuffix .log,$(INSTANCES))) | grep '^RESULT' > results/summary.tsv; \
+	  cat $(addprefix results/,$(addsuffix .log,$(NGCC_TEST_INSTANCES))) | grep '^RESULT' > results/summary.tsv; \
 	  echo "$(NGCC_ID): $$(grep -c ' PASS' results/summary.tsv) pass, $$(grep -vc ' PASS' results/summary.tsv) fail (results/summary.tsv)"; \
 	  exit $$rc
 

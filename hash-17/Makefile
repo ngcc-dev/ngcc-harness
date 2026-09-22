@@ -15,3 +15,10 @@ $(eval $(call ngcc_instance,MasterCube-768,$(REF)/MasterCube-768))
 $(eval $(call ngcc_instance,MasterCube-1024,$(REF)/MasterCube-1024))
 
 include ../api/link_finish.mk
+
+.PHONY: reproduce-inverse
+reproduce-inverse: reproduce_inverse
+	./reproduce_inverse
+
+reproduce_inverse: reproduce_inverse.c
+	$(CC) -O2 -std=c99 -I. $< -o $@

@@ -18,10 +18,10 @@ Each `<candidate>/` directory also contains `<candidate>-spec.pdf` and
 `pseudocode.md`. The latter is the human-readable extraction of the algorithms,
 parameter tables, and specification/implementation comparison.
 
-Regenerate this dataset from the private analysis tree and validate the public
-copy with:
+Regenerate this dataset from an analysis checkout supplied explicitly by the
+maintainer, then validate the public copy with:
 
 ```sh
-make sync-reference-data NGCC1=../ngcc1
+make sync-reference-data REFERENCE_SOURCE=/path/to/source-checkout
 make check-reference-data
 ```
