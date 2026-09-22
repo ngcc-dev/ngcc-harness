@@ -55,6 +55,8 @@ than always firing.
 | `state-rollback-key-recovery` | chosen pass-2 queries against a restored pass-1 state recover the complete ephemeral KEM secret and predict the final AKE secret | LoomKEX-256 (kex-05) |
 | `sign-fors-forgery` | repeated two-bit FORS addressing permits an adaptive chosen-message signature forgery | CEDRUS+C 160f (sign-03) |
 | `sig-malleable` | non-canonical trailing encoding bytes yield a distinct valid signature (SUF-CMA); malformed Aigis hint counts also exercise its verifier stack write | Aigis-Sig+ (sign-01), CS (sign-07) |
+| `sig-transcript-leak` | the perturbation covariance is built from the Gram of the basis *rows* instead of its *columns*, so the signature distribution is key-dependent and not simulatable | YuanYang.DSA (sign-34) |
+| `pk-noncanonical` | q^4 < 2^46 leaves the 4-coefficient public-key packing non-injective, so a distinct public-key encoding decodes to the same h and accepts the same signatures | YuanYang.DSA (sign-34) |
 | `sig-hint-padding` | unused fixed-size hint slots are not checked, so a distinct encoding verifies for the same message (SUF-CMA) | MORNING-ATLAS (sign-15) |
 | `sig-accept-all` | the verifier discards its result and accepts anything; the guarded all-zero call also records the UVW-128/-256 crash | UVW (sign-32) |
 | `sig-uninit-verdict` | with `NDEBUG`, required verifier checks disappear and an all-zero signature's verdict depends on stale stack contents | SQIsign2D2 Level2-eff uncompressed (sign-25) |
@@ -68,6 +70,10 @@ generator carries a counter, so two keys made in one process differ and an
 in-process test would wrongly clear it.
 `sig-random-fresh` additionally changes the message between processes; the
 repeated signature tail is VDOO's encoded salt.
+`sig-transcript-leak` ships its own control: the identical per-FFT-slot
+dispersion statistic is run on a synthetic transcript drawn from the spherical
+distribution a correct GPV sampler would produce, which prints
+`NOT-CONFIRMED`.
 
 Polar-KEM has its own reproducer, `kem-29/reproduce_public_recovery.py`, because
 the break is specific: the submission ships `polarkem_recover_message(pk, ct, mu)`

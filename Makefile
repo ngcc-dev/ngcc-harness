@@ -27,8 +27,9 @@ tools:
 $(CANDIDATES): harness | results
 	@$(MAKE) --no-print-directory -C $@ libs > results/build-$@.log 2>&1 && echo "BUILD $@ ok" || { echo "BUILD $@ FAILED (results/build-$@.log)"; }
 
-exploits: sign-03 kex-02 kex-05
+exploits: sign-03 sign-34 kex-02 kex-05
 	@$(MAKE) --no-print-directory -C sign-03 exploit
+	@$(MAKE) --no-print-directory -C sign-34 exploit
 	@$(MAKE) --no-print-directory -C kex-02 exploit
 	@$(MAKE) --no-print-directory -C kex-05 replay exploit
 

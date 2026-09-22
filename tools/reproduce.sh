@@ -155,6 +155,16 @@ if [ -z "$only" ] || [ "$only" = sign-03 ]; then
 fi
 
 echo
+echo "== sign-34-1 / sign-34-2 YuanYang.DSA: transcript leaks the key; non-canonical PK =="
+if [ -z "$only" ] || [ "$only" = sign-34 ]; then
+    if [ -x sign-34/reproduce_transcript_leak ] && [ -f sign-34/lib/libyuanyang-512.so ]; then
+        sign-34/reproduce_transcript_leak sign-34/lib/libyuanyang-512.so 4000 || fail=$((fail + 1))
+    else
+        echo "SKIP   sign-34 (build it: make -C sign-34 exploit)"; skipped=$((skipped + 1))
+    fi
+fi
+
+echo
 echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack write =="
 run sign-01 "sign-01-1/sign-01-2" CONFIRMED sig-malleable sign-01/lib/libAigis-sig1.so
 echo "== sign-07-1: SUF-CMA malleability (High) =="

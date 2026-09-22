@@ -204,8 +204,99 @@ Discrepancies (all on the specification side except the last two):
   Decompress symbol set, and the norm test bounds it again. No exploitable
   path was found, but the guard does not do what its comment says.
 
-Not verified: `SamplerPrecomp` (Alg. 7) and the two rejection probabilities
-Δ1, Δ2 of Alg. 10 were read for structure only; the fixed-point Q-format
+Since verified, see "Findings" below: `SamplerPrecomp` (Alg. 7) builds the
+wrong Gram matrix, and the public-key packing is not injective.
+
+Still not verified: the fixed-point Q-format
 arithmetic in `fpr.c`/`sampler.c` and the `ntrugen` basis completion (Alg. 5)
 were not checked against the spec numerically. The rANS frequency tables were
 not re-derived. §5 security analysis was not audited.
+
+
+## Findings
+
+Both are reproduced by `reproduce_transcript_leak.c` (`make -C sign-34 exploit`,
+then `tools/reproduce.sh sign-34`), which uses only the uniform ABI and the
+published encodings; the secret key is never inspected. All three parameter
+sets build and reproduce the submitted KATs (`make -C sign-34 test`: 3 pass).
+
+### sign-34-1 — signatures leak the secret basis (the sampler is not GPV)
+
+`keygen/perturbation.c:sigma_p_set_slot()` builds the per-FFT-slot perturbation
+covariance as
+
+```
+Sigma_p = sigma^2 I - B B*        with rows b1 = (f,g), b2 = (F^,G^)
+    Sigma_p[00] = sigma^2 - (|f|^2 + |g|^2)        <- ||b1||^2
+    Sigma_p[11] = sigma^2 - (|F^|^2 + |G^|^2)      <- ||b2||^2
+    Sigma_p[01] = -(conj(f) F^ + conj(g) G^)       <- <b1,b2>
+```
+
+but the sampler emits `v = z1*b1 + z2*b2`, whose ambient coordinates are
+`(z1 f + z2 F^, z1 g + z2 G^)`. Cancelling that requires the Gram of the basis
+*columns*, `sigma^2 I - B^T conj(B)`, whose diagonal is
+`(|f|^2 + |F^|^2, |g|^2 + |G^|^2)`. `B` is not symmetric, so the two differ and
+the error survives into every signature:
+
+```
+Var(s1 at slot j) = sigma_eff^2 - |phi_j(g)|^2 + |phi_j(F^)|^2
+Var(s2 at slot j) = sigma_eff^2 + |phi_j(g)|^2 - |phi_j(F^)|^2
+```
+
+Measured over 20 000 signatures from one yuanyang-512 key, with the slope
+**fixed at 1** (nothing fitted but the constant): R² = 0.975 for both halves,
+residual rmse 97 against a per-slot signal of sd 558. Free four-term regression
+on (|f|², |g|², |F̂|², |Ĝ|²) gives R² = 0.989 with coefficients
+(−0.05, −1.07, +1.10, +0.07) — the predicted (0, −1, +1, 0). `Var0 + Var1` is
+constant per slot (mean 9997, sd 116) while `Var0 − Var1` has sd 1224.
+
+Consequences: the per-slot variance of `s1` spans a factor ≈ 4 (yuanyang-512:
+2748…11061 against σ_sig² = 4867), the transcript is not simulatable from the
+public key, and the EUF-CMA reduction of spec §5 does not apply. An attacker
+who sees signatures learns an affine image of the secret basis' Gram —
+`|phi_j(g)|² − |phi_j(F^)|²` for every slot. A cross-key control confirms it is
+key-dependent, not a fixed artefact: one key's transcript profile against
+another key's basis gives corr = +0.011, against its own, −0.78.
+
+Signatures needed (yuanyang-512, fixed-slope R²): 50 → 0.41, 100 → 0.61,
+300 → 0.83, 1000 → 0.93, 3000 → 0.96. Present in all three sets at N = 1000:
+yuanyang-512 R² = 0.926, -1024 R² = 0.963, -2048 R² = 0.932.
+
+This report demonstrates the leak and identifies its source; it does not carry
+it through to a full `(f,g)` recovery, which would need the recovered Gram to
+be fed to a lattice step.
+
+### sign-34-2 — the public-key encoding is not canonical
+
+`yuanyang_encode_uniform(h, d, q, k=4, ...)` packs four coefficients into a
+46-bit word, but `q^4 = 52 283 326 179 841 < 2^46 = 70 368 744 177 664`.
+`yuanyang_decode_uniform()` recovers the coefficients with repeated
+`word % q`, so any block whose word is below `2^46 − q^4` (25.7 % of blocks)
+has a second encoding, `word + q^4`, that decodes to exactly the same four
+coefficients. `yuanyang_decode_public_key()` only checks `h[i] < q`, which both
+encodings satisfy, so roughly 2^33 distinct 738-byte strings per key decode to
+the same `h` and accept the same signatures. The same packing is used for the
+`h` prefix of the secret key. The earlier note in this file that public-key
+canonicality is enforced is therefore wrong: coefficient range is checked, the
+encoding is not. Affects anything that fingerprints, pins or compares
+serialised public keys. The 1024 and 2048 sets use 49- and 52-bit blocks with
+the same slack.
+
+### Lower-severity observations
+
+- `keygen/pairgen.c:fill_rand_doubles()` derives every uniform in PairGen from
+  a **single byte** (`u = byte/256`), so `u_rho`, `u_theta`, `theta_x`,
+  `theta_y` each take only 256 values instead of the specification's continuous
+  `U(0,1)`. The comment defends this as "~2 bits of entropy" per coordinate.
+  Total keygen entropy (8192 bits at d = 512) does not collapse, but the FFT
+  magnitudes and angles of `(f,g)` live on a coarse 8-bit grid, which is not
+  the sampled distribution the annular trapdoor analysis assumes.
+- `keygen/perturbation.c` bounds the Σ_δ coefficients by `INT32_MIN/MAX`, but
+  `encode_scaled_sigma_delta_mat2()` writes them as **22-bit** signed fields
+  (`write_bits_le(..., 22, z & MASK)`). Any coefficient outside
+  `[-2^21, 2^21)` is silently truncated instead of rejected.
+- `sign.c` never range-checks `s2 = c − v1` against `(q−1)/2`, although
+  `yuanyang_sign_stats` still carries the unused `s2_range_reject` counter.
+  Verification recovers `s2` by centre-lifting mod q, so a coefficient outside
+  that range would make a signature the signer accepted fail verification.
+  At σ_sig ≈ 70 the event is ~19σ and does not occur in practice.
