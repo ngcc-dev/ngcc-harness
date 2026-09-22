@@ -1,0 +1,30 @@
+BRA KEM - BRA-128
+
+Directory structure:
+  KEM_BRA-128.h/c           KEM programming interface (API_PKC standard)
+  drng.c/h                     Deterministic random number generator SM3-DRBG (API_PKC)
+  auxfunc.c/h                  Auxiliary hash functions SM3/pseudohash/pseudoXOF (API_PKC)
+  KAT_KEM.c                    Known answer test vector generator (API_PKC)
+  main_bra.c                  Demo program
+  src/                         Algorithm implementation sources
+    kem.c                      Key encapsulation / decapsulation core logic
+    bra.c                     BRA PKE encryption / decryption
+    parsing.c                  Key / ciphertext serialization
+    parameters.h               Algorithm parameters
+    augmented_gabidulin.*       Augmented Gabidulin code
+    qpoly.*                    Q-polynomial arithmetic
+    rbc-*/                     Finite field arithmetic (core layer)
+  lib/                         Internal dependencies
+    random_source/             Random source abstraction layer (DRNG backend)
+    XKCP/                      Keccak/SHAKE library (used by core layer)
+    wrapper/                   Seed expander wrapper
+
+Build:
+  make BRA-128                Build demo program
+  make BRA-128-kat            Build KAT test vector generator
+  make BRA-128-verbose        Build debug version (verbose output)
+  make clean                   Clean build artifacts
+
+Generate KAT:
+  make BRA-128-kat && ./bin/BRA-128-kat
+  Test vectors are written to output/KAT_KEM_BRA-128.txt

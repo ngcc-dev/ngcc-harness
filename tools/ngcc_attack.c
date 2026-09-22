@@ -29,6 +29,7 @@
 #include <stdarg.h>
 #include <signal.h>
 #include <setjmp.h>
+#include <unistd.h>
 
 #include "link_common.h"
 #include "link_hash.h"
@@ -261,6 +262,37 @@ static int kem_ct_flip(void)
     return verdict("kem-ct-flip", same > 0,
         "%llu/%llu single-bit ciphertext flips return the ORIGINAL shared secret",
         same, total);
+}
+
+/* BRA: rbc_qpoly_left_div2 passes an unchecked degree into rbc_qpoly_mul2,
+ * which writes past the q-polynomial coefficient array. At the harness
+ * default -O2 an all-zero ciphertext returns; the stable witness is one
+ * flipped secret-key byte, then decapsulation of the honest ciphertext. */
+static int kem_decoder_fault(void)
+{
+    if (g_meta->type != NGCC_TYPE_KEM) { fprintf(stderr, "not a KEM\n"); exit(2); }
+    const ngcc_meta_kem_t *m = (const ngcc_meta_kem_t *)g_meta;
+    ngcc_kem_keygen_fn kg = sym("kem_keygen");
+    ngcc_kem_enc_fn en = sym("kem_enc");
+    ngcc_kem_dec_fn de = sym("kem_dec");
+    seed_lib(0x42);
+    unsigned char *pk = calloc(m->pk_len,1), *sk = calloc(m->sk_len,1),
+                  *ct = calloc(m->ct_len,1), *ss = calloc(m->ss_len,1), *ss2 = calloc(m->ss_len,1);
+    unsigned long long pl=m->pk_len, sl=m->sk_len, cl=m->ct_len, l=m->ss_len, l2=m->ss_len;
+    if (kg(pk,&pl,sk,&sl) || en(pk,pl,ss,&l,ct,&cl)) { fprintf(stderr,"keygen/enc failed\n"); exit(2); }
+    int honest = de(sk,sl,ct,cl,ss2,&l2);
+    if (honest || l2 != l || memcmp(ss, ss2, (size_t)l)) {
+        fprintf(stderr, "honest decapsulation failed\n"); exit(2);
+    }
+    sk[0] ^= 0xff;
+    l2 = m->ss_len;
+    int r = GUARDED(de(sk,sl,ct,cl,ss2,&l2), -99);
+    free(pk); free(sk); free(ct); free(ss); free(ss2);
+    if (r == -99)
+        return verdict("kem-decoder-fault", 1,
+            "flipping secret-key byte 0 faults decapsulation of the honest ciphertext");
+    return verdict("kem-decoder-fault", 0,
+        "flipping secret-key byte 0: kem_dec returned %d", r);
 }
 
 /* ------------------------------------------------------------ signatures */
@@ -593,6 +625,7 @@ static void usage(void)
       "  hash-prefix          <libA> <libB>    short digest prefixes the long   (Megascon, Mozi)\n"
       "  kem-reject-mask      <lib>            rejection mask leaks the secret  (Cheetah, Loong)\n"
       "  kem-ct-flip          <lib>            dead implicit rejection          (Aigis-Enc+)\n"
+      "  kem-decoder-fault    <lib>            q-polynomial division fault      (BRA)\n"
       "  sig-malleable        <lib>            SUF-CMA malleability             (Aigis-Sig+, CS)\n"
       "  sig-hint-padding     <lib>            ignored hint encoding            (MORNING-ATLAS)\n"
       "  sig-pors-padding     <lib>            unchecked PORS padding            (FlexTree)\n"
@@ -619,6 +652,7 @@ int main(int argc, char **argv)
     if (!strcmp(check, "hash-prefix")) { if (argc < 4) usage(); return hash_prefix(argv[3]); }
     if (!strcmp(check, "kem-reject-mask"))    return kem_reject_mask();
     if (!strcmp(check, "kem-ct-flip"))        return kem_ct_flip();
+    if (!strcmp(check, "kem-decoder-fault"))  return kem_decoder_fault();
     if (!strcmp(check, "sig-malleable"))      return sig_malleable();
     if (!strcmp(check, "sig-hint-padding"))   return sig_hint_padding();
     if (!strcmp(check, "sig-pors-padding"))   return sig_pors_padding();

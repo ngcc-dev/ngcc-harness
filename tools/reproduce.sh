@@ -79,6 +79,10 @@ for l in kem-01/lib/*.so; do
 done
 
 echo
+echo "== kem-06-1 BRA: q-polynomial division faults decapsulation (High) =="
+run kem-06 "kem-06-1" CONFIRMED kem-decoder-fault kem-06/lib/libBRA-128.so
+
+echo
 echo "== kem-09-1 / kem-18-1: rejection mask leaks the secret (Critical) =="
 for l in kem-09/lib/*.so; do run kem-09 "kem-09-1" CONFIRMED kem-reject-mask "$l"; done
 for l in kem-18/lib/*.so; do run kem-18 "kem-18-1" CONFIRMED kem-reject-mask "$l"; done

@@ -93,8 +93,9 @@ SM3-DRBG (55-byte state) with a 64-byte-seeded seedexpander.
 ## Implementation vs specification
 
 Checked: `src/BRA-*/src/{kem.c,bra.c,augmented_gabidulin.c,qpoly.c,parsing.c,parameters.h}`
-plus `src/rbc-{67,83,127}/`, as wired by `kem-06/Makefile`. Static reading only —
-nothing built or executed.
+plus `src/rbc-{67,83,127}/`, as wired by `kem-06/Makefile`. The BRA-128 decoder
+fault below is the runtime check `kem-06-1` (`tools/reproduce.sh`). BRA-256 and
+BRA-512 are not built here.
 
 **Parameter spot-check** (sampled: q,m,n,k,w_x,w_y,w_r1,w_r2,w_e plus the four size
 macros, for all three instances): `parameters.h` matches spec Table 2 exactly, and
@@ -123,23 +124,24 @@ Discrepancies:
   `BRA_PARAM_T` macro anywhere in `parameters.h`. For all three parameter sets
   `(n−k)/2 ≤ t−k`, so the radius is numerically correct, but the AG-specific bound is
   unverifiable from the constants alone.
-- **(a) known crash — unchecked path in the decoder's q-polynomial layer.**
-  `security_findings.md` records `*** stack smashing detected ***` (exit −6) for BRA-128
-  on bit-flipped, all-zero and wrong-key ciphertexts, and for BRA-256 on all-zero and
-  wrong-key ciphertexts. The statically visible unchecked path is in the WBL back-end:
+- **(a) known crash — unchecked degree in the decoder's q-polynomial division.**
   `rbc_qpoly_left_div2()` (`src/BRA-128/src/qpoly.c:556-609`) sets `int i = k-1;` and
   does `i--` once per iteration of `while(rtmp->degree >= b->degree)` with **no floor**,
   passing `i` to `rbc_qpoly_mul2(t, b, s, capacity, i)` whose parameter is
-  **`uint32_t p2_degree`** (`qpoly.c:449`). On a malformed ciphertext the residual error
-  has rank ≫ r, the remainder degree greatly exceeds the honest case, the loop runs more
-  than `k` times, `i` wraps to ~2^32, and `mul2`'s `for(j = 0; j <= p2_degree; ++j)` with
-  `o->values[(i+j) % RBC_<m>_FIELD_M]` (`qpoly.c:457-465`) indexes far outside the
-  allocated coefficient array. `mul2`'s only guard (`qpoly.c:450`) tests
-  `o->max_degree < p1->degree + p2->degree` using the *actual* degrees while the loops are
-  driven by the *passed* degree arguments, so it does not bound the writes; the
-  `% FIELD_M` reduction alone permits indices up to `m−1` (66/82/126) into arrays whose
-  `max_degree+1` can be as small as `t+1`. **Not** confirmed dynamically — per the task's
-  safety rule no BRA binary or library was run and no crafted input was produced.
+  **`uint32_t p2_degree`** (`qpoly.c:449`). `mul2`'s `for(j = 0; j <= p2_degree; ++j)`
+  writes `o->values[j]` (`qpoly.c:460`) with no comparison against `o->max_degree`.
+  The only guard (`qpoly.c:450`) tests `o->max_degree < p1->degree + p2->degree` using
+  the polynomials' *actual* degrees, while the loops are driven by the *passed* degree
+  arguments. The inner composition also stores at `o->values[(i+j) % RBC_<m>_FIELD_M]`
+  (`qpoly.c:464`), so a modest degree already reaches index `m−1` (66/82/126) in an
+  array whose `max_degree+1` can be as small as `t+1`.
+  Confirmed for BRA-128 at the harness default `-O2`: honest keygen, encapsulation
+  and decapsulation succeed (the KAT passes), then `sk[0] ^= 0xff` and decapsulation
+  of that ciphertext faults in `rbc_qpoly_mul2`'s store to `o->values[j]`, called from
+  `rbc_qpoly_left_div2` (`kem-decoder-fault`). In a fresh process, an all-zero
+  ciphertext and single flipped ciphertext bytes return a shared secret at `-O2`.
+  At `-O0` the same all-zero ciphertext aborts after the honest decapsulation
+  (signal 6, six of six runs). A one-bit change of `ct[0]` still returns.
 - **(b) cosmetic.** `parameters.h` names the 64-byte hash output `SHA512_BYTES` with a
   "SHA2_512 and SHA3_512" comment and the build links XKCP Keccak, while §3.1 specifies
   SM3/HMAC-SM3 `pseudohash`. Call sites do use `pseudohash()` (`kem.c:126,141,222,268`),
