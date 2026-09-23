@@ -19,3 +19,7 @@ $(eval $(call IPHE,Iphe-768))
 $(eval $(call IPHE,Iphe-1024))
 
 include ../api/link_finish.mk
+
+.PHONY: exploit
+exploit: lib/libIphe-512.so lib/libIphe-1024.so
+	python3 reproduce_cross_domain.py

@@ -1,0 +1,247 @@
+/** @file
+ *
+ * @authors Sina Schaeffler
+ *
+ * @brief Declarations for big integer functions only used in quaternion functions
+ */
+
+#ifndef INTBIG_INTERNAL_H
+#define INTBIG_INTERNAL_H
+
+#include "intbig.h"
+
+/** @internal
+ * @ingroup quat_helpers
+ * @defgroup ibz_helper Internal integer functions (gmp-based)
+ * @{
+ */
+
+/********************************************************************/
+
+/** @brief Euclidean division of a by b
+ *
+ * Computes quotient, remainder so that remainder+quotient*b = a where 0<=|remainder|<|b|
+ * The quotient is rounded towards minus infinity.
+ */
+void ibz_div_floor(ibz_t *q, ibz_t *r, const ibz_t *n, const ibz_t *d);
+
+/** @brief generate random value in [a, b]
+ *  assumed that a >= 0, b >= 0 and a < b
+ * @returns 1 on success, 0 on failiure
+ */
+int ibz_rand_interval_i(ibz_t *rand, int32_t a, int32_t b);
+
+/** @brief generate random value in [-2^m, 2^m]
+ *  assumed that m > 0 and bitlength of m < 32 bit
+ * @returns 1 on success, 0 on failiure
+ */
+int ibz_rand_interval_bits(ibz_t *rand, uint32_t m);
+
+/** @brief set str to a string containing the representation of i in base
+ *
+ * Base should be 10 or 16
+ *
+ * str should be an array of length enough to store the representation of in
+ * in base, which can be obtained by ibz_sizeinbase(i, base) + 2, where the 2
+ * is for the sign and the null terminator
+ *
+ * Case for base 16 does not matter
+ *
+ * @returns  1 if the integer could be converted to a string, 0 otherwise
+ */
+int ibz_convert_to_str(const ibz_t *i, char *str, int base);
+
+/** @brief print num in base to stdout
+ *
+ * Base should be 10 or 16
+ */
+void ibz_print(const ibz_t *num, int base);
+
+/** @brief set i to integer contained in string when read as number in base
+ *
+ * Base should be 10 or 16, and the number should be written without ponctuation or whitespaces
+ *
+ * Case for base 16 does not matter
+ *
+ * @returns  1 if the string could be converted to an integer, 0 otherwise
+ */
+int ibz_set_from_str(ibz_t *i, const char *str, int base);
+
+/**
+ * @brief Probabilistic primality test
+ *
+ * @param n The number to test
+ * @param reps Number of Miller-Rabin repetitions. The more, the slower and the less likely are
+ * false positives
+ * @return 1 if probably prime, 0 if certainly not prime, 2 if certainly prime
+ *
+ * Using GMP's implementation:
+ *
+ * From GMP's documentation: "This function performs some trial divisions, a Baillie-PSW probable
+ * prime test, then reps-24 Miller-Rabin probabilistic primality tests."
+ */
+int ibz_probab_prime(const ibz_t *n, int reps);
+
+/**
+ * @brief Square root modulo a prime
+ *
+ * @returns 1 if square root of a mod p exists and was computed, 0 otherwise
+ * @param sqrt Output: Set to a square root of a mod p if any exist
+ * @param a number of which a square root mod p is searched
+ * @param p assumed prime
+ */
+int ibz_sqrt_mod_p(ibz_t *sqrt, const ibz_t *a, const ibz_t *p);
+
+/**
+ * @brief Integer square root of a perfect square
+ *
+ * @returns 1 if an integer square root of a exists and was computed, 0 otherwise
+ * @param sqrt Output: Set to a integer square root of a if any exist
+ * @param a number of which an integer square root is searched
+ */
+int ibz_sqrt(ibz_t *sqrt, const ibz_t *a);
+
+/**
+ * @brief Legendre symbol of a mod p
+ *
+ * @returns Legendre symbol of a mod p
+ * @param a
+ * @param p assumed prime
+ *
+ * Uses GMP's implementation
+ *
+ * If output is 1, a is a square mod p, if -1, not. If 0, it is divisible by p
+ */
+int ibz_legendre(const ibz_t *a, const ibz_t *p);
+
+/** @}
+ */
+
+/** @internal
+ * @ingroup ibz_internal
+ * @defgroup ibq_t Types for rationals
+ * @{
+ */
+
+/** @brief Type for fractions of integers
+ *
+ * @typedef ibq_t
+ *
+ * For fractions of integers of arbitrary size, used by intbig module, using gmp
+ */
+typedef ibz_t ibq_t[2];
+typedef ibq_t ibq_vec_4_t[4];
+typedef ibq_t ibq_mat_4x4_t[4][4];
+
+/**@}
+ */
+
+/** @internal
+ * @ingroup ibz_internal
+ * @defgroup ibq_c Constructors and Destructors and Printers
+ * @{
+ */
+
+void ibq_init(ibq_t *x);
+void ibq_finalize(ibq_t *x);
+
+void ibq_mat_4x4_init(ibq_mat_4x4_t *mat);
+void ibq_mat_4x4_finalize(ibq_mat_4x4_t *mat);
+
+void ibq_vec_4_init(ibq_vec_4_t *vec);
+void ibq_vec_4_finalize(ibq_vec_4_t *vec);
+
+void ibq_mat_4x4_print(const ibq_mat_4x4_t *mat);
+void ibq_vec_4_print(const ibq_vec_4_t *vec);
+
+/** @}
+ */
+
+/** @internal
+ * @ingroup ibz_internal
+ * @defgroup ibq_qa Basic fraction arithmetic
+ * @{
+ */
+
+void ibq_denom(ibz_t *denom, const ibq_t *x);
+void ibq_num(ibz_t *num, const ibq_t *x);
+
+/** @brief sum=a+b
+ */
+void ibq_add(ibq_t *sum, const ibq_t *a, const ibq_t *b);
+
+/** @brief diff=a-b
+ */
+void ibq_sub(ibq_t *diff, const ibq_t *a, const ibq_t *b);
+
+/** @brief neg=-x
+ */
+void ibq_neg(ibq_t *neg, const ibq_t *x);
+
+/** @brief abs=|x|
+ */
+void ibq_abs(ibq_t *abs, const ibq_t *x);
+
+/** @brief prod=a*b
+ */
+void ibq_mul(ibq_t *prod, const ibq_t *a, const ibq_t *b);
+
+/** @brief inv=1/x
+ *
+ * @returns 0 if x is 0, 1 if inverse exists and was computed
+ */
+int ibq_inv(ibq_t *inv, const ibq_t *x);
+
+/** @brief inv=x/y
+ *
+ * @returns 0 if x is 0, 1 if quotient exists and was computed
+ */
+int ibq_div(ibq_t *frac, const ibq_t *x, const ibq_t *y);
+
+/** @brief Compare a and b
+ *
+ * @returns a positive value if a > b, zero if a = b, and a negative value if a < b
+ */
+int ibq_cmp(const ibq_t *a, const ibq_t *b);
+
+/** @brief Test if x is 0
+ *
+ * @returns 1 if x=0, 0 otherwise
+ */
+int ibq_is_zero(const ibq_t *x);
+
+/** @brief Test if x is 1
+ *
+ * @returns 1 if x=1, 0 otherwise
+ */
+int ibq_is_one(const ibq_t *x);
+
+/** @brief Set q to a/b if b not 0
+ *
+ * @returns 1 if b not 0 and q is set, 0 otherwise
+ */
+int ibq_set(ibq_t *q, const ibz_t *a, const ibz_t *b);
+
+/** @brief Copy value into target
+ */
+void ibq_copy(ibq_t *target, const ibq_t *value);
+
+/** @brief Checks if q is an integer
+ *
+ * @returns 1 if yes, 0 if not
+ */
+int ibq_is_ibz(const ibq_t *q);
+
+/**
+ * @brief Converts a fraction q to an integer y, if q is an integer.
+ *
+ * @returns 1 if z is an integer, 0 if not
+ */
+int ibq_to_ibz(ibz_t *z, const ibq_t *q);
+/** @}
+ */
+
+// end of ibz_all
+/** @}
+ */
+#endif

@@ -20,7 +20,7 @@ official submission archives from which the included source files were taken.
 
 ```sh
 make -C api harness                  # bin/ngcc_kat, the KAT harness
-make -C tools                        # tools/ngcc_attack, the reproducer
+make tools                           # generic runtime witness programs
 make -C kem-01 && make -C sign-07    # <id>/lib/lib<instance>.so
 make -C kem-01 test                  # reproduce the submitted KATs (kat.sha256)
 tools/reproduce.sh                   # run every reproducer and its controls
@@ -40,7 +40,7 @@ Makefile).
 ```
 api/            KAT harness (bin/ngcc_kat), link shim, generic make rules; api/README.md
 tools/          ngcc_attack.c reproducer, reproduce.sh runner; tools/README.md
-security/       complete vulnerability inventory, static audit and exact evidence
+security/       vulnerability inventory, focused validators and crash-safe witnesses
 data/           machine-readable parameters, candidate metadata and spec provenance
 <id>/           specification and extracted pseudocode/parameters for every candidate;
                 included reference sources and a Makefile where needed by this harness,

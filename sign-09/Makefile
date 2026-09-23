@@ -38,5 +38,6 @@ $(eval $(call DOVE,dove_pkc_skc_512,DOVE_pkc_skc_ref,512))
 include ../api/link_finish.mk
 
 .PHONY: exploit
-exploit:
-	python3 validate_sm3_target.py
+exploit: lib/libdove_classic_128.so
+	python3 validate_salt_binding.py
+	python3 reproduce_salt_malleability.py

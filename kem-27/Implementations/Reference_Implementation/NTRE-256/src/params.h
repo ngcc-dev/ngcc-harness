@@ -1,0 +1,28 @@
+#ifndef PARAMS_H
+#define PARAMS_H
+
+#define NTRE_ALGNAME "NTRE-256"
+
+#define NTRE_N 1296
+#define NTRE_Q 2917
+#define NTRE_D 4
+
+#define NTRE_SYMBYTES  32
+#define NTRE_GBYTES    32
+#define NTRE_SSBYTES   64
+
+#define NTRE_RBYTES    ((NTRE_N + 15) / 16)
+#define NTRE_M1BYTES   (NTRE_N / 16)
+#define NTRE_M2BYTES   NTRE_RBYTES
+#define NTRE_MSGBYTES  (NTRE_M1BYTES + NTRE_M2BYTES)
+#define NTRE_RHOBYTES  (3 * NTRE_N / 8)
+#define NTRE_SAMPLEBYTES (NTRE_N / 4)
+#define NTRE_ERROR_RANDOMBYTES (NTRE_N / 8)
+
+#define NTRE_POLYBYTES 1944   /* 12 bits per coefficient, 1296 coefficients => 1944 bytes */
+
+#define NTRE_PUBLICKEYBYTES   NTRE_POLYBYTES
+#define NTRE_SECRETKEYBYTES   ((NTRE_POLYBYTES << 1) + NTRE_GBYTES)
+#define NTRE_CIPHERTEXTBYTES  NTRE_POLYBYTES
+
+#endif

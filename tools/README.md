@@ -20,7 +20,7 @@ Every issue has its own `Severity`, `Status`, `Layer`, `Affected`, `Discovery`,
 
 ```sh
 make -C api harness            # once
-make -C tools                  # build the reproducer
+make tools                     # build ngcc_attack and the security witnesses
 make -C hash-09 && make -C kem-01 && ...   # build the candidates you want
 tools/reproduce.sh             # run every reproducer
 tools/reproduce.sh hash-09     # or just one candidate

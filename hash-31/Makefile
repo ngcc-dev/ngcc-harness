@@ -31,3 +31,7 @@ $(eval $(call ZC,ZC-DMC-1536-768,1536))
 $(eval $(call ZC,ZC-DMC-1536-1024,1536))
 
 include ../api/link_finish.mk
+
+.PHONY: exploit
+exploit: lib/libZC-DMC-1536-512.so lib/libZC-DMC-1536-768.so
+	python3 reproduce_cross_domain.py

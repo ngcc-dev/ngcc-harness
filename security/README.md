@@ -25,6 +25,10 @@ python3 security/trike_threshold_differential.py --trials 1000
 # UVW decoder-versus-validation failure oracle
 make -C kem-38 lib/libUVW-KEM-128.so
 python3 security/kem_mutation_oracle.py kem-38/lib/libUVW-KEM-128.so --bits 0,846
+# Generic isolated-process driver for malformed KEM/signature inputs
+make -C security
+# Resource-contingent hash error-handling witness
+make -C security hash_oom_false_success
 # CS scaled universal forgery, FactoDSA reduced algebraic lead, YuanYang witnesses
 make -C sign-07 exploit
 make -C sign-10/cryptanalysis test

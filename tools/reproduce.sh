@@ -19,6 +19,7 @@
 set -u
 cd "$(dirname "$0")/.." || exit 2
 A=tools/ngcc_attack
+S=security/ngcc_security
 [ -x "$A" ] || { echo "build first: make -C tools" >&2; exit 2; }
 
 only="${1:-}"
@@ -64,6 +65,42 @@ run_target() {
     fi
 }
 
+# run_crash <candidate> <report-id> <library> <security-check>
+# The listed malformed-input findings intentionally terminate their process.
+run_crash() {
+    cand=$1; label=$2; lib=$3; check=$4
+    [ -n "$only" ] && [ "$only" != "$cand" ] && return 0
+    if [ ! -x "$S" ]; then
+        echo "SKIP   $cand $label (build it: make -C security)"
+        skipped=$((skipped + 1))
+        return 0
+    fi
+    if [ ! -f "$lib" ]; then
+        echo "SKIP   $cand $label (build it: make -C $cand)"
+        skipped=$((skipped + 1))
+        return 0
+    fi
+    out=$( (ulimit -c 0; "$S" "$lib" "$check") 2>&1)
+    rc=$?
+    if [ "$rc" -gt 128 ]; then
+        echo "$label  EXPECTED PROCESS TERMINATION rc=$rc"
+    else
+        echo "UNEXPECTED $label did not terminate by signal (rc=$rc): $out"
+        fail=$((fail + 1))
+    fi
+}
+
+echo "== hash-02-1 AXIS: allocation failure falsely reports success (Low) =="
+run_target hash-02 "hash-02-1" make -C hash-02 exploit
+
+echo
+echo "== hash-10-1 FEILIAN: allocation failure falsely reports success (Low) =="
+run_target hash-10 "hash-10-1" make -C hash-10 exploit
+
+echo
+echo "== hash-12-1 Iphe: cross-profile output relation (Medium) =="
+run_target hash-12 "hash-12-1" make -C hash-12 exploit
+
 echo "== hash-04-3 / hash-04-4 CHAMP: square-root preimages and full-size writes =="
 run_target hash-04 "hash-04-3/hash-04-4" make -C hash-04 reproduce
 
@@ -108,8 +145,16 @@ echo "== hash-24-1 QSH: invariant-subspace distinguisher =="
 run_target hash-24 "hash-24-1" make -C hash-24 reproduce
 
 echo
+echo "== hash-25-1 TaiChi: allocation failure falsely reports success (Low) =="
+run_target hash-25 "hash-25-1" make -C hash-25 exploit
+
+echo
 echo "== hash-26-1 CHIME: invariant-subspace collision bounds =="
 run_target hash-26 "hash-26-1" make -C hash-26 reproduce
+
+echo
+echo "== hash-31-1 ZC-DMC: cross-domain distinguisher =="
+run_target hash-31 "hash-31-1" make -C hash-31 exploit
 
 echo
 echo "== kem-01-1 Aigis-Enc+: dead implicit rejection (Critical) =="
@@ -136,8 +181,28 @@ if [ -z "$only" ] || [ "$only" = kem-06 ]; then
 fi
 
 echo
+echo "== kem-10-1 C-Multi-UR-AG: malformed-ciphertext process crashes (High) =="
+run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-128.so kem-zero
+run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-256.so kem-ciphertext-flip
+run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-512.so kem-zero
+
+echo
+echo "== kem-14-1 DTRU: caller length causes stack overflow (High) =="
+run_target kem-14 "kem-14-1" make -C kem-14 exploit
+
+echo
 echo "== kem-17-4 HEP-QC: public EPC-P column fingerprint =="
 run_target kem-17 "kem-17-4" python3 kem-17/reproduce_epcp_fingerprint.py
+
+echo
+echo "== kem-27-1 NTRE: scaled seed-ceiling witness (High) =="
+run_target kem-27 "kem-27-1" make -C kem-27 exploit
+
+echo
+echo "== kem-31-1 QIMEN-PIKE: invalid-ciphertext assertion aborts (Medium) =="
+run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-1.so kem-zero
+run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-2.so kem-zero
+run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-3.so kem-zero
 
 echo
 echo "== kem-36-1 TRIKE: specified maximum threshold rejects honest ciphertexts (High) =="
@@ -234,6 +299,10 @@ if [ -z "$only" ] || [ "$only" = kex-05 ]; then
 fi
 
 echo
+echo "== kex-08-1 NIIKE: raw shared-invariant distinguisher (High) =="
+run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON="${NIIKE_PYTHON:-sage -python}"
+
+echo
 echo "== sign-03-1 CEDRUS+C: adaptive FORS leaf-accumulation forgery (Critical) =="
 if [ -z "$only" ] || [ "$only" = sign-03 ]; then
     if [ -x sign-03/reproduce_forgery ] && [ -f sign-03/lib/libCEDRUSC-160f.so ]; then
@@ -288,6 +357,10 @@ echo "== sign-11-5 FlexTree: unchecked PORS padding is malleable (Medium) =="
 run sign-11 "sign-11-5" CONFIRMED sig-pors-padding sign-11/lib/libFlextree-160f.so
 
 echo
+echo "== sign-09-1 DOVE: unauthenticated salt (Medium) =="
+run_target sign-09 "sign-09-1" make -C sign-09 exploit
+
+echo
 echo "== sign-15-2 MORNING-ATLAS: ignored hint padding violates SUF-CMA (High) =="
 for l in sign-15/lib/*.so; do
     run sign-15 "sign-15-2" CONFIRMED sig-hint-padding "$l"
@@ -297,6 +370,10 @@ echo
 echo "== sign-25-1 SQIsign2D2: verifier verdict depends on stale stack state (Critical) =="
 run sign-25 "sign-25-1" CONFIRMED sig-uninit-verdict sign-25/lib/libSQISign2Dsquare-Level2-eff_uncompressed.so
 run sign-25 "[control sign-25-1]" NOT-CONFIRMED sig-uninit-verdict sign-25/lib/libSQISign2Dsquare-Level2-eff_compressed.so
+
+echo
+echo "== sign-27-1 SQIsignTriangle: all-zero signature aborts (Medium) =="
+run_crash sign-27 "sign-27-1" sign-27/lib/libSQIsignTriangle_lvl1.so sig-zero
 
 echo
 echo "== sign-18-2 Origami: signature constraint-subspace recovery =="

@@ -23,6 +23,7 @@ harness:
 
 tools:
 	$(MAKE) -C tools
+	$(MAKE) -C security
 
 $(CANDIDATES): harness | results
 	@$(MAKE) --no-print-directory -C $@ libs > results/build-$@.log 2>&1; rc=$$?; \
@@ -86,6 +87,7 @@ $(addprefix manifest-,$(CANDIDATES)): manifest-%: %
 
 clean: $(addprefix clean-,$(CANDIDATES))
 	$(MAKE) -C tools clean
+	$(MAKE) -C security clean
 	rm -rf results bin
 $(addprefix clean-,$(CANDIDATES)): clean-%:
 	@$(MAKE) --no-print-directory -C $* clean
