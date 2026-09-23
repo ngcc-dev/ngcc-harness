@@ -1,12 +1,17 @@
 ID;Status;Verification;Title
+hash-01-1;Confirmed;review;Partial-message bits control a machine branch
 hash-02-1;Confirmed;runtime;Allocation failure returns a successful all-zero digest
+hash-02-2;Confirmed;review;Partial-bit AXIS update branches on secret state
 hash-04-1;Confirmed;review;Fixed-length outputs occupy only one determinant fiber
 hash-04-2;Lead;review;Projective positive-word collision lead for CHAMP-512
 hash-04-3;Confirmed;runtime;Known-length preimages admit an exact square-root search
 hash-04-4;Confirmed;runtime;Unsupported digest lengths cause full-size writes
+hash-04-5;Confirmed;review;Message bytes index a large precomputed matrix table
+hash-05-1;Confirmed;review;Secret state indexes a 256-byte substitution table
 hash-09-1;Confirmed;runtime;Trivial collisions in all Eijen implementations
 hash-09-2;Confirmed;runtime;Cross-instance three-block relations
 hash-10-1;Confirmed;runtime;Padding-allocation failure returns a successful all-zero digest
+hash-11-1;Confirmed;review;Secret state indexes AES T-tables
 hash-12-1;Confirmed;runtime;Cross-profile 512-bit output relation
 hash-14-1;Confirmed;runtime;Laurus loses its function-domain separation at c=1024
 hash-17-1;Confirmed;runtime;Trivial collisions at every rate boundary
@@ -18,19 +23,30 @@ hash-20-1;Confirmed;runtime+static;For short messages, the 384-bit digest is a p
 hash-20-2;Confirmed;static;The specified final marker creates cross-rate relations absent from the implementation
 hash-21-1;Confirmed;runtime;A local feedback collision merges complete Neulaser states
 hash-21-2;Confirmed;runtime;Reduction modulo 2^32-5 creates reachable state mergers
+hash-21-3;Confirmed;review;Secret state indexes a 256-byte S-box
+hash-22-1;Confirmed;review;"Secret state indexes AES S-box; tail bits branch"
 hash-24-1;Confirmed;runtime;Full-round core permutation has a one-query invariant-subspace distinguisher
 hash-25-1;Confirmed;runtime;Allocation failure reports success without writing a digest
 hash-26-1;Confirmed;runtime;An invariant subspace reduces CHIME collision bounds to 64 and 224 bits
+hash-27-1;Confirmed;review;Secret state indexes an eight-bit substitution table
 hash-31-1;Confirmed;runtime;Cross-domain distinguisher between ZC-1536-512 and ZC-1536-768
 hash-32-1;Confirmed;static;The specified and implemented ZC-EDMC mappings differ
+hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multiplication
 kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA security
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
 kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth ciphertext byte
+kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
+kem-03-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
+kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-06-1;Confirmed;runtime;A malformed secret key drives the BRA decoder out of bounds
 kem-06-2;Confirmed;runtime;Reference field multiplication touches one limb past its output
+kem-06-3;Confirmed;review;Secret-derived decoder pivots select memory addresses
+kem-07-1;Confirmed;review;Secret-derived decoder pivots select memory addresses
+kem-08-1;Confirmed;review;C128 decapsulation branches on decrypted coefficients
 kem-09-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-09-2;Lead;review;A degree-128 quotient defeats the full-dimension MLWE estimates
 kem-10-1;Confirmed;runtime;Malformed ciphertexts crash the reference decapsulator
+kem-10-2;Confirmed;review;Secret-derived decoder pivots select memory addresses
 kem-11-1;Confirmed;static;COMPASS-KEM-384 and -512 use a 256-bit key-generation root
 kem-12-1;Confirmed;static;The specified CTL-512 public-key space has at most 256 bits of support
 kem-12-2;Confirmed;static;CTL-512 returns only 384 shared-secret bits
@@ -39,6 +55,7 @@ kem-17-1;Confirmed;runtime;Publicly reproducible secret keys
 kem-17-2;Confirmed;static;HEP-QC-7 has at most 256 bits of key-generation support
 kem-17-3;Confirmed;runtime;First encapsulation in each process is publicly reproducible
 kem-17-4;Confirmed;runtime;Public column multiplicities break the EPC-P assumption
+kem-17-5;Confirmed;review;Secret permutation and mixing matrix drive memory and control flow
 kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit seed
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
@@ -47,18 +64,25 @@ kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recov
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
 kem-31-1;Confirmed;runtime;Invalid ciphertexts trigger an assertion during decapsulation
 kem-32-1;Confirmed;review;Debug path retains the secret error vector
+kem-33-1;Confirmed;runtime;Decapsulation re-expands the private seed with a variable-length sampler
+kem-33-2;Probable;review;Decryption multiplication traverses secret support positions
 kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every tested honest ciphertext
+kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with variable work
 kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
 kem-38-2;Confirmed;runtime+static;UVW exposes a stable list-decoding failure oracle
 kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's independence premise
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
+kem-40-2;Probable;review;Decapsulation addresses a private array with a secret-derived index
 kex-02-1;Confirmed;runtime;The ephemeral key is generated once as long-term state
+kex-02-2;Confirmed;review;Secret-derived decryption coefficients take a sign branch
 kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret to 64 bits
 kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-session aborts
 kex-05-2;Confirmed;runtime;Resettable pass-1 state enables ephemeral-key recovery
 kex-06-1;Confirmed;static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
 kex-07-1;Confirmed;review;Both party identities are hard-wired to zero
 kex-08-1;Confirmed;runtime;The raw shared j-invariant is distinguishable from a uniform key
+kex-08-2;Confirmed;runtime;NIIKE-lv512 key generation cycles between two hard-coded secret keys
+kex-09-1;Confirmed;runtime;Decapsulation re-expands its secret key with a variable-length sampler
 sign-01-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-01-2;Confirmed;runtime;Malformed hint counts cause an attacker-controlled stack write
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
@@ -75,9 +99,9 @@ sign-09-1;Confirmed;runtime+static;The unauthenticated signature salt invalidate
 sign-10-1;Lead;review;The hidden zero subspace has an unpriced algebraic recovery path
 sign-10-2;Confirmed;runtime;The public key yields a universal signing trapdoor
 sign-11-1;Confirmed;static;PORS counter grinding reduces every claimed security level
-sign-11-2;Confirmed;static;The specified deterministic mode is length-extendable
+sign-11-2;Withdrawn;static;Withdrawn — SM3 evaluation-mode length extension
 sign-11-3;Confirmed;static;The specified OTS verifier omits its encoding checks
-sign-11-4;Confirmed;static;A 256-bit SM3 state caps the 384- and 512-bit sets
+sign-11-4;Withdrawn;static;Withdrawn — SM3 evaluation-state ceiling
 sign-11-5;Confirmed;runtime+static;Unchecked PORS padding makes signatures malleable
 sign-11-6;Confirmed;static;The specified PORS tree reuses leaf hash addresses
 sign-11-7;Confirmed;static;The implementation leaves 1 to 4 OTS digest bits unchecked
@@ -91,6 +115,8 @@ sign-16-1;Proof gap;review;The stated hash requirement is too weak for the EUF-C
 sign-16-2;Proof gap;review;Polynomial solutions of the relaxed Octarine-512 SIS estimates
 sign-18-1;Confirmed;static;A fixed 512-bit message prehash caps forgery security at 256 bits
 sign-18-2;Confirmed;runtime;Signatures expose the hidden-algebra constraint subspace
+sign-18-3;Probable;review;Variable-time hidden-zone linear solving
+sign-18-4;Probable;review;Signing indexes field tables and signature state with private values
 sign-22-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-22-2;Confirmed;static;The implementation expands the complete key pair from a 256-bit root
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
@@ -100,11 +126,13 @@ sign-27-1;Confirmed;runtime;An all-zero signature aborts the verifier process
 sign-27-2;Lead;review;Triangle prime sizing relies on the former square-root attack cost
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
+sign-31-2;Probable;review;Secret-dependent echelon pivots during signing
 sign-32-1;Confirmed;runtime;Every signature is accepted
 sign-32-2;Confirmed;runtime;An all-zero signature crashes two verifier instances
 sign-33-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-33-2;Confirmed;static;A 256-bit implementation prehash limits forgery security to 128 bits
 sign-33-3;Proof gap;static;The VDOO-256 and -512 proof bound contains a 128-bit salt term
 sign-33-4;Confirmed;runtime;Signing reuses a publicly predictable randomness stream
+sign-33-5;Probable;review;Signing branches directly on private central-map coefficients
 sign-34-1;Confirmed;runtime;Wrong perturbation covariance leaks secret-basis information
 sign-34-2;Confirmed;runtime;Non-injective public-key packing creates key aliases

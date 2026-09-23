@@ -122,15 +122,14 @@ to one XOF; `LeafHash(x, iv) = (x, PRG(x, iv, 0^8; 2λ))` (§5.4.7); `PRG` and t
 
 ## Implementation vs specification
 
-Checked source (all under `/home/mjos-ai/ngcc/sign-14/src/<label>/`, symlinks
-into `Implementations/Reference_Implementation/`): `parameters.h`/`instances.c`
+Checked original reference source for each parameter label: `parameters.h`/`instances.c`
 (parameter sets), `voleith_impl.c` (Sign/Verify and signature serialization),
 `owf.c` + `lynx_matrices.c` (Lynx), `quicksilver.c` (QS constraints), `bavc.c`,
 `vole.c`, `universal_hashing.c`, `xof.h`.
 
 Agreements:
 - Parameter spot-check (sampled: λ, ℓ_wit, τ, w_grind, T_open, |σ| for
-  Lynxer-160s/160f/256s/384s, i.e. 4 of 8 sets): `/home/mjos-ai/ngcc/sign-14/src/Lynxer-160s/parameters.h`
+  Lynxer-160s/160f/256s/384s, i.e. 4 of 8 sets): `Lynxer-160s/parameters.h`
   gives `CSP 160, LENWIT 480, TAU 14, POW_LEVEL 6, T_OPEN 129, SIG_SIZE 4607`
   and the 160f/256s/384s blocks give `(21,8,139,5801)`, `(22,12,224,12191)`,
   `(34,10,332,27495)` — all identical to spec Table 5.
@@ -165,7 +164,7 @@ Discrepancies:
   defines `k1 = k0 + 1` with `t1` instances of the larger type; those agree only
   when the division is exact. The implementation follows the §5.1 reading
   (`k0 = ⌊·⌋`), which is the self-consistent one.
-- **(c) Deliberate build choice, not a deviation.** `/home/mjos-ai/ngcc/sign-14/Makefile`
+- **(c) Deliberate build choice, not a deviation.** The local audit build
   compiles with `-DXOF_PSEUDO`, selecting the NGCC SM3-based `pseudoXOF` from the
   ICCS `auxfunc.c` (`xof.h:31ff`); the `sha3/` Keccak backend
   (`-DWITH_KECCAK_X4`, `hash_shake.h`) is not compiled. Spec Table 6 lists both
@@ -176,5 +175,5 @@ Not verified (time-box): the internals of `bavc.c`, `vole.c`,
 `universal_hashing.c` and the QuickSilver constraint algebra for λ≥256 were not
 traced line-by-line against §5.3/§5.4/§5.6/§5.7; the domain-separation tags of
 the seven hash functions in §5.9 were not audited. See
-`/home/mjos-ai/ngcc/sign-14/security_findings.md` (KAT 8/8 PASS; Fiat–Shamir
+the original source review (KAT 8/8 PASS; Fiat–Shamir
 transcript binding and hash domain separation recorded there as `not_tested`).

@@ -1,0 +1,305 @@
+/*
+The software is provided by the Institute of Commercial Cryptography Standards
+(ICCS), and is used for algorithm submissions in the Next-generation Commercial
+Cryptographic Algorithms Program (NGCC).
+
+ICCS doesn't represent or warrant that the operation of the software will be
+uninterrupted or error-free in all cases. ICCS will take no responsibility for
+the use of the software or the results thereof, if the software is used for any
+other purposes.
+*/
+
+#include "CryptHash_AlgorithmInstance.h"
+#include <string.h>
+
+#define PAVELOR_STATE_BLOCKS 20
+#define PAVELOR_BLOCK_BYTES 16
+#define PAVELOR_STATE_BYTES (PAVELOR_STATE_BLOCKS * PAVELOR_BLOCK_BYTES)
+
+static const unsigned char AES_SBOX[256] = {
+    0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
+    0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
+    0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
+    0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a, 0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75,
+    0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0, 0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84,
+    0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b, 0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf,
+    0xd0, 0xef, 0xaa, 0xfb, 0x43, 0x4d, 0x33, 0x85, 0x45, 0xf9, 0x02, 0x7f, 0x50, 0x3c, 0x9f, 0xa8,
+    0x51, 0xa3, 0x40, 0x8f, 0x92, 0x9d, 0x38, 0xf5, 0xbc, 0xb6, 0xda, 0x21, 0x10, 0xff, 0xf3, 0xd2,
+    0xcd, 0x0c, 0x13, 0xec, 0x5f, 0x97, 0x44, 0x17, 0xc4, 0xa7, 0x7e, 0x3d, 0x64, 0x5d, 0x19, 0x73,
+    0x60, 0x81, 0x4f, 0xdc, 0x22, 0x2a, 0x90, 0x88, 0x46, 0xee, 0xb8, 0x14, 0xde, 0x5e, 0x0b, 0xdb,
+    0xe0, 0x32, 0x3a, 0x0a, 0x49, 0x06, 0x24, 0x5c, 0xc2, 0xd3, 0xac, 0x62, 0x91, 0x95, 0xe4, 0x79,
+    0xe7, 0xc8, 0x37, 0x6d, 0x8d, 0xd5, 0x4e, 0xa9, 0x6c, 0x56, 0xf4, 0xea, 0x65, 0x7a, 0xae, 0x08,
+    0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6, 0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a,
+    0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
+    0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
+    0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
+};
+
+static const unsigned char RC[24][16] = {
+    {0x24,0x3f,0x6a,0x88,0x85,0xa3,0x08,0xd3,0x13,0x19,0x8a,0x2e,0x03,0x70,0x73,0x44},
+    {0xa4,0x09,0x38,0x22,0x29,0x9f,0x31,0xd0,0x08,0x2e,0xfa,0x98,0xec,0x4e,0x6c,0x89},
+    {0x45,0x28,0x21,0xe6,0x38,0xd0,0x13,0x77,0xbe,0x54,0x66,0xcf,0x34,0xe9,0x0c,0x6c},
+    {0xc0,0xac,0x29,0xb7,0xc9,0x7c,0x50,0xdd,0x3f,0x84,0xd5,0xb5,0xb5,0x47,0x09,0x17},
+    {0x92,0x16,0xd5,0xd9,0x89,0x79,0xfb,0x1b,0xd1,0x31,0x0b,0xa6,0x98,0xdf,0xb5,0xac},
+    {0x2f,0xfd,0x72,0xdb,0xd0,0x1a,0xdf,0xb7,0xb8,0xe1,0xaf,0xed,0x6a,0x26,0x7e,0x96},
+    {0xba,0x7c,0x90,0x45,0xf1,0x2c,0x7f,0x99,0x24,0xa1,0x99,0x47,0xb3,0x91,0x6c,0xf7},
+    {0x80,0x1f,0x2e,0x28,0x58,0xef,0xc1,0x66,0x36,0x92,0x0d,0x87,0x15,0x74,0xe6,0x90},
+    {0xa4,0x58,0xfe,0xa3,0xf4,0x93,0x3d,0x7e,0x0d,0x95,0x74,0x8f,0x72,0x8e,0xb6,0x58},
+    {0x71,0x8b,0xcd,0x58,0x82,0x15,0x4a,0xee,0x7b,0x54,0xa4,0x1d,0xc2,0x5a,0x59,0xb5},
+    {0x9c,0x30,0xd5,0x39,0x2a,0xf2,0x60,0x13,0xc5,0xd1,0xb0,0x23,0x28,0x60,0x85,0xf0},
+    {0xca,0x41,0x79,0x18,0xb8,0xdb,0x38,0xef,0x8e,0x79,0xdc,0xb0,0x60,0x3a,0x18,0x0e},
+    {0x6c,0x9e,0x0e,0x8b,0xb0,0x1e,0x8a,0x3e,0xd7,0x15,0x77,0xc1,0xbd,0x31,0x4b,0x27},
+    {0x78,0xaf,0x2f,0xda,0x55,0x60,0x5c,0x60,0xe6,0x55,0x25,0xf3,0xaa,0x55,0xab,0x94},
+    {0x57,0x48,0x98,0x62,0x63,0xe8,0x14,0x40,0x55,0xca,0x39,0x6a,0x2a,0xab,0x10,0xb6},
+    {0xb4,0xcc,0x5c,0x34,0x11,0x41,0xe8,0xce,0xa1,0x54,0x86,0xaf,0x7c,0x72,0xe9,0x93},
+    {0xb3,0xee,0x14,0x11,0x63,0x6f,0xbc,0x2a,0x2b,0xa9,0xc5,0x5d,0x74,0x18,0x31,0xf6},
+    {0xce,0x5c,0x3e,0x16,0x9b,0x87,0x93,0x1e,0xaf,0xd6,0xba,0x33,0x6c,0x24,0xcf,0x5c},
+    {0x7a,0x32,0x53,0x81,0x28,0x95,0x86,0x77,0x3b,0x8f,0x48,0x98,0x6b,0x4b,0xb9,0xaf},
+    {0xc4,0xbf,0xe8,0x1b,0x66,0x28,0x21,0x93,0x61,0xd8,0x09,0xcc,0xfb,0x21,0xa9,0x91},
+    {0x48,0x7c,0xac,0x60,0x5d,0xec,0x80,0x32,0xef,0x84,0x5d,0x5d,0xe9,0x85,0x75,0xb1},
+    {0xdc,0x26,0x23,0x02,0xeb,0x65,0x1b,0x88,0x23,0x89,0x3e,0x81,0xd3,0x96,0xac,0xc5},
+    {0xf6,0xd6,0xff,0x38,0x3f,0x44,0x23,0x92,0xe0,0xb4,0x48,0x2a,0x48,0x42,0x00,0x40},
+    {0x69,0xc8,0xf0,0x4a,0x9e,0x1f,0x9b,0x5e,0x21,0xc6,0x68,0x42,0xf6,0xe9,0x6c,0x9a}
+};
+
+static unsigned char xtime(unsigned char x)
+{
+    return (unsigned char)((x << 1) ^ ((x & 0x80U) ? 0x1bU : 0U));
+}
+
+static void aes_round_no_key(const unsigned char in[16], unsigned char out[16])
+{
+    unsigned char s[16];
+    unsigned char t[16];
+    int c;
+
+    for (int i = 0; i < 16; i++)
+        s[i] = AES_SBOX[in[i]];
+
+    t[0] = s[0];  t[1] = s[5];  t[2] = s[10]; t[3] = s[15];
+    t[4] = s[4];  t[5] = s[9];  t[6] = s[14]; t[7] = s[3];
+    t[8] = s[8];  t[9] = s[13]; t[10] = s[2]; t[11] = s[7];
+    t[12] = s[12]; t[13] = s[1]; t[14] = s[6]; t[15] = s[11];
+
+    for (c = 0; c < 4; c++)
+    {
+        unsigned char a0 = t[4 * c + 0];
+        unsigned char a1 = t[4 * c + 1];
+        unsigned char a2 = t[4 * c + 2];
+        unsigned char a3 = t[4 * c + 3];
+        unsigned char x = (unsigned char)(a0 ^ a1 ^ a2 ^ a3);
+        unsigned char u = a0;
+        out[4 * c + 0] = (unsigned char)(a0 ^ x ^ xtime((unsigned char)(a0 ^ a1)));
+        out[4 * c + 1] = (unsigned char)(a1 ^ x ^ xtime((unsigned char)(a1 ^ a2)));
+        out[4 * c + 2] = (unsigned char)(a2 ^ x ^ xtime((unsigned char)(a2 ^ a3)));
+        out[4 * c + 3] = (unsigned char)(a3 ^ x ^ xtime((unsigned char)(a3 ^ u)));
+    }
+}
+
+static void aesenc(const unsigned char msg[16], const unsigned char key[16], unsigned char out[16])
+{
+    aes_round_no_key(msg, out);
+    for (int i = 0; i < 16; i++)
+        out[i] ^= key[i];
+}
+
+static void paff(unsigned char s[PAVELOR_STATE_BYTES])
+{
+    unsigned char next[PAVELOR_STATE_BYTES];
+
+    for (int round = 0; round < 24; round++)
+    {
+        aesenc(s + 19 * 16, s + 1 * 16, next + 0 * 16);
+        aesenc(s + 4 * 16,  s + 0 * 16, next + 1 * 16);
+        aesenc(s + 6 * 16,  s + 3 * 16, next + 2 * 16);
+        aesenc(s + 17 * 16, s + 4 * 16, next + 3 * 16);
+        aesenc(s + 9 * 16,  s + 5 * 16, next + 4 * 16);
+        aesenc(s + 0 * 16,  s + 2 * 16, next + 5 * 16);
+        aesenc(s + 13 * 16, s + 7 * 16, next + 6 * 16);
+        for (int i = 0; i < 16; i++)
+            next[7 * 16 + i] = (unsigned char)(RC[round][i] ^ s[8 * 16 + i]);
+        aesenc(s + 8 * 16,  s + 9 * 16,  next + 8 * 16);
+        aesenc(s + 5 * 16,  s + 10 * 16, next + 9 * 16);
+        aesenc(s + 15 * 16, s + 6 * 16,  next + 10 * 16);
+        aesenc(s + 10 * 16, s + 12 * 16, next + 11 * 16);
+        aesenc(s + 16 * 16, s + 13 * 16, next + 12 * 16);
+        aesenc(s + 3 * 16,  s + 14 * 16, next + 13 * 16);
+        aesenc(s + 12 * 16, s + 15 * 16, next + 14 * 16);
+        aesenc(s + 14 * 16, s + 16 * 16, next + 15 * 16);
+        aesenc(s + 18 * 16, s + 17 * 16, next + 16 * 16);
+        aesenc(s + 7 * 16,  s + 18 * 16, next + 17 * 16);
+        aesenc(s + 2 * 16,  s + 19 * 16, next + 18 * 16);
+        aesenc(s + 1 * 16,  s + 11 * 16, next + 19 * 16);
+        memcpy(s, next, PAVELOR_STATE_BYTES);
+    }
+}
+
+static void put_u128_low16(unsigned char *dst, unsigned int value)
+{
+    memset(dst, 0, 16);
+    dst[12] = (unsigned char)(value >> 24);
+    dst[13] = (unsigned char)(value >> 16);
+    dst[14] = (unsigned char)(value >> 8);
+    dst[15] = (unsigned char)value;
+}
+
+static int init_state(int digest_len_bits, unsigned char s[PAVELOR_STATE_BYTES], int *rate_bits)
+{
+    int capacity_bits;
+
+    if (digest_len_bits == 512)
+        *rate_bits = 1536;
+    else if (digest_len_bits == 768)
+        *rate_bits = 1024;
+    else if (digest_len_bits == 1024)
+        *rate_bits = 512;
+    else
+        return -1;
+
+    capacity_bits = 2560 - *rate_bits;
+    memset(s, 0, PAVELOR_STATE_BYTES);
+    put_u128_low16(s + 0 * 16, (unsigned int)*rate_bits);
+    put_u128_low16(s + 1 * 16, (unsigned int)capacity_bits);
+    put_u128_low16(s + 2 * 16, 2560U);
+    put_u128_low16(s + 3 * 16, (unsigned int)digest_len_bits);
+    return 0;
+}
+
+static int get_msg_bit(const unsigned char *msg, unsigned long long msg_len_bits, unsigned long long bit_index)
+{
+    if (bit_index >= msg_len_bits)
+        return 0;
+    return (msg[bit_index / 8] >> (7 - (bit_index % 8))) & 1;
+}
+
+static void xor_bit(unsigned char *dst, unsigned long long bit_index, int bit)
+{
+    if (bit)
+        dst[bit_index / 8] ^= (unsigned char)(0x80U >> (bit_index % 8));
+}
+
+static void absorb_padded(unsigned char s[PAVELOR_STATE_BYTES], int rate_bits,
+                          const unsigned char *msg, unsigned long long msg_len_bits)
+{
+    const unsigned long long rate = (unsigned long long)rate_bits;
+    const int rate_bytes = rate_bits / 8;
+    unsigned long long full_blocks = msg_len_bits / rate;
+    unsigned long long rem_bits = msg_len_bits % rate;
+    unsigned long long msg_offset_bits = 0;
+
+    for (unsigned long long block = 0; block < full_blocks; block++)
+    {
+        const unsigned char *src = msg + (msg_offset_bits / 8);
+        for (int i = 0; i < rate_bytes; i++)
+            s[i] ^= src[i];
+        paff(s);
+        msg_offset_bits += rate;
+    }
+
+    for (unsigned long long j = 0; j < rem_bits; j++)
+        xor_bit(s, j, get_msg_bit(msg, msg_len_bits, msg_offset_bits + j));
+    xor_bit(s, rem_bits, 1);
+
+    if (rem_bits == rate - 1ULL)
+    {
+        paff(s);
+        xor_bit(s, rate - 1ULL, 1);
+    }
+    else
+    {
+        xor_bit(s, rate - 1ULL, 1);
+    }
+    paff(s);
+}
+
+static void absorb_padded_reference(unsigned char s[PAVELOR_STATE_BYTES], int rate_bits,
+                                    const unsigned char *msg, unsigned long long msg_len_bits)
+{
+    unsigned long long m1_len = msg_len_bits + 1ULL;
+    unsigned long long rate = (unsigned long long)rate_bits;
+    unsigned long long k = (unsigned long long)((rate - 1ULL - (m1_len % rate)) % rate);
+    unsigned long long padded_bits = m1_len + k + 1ULL;
+    unsigned long long pos = 0;
+
+    while (pos < padded_bits)
+    {
+        for (int j = 0; j < rate_bits; j++, pos++)
+            xor_bit(s, (unsigned long long)j,
+                    (pos < msg_len_bits) ? get_msg_bit(msg, msg_len_bits, pos) :
+                    (pos == msg_len_bits || pos == padded_bits - 1ULL));
+        paff(s);
+    }
+}
+
+static int squeeze_digest(unsigned char state[PAVELOR_STATE_BYTES], int rate_bits,
+                          int digest_len_bits, unsigned char *digest)
+{
+    int out_bytes = digest_len_bits / 8;
+    for (int written = 0; written < out_bytes;)
+    {
+        int take = rate_bits / 8;
+        if (take > out_bytes - written)
+            take = out_bytes - written;
+        memcpy(digest + written, state, (unsigned int)take);
+        written += take;
+        if (written < out_bytes)
+            paff(state);
+    }
+    return 0;
+}
+
+static int crypt_hash_with_absorber(int digest_len_bits, const unsigned char *msg,
+                                    unsigned long long msg_len_bits, unsigned char *digest,
+                                    void (*absorber)(unsigned char *, int, const unsigned char *, unsigned long long))
+{
+    unsigned char state[PAVELOR_STATE_BYTES];
+    int rate_bits = 0;
+
+    if (init_state(digest_len_bits, state, &rate_bits) != 0)
+        return -1;
+    absorber(state, rate_bits, msg, msg_len_bits);
+    return squeeze_digest(state, rate_bits, digest_len_bits, digest);
+}
+
+#ifdef __cplusplus
+extern "C"
+#endif
+int PavelorBackToBackSelfTest(void)
+{
+    static const unsigned char msg1[] = {0x80, 0x01, 0x02, 0x03, 0xfe, 0x7f};
+    static const unsigned char msg2[192] = {0};
+    unsigned char fast[128];
+    unsigned char ref[128];
+    const unsigned long long lengths[] = {0ULL, 1ULL, 7ULL, 8ULL, 47ULL, 511ULL, 512ULL, 1535ULL, 1536ULL};
+    const int digests[] = {512, 768, 1024};
+
+    for (int d = 0; d < 3; d++)
+    {
+        for (int l = 0; l < (int)(sizeof(lengths) / sizeof(lengths[0])); l++)
+        {
+            const unsigned char *msg = (lengths[l] <= 47ULL) ? msg1 : msg2;
+            crypt_hash_with_absorber(digests[d], msg, lengths[l], fast, absorb_padded);
+            crypt_hash_with_absorber(digests[d], msg, lengths[l], ref, absorb_padded_reference);
+            if (memcmp(fast, ref, (unsigned int)(digests[d] / 8)) != 0)
+                return -1;
+        }
+    }
+    return 0;
+}
+
+int CryptHash(int digest_len_bits, const unsigned char *msg, unsigned long long msg_len_bits, unsigned char *digest)
+{
+    unsigned char state[PAVELOR_STATE_BYTES];
+    int rate_bits = 0;
+
+    if (digest == 0 || (msg == 0 && msg_len_bits != 0))
+        return -1;
+    if (digest_len_bits % 8 != 0)
+        return -1;
+    if (init_state(digest_len_bits, state, &rate_bits) != 0)
+        return -1;
+
+    absorb_padded(state, rate_bits, msg, msg_len_bits);
+
+    return squeeze_digest(state, rate_bits, digest_len_bits, digest);
+}

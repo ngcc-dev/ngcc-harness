@@ -43,6 +43,7 @@ tools/          ngcc_attack.c reproducer, reproduce.sh runner; tools/README.md
 security/       vulnerability inventory, focused validators and crash-safe witnesses
 data/           machine-readable parameters, candidate metadata and spec provenance
 <id>/           specification and extracted pseudocode/parameters for every candidate;
+                constant_time.md source review for every candidate;
                 included reference sources and a Makefile where needed by this harness,
                 kat.sha256 manifest, and patches/ where shipped source cannot
                 compile as-is; kex-02, kex-05, sign-03 and kem-29 also have

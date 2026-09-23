@@ -121,8 +121,8 @@ universal salting.
 
 ## Implementation vs specification
 
-Checked against the built reference sources under
-`/home/mjos-ai/ngcc/sign-20/Implementations and Test_Vectors/Implementations/Reference_Implementation/QingLuan-<lvl>/`
+Checked against the reference sources in the original submission archive under
+`Implementations and Test_Vectors/Implementations/Reference_Implementation/QingLuan-<lvl>/`
 (`include/params.h`, `include/api.h`, `src/keygen.c`, `src/sign.c`, `src/verify.c`,
 `src/mpc.c`, `src/rsdp.c`, `src/restr.c`, `api_pkc/SIG_AlgorithmInstance.c`).
 

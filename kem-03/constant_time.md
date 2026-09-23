@@ -1,0 +1,7 @@
+# Constant-time review: BAG-Loong
+
+The recipient's long-term secret is the `x` component decoded from `sk_prime`; the PKE plaintext and KEM prekey are secret until encapsulation. The ciphertext, public key, encoded lengths, and salt are public. This review follows the submitted Loong-Block-ms-128 reference path; the other parameter directories have the same decoder structure. It is a source-level audit, not a measured remote attack.
+
+Decapsulation parses public encodings in `src/loong_kem.c:194-213`, then calls secret-key PKE decryption at `src/loong_kem.c:217-218`. In `src/loong_pke.c:1003-1014`, the secret `x` is multiplied by ciphertext `c1` and added to `c2` to form the decoded word. `src/gabidulin.c:213-227` searches for a nonzero discrepancy with a data-dependent loop and swaps at data-dependent index `j`; `src/gabidulin.c:230-279` branches on discrepancy values and selects distinct update paths. These are secret-dependent control flow and memory accesses during decapsulation. Public length checks and allocation-failure branches are not findings.
+
+No constant-time claim is made for the decoder. A cache/timing observer may learn pivot and discrepancy information tied to the recipient key and chosen ciphertext. No complete key-recovery experiment is established; see `report.md` for the bounded finding. Reproduction of the source trace: inspect `loong_kem.c:217-218`, `loong_pke.c:1003-1014`, and `gabidulin.c:213-279` in the reference directory.

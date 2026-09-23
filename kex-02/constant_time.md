@@ -1,0 +1,8 @@
+# AFS-KEX constant-time review
+
+Scope: reference C128/C256/C512 implementations, with the C128 decapsulation path traced in detail. Secrets are the persistent KEM secret polynomial, recovered encapsulation message, ephemeral secrets, and final shared key. Public values include public keys, ciphertexts, protocol messages and fixed instance lengths. A ciphertext-dependent condition is not necessarily public when it is computed *after* secret-key decryption.
+
+- Confirmed C128 leak (`kex-02-2`): `AFS_KEX_C128/kem.c:155` calls `indcpa_dec`; `indcpa.c:354-364` forms `mp = v - skpv*b` and passes it to `poly_tomsg`; `poly.c:174-193` branches on the sign of every centered coefficient before rounding. The coefficient depends jointly on attacker-supplied ciphertext and the secret polynomial. GCC at the submitted `-O2` build setting emits a conditional jump for this branch. The division denominator is the public constant `KYBER_Q`, so the *branch*, not a claim about variable divisor latency, supports the finding.
+- Control: `AFS_KEX_C128/kem.c:164-170` uses a full comparison followed by a mask-based conditional move for the final shared key. `AFS_KEX_C128/indcpa.c:173-187` rejects XOF words when generating a matrix from a public seed; that loop does not reveal a private key. C256 and C512 use different branchless message-conversion code (`AFS_KEX_C256/poly.c:199-215`, `AFS_KEX_C512/poly.c:229-245`), so this finding is scoped to C128.
+
+Coverage limit: this was a source/data-flow review of the reference KEM and protocol paths, plus a GCC code-generation check for C128. It is not an exhaustive analysis of optimized AVX2 copies or every machine-code instruction.

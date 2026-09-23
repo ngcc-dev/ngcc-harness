@@ -51,3 +51,18 @@ PYTHON ?= sage -python
 .PHONY: exploit
 exploit: lib/libNIIKE-lv128.so
 	$(PYTHON) reproduce_raw_key_distinguisher.py
+
+build:
+	mkdir -p build
+
+.PHONY: exploit-lv512
+exploit-lv512: | build
+	$(CC) -w -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types \
+	  -O2 -DRADIX_64 -ffunction-sections -fdata-sections -Wl,--gc-sections \
+	  -I'$(REF)/NIIKE-lv512/ngccapi/include' -I'$(REF)/common/include' \
+	  -I'$(REF)/gf/include' -I'$(REF)/NIIKE-lv512/precomp/include' \
+	  -I'$(REF)/NIIKE-lv512/ec/include' -I'$(REF)/ec/include' \
+	  -I'$(REF)/NIIKE-lv512/protocols/include' -I'$(REF)/protocols/include' \
+	  reproduce_lv512_two_keys.c '$(REF)/NIIKE-lv512/protocols/bundleprotocols_internal.c' \
+	  -o build/reproduce_lv512_two_keys
+	build/reproduce_lv512_two_keys

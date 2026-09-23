@@ -209,6 +209,14 @@ run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-2.so kem-zero
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-3.so kem-zero
 
 echo
+echo "== kem-33-1 QUBE: secret sampler has variable work (Medium) =="
+run_target kem-33 "kem-33-1" make -C kem-33 exploit
+
+echo
+echo "== kem-37-1 TriQ-KEM: secret sampler has variable work (Medium) =="
+run_target kem-37 "kem-37-1" make -C kem-37 exploit
+
+echo
 echo "== kem-36-1 TRIKE: specified maximum threshold rejects honest ciphertexts (High) =="
 if [ -z "$only" ] || [ "$only" = kem-36 ]; then
     if [ -f kem-36/lib/libTRIKE-2.so ]; then
@@ -305,6 +313,14 @@ fi
 echo
 echo "== kex-08-1 NIIKE: raw shared-invariant distinguisher (High) =="
 run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON="${NIIKE_PYTHON:-sage -python}"
+
+echo
+echo "== kex-08-2 NIIKE-lv512: two-key secret cycle (Critical) =="
+run_target kex-08 "kex-08-2" make -C kex-08 exploit-lv512
+
+echo
+echo "== kex-09-1 TriQ-KEX: secret sampler has variable work (Medium) =="
+run_target kex-09 "kex-09-1" make -C kex-09 exploit
 
 echo
 echo "== sign-03-1 CEDRUS+C: adaptive FORS leaf-accumulation forgery (Critical) =="

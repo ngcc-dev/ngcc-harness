@@ -14,10 +14,18 @@ extracted pseudocode/parameter tables; some additionally contain the exact
 source files cited by this audit. See `DESIGN_PARAMETER_AUDIT.md` for the
 classification rules and limits.
 
+Each candidate directory also contains `constant_time.md`, a scoped source-level
+review of secret-dependent branches and memory accesses. A note with no finding
+is a limited review, not a constant-time certification. Finding-specific reports
+state the affected path and whether a measured side channel or key recovery was
+demonstrated.
+The vulnerability inventory retains withdrawn IDs so citations remain stable;
+`Withdrawn` entries are historical evaluation records, not active findings.
+
 Additional focused validators and runtime witnesses are:
 
 ```sh
-# FlexTree design/source arithmetic for sign-11-1 through sign-11-8
+# FlexTree design/source arithmetic (including withdrawn evaluation records)
 python3 security/flextree_kudinov_validation.py
 # TRIKE shipped-minimum versus specified-maximum whole-KEM differential
 make -C kem-36 lib/libTRIKE-2.so

@@ -1,0 +1,9 @@
+# Constant-time review: HEP-QC
+
+The long-term secret seed expands into private vector `y`, mixing matrix `t`, and column permutation `p`; recovered plaintext, fallback `sigma`, and shared secret are secret. The public key and ciphertext are public. This traces `Implementations/Implementations/ref` plus its shared `common` sources; the x86_64 PKE file calls the same shared permutation/inversion routines.
+
+`ref/KEM_HEP_QC.c:165-212` decapsulates through `hep_qc_pke_decrypt`. `ref/PKE_HEP_QC.c:185-220` recovers `y,t,p` from the secret seed, computes `v-u*y`, applies private `p`, decodes, and inverts private `t`. In `common/vector.c:498-503`, `P[old_col]` is the index passed to `vect_set_bit`; `vector.c:477-485` branches on the corresponding bit and writes `out[col >> 6]`. Thus memory addresses expose the private permutation. Separately, `vector.c:369-408` pivots and branches on entries of the private mixing matrix during every decapsulation. These are direct secret-dependent memory/control-flow operations, not public-value branches.
+
+No remote measurement or complete secret-key recovery has been demonstrated; `report.md` contains the bounded implementation finding. The witness is a direct source call-chain trace, not a timing benchmark.
+
+Additional re-expansion trace: each decapsulation calls `common/parsing.c:23-31`, whose private-seed XOF drives the rejection loop in `common/vector.c:64-76`, retry-until-invertible matrix generation at `:343-357`, and Fisher–Yates selection at `:416-423`. The latter computes `x % bound` and GCC `-O2` emits hardware division even though `bound` is public. These reinforce the bounded side-channel finding `kem-17-5`; they are not separate demonstrated extraction paths. Independently, `kem-17-1` already recovers the full key without timing because key generation is publicly reproducible.

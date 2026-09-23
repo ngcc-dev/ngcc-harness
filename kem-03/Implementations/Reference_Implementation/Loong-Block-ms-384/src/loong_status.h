@@ -1,0 +1,13 @@
+#ifndef LOONG_STATUS_H
+#define LOONG_STATUS_H
+
+#define LOONG_SUCCESS 0
+#define LOONG_ERR_CRYPTO_REJECT -1
+#define LOONG_ERR_NULL -2
+#define LOONG_ERR_BAD_LENGTH -3
+#define LOONG_ERR_OVERFLOW -4
+#define LOONG_ERR_API_PKC -5
+#define LOONG_ERR_ALLOC -6
+#define LOONG_ERR_SAMPLING -7
+
+#endif
