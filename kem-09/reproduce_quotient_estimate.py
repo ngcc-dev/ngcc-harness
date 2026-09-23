@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Validate and estimate XuHaomeng's Cheetah degree-128 quotient."""
 
-import math, os, random, sys
+import math, os, random, subprocess, sys
 from pathlib import Path
 Q = 7681
+ESTIMATOR_COMMIT = "53da5982597709ba0fdf94ea37a84d822310fd84"
 
 def fold(a): return [sum((-1)**b * a[j + 128*b] for b in range(5)) % Q for j in range(128)]
 def negacyclic(a, b):
@@ -20,7 +21,17 @@ def main():
         for i in rng.sample(range(640), 12): v[i] = rng.randrange(Q)
     assert fold(negacyclic(a, b)) == negacyclic(fold(a), fold(b))
     root = Path(__file__).resolve().parents[2]
-    sys.path.insert(0, os.environ.get("LATTICE_ESTIMATOR_PATH", str(root / "lattice-estimator")))
+    estimator_path = Path(os.environ.get("LATTICE_ESTIMATOR_PATH", str(root / "lattice-estimator")))
+    try:
+        revision = subprocess.check_output(
+            ["git", "-C", str(estimator_path), "rev-parse", "HEAD"],
+            text=True, stderr=subprocess.DEVNULL,
+        ).strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise SystemExit("LATTICE_ESTIMATOR_PATH must name a git checkout of malb/lattice-estimator") from exc
+    if revision != ESTIMATOR_COMMIT:
+        raise SystemExit(f"lattice-estimator must be at {ESTIMATOR_COMMIT}; found {revision}")
+    sys.path.insert(0, str(estimator_path))
     try:
         from estimator import LWE, ND
         from sage.all import log

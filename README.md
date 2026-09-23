@@ -1,11 +1,12 @@
 # NGCC Round 1 reproduction harness
 
 Build tooling and runnable reproducers for the findings published at
-<https://ngcc.dev>. Every candidate's **reference implementation** is
-compiled from the submitter's own sources into one shared library per
-parameter set, driven through the official ICCS API exactly as the official
-`KAT_*.c` generators do, and the reported defects are demonstrated against
-those libraries by `tools/ngcc_attack`.
+<https://ngcc.dev>. Where a candidate's **reference implementation** is
+included, it is compiled from the submitter's own sources into one shared
+library per parameter set, driven through the official ICCS API as the
+official `KAT_*.c` generators do. Runtime findings are checked by the
+candidate-local reproducers or `tools/ngcc_attack`; other findings use static
+checks or documented source review.
 
 The required candidate reference sources are included in this repository.
 Nothing else shipped inside a submission is executed: no candidate Makefile,
@@ -31,9 +32,30 @@ make check-reference-data            # validate all specs and parameter records
 ```
 
 `make -j8 all test` builds and KAT-tests every included candidate. Run
-`make reproduce` after the libraries have been built. Requirements: gcc, GNU
-make and python3; some candidates need `-lgmp` or `-lcrypto` (recorded in their
-Makefile).
+`make reproduce` after the libraries have been built. Base requirements are
+gcc, GNU make, Python 3, CMake, and `pdftotext`; some candidate Makefiles also
+need GMP or OpenSSL development libraries. The complete reproduction suite
+additionally needs clang for the kem-06 ASan check, NumPy and SciPy for the
+Python witnesses, and SageMath for kex-08-1, sign-15-4, and kem-09-2. The
+sign-15-4 optimized build needs an AVX2-capable CPU. The sign-10-2 and
+sign-16-2 witnesses fetch separately published, SHA-256-checked artifacts
+over the network. The kem-09-2 estimate needs the pinned lattice-estimator
+checkout documented in its report.
+
+If the default Python lacks NumPy or Sage, point the witnesses to an
+appropriate environment, for example:
+
+```sh
+AMOEBA_PYTHON=/path/to/sage/bin/python \
+NIIKE_PYTHON=/path/to/sage/bin/python \
+NGCC_SAGE_PYTHON=/path/to/sage/bin/python \
+  tools/reproduce.sh
+```
+
+The QUBE reference tree has a documented mismatch against its submitted
+top-level KAT files: `make -C kem-33 test` is expected to report four
+`MISMATCH` results and one `NOKAT`. See `kem-33/README.md`; this does not
+affect the separate `kem-33-1` witness.
 
 ## Layout
 
@@ -61,6 +83,9 @@ submitted implementation instance is also represented in `data/parameters.csv`.
 Only candidates covered by a published report, used as a reproducer control, or
 needed by the static audit have reference source files here; a directory without
 a Makefile is therefore a reference-data entry rather than a build target.
+Some `constant_time.md` source reviews cite files not retained in this compact
+harness. To inspect those source paths, use `IDS=<id> ./download.sh` followed
+by `./extract.sh <id>`; verify the ZIP against `SOURCE_ARCHIVES.md` first.
 Submitted test-vector files are not included: the compact `kat.sha256`
 manifests let `make test` compare freshly generated vectors to every required
 reference digest without retaining multi-gigabyte text files.

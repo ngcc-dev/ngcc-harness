@@ -67,8 +67,11 @@ inventory with:
 
 ```sh
 make check-vulnerabilities
-python3 security/check_vulnerability_ids.py --reports /path/to/report-checkout
+python3 security/check_vulnerability_ids.py --reports ../ngcc.github.io
 ```
+
+`--reports` accepts either a source checkout with `<id>/report.md` or the
+public website checkout with `content/reports/<id>.md`.
 
 The LoomKEX correctness reproducer uses only the submitted scalar reference
 implementation. Run `make -C kex-05 replay` followed by

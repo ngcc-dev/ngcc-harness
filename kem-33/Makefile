@@ -44,6 +44,11 @@ $(eval $(call QUBE,qube-512,512))
 
 include ../api/link_finish.mk
 
+.PHONY: explain-kat
+test: explain-kat
+explain-kat:
+	@echo "NOTE: submitted QUBE reference/tree KATs differ from top-level Test_Vectors; expect 4 MISMATCH and 1 NOKAT (see README.md)"
+
 build:
 	mkdir -p build
 

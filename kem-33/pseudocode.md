@@ -218,7 +218,7 @@ Discrepancies:
   reference implementation.** The reference tree reproduces its own in-tree
   `qube-*/KAT/KAT_KEM_qube_*.txt` byte for byte (verified), and those agree with
   spec Table 5 and with the built library. The package-level `Test_Vectors/`
-  differ at four of five levels (sha256 mismatch, recorded in RESULTS.md) and
+  differ at four of five levels (SHA-256 mismatch, recorded by `make -C kem-33 test`) and
   carry the sizes of `Optimized_Implementation/src/x86/qube-{1,3,4,5}`, as
   derived arithmetically above. A verifier who checks the submission's own test
   vectors against the submission's own reference code gets four MISMATCHes.

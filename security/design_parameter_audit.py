@@ -144,6 +144,12 @@ def hash_checks(rows: list[dict[str, str]]) -> tuple[list[dict], list[Finding]]:
 
     findings: list[Finding] = []
     for candidate, variants in sorted(groups.items()):
+        # The submission has no C reference source for this Garnet variant.
+        # Its harness library deliberately reuses Garnet_1024.c as a KAT
+        # mismatch diagnostic; comparing that alias would manufacture a
+        # cross-variant relation that is not evidence about the submission.
+        if candidate == "hash-11":
+            variants = [v for v in variants if v["instance"] != "Garnet_1024_DM4x4"]
         outputs: dict[str, list[bytes]] = {}
         try:
             for variant in variants:
@@ -186,6 +192,7 @@ def hash_checks(rows: list[dict[str, str]]) -> tuple[list[dict], list[Finding]]:
                         f"{short['instance']} is a {prefix_len}-byte {relation} "
                         f"of {long['instance']} for all {len(MESSAGES)} test messages",
                         [short["library"], long["library"]],
+                        report_id={"hash-18": "hash-18-1", "hash-20": "hash-20-1"}.get(candidate, ""),
                     )
                 )
     return ceilings, findings
@@ -871,15 +878,15 @@ def registered_checks() -> list[Finding]:
             "mito-e-erasure-decoder-discarded",
             "kem-23",
             "implementation_specification_conformance_break",
-            "confirmed" if len(mito_e_dirs) in (6, 12) and len(mito_bad) == len(mito_e_dirs) else "not_reproduced",
+            "confirmed" if len(mito_e_dirs) == 6 and len(mito_bad) == 6 else "not_reproduced",
             "Every included Mito-E implementation tree asks the modified RM decoder "
-            "for the erasure count and positions, then discard both values and call "
+            "for the erasure count and positions, then discards both values and calls "
             "the ordinary errors-only Reed-Solomon decoder.  The PDF defines Mito-E "
             "by errors-and-erasures decoding with correctness condition 2*nu+t <= "
             "N-K and uses that decoder in its E-variant DFR analysis.  Consequently "
             "the claimed E-variant DFRs do not apply to the shipped decapsulator. "
-            "The public harness retains the six reference trees; the private archive audit "
-            "also checked their six optimized counterparts.",
+            "The public harness checks the six included reference trees; this "
+            "command makes no claim about optimized counterparts.",
             [
                 "kem-23/kem-23-spec.pdf (physical pages 17-20, 47-48)",
                 *[str((d / "code.c").relative_to(ROOT)) for d in mito_e_dirs],
@@ -999,6 +1006,15 @@ def main() -> int:
         requested = set(args.report_id)
         registered = [finding for finding in registered if finding.report_id in requested]
         prefix_findings = [finding for finding in prefix_findings if finding.report_id in requested]
+        for report_id in requested.intersection(CROSS_VARIANT_REPORT_IDS):
+            if not any(finding.report_id == report_id for finding in prefix_findings):
+                candidate = report_id.rsplit("-", 1)[0]
+                prefix_findings.append(Finding(
+                    "hash-cross-variant-prefix", candidate,
+                    "not_reproduced", "not_reproduced",
+                    f"No sampled prefix relation found; build the {candidate} libraries first",
+                    [], report_id,
+                ))
         found = {finding.report_id for finding in registered + prefix_findings}
         missing = sorted(requested - found)
         if missing:
@@ -1013,6 +1029,7 @@ def main() -> int:
             "limitations": [
                 "Digest ceilings are generic upper bounds, not attacks on their own.",
                 "Sampled prefix relations become universal only after construction/source review.",
+                "The Garnet_1024_DM4x4 KAT-mismatch adapter is excluded from cross-variant comparisons because no C reference source was supplied for it.",
                 "Registered checks are intentionally narrow and evidence-specific.",
             ],
         },
@@ -1037,7 +1054,7 @@ def main() -> int:
                 f"{finding.check}: {finding.detail}"
             )
     selected = registered + prefix_findings
-    return 0 if selected and all(f.status == "confirmed" for f in selected) else 1
+    return 0 if selected and all(f.status in {"confirmed", "confirmed_on_samples"} for f in selected) else 1
 
 
 if __name__ == "__main__":

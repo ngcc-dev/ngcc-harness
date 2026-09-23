@@ -105,8 +105,8 @@ $(SCALED_STAMP): $(SCALED_PARAMS) patches/common/NTT.h
 	  ln -sf $(CURDIR)/patches/common/NTT.h NTT.h
 	@touch $@
 
-build/$(SCALED)/%.o: $(SCALED_FARM)/%.c $(SCALED_STAMP)
-	$(CC) $(NGCC_CFLAGS) -fcommon -w -I$(SCALED_FARM) -I$(API) -c -o $@ $<
+build/$(SCALED)/%.o: $(SCALED_SRC)/%.c $(SCALED_STAMP)
+	$(CC) $(NGCC_CFLAGS) -fcommon -w -I$(SCALED_FARM) -I$(API) -c -o $@ $(SCALED_FARM)/$*.c
 
 # The shim must NOT see params.h: its single-letter macros collide with the
 # shim's own parameter names (see the note above).

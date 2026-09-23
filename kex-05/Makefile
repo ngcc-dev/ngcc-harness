@@ -39,15 +39,17 @@ $(eval $(call LOOM,LoomKEX-512,5,q59393n1024))
 
 include ../api/link_finish.mk
 
-.PHONY: replay exploit clean-replay
-replay:
+.PHONY: loom-witness-build replay exploit clean-replay
+# A single shared target serializes CMake's configure/build phases even when
+# callers request both witnesses with make -j.
+loom-witness-build:
 	cmake -S ../security/loom_reference -B ../security/loom_reference/build -DCMAKE_BUILD_TYPE=Release
-	cmake --build ../security/loom_reference/build --target loom_failure_replay_256
+	cmake --build ../security/loom_reference/build --target loom_failure_replay_256 loom_state_rollback_key_recovery_256
+
+replay: loom-witness-build
 	cp ../security/loom_reference/build/bin/loom_failure_replay_256 reproduce_failure
 
-exploit:
-	cmake -S ../security/loom_reference -B ../security/loom_reference/build -DCMAKE_BUILD_TYPE=Release
-	cmake --build ../security/loom_reference/build --target loom_state_rollback_key_recovery_256
+exploit: loom-witness-build
 	cp ../security/loom_reference/build/bin/loom_state_rollback_key_recovery_256 reproduce_state_rollback_key_recovery
 
 clean: clean-replay
