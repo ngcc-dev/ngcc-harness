@@ -33,6 +33,11 @@ make -C security hash_oom_false_success
 make -C sign-07 exploit
 make -C sign-10/cryptanalysis test
 make -C sign-34 exploit
+# Eijen cross-profile suffix and MORNING-ATLAS signing-key recovery
+tools/reproduce.sh hash-09
+NGCC_SAGE_PYTHON=/path/to/sage/bin/python tools/reproduce.sh sign-15
+# Octarine's published relaxed-SIS certificate (downloads hash-pinned data)
+python3 sign-16/reproduce_relaxed_sis.py
 # New candidate-local witnesses are included in the aggregate runner
 tools/reproduce.sh hash-14
 tools/reproduce.sh kem-06

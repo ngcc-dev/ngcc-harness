@@ -5,7 +5,7 @@ hash-04-2;Lead;review;Projective positive-word collision lead for CHAMP-512
 hash-04-3;Confirmed;runtime;Known-length preimages admit an exact square-root search
 hash-04-4;Confirmed;runtime;Unsupported digest lengths cause full-size writes
 hash-09-1;Confirmed;runtime;Trivial collisions in all Eijen implementations
-hash-09-2;Confirmed;review;Cross-instance three-block relations
+hash-09-2;Confirmed;runtime;Cross-instance three-block relations
 hash-10-1;Confirmed;runtime;Padding-allocation failure returns a successful all-zero digest
 hash-12-1;Confirmed;runtime;Cross-profile 512-bit output relation
 hash-14-1;Confirmed;runtime;Laurus loses its function-domain separation at c=1024
@@ -86,13 +86,18 @@ sign-12-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-15-1;Confirmed;review;Returned-length error causes an out-of-bounds heap disclosure
 sign-15-2;Confirmed;runtime;Trivial hint-padding malleability violates SUF-CMA
 sign-15-3;Confirmed;static;The ATLAS-192 challenge space is below 192 bits
+sign-15-4;Confirmed;runtime;Repeated masking coefficients expose the signing key
 sign-16-1;Proof gap;review;The stated hash requirement is too weak for the EUF-CMA target
+sign-16-2;Proof gap;review;Polynomial solutions of the relaxed Octarine-512 SIS estimates
 sign-18-1;Confirmed;static;A fixed 512-bit message prehash caps forgery security at 256 bits
 sign-18-2;Confirmed;runtime;Signatures expose the hidden-algebra constraint subspace
 sign-22-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-22-2;Confirmed;static;The implementation expands the complete key pair from a 256-bit root
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
+sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
+sign-26-1;Lead;review;Prime sizing assumes a superseded square-root isogeny cost
 sign-27-1;Confirmed;runtime;An all-zero signature aborts the verifier process
+sign-27-2;Lead;review;Triangle prime sizing relies on the former square-root attack cost
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-32-1;Confirmed;runtime;Every signature is accepted

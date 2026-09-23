@@ -112,6 +112,10 @@ run hash-04 "[control hash-09-1]" NOT-CONFIRMED hash-collide-zeropad hash-04/lib
 run hash-12 "[control hash-09-1]" NOT-CONFIRMED hash-collide-zeropad hash-12/lib/libIphe-1024.so
 
 echo
+echo "== hash-09-2 Eijen: cross-instance digest suffix (Medium) =="
+run_target hash-09 "hash-09-2" python3 hash-09/reproduce_cross_instance_suffix.py
+
+echo
 echo "== hash-17-1 MasterCube: pad10*1 boundary collisions (Critical) =="
 run hash-17 "hash-17-1" CONFIRMED hash-collide-rate hash-17/lib/libMasterCube-512.so  959
 run hash-17 "hash-17-1" CONFIRMED hash-collide-rate hash-17/lib/libMasterCube-768.so  703
@@ -365,6 +369,24 @@ echo "== sign-15-2 MORNING-ATLAS: ignored hint padding violates SUF-CMA (High) =
 for l in sign-15/lib/*.so; do
     run sign-15 "sign-15-2" CONFIRMED sig-hint-padding "$l"
 done
+
+echo
+echo "== sign-15-4 MORNING-ATLAS: repeated-mask key recovery and forgery (Critical) =="
+if [ -z "$only" ] || [ "$only" = sign-15 ]; then
+    if [ -n "${NGCC_SAGE_PYTHON:-}" ]; then
+        "$NGCC_SAGE_PYTHON" sign-15/reproduce_mask_key_recovery.py || fail=$((fail + 1))
+    elif command -v sage >/dev/null 2>&1 && sage -python -c 'import sage.all' >/dev/null 2>&1; then
+        sage -python sign-15/reproduce_mask_key_recovery.py || fail=$((fail + 1))
+    elif python3 -c 'import sage.all' >/dev/null 2>&1; then
+        python3 sign-15/reproduce_mask_key_recovery.py || fail=$((fail + 1))
+    elif command -v mamba >/dev/null 2>&1 &&
+         mamba run -n sage python -c 'import sage.all' >/dev/null 2>&1; then
+        mamba run -n sage python sign-15/reproduce_mask_key_recovery.py || fail=$((fail + 1))
+    else
+        echo "SKIP   sign-15 sign-15-4 (set NGCC_SAGE_PYTHON to a Sage-enabled Python)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== sign-25-1 SQIsign2D2: verifier verdict depends on stale stack state (Critical) =="
