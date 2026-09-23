@@ -13,10 +13,14 @@
 REFERENCE_SOURCE ?=
 CANDIDATES := $(sort $(patsubst %/Makefile,%,$(wildcard sign-*/Makefile kem-*/Makefile kex-*/Makefile hash-*/Makefile)))
 
-.PHONY: all harness tools exploits test test-prep status reproduce design-audit check-vulnerabilities check-reference-data sync-reference-data manifest clean $(CANDIDATES) \
+REPRODUCTION_PACKAGES := $(sort $(dir $(wildcard sign-*/repro-*/Makefile)))
+
+.PHONY: all harness tools exploits test test-prep status reproduce design-audit check-vulnerabilities check-reference-data check-reproduction-packages sync-reference-data manifest clean $(CANDIDATES) \
         $(addprefix test-,$(CANDIDATES)) $(addprefix manifest-,$(CANDIDATES)) $(addprefix clean-,$(CANDIDATES))
 
 all: harness tools $(CANDIDATES) exploits
+
+build: all
 
 harness:
 	$(MAKE) -C api harness
@@ -76,6 +80,10 @@ check-vulnerabilities:
 
 check-reference-data:
 	python3 tools/sync_reference_data.py --check
+
+check-reproduction-packages:
+	@for d in $(REPRODUCTION_PACKAGES); do test -s "$$d/Makefile" && test -s "$$d/README.md" || exit 1; done
+	@echo "reproduction packages: $(words $(REPRODUCTION_PACKAGES))"
 
 sync-reference-data:
 	@test -n "$(REFERENCE_SOURCE)" || { echo "set REFERENCE_SOURCE=/path/to/source-checkout" >&2; exit 2; }
