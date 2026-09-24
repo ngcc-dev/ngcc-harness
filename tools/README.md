@@ -148,6 +148,13 @@ Facto-DSA's separate `sign-10/reproduce_forgery.py` demonstrates `sign-10-2`:
 the public key exposes a universal signing trapdoor. This complete confirmed
 forgery is independent of the submitted-size recovery claim in `sign-10-1`.
 
+Origami's `sign-18/reproduce_public_forgery.py` checks `sign-18-5` against a
+freshly seeded Origami-128 library built from the submitted reference source.
+It fetches Pébereau's attack at a pinned commit (or accepts that checkout as
+an argument), uses only the public key to forge, and requires the submitted
+verifier to reject the same signature on a changed message. The higher sets
+have not been runtime-forged in this harness.
+
 CEDRUS+C has a candidate-local `sign-03/reproduce_forgery` driver. It obtains
 1,000 signatures on distinct chosen messages, catalogs the disclosed FORS
 leaves at the implementation's four reachable bottom addresses, and grinds a

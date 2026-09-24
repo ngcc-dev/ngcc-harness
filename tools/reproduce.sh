@@ -437,6 +437,10 @@ echo "== sign-18-2 Origami: signature constraint-subspace recovery =="
 run_target sign-18 "sign-18-2" python3 sign-18/reproduce_signature_subspace.py
 
 echo
+echo "== sign-18-5 Origami: public-key-only signature forgery (Critical) =="
+run_target sign-18 "sign-18-5" python3 sign-18/reproduce_public_forgery.py
+
+echo
 echo "== sign-29-1 Tins: one-signature witness recovery =="
 run_target sign-29 "sign-29-1" make -C sign-29 exploit
 

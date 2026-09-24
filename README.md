@@ -40,7 +40,9 @@ Python witnesses, and SageMath for kex-08-1, sign-15-4, and kem-09-2. The
 sign-15-4 optimized build needs an AVX2-capable CPU. The sign-10-2 and
 sign-16-2 witnesses fetch separately published, SHA-256-checked artifacts
 over the network. The kem-09-2 estimate needs the pinned lattice-estimator
-checkout documented in its report.
+checkout documented in its report. The sign-18-5 witness fetches Pébereau's
+pinned attack source unless given an existing local checkout; it loads only
+the Origami library built by this harness and needs Python SM3 support.
 
 If the default Python lacks NumPy or Sage, point the witnesses to an
 appropriate environment, for example:
