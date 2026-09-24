@@ -263,6 +263,149 @@ static int kem_ct_flip(void)
         same, total);
 }
 
+/* OAEP-NTRU: the specified DecodePoly and the implementation's poly_frombytes
+ * accept fixed-width field values at least q. Replacing c with c+q changes the
+ * byte string without changing the residue used by decapsulation. The c+q+1
+ * mutation is a non-congruent control and must not return the original shared
+ * secret. */
+static unsigned int packed_coeff(const unsigned char *poly, size_t index,
+                                 unsigned int bits)
+{
+    size_t bit = index * bits;
+    unsigned int value = 0;
+
+    for (unsigned int i = 0; i < bits; i++, bit++)
+        value |= (unsigned int)((poly[bit / 8] >> (bit % 8)) & 1u) << i;
+    return value;
+}
+
+static void set_packed_coeff(unsigned char *poly, size_t index,
+                             unsigned int bits, unsigned int value)
+{
+    size_t bit = index * bits;
+
+    for (unsigned int i = 0; i < bits; i++, bit++) {
+        unsigned char mask = (unsigned char)(1u << (bit % 8));
+        if ((value >> i) & 1u)
+            poly[bit / 8] |= mask;
+        else
+            poly[bit / 8] &= (unsigned char)~mask;
+    }
+}
+
+static int kem_ct_noncanonical(void)
+{
+    if (g_meta->type != NGCC_TYPE_KEM) {
+        fprintf(stderr, "kem-ct-noncanonical needs a KEM library\n");
+        exit(2);
+    }
+    const ngcc_meta_kem_t *m = (const ngcc_meta_kem_t *)g_meta;
+    ngcc_kem_keygen_fn kg = sym("kem_keygen");
+    ngcc_kem_enc_fn en = sym("kem_enc");
+    ngcc_kem_dec_fn de = sym("kem_dec");
+    unsigned int n, q, bits;
+    unsigned long long expected_pk, expected_sk, expected_ct, expected_ss;
+
+    if (!strcmp(g_meta->instance, "OAEP-NTRU-648")) {
+        n = 648; q = 7129; bits = 13;
+        expected_pk = 1053; expected_sk = 2138; expected_ct = 1085; expected_ss = 32;
+    } else if (!strcmp(g_meta->instance, "OAEP-NTRU-1296")) {
+        n = 1296; q = 17497; bits = 15;
+        expected_pk = 2430; expected_sk = 4924; expected_ct = 2494; expected_ss = 32;
+    } else if (!strcmp(g_meta->instance, "OAEP-NTRU-2592")) {
+        n = 2592; q = 28513; bits = 15;
+        expected_pk = 4860; expected_sk = 9848; expected_ct = 4988; expected_ss = 64;
+    } else {
+        fprintf(stderr, "kem-ct-noncanonical needs an OAEP-NTRU library\n");
+        exit(2);
+    }
+    if (m->pk_len != expected_pk || m->sk_len != expected_sk ||
+        m->ct_len != expected_ct || m->ss_len != expected_ss ||
+        ((unsigned long long)n * bits) % 8 != 0 ||
+        ((unsigned long long)n * bits) / 8 != m->pk_len) {
+        fprintf(stderr, "unexpected OAEP-NTRU metadata or ciphertext layout\n");
+        exit(2);
+    }
+
+    unsigned char *pk = calloc((size_t)m->pk_len, 1);
+    unsigned char *sk = calloc((size_t)m->sk_len, 1);
+    unsigned char *ct = calloc((size_t)m->ct_len, 1);
+    unsigned char *alias = calloc((size_t)m->ct_len, 1);
+    unsigned char *control = calloc((size_t)m->ct_len, 1);
+    unsigned char *ss = calloc((size_t)m->ss_len, 1);
+    unsigned char *dec = calloc((size_t)m->ss_len, 1);
+    if (!pk || !sk || !ct || !alias || !control || !ss || !dec) {
+        fprintf(stderr, "allocation failed\n");
+        exit(2);
+    }
+
+    const unsigned int limit = 1u << bits;
+    const int trials = 10;
+    int accepted = 0, clean_controls = 0;
+    unsigned int min_liftable = n, max_liftable = 0;
+    for (int trial = 0; trial < trials; trial++) {
+        unsigned long long pl = m->pk_len, sl = m->sk_len;
+        unsigned long long cl = m->ct_len, ssl = m->ss_len;
+        seed_lib_audit((unsigned char)(0x28 + 2 * trial));
+        if (kg(pk, &pl, sk, &sl) || pl != m->pk_len || sl != m->sk_len) {
+            fprintf(stderr, "keygen failed or returned unexpected lengths\n");
+            exit(2);
+        }
+        seed_lib_audit((unsigned char)(0x29 + 2 * trial));
+        if (en(pk, pl, ss, &ssl, ct, &cl) || cl != m->ct_len || ssl != m->ss_len) {
+            fprintf(stderr, "encapsulation failed or returned unexpected lengths\n");
+            exit(2);
+        }
+
+        unsigned long long dl = m->ss_len;
+        int rc = de(sk, sl, ct, cl, dec, &dl);
+        if (rc != 0 || dl != ssl || memcmp(dec, ss, (size_t)ssl)) {
+            fprintf(stderr, "honest ciphertext did not reproduce its shared secret\n");
+            exit(2);
+        }
+
+        unsigned int liftable = 0;
+        size_t selected = n;
+        for (size_t i = 0; i < n; i++) {
+            unsigned int coeff = packed_coeff(ct, i, bits);
+            if (coeff + q < limit)
+                liftable++;
+            if (selected == n && coeff + q + 1 < limit)
+                selected = i;
+        }
+        if (liftable < min_liftable) min_liftable = liftable;
+        if (liftable > max_liftable) max_liftable = liftable;
+        if (selected == n) {
+            fprintf(stderr, "ciphertext has no coefficient suitable for both mutations\n");
+            exit(2);
+        }
+
+        unsigned int coeff = packed_coeff(ct, selected, bits);
+        memcpy(alias, ct, (size_t)cl);
+        set_packed_coeff(alias, selected, bits, coeff + q);
+        dl = m->ss_len;
+        rc = de(sk, sl, alias, cl, dec, &dl);
+        if (memcmp(alias, ct, (size_t)cl) && rc == 0 && dl == ssl &&
+            !memcmp(dec, ss, (size_t)ssl))
+            accepted++;
+
+        memcpy(control, ct, (size_t)cl);
+        set_packed_coeff(control, selected, bits, coeff + q + 1);
+        dl = m->ss_len;
+        rc = de(sk, sl, control, cl, dec, &dl);
+        if (memcmp(control, ct, (size_t)cl) &&
+            !(rc == 0 && dl == ssl && !memcmp(dec, ss, (size_t)ssl)))
+            clean_controls++;
+    }
+
+    free(pk); free(sk); free(ct); free(alias); free(control); free(ss); free(dec);
+    return verdict("kem-ct-noncanonical",
+        accepted == trials && clean_controls == trials,
+        "%d/%d +q aliases accepted with original secret; liftable=%u-%u/%u; "
+        "%d/%d +q+1 controls did not return it",
+        accepted, trials, min_liftable, max_liftable, n, clean_controls, trials);
+}
+
 /* ------------------------------------------------------------ signatures */
 
 /* Aigis-Sig+ / CS: non-canonical trailing encoding bytes, so a distinct
@@ -593,6 +736,7 @@ static void usage(void)
       "  hash-prefix          <libA> <libB>    short digest prefixes the long   (Megascon, Mozi)\n"
       "  kem-reject-mask      <lib>            rejection mask leaks the secret  (Cheetah, Loong)\n"
       "  kem-ct-flip          <lib>            dead implicit rejection          (Aigis-Enc+)\n"
+      "  kem-ct-noncanonical  <lib>            non-canonical ciphertext decoding (OAEP-NTRU)\n"
       "  sig-malleable        <lib>            SUF-CMA malleability             (Aigis-Sig+, CS)\n"
       "  sig-hint-padding     <lib>            ignored hint encoding            (MORNING-ATLAS)\n"
       "  sig-pors-padding     <lib>            unchecked PORS padding            (FlexTree)\n"
@@ -619,6 +763,7 @@ int main(int argc, char **argv)
     if (!strcmp(check, "hash-prefix")) { if (argc < 4) usage(); return hash_prefix(argv[3]); }
     if (!strcmp(check, "kem-reject-mask"))    return kem_reject_mask();
     if (!strcmp(check, "kem-ct-flip"))        return kem_ct_flip();
+    if (!strcmp(check, "kem-ct-noncanonical")) return kem_ct_noncanonical();
     if (!strcmp(check, "sig-malleable"))      return sig_malleable();
     if (!strcmp(check, "sig-hint-padding"))   return sig_hint_padding();
     if (!strcmp(check, "sig-pors-padding"))   return sig_pors_padding();

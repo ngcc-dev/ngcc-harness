@@ -50,6 +50,7 @@ than always firing.
 | `hash-collide-rate` | `pad10*1` puts both padding bits in one position when `\|M\| mod r == r-1` | MasterCube (hash-17) |
 | `hash-prefix` | no domain separation, so the short digest is a byte-exact prefix of the long one | Megascon (hash-18), Mozi (hash-20) |
 | `kem-ct-flip` | the FO implicit-rejection branch is dead code, so modified ciphertexts still return the original shared secret | Aigis-Enc+ (kem-01) |
+| `kem-ct-noncanonical` | the specified fixed-width decoder maps `c` and `c+q` to the same ciphertext polynomial and decapsulation returns the original shared secret; `c+q+1` is the non-congruent control | OAEP-NTRU (kem-28) |
 | `kem-reject-mask` | the rejection mask is not normalised to all-ones, so the returned value retains the low 7 bits of every byte of the valid secret | CheetahKEM (kem-09), LoongKEM (kem-18) |
 | `trike-threshold` | the PDF's maximum threshold rejects every honest ciphertext in the paired whole-KEM test, while the shipped minimum threshold succeeds | TRIKE (kem-36) |
 | `kem-failure-oracle` | ciphertext mutations distinguish list-decoder failure from later validation failure by return code and timing | UVW-KEM (kem-38) |

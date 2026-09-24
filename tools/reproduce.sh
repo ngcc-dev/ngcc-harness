@@ -215,6 +215,12 @@ echo "== kem-27-1 NTRE: scaled seed-ceiling witness (High) =="
 run_target kem-27 "kem-27-1" make -C kem-27 exploit
 
 echo
+echo "== kem-28-1 OAEP-NTRU: non-canonical ciphertext decoding =="
+run kem-28 "kem-28-1" CONFIRMED kem-ct-noncanonical kem-28/lib/libOAEP-NTRU-648.so
+run kem-28 "kem-28-1" CONFIRMED kem-ct-noncanonical kem-28/lib/libOAEP-NTRU-1296.so
+run kem-28 "kem-28-1" CONFIRMED kem-ct-noncanonical kem-28/lib/libOAEP-NTRU-2592.so
+
+echo
 echo "== kem-31-1 QIMEN-PIKE: invalid-ciphertext assertion aborts (Medium) =="
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-1.so kem-zero
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-2.so kem-zero
