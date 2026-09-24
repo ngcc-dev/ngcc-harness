@@ -36,6 +36,7 @@ kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA securit
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
 kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth ciphertext byte
 kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
+kem-02-3;Confirmed;runtime;The decryption-failure bound omits detected two-error rejections
 kem-03-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-06-1;Confirmed;runtime;A malformed secret key drives the BRA decoder out of bounds
@@ -57,7 +58,9 @@ kem-17-3;Confirmed;runtime;First encapsulation in each process is publicly repro
 kem-17-4;Confirmed;runtime;Public column multiplicities break the EPC-P assumption
 kem-17-5;Confirmed;review;Secret permutation and mixing matrix drive memory and control flow
 kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
+kem-19-1;Lead;review;Lore-512's reducible ring admits smaller quotient attacks
 kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit seed
+kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure estimate
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
 kem-24-1;Probable;review;Encryption omits the specified rounding constant
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
@@ -71,6 +74,7 @@ kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with var
 kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
 kem-38-2;Confirmed;runtime+static;UVW exposes a stable list-decoding failure oracle
 kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's independence premise
+kem-39-2;Confirmed;runtime;WeaverKEM-256 omits its high-layer BCH decoder
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
 kem-40-2;Probable;review;Decapsulation addresses a private array with a secret-derived index
 kex-02-1;Confirmed;runtime;The ephemeral key is generated once as long-term state
@@ -85,6 +89,8 @@ kex-08-2;Confirmed;runtime;NIIKE-lv512 key generation cycles between two hard-co
 kex-09-1;Confirmed;runtime;Decapsulation re-expands its secret key with a variable-length sampler
 sign-01-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-01-2;Confirmed;runtime;Malformed hint counts cause an attacker-controlled stack write
+sign-01-3;Confirmed;runtime;Signature API ignores declared key-buffer lengths
+sign-01-4;Confirmed;runtime;Honest signing writes one polynomial past the mask vector
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
 sign-04-1;Confirmed;runtime;The 160-bit WOTS implementation authenticates only 128 bits

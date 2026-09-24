@@ -172,6 +172,18 @@ run_target kem-02 "kem-02-1" make -C kem-02 exploit-key-recovery \
     PYTHON="${AMOEBA_PYTHON:-python3}"
 
 echo
+echo "== kem-02-3 Amoeba: two-error decryption-failure accounting (Medium) =="
+run_target kem-02 "kem-02-3" python3 kem-02/reproduce_dfr_tail.py
+
+echo
+echo "== kem-19-1 Lore: ring-projection preflight (Lead; lattice cost unverified) =="
+run_target kem-19 "kem-19-1" python3 kem-19/reproduce_ring_projection.py
+
+echo
+echo "== kem-22-1 Mithril: honest shared-secret mismatch (Medium) =="
+run_target kem-22 "kem-22-1" make -C kem-22 exploit-decoder
+
+echo
 echo "== kem-09-1 / kem-18-1: rejection mask leaks the secret (Critical) =="
 for l in kem-09/lib/*.so; do run kem-09 "kem-09-1" CONFIRMED kem-reject-mask "$l"; done
 for l in kem-18/lib/*.so; do run kem-18 "kem-18-1" CONFIRMED kem-reject-mask "$l"; done
@@ -319,6 +331,10 @@ echo "== kex-08-2 NIIKE-lv512: two-key secret cycle (Critical) =="
 run_target kex-08 "kex-08-2" make -C kex-08 exploit-lv512
 
 echo
+echo "== kem-39-2 WeaverKEM-256: omitted BCH correction (Medium) =="
+run_target kem-39 "kem-39-2" make -C kem-39 exploit-bch
+
+echo
 echo "== kex-09-1 TriQ-KEX: secret sampler has variable work (Medium) =="
 run_target kex-09 "kex-09-1" make -C kex-09 exploit
 
@@ -339,6 +355,9 @@ run_target sign-04 "sign-04-1/sign-04-2" make -C sign-04 exploit
 echo
 echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack write =="
 run sign-01 "sign-01-1/sign-01-2" CONFIRMED sig-malleable sign-01/lib/libAigis-sig1.so
+echo
+echo "== sign-01-3 / sign-01-4: ASan key-length and signer-write witnesses =="
+run_target sign-01 "sign-01-3/sign-01-4" make -C sign-01 exploit-memory
 echo "== sign-07-1: SUF-CMA malleability (High) =="
 run sign-07 "sign-07-1" CONFIRMED sig-malleable sign-07/lib/libCS-128.so
 

@@ -30,3 +30,11 @@ $(eval $(call WV,WeaverKEM-256,3))
 $(eval $(call WV,WeaverKEM-512,5))
 
 include ../api/link_finish.mk
+
+.PHONY: exploit-bch
+exploit-bch: build/reproduce_high_bch_omission
+	build/reproduce_high_bch_omission
+
+build/reproduce_high_bch_omission: reproduce_high_bch_omission.c $(addprefix $(REF)/WeaverKEM-256/,msgenc.c bch_high.c bch_low.c reduce.c)
+	@mkdir -p build
+	$(CC) -O2 -DWEAVER_MODE=3 -I$(REF)/WeaverKEM-256 $(filter %.c,$^) -o $@

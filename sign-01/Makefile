@@ -30,3 +30,7 @@ $(eval $(call AIGIS,Aigis-sig2,Aigis-Sig+-II,2))
 $(eval $(call AIGIS,Aigis-sig3,Aigis-Sig+-III,3))
 
 include ../api/link_finish.mk
+
+.PHONY: exploit-memory
+exploit-memory:
+	bash reproduce_memory_safety.sh

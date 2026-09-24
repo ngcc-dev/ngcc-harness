@@ -30,3 +30,12 @@ $(eval $(call MITHRIL,Mithril-256,256))
 $(eval $(call MITHRIL,Mithril-512,512))
 
 include ../api/link_finish.mk
+
+# Pinned honest encapsulation / decapsulation mismatch from issue #15.
+.PHONY: exploit-decoder
+exploit-decoder: build/reproduce_decoding_constant
+	build/reproduce_decoding_constant
+
+build/reproduce_decoding_constant: reproduce_decoding_constant.c $(addprefix $(REF)/Mithril-256/,arith/poly.c arith/ring.c arith/packing.c arith/uniform.c pke.c kem.c utils/auxfunc.c utils/drng.c)
+	@mkdir -p build
+	$(CC) -O2 -DRRLWR_SECURITY_LEVEL=256 -I$(REF)/Mithril-256 -I$(REF)/Mithril-256/utils -I$(REF)/Mithril-256/arith $(filter %.c,$^) -o $@

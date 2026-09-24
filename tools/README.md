@@ -1,10 +1,11 @@
 # Reproducers
 
-Runnable witnesses for report findings that admit a low-cost experiment. Each
-one drives a candidate's own reference implementation through the uniform ABI
-described in `api/README.md`. No submission file is modified and no shipped
-binary is executed; the libraries are compiled from the candidates' own sources
-by the per-candidate Makefiles. Information-theoretic parameter ceilings use
+Runnable witnesses for report findings that admit a low-cost experiment. Most
+drive a candidate's reference implementation through the uniform ABI described
+in `api/README.md`; some compile a focused source-built witness or check a
+specified parameter relation. No submission file is modified and no shipped
+binary is executed; candidate code is compiled from the submitted sources.
+Information-theoretic parameter ceilings use
 `security/design_parameter_audit.py` instead and do not attempt their generic
 `2^128` or `2^256` attacks.
 
@@ -85,6 +86,15 @@ Amoeba-576's `kem-02/recover_amoeba576.py` uses NumPy and SciPy to recover all
 a key and checks fresh honest shared secrets. Set `AMOEBA_PYTHON` when running
 `tools/reproduce.sh kem-02` if those dependencies live in a separate Python or
 Sage environment.
+
+The newer focused witnesses include Amoeba's two-error failure-tail calculation
+(`kem-02-3`), Mithril-256's honest shared-secret mismatch (`kem-22-1`),
+WeaverKEM-256's omitted BCH correction (`kem-39-2`), and the Aigis-Sig+ key-length
+and signer-write AddressSanitizer checks (`sign-01-3`/`sign-01-4`). The Lore
+script (`kem-19-1`) verifies only its ring projection and CRT reconstruction;
+the published lattice-cost estimate remains an unconfirmed lead. All are
+invoked by `tools/reproduce.sh`; the Aigis-Sig+ checks require GCC
+AddressSanitizer and `rg`.
 
 AFS-KEX has candidate-local C128/C256/C512 `reproduce_pfs_break*` drivers. Each
 records an honest exchange, erases both live session states, then treats the API
