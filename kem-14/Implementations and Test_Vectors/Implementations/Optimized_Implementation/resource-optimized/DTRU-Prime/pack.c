@@ -1,0 +1,155 @@
+#include "pack.h"
+
+void pack_pk(unsigned char *r, const poly *a)
+{
+    unsigned int i;
+    for (i = 0; i < DTRU_N / 8; i ++)
+    {
+        r[11 * i + 0] = (a->coeffs[8 * i + 0] >> 0);
+        r[11 * i + 1] = (a->coeffs[8 * i + 0] >> 8) | ((int16_t)a->coeffs[8 * i + 1] << 3);
+        r[11 * i + 2] = (a->coeffs[8 * i + 1] >> 5) | ((int16_t)a->coeffs[8 * i + 2] << 6);
+        r[11 * i + 3] = (a->coeffs[8 * i + 2] >> 2);
+        r[11 * i + 4] = (a->coeffs[8 * i + 2] >> 10) | ((int16_t)a->coeffs[8 * i + 3] << 1);
+        r[11 * i + 5] = (a->coeffs[8 * i + 3] >> 7) | ((int16_t)a->coeffs[8 * i + 4] << 4);
+        r[11 * i + 6] = (a->coeffs[8 * i + 4] >> 4) | ((int16_t)a->coeffs[8 * i + 5] << 7);
+        r[11 * i + 7] = (a->coeffs[8 * i + 5] >> 1);
+        r[11 * i + 8] = (a->coeffs[8 * i + 5] >> 9) | ((int16_t)a->coeffs[8 * i + 6] << 2);
+        r[11 * i + 9] = (a->coeffs[8 * i + 6] >> 6) | ((int16_t)a->coeffs[8 * i + 7] << 5);
+        r[11 * i + 10] = (a->coeffs[8 * i + 7] >> 3);
+    }
+    r[11 * i + 0] = (a->coeffs[8 * i + 0] >> 0);
+    r[11 * i + 1] = (a->coeffs[8 * i + 0] >> 8) | ((int16_t)a->coeffs[8 * i + 1] << 3);
+    r[11 * i + 2] = (a->coeffs[8 * i + 1] >> 5) | ((int16_t)a->coeffs[8 * i + 2] << 6);
+    r[11 * i + 3] = (a->coeffs[8 * i + 2] >> 2);
+    r[11 * i + 4] = (a->coeffs[8 * i + 2] >> 10) | ((int16_t)a->coeffs[8 * i + 3] << 1);
+    r[11 * i + 5] = (a->coeffs[8 * i + 3] >> 7) | ((int16_t)a->coeffs[8 * i + 4] << 4);
+    r[11 * i + 6] = (a->coeffs[8 * i + 4] >> 4) | ((int16_t)a->coeffs[8 * i + 5] << 7);
+    r[11 * i + 7] = (a->coeffs[8 * i + 5] >> 1);
+    r[11 * i + 8] = (a->coeffs[8 * i + 5] >> 9) | ((int16_t)a->coeffs[8 * i + 6] << 2);
+    r[11 * i + 9] = (a->coeffs[8 * i + 6] >> 6);
+}
+
+void unpack_pk(poly *r, const unsigned char *a)
+{
+    unsigned int i;
+    for (i = 0; i < DTRU_N / 8; i++) {
+        r->coeffs[8 * i + 0] = ((a[11 * i + 0] >> 0) | ((uint16_t)a[11 * i + 1] << 8)) & 0x7FF;
+        r->coeffs[8 * i + 1] = ((a[11 * i + 1] >> 3) | ((uint16_t)a[11 * i + 2] << 5)) & 0x7FF;
+        r->coeffs[8 * i + 2] = ((a[11 * i + 2] >> 6) | ((uint16_t)a[11 * i + 3] << 2)
+                                                     | ((uint16_t)a[11 * i + 4] << 10)) & 0x7FF;
+        r->coeffs[8 * i + 3] = ((a[11 * i + 4] >> 1) | ((uint16_t)a[11 * i + 5] << 7)) & 0x7FF;
+        r->coeffs[8 * i + 4] = ((a[11 * i + 5] >> 4) | ((uint16_t)a[11 * i + 6] << 4)) & 0x7FF;
+        r->coeffs[8 * i + 5] = ((a[11 * i + 6] >> 7) | ((uint16_t)a[11 * i + 7] << 1)
+                                                     | ((uint16_t)a[11 * i + 8] << 9)) & 0x7FF;
+        r->coeffs[8 * i + 6] = ((a[11 * i + 8] >> 2) | ((uint16_t)a[11 * i + 9] << 6)) & 0x7FF;
+        r->coeffs[8 * i + 7] = ((a[11 * i + 9] >> 5) | ((uint16_t)a[11 * i + 10] << 3)) & 0x7FF;
+    }
+    r->coeffs[8 * i + 0] = ((a[11 * i + 0] >> 0) | ((uint16_t)a[11 * i + 1] << 8)) & 0x7FF;
+    r->coeffs[8 * i + 1] = ((a[11 * i + 1] >> 3) | ((uint16_t)a[11 * i + 2] << 5)) & 0x7FF;
+    r->coeffs[8 * i + 2] = ((a[11 * i + 2] >> 6) | ((uint16_t)a[11 * i + 3] << 2)
+                                                 | ((uint16_t)a[11 * i + 4] << 10)) & 0x7FF;
+    r->coeffs[8 * i + 3] = ((a[11 * i + 4] >> 1) | ((uint16_t)a[11 * i + 5] << 7)) & 0x7FF;
+    r->coeffs[8 * i + 4] = ((a[11 * i + 5] >> 4) | ((uint16_t)a[11 * i + 6] << 4)) & 0x7FF;
+    r->coeffs[8 * i + 5] = ((a[11 * i + 6] >> 7) | ((uint16_t)a[11 * i + 7] << 1)
+                                                 | ((uint16_t)a[11 * i + 8] << 9)) & 0x7FF;
+    r->coeffs[8 * i + 6] = ((a[11 * i + 8] >> 2) | ((uint16_t)a[11 * i + 9] << 6)) & 0x7FF;
+}
+
+void pack_sk(unsigned char *r, const poly *a)
+{
+    unsigned int i;
+    uint8_t t[8];
+
+    for (i = 0; i < DTRU_N / 8; i++)
+    {
+        t[0] = DTRU_BOUND - a->coeffs[8 * i + 0];
+        t[1] = DTRU_BOUND - a->coeffs[8 * i + 1];
+        t[2] = DTRU_BOUND - a->coeffs[8 * i + 2];
+        t[3] = DTRU_BOUND - a->coeffs[8 * i + 3];
+        t[4] = DTRU_BOUND - a->coeffs[8 * i + 4];
+        t[5] = DTRU_BOUND - a->coeffs[8 * i + 5];
+        t[6] = DTRU_BOUND - a->coeffs[8 * i + 6];
+        t[7] = DTRU_BOUND - a->coeffs[8 * i + 7];
+        r[3 * i + 0] = (t[0] >> 0) | (t[1] << 3) | (t[2] << 6) ;
+        r[3 * i + 1] = (t[2] >> 2) | (t[3] << 1)  | (t[4] << 4) | (t[5] << 7);
+        r[3 * i + 2] = (t[5] >> 1) | (t[6] << 2)| (t[7] << 5);
+    }
+    t[0] = DTRU_BOUND - a->coeffs[8 * i + 0];
+    t[1] = DTRU_BOUND - a->coeffs[8 * i + 1];
+    t[2] = DTRU_BOUND - a->coeffs[8 * i + 2];
+    t[3] = DTRU_BOUND - a->coeffs[8 * i + 3];
+    t[4] = DTRU_BOUND - a->coeffs[8 * i + 4];
+    t[5] = DTRU_BOUND - a->coeffs[8 * i + 5];
+    t[6] = DTRU_BOUND - a->coeffs[8 * i + 6];
+    r[3 * i + 0] = (t[0] >> 0) | (t[1] << 3) | (t[2] << 6) ;
+    r[3 * i + 1] = (t[2] >> 2) | (t[3] << 1)  | (t[4] << 4) | (t[5] << 7);
+    r[3 * i + 2] = (t[5] >> 1) | (t[6] << 2);
+}
+
+void unpack_sk(poly *r, const unsigned char *a)
+{
+    unsigned int i;
+
+    for (i = 0; i < DTRU_N / 8; ++i)
+    {
+        r->coeffs[8 * i + 0] = DTRU_BOUND - ((a[3*i] >> 0)& 0x7);
+        r->coeffs[8 * i + 1] = DTRU_BOUND - ((a[3*i] >> 3)& 0x7);
+        r->coeffs[8 * i + 2] = DTRU_BOUND - (((a[3*i] >> 6) | (a[3*i+1] << 2 ))& 0x7);
+        r->coeffs[8 * i + 3] = DTRU_BOUND - ((a[3*i+1] >> 1)& 0x7);
+        r->coeffs[8 * i + 4] = DTRU_BOUND - ((a[3*i+1] >> 4)& 0x7);
+        r->coeffs[8 * i + 5] = DTRU_BOUND - (((a[3*i+1] >> 7) | (a[3*i+2] << 1 ))& 0x7);
+        r->coeffs[8 * i + 6] = DTRU_BOUND - ((a[3*i+2] >> 2)& 0x7);
+        r->coeffs[8 * i + 7] = DTRU_BOUND - ((a[3*i+2] >> 5)& 0x7);
+    }
+    r->coeffs[8 * i + 0] = DTRU_BOUND - ((a[3*i] >> 0)& 0x7);
+    r->coeffs[8 * i + 1] = DTRU_BOUND - ((a[3*i] >> 3)& 0x7);
+    r->coeffs[8 * i + 2] = DTRU_BOUND - (((a[3*i] >> 6) | (a[3*i+1] << 2 ))& 0x7);
+    r->coeffs[8 * i + 3] = DTRU_BOUND - ((a[3*i+1] >> 1)& 0x7);
+    r->coeffs[8 * i + 4] = DTRU_BOUND - ((a[3*i+1] >> 4)& 0x7);
+    r->coeffs[8 * i + 5] = DTRU_BOUND - (((a[3*i+1] >> 7) | (a[3*i+2] << 1 ))& 0x7);
+    r->coeffs[8 * i + 6] = DTRU_BOUND - ((a[3*i+2] >> 2)& 0x7);
+}
+
+void pack_ct(unsigned char *r, const poly *a)
+{
+    unsigned int i;
+    for (i = 0; i < DTRU_N / 4; ++i)
+    {
+        r[5 * i + 0] = (a->coeffs[4 * i + 0] >> 0);
+        r[5 * i + 1] = (a->coeffs[4 * i + 0] >> 8) | ((int16_t)a->coeffs[4 * i + 1] << 2);
+        r[5 * i + 2] = (a->coeffs[4 * i + 1] >> 6) | ((int16_t)a->coeffs[4 * i + 2] << 4);
+        r[5 * i + 3] = (a->coeffs[4 * i + 2] >> 4) | ((int16_t)a->coeffs[4 * i + 3] << 6);
+        r[5 * i + 4] = (a->coeffs[4 * i + 3] >> 2);
+    }
+    r[5 * i + 0] = (a->coeffs[4 * i + 0] >> 0);
+    r[5 * i + 1] = (a->coeffs[4 * i + 0] >> 8) | ((int16_t)a->coeffs[4 * i + 1] << 2);
+    r[5 * i + 2] = (a->coeffs[4 * i + 1] >> 6) | ((int16_t)a->coeffs[4 * i + 2] << 4);
+    r[5 * i + 3] = (a->coeffs[4 * i + 2] >> 4);
+}
+
+void unpack_decompress_ct(poly *r, const unsigned char *a)
+{
+    unsigned int i, j;
+    int16_t t[4];
+    int32_t temp;
+    for (i = 0; i < DTRU_N / 4; ++i)
+    {
+        t[0] = ((a[5 * i + 0] >> 0) | ((uint16_t)a[5 * i + 1] << 8)) & 0x3FF;
+        t[1] = ((a[5 * i + 1] >> 2) | ((uint16_t)a[5 * i + 2] << 6)) & 0x3FF;
+        t[2] = ((a[5 * i + 2] >> 4) | ((uint16_t)a[5 * i + 3] << 4)) & 0x3FF;
+        t[3] = ((a[5 * i + 3] >> 6) | ((uint16_t)a[5 * i + 4] << 2)) & 0x3FF;
+        for (j = 0; j < 4; ++j)
+        {
+            temp = ((int32_t)(t[j] * DTRU_Q) + (DTRU_Q2 >> 1)) >> DTRU_LOGQ2;
+            r->coeffs[4 * i + j] = temp;
+        }
+    }
+    t[0] = ((a[5 * i + 0] >> 0) | ((uint16_t)a[5 * i + 1] << 8)) & 0x3FF;
+    t[1] = ((a[5 * i + 1] >> 2) | ((uint16_t)a[5 * i + 2] << 6)) & 0x3FF;
+    t[2] = ((a[5 * i + 2] >> 4) | ((uint16_t)a[5 * i + 3] << 4)) & 0x3FF;
+    for (j = 0; j < 3; ++j)
+    {
+        temp = ((int32_t)(t[j] * DTRU_Q) + (DTRU_Q2 >> 1)) >> DTRU_LOGQ2;
+        r->coeffs[4 * i + j] = temp;
+    }
+}

@@ -1,0 +1,27 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define SECURITY_PARAM 192
+#define OWF_GREATWALL
+#define PRG_AES_CTR
+#define TREE_PRG_AES_CTR
+#define LEAF_PRG_SHAKE
+#define BITS_PER_WITNESS 16
+#define ZERO_BITS_IN_CHALLENGE_3 8
+
+#if 183 == -1
+#define USE_IMPROVED_VECTOR_COMMITMENTS 0
+#define BATCH_VECTOR_OPENING_SEEDS_TRESHOLD SECURITY_PARAM
+#else
+#define USE_IMPROVED_VECTOR_COMMITMENTS 1
+#define BATCH_VECTOR_OPENING_SEEDS_TRESHOLD 183
+#endif
+
+#define RANDOM_ORACLE_SHA3
+
+#define XKCP_has_KeccakP1600
+#define XKCP_has_KeccakP1600times2
+#define XKCP_has_KeccakP1600times4
+#define XKCP_has_KeccakP1600times8
+
+#endif

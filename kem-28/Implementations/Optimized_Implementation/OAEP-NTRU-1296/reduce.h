@@ -1,0 +1,80 @@
+#ifndef REDUCE_H
+#define REDUCE_H
+
+#include "params.h"
+#include <stdint.h>
+
+#define QINV 50153
+
+/*************************************************
+* Name:        montgomery_reduce
+*
+* Description: Montgomery reduction; given a 32-bit integer a, computes
+*              16-bit integer congruent to a * R^-1 mod q, where R=2^16
+*
+* Arguments:   - int32_t a: input integer to be reduced;
+*                           has to be in {-q2^15,...,q2^15-1}
+*
+* Returns:     integer in {-q+1,...,q-1} congruent to a * R^-1 modulo q.
+**************************************************/
+static inline int16_t montgomery_reduce(int32_t a)
+{
+	int16_t t;
+
+	t = (int16_t)a*QINV;
+	t = (a - (int32_t)t*NTRUOAEP_Q) >> 16;
+	return t;
+}
+
+/*************************************************
+* Name:        barrett_reduce
+*
+* Description: Barrett reduction; given a 16-bit integer a, computes
+*              centered representative congruent to a mod q in {-(q-1)/2,...,(q-1)/2}
+*
+* Arguments:   - int16_t a: input integer to be reduced
+*
+* Returns:     integer in {-(q-1)/2,...,(q-1)/2} congruent to a modulo q.
+**************************************************/
+static inline int16_t barrett_reduce(int16_t a)
+{
+	int16_t t;
+	const uint16_t v = ((1<<27) + NTRUOAEP_Q/2)/NTRUOAEP_Q;
+
+	t  = ((int32_t)v*a + (1<<26)) >> 27;
+	t *= NTRUOAEP_Q;
+	return a - t;
+}
+
+static inline int16_t basic_reduce(int16_t a)
+{
+	while (a >= NTRUOAEP_Q/2)
+		a -= NTRUOAEP_Q;
+	while (a < -NTRUOAEP_Q/2)
+		a += NTRUOAEP_Q;
+	return a;
+}
+
+
+/*************************************************
+* Name:        onetime_reduce
+*
+* Description: One-sided conditional reduction. Subtract q once when
+*              a >= q/2, and otherwise return a unchanged.
+*
+*
+* Arguments:   - int16_t a: input integer to be reduced
+*
+* Returns:     integer in {-(q+1)/2,...,(q-3)/2} congruent to a modulo q.
+**************************************************/
+static inline int16_t onetime_reduce(int16_t a)
+{
+	int16_t mask;
+
+	mask = -(int16_t)((uint16_t)(NTRUOAEP_Q / 2 - 1 - a) >> 15);
+	a -= NTRUOAEP_Q & mask;
+
+	return a;
+}
+
+#endif

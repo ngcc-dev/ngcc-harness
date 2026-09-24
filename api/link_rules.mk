@@ -33,6 +33,8 @@
 #                    (default: first Test_Vector* directory in the candidate folder)
 #   KATNAME_<label>  name part of KAT_<TYPE>_<name>.txt if it differs from the
 #                    instance's ALGORITHM_INSTANCE
+#   MANIFESTLABEL_<label> key prefix in kat.sha256 if this is another build of
+#                    an existing reference instance (default: <label>)
 #   TESTFLAGS_<label> extra harness flags (e.g. --full)
 #
 # Candidate-wide overrides: NGCC_CFLAGS, NGCC_CXXFLAGS, NGCC_LDLIBS,
@@ -113,7 +115,7 @@ LINKER_$(1) := $$(if $$(HASCXX_$(1)),$(CXX),$(CC))
 INCFLAGS_$(1) := -Isrc/$(1) -I$(API) $$(INC_$(1))
 SHIMDEFS_ALL_$(1) := $(NGCC_TYPE_DEF) -DNGCC_ID='"$(NGCC_ID)"' -DNGCC_ALG='"$(NGCC_ALG)"' \
     -DNGCC_VARIANT='"$$(if $$(findstring Optimi,$(2)),Optimized_Implementation,Reference_Implementation)"' \
-    -DNGCC_SRCDIR='"$(2)"' -DNGCC_FLAGS='"$(NGCC_OPT) $$(CFLAGS_$(1))"' $$(SHIMDEFS_$(1))
+    -DNGCC_SRCDIR='"$(2)"' -DNGCC_FLAGS='"$(NGCC_CFLAGS) $$(CFLAGS_$(1))"' $$(SHIMDEFS_$(1))
 
 build/$(1)/shim.o: $(API)/link_shim.c $(API)/link_common.h $(API)/link_$(NGCC_TYPE).h | build/$(1)
 	$(CC) $(NGCC_CFLAGS) $$(CFLAGS_$(1)) $$(DEFS_$(1)) $$(INCFLAGS_$(1)) $$(SHIMDEFS_ALL_$(1)) -c -o $$@ $$<
@@ -129,7 +131,7 @@ build/$(1):
 
 test-$(1): lib/lib$(1).so $(HARNESS) | results kat
 	@$(HARNESS) --out-dir kat --kat-dir '$$(if $$(KATDIR_$(1)),$$(KATDIR_$(1)),$(NGCC_KAT_DIR))' \
-	    $$(if $$(wildcard $(NGCC_MANIFEST)),--kat-sha $(NGCC_MANIFEST)) --label $(1) \
+	    $$(if $$(wildcard $(NGCC_MANIFEST)),--kat-sha $(NGCC_MANIFEST)) --label $$(if $$(MANIFESTLABEL_$(1)),$$(MANIFESTLABEL_$(1)),$(1)) \
 	    $$(if $$(KATNAME_$(1)),--kat-name '$$(KATNAME_$(1))') $$(TESTFLAGS_$(1)) $(NGCC_TESTFLAGS) \
 	    $$< > results/$(1).log 2>&1; rc=$$$$?; \
 	  if ! tail -1 results/$(1).log | grep -q '^RESULT'; then \
@@ -143,7 +145,7 @@ TESTS += test-$(1)
 # hash this instance's reference KAT files into the manifest
 manifest-$(1): lib/lib$(1).so $(HARNESS)
 	@$(HARNESS) --quiet --kat-dir '$$(if $$(KATDIR_$(1)),$$(KATDIR_$(1)),$(NGCC_KAT_DIR))' \
-	    $$(if $$(KATNAME_$(1)),--kat-name '$$(KATNAME_$(1))') $$(TESTFLAGS_$(1)) --label $(1) --write-manifest $(NGCC_MANIFEST) $$<
+	    $$(if $$(KATNAME_$(1)),--kat-name '$$(KATNAME_$(1))') $$(TESTFLAGS_$(1)) --label $$(if $$(MANIFESTLABEL_$(1)),$$(MANIFESTLABEL_$(1)),$(1)) --write-manifest $(NGCC_MANIFEST) $$<
 .PHONY: manifest-$(1)
 MANIFESTS += manifest-$(1)
 endef

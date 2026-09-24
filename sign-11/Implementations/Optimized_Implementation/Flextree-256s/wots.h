@@ -1,0 +1,27 @@
+#ifndef SPX_WOTS_H
+#define SPX_WOTS_H
+
+#include <stdint.h>
+
+#include "params.h"
+#include "context.h"
+
+
+extern const unsigned int wots_w[];
+extern const unsigned int wots_wlog[];
+
+/**
+ * Takes a WOTS signature and an n-byte message, computes a WOTS public key.
+ *
+ * Writes the computed public key to 'pk'.
+ */
+void wots_pk_from_sig(unsigned char *pk,
+                      const unsigned char *sig, const unsigned char *msg,
+                      const spx_ctx *ctx, uint32_t addr[8], uint32_t counter);
+
+/*
+ * Compute the chain lengths needed for a given message hash
+ */
+unsigned int chain_lengths(unsigned int *lengths, const unsigned char *msg);
+
+#endif

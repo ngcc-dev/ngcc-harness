@@ -1,10 +1,50 @@
-# Candidate reference sources are tracked. Only generated build/test output and
-# optional copies of the original submission archives are ignored.
+# Candidate source, specifications, and compact KAT digests are tracked.
+# Local submission packages and bulk package artifacts are not published.
 __pycache__/
 *.py[cod]
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+*.tar.bz2
+*.tar.xz
+*.part
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.pdf
+!/*/*-spec.pdf
+!/doc/perf-*.pdf
+# Extracting an official ZIP must not make full vectors or IP paperwork addable.
+*KAT*.txt
+*kat*.txt
+*Test_Vector*.txt
+*test_vector*.txt
+**/Test_Vectors/**/*.txt
+**/Test_Vectors/**/*.dat
+**/Test_Vectors/**/*.bin
+**/Test_Vectors/**/*.rsp
+*.rsp
+*[Ii][Pp]*[Ss]tatement*
+*[Ii][Pp][Rr]*[Ss]tatement*
+*[Ii]ntellectual*[Pp]roperty*
+*[Pp]atent*[Ss]tatement*
+*.doc
+*.docx
+*.ppt
+*.pptx
+*.xls
+*.xlsx
 /tools/ngcc_attack
 /security/ngcc_security
 /security/hash_oom_false_success
+/performance/ngcc_perf
+/performance/runs/
 /*/reproduce_forgery
 /sign-07/forgery_CS-*
 /sign-10/cryptanalysis/build/

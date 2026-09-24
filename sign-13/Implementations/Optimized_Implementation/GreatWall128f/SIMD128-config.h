@@ -1,0 +1,4 @@
+#define KeccakP1600times2_implementation_config "SSSE3, 2 rounds unrolled"
+#define KeccakP1600times2_unrolling 2
+#define KeccakP1600times2_useSSE
+#define KeccakP1600times2_useSSE2

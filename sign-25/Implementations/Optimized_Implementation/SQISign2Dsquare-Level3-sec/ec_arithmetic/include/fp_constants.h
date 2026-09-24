@@ -1,0 +1,8 @@
+#define NWORDS_FIELD 9
+#define NWORDS_ORDER_2 5
+#define NWORDS_ORDER_2_BYTES 34
+#define NWORDS_ORDER_3 5
+#define NWORDS_ORDER_3_BYTES 33
+#define BITS 576
+#define BITS_2 320
+#define BITS_3 320

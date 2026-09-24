@@ -14,6 +14,12 @@ CMake, script or prebuilt binary is run. Each `<id>/Makefile` lists the sources
 explicitly and compiles them with fixed flags (see `api/README.md`, "Rules
 that every candidate Makefile follows").
 
+Software source and include files from all 119 submission packages, including
+optimized/AVX2 and ARM variants, are retained under their original paths for a
+separate, KAT-gated [performance study](performance/README.md).
+The current virtual-machine measurements are preliminary and are kept separate
+from the security findings and from later measurements on physical hosts.
+
 This repository is not affiliated with NICCS. `SOURCE_ARCHIVES.md` records the
 official submission archives from which the included source files were taken.
 
@@ -29,6 +35,7 @@ tools/reproduce.sh kem-01            # or one candidate
 make design-audit                    # static specification/parameter findings
 make check-vulnerabilities           # validate all stable vulnerability IDs
 make check-reference-data            # validate all specs and parameter records
+make check-publishable-files          # exclude ZIPs, full vectors, IP paperwork
 ```
 
 `make -j8 all test` builds and KAT-tests every included candidate. Run
@@ -62,6 +69,7 @@ affect the separate `kem-33-1` witness.
 ```
 api/            KAT harness (bin/ngcc_kat), link shim, generic make rules; api/README.md
 tools/          ngcc_attack.c reproducer, reproduce.sh runner; tools/README.md
+performance/    source importer, staged variants, bounded benchmark and raw VM data
 security/       vulnerability inventory, focused validators and crash-safe witnesses
 data/           machine-readable parameters, candidate metadata and spec provenance
 <id>/           specification and extracted pseudocode/parameters for every candidate;
@@ -80,15 +88,20 @@ Candidate ids (`sign-NN`, `kem-NN`, `kex-NN`, `hash-NN`) follow the numbering
 of the official Round 1 lists. Every candidate has its submitted specification
 and a human-readable extraction of its algorithms and parameter tables. Every
 submitted implementation instance is also represented in `data/parameters.csv`.
-Only candidates covered by a published report, used as a reproducer control, or
-needed by the static audit have reference source files here; a directory without
-a Makefile is therefore a reference-data entry rather than a build target.
-Some `constant_time.md` source reviews cite files not retained in this compact
-harness. To inspect those source paths, use `IDS=<id> ./download.sh` followed
-by `./extract.sh <id>`; verify the ZIP against `SOURCE_ARCHIVES.md` first.
+Software source and include files from every submission are retained, but a
+directory without a Makefile is not yet a build target. To inspect original
+non-source package material, use `IDS=<id> ./download.sh`; verify the ZIP
+against `SOURCE_ARCHIVES.md` before opening it. Full extraction with
+`./extract.sh <id>` is optional and may create ignored local vectors and
+documents.
+
 Submitted test-vector files are not included: the compact `kat.sha256`
 manifests let `make test` compare freshly generated vectors to every required
 reference digest without retaining multi-gigabyte text files.
+Original ZIPs and other bulky package material may be kept locally for
+provenance checks, but are ignored by Git. Run `make check-publishable-files`
+before adding files; it checks both tracked files and files Git would normally
+add, while allowing candidate specifications and the performance guides.
 
 Every published issue is identified in `security/vulnerabilities.csv` by its
 stable `xxx-yy-z` ID. The verification field distinguishes runtime witnesses,

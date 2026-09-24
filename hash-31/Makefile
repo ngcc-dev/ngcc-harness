@@ -30,6 +30,25 @@ $(eval $(call ZC,ZC-DMC-1536-512,1536))
 $(eval $(call ZC,ZC-DMC-1536-768,1536))
 $(eval $(call ZC,ZC-DMC-1536-1024,1536))
 
+# The submitted optimized instance uses the submitted AVX2 ZuD backend.
+# Keep the existing reference targets unchanged; request these explicitly.
+ifeq ($(PERF_OPT),1)
+OPT := ZC-DMC/Implementations/Implementations/Optimized_Implementation
+define ZC_AVX2
+SRCS_$(1)-avx2 := CryptHash_AlgorithmInstance.c drng.c ../../../lib/low/ZuD-$(2)/AVX2/ZuD$(2)-AVX2.c
+INC_$(1)-avx2 := -I$(ZC_LIB)/common
+KATNAME_$(1)-avx2 := $(1)
+MANIFESTLABEL_$(1)-avx2 := $(1)
+$$(eval $$(call ngcc_instance,$(1)-avx2,$(OPT)/$(1)))
+endef
+$(eval $(call ZC_AVX2,ZC-DMC-1280-512,1280))
+$(eval $(call ZC_AVX2,ZC-DMC-1280-768,1280))
+$(eval $(call ZC_AVX2,ZC-DMC-1280-1024,1280))
+$(eval $(call ZC_AVX2,ZC-DMC-1536-512,1536))
+$(eval $(call ZC_AVX2,ZC-DMC-1536-768,1536))
+$(eval $(call ZC_AVX2,ZC-DMC-1536-1024,1536))
+endif
+
 include ../api/link_finish.mk
 
 .PHONY: exploit

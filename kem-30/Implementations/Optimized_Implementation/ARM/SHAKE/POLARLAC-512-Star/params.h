@@ -1,0 +1,56 @@
+/*
+Copyright (c) 2026 Ying Liu.
+Organization: State Key Laboratory of Cyberspace Security Defense,Institute of Information Engineering, CAS
+              School of Cyber Security, University of Chinese Academy of Sciences  
+File Description: Defines parameter constants for the optimized POLARLAC-512 implementation.
+*/
+
+#ifndef PARAM_H
+#define PARAM_H
+
+#define SM3_DIGEST_BYTES 32
+#define KEM_SEED_LEN_BYTES 64
+#define PK_SEED_LEN_BYTES 64
+#define PKE_EXPANDED_SEED_BYTES (PK_SEED_LEN_BYTES + KEM_SEED_LEN_BYTES)
+#define RL_KEM_N 1024
+#define RL_KEM_N_LEN_BYTES 128
+#define RL_KEM_K 2
+#define RL_KEM_Q 769
+#define QINV -767
+#define RL_KEM_T 4096
+#define CONJ_NTT_Q 769
+#define CONJ_NTT_T 11664 // conjugate-NTT rejection threshold for r,e,s,e1
+#define RL_KEM_N_Half 512
+#define MESSAGE_LEN_BYTES 64
+#define MLWE_VEC_COEFFS (RL_KEM_K * RL_KEM_N)
+#define SK_LEN_BYTES (MLWE_VEC_COEFFS * 2) // raw NTT-domain secret vector, int16_t per coefficient
+#define CODE_LEN 128
+#define RL_KEM_Lv 1024
+#define RATIO 385  //Q/2
+#define PK_CRT_POLY_BYTES 1229
+#define PK_POLY_BYTES PK_CRT_POLY_BYTES
+#define PK_LEN_BYTES (RL_KEM_K * PK_POLY_BYTES)
+#define C1_POLY_BYTES PK_CRT_POLY_BYTES
+#define C1_LEN_BYTES (RL_KEM_K * C1_POLY_BYTES)
+#define D_C2_BITS 4 // number of quantization bits retained per c2 coefficient
+#define C2_LEN_BYTES ((RL_KEM_Lv * D_C2_BITS) / 8)
+#define SS_KEY_BYTES MESSAGE_LEN_BYTES
+/// @brief Byte length of the raw cached NTT-domain secret vector.
+#define SK_NTT_LEN_BYTES     SK_LEN_BYTES
+/// @brief Byte length of the serialized public key `pk = seed_a || crt(b_ntt_vec)`.
+#define PKE_PUBLIC_KEY_BYTES  (PK_SEED_LEN_BYTES + PK_LEN_BYTES)
+/// @brief Byte length of the serialized secret key `sk = raw_s_ntt_vec`.
+#define PKE_SECRET_KEY_BYTES  SK_NTT_LEN_BYTES
+/// @brief Byte length of the serialized ciphertext `c = crt(u_ntt_vec) || packed_c2`.
+/// @details The `packed_c2` field stores only the first `RL_KEM_Lv`
+///          compressed coefficients of `c2`.
+#define PKE_CIPHERTEXT_BYTES  (C1_LEN_BYTES + C2_LEN_BYTES)
+/// @brief Byte length of the message processed by the PKE layer.
+#define PKE_MESSAGE_BYTES     MESSAGE_LEN_BYTES
+
+#define KEM_REJECT_SEED_BYTES PKE_MESSAGE_BYTES
+#define KEM_SK_BYTES (PKE_SECRET_KEY_BYTES + PKE_PUBLIC_KEY_BYTES + KEM_REJECT_SEED_BYTES)
+#define KEM_SS_BYTES SS_KEY_BYTES
+#define PSEUDOHASH_SS_BITS (KEM_SS_BYTES * 8ULL)
+
+#endif

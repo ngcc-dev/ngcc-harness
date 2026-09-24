@@ -1,0 +1,114 @@
+// cd '/home/wyh/lattice-study/Our KEM/KEM/Reference_Implementation/kem128' && gcc -O3 -march=native -std=c11 -Wall -Wextra -o test/test_mul test/test_mul.c ntt.c poly.c reduce.c rng.c fips202.c symmetric-shake.c -lcrypto
+
+#include <stdint.h>
+#include <stdio.h>
+#include "../params.h"
+#include "../drng.h"
+
+static DRNG_ctx test_drng;
+static void randombytes(unsigned char *x, unsigned long long xlen) { get_random_number(&test_drng, x, xlen*8); }
+#include "../poly.h"
+
+#define NTESTS 10000
+
+static void poly_naivemul(poly *c, const poly *a, const poly *b) {
+    unsigned int i, j;
+	int32_t r[2*N] = {0};
+
+	for (i = 0; i < N; i++) {
+		for (j = 0; j < N; j++) {
+			r[i+j] = (r[i+j] + (int32_t)a->coeffs[i] * b->coeffs[j]) % Q;
+		}
+	}
+
+	for (i = N; i < 2*N; ++i) {
+		r[i-N] = (r[i-N] - r[i]) % Q;
+	}
+
+	for (i = 0; i < N; ++i) {
+		c->coeffs[i] = r[i];
+	}
+}
+
+int main(void)
+{
+	unsigned int i, j;
+	int invret;
+	uint8_t seed[SEEDBYTES];
+	uint8_t nonce = 0;
+	poly a, b, c, d, ainv;
+
+	unsigned char init_seed[48]; for(int j=0;j<48;j++) init_seed[j]=j;
+	init_random_number(&test_drng, init_seed, 48);
+	randombytes(seed, sizeof(seed));
+
+	// Test 1: NTT and inverse NTT roundtrip
+	for (i = 0; i < NTESTS; ++i) {
+		poly_f_ternary_p(&a, seed, nonce++);
+		poly_g_ternary_p(&b, seed, nonce++);
+
+		
+		c = a;
+		poly_ntt(&c);
+		poly_invntt_tomont(&c);
+
+		poly_tomont(&a); // Convert a to Montgomery form for comparison
+		for (j = 0; j < N; ++j) {
+			if ((a.coeffs[j] - c.coeffs[j]) % Q) {
+				fprintf(stderr, "NTT and inverse NTT don't match: a[%d] = %d, c[%d] = %d\n", j, a.coeffs[j], j, c.coeffs[j]);
+				return -1;
+			}
+		}
+	}
+	printf("NTT and inverse NTT test passed! %u\n", i);
+
+	// Test 2: Polynomial multiplication
+	for (i = 0; i < NTESTS; ++i) {
+		
+		poly_f_ternary_p(&a, seed, nonce++);
+		poly_g_ternary_p(&b, seed, nonce++);
+		
+		poly_naivemul(&c, &a, &b);
+		poly_ntt(&a);
+		poly_ntt(&b);
+		poly_basemul_montgomery(&d, &a, &b);
+		poly_invntt_tomont(&d);
+
+		for (j = 0; j < N; ++j) {
+			if ((c.coeffs[j] - d.coeffs[j]) % Q) {
+				fprintf(stderr, "Polynomial multiplication doesn't match: c[%d] = %d, d[%d] = %d\n", j, c.coeffs[j], j, d.coeffs[j]);
+				return -1;
+			}
+		}
+	}
+	printf("Polynomial multiplication test passed! %u\n", i);
+
+	// Test 3: Polynomial inversion in NTT domain (a * a^{-1} = 1)
+	for (i = 0; i < NTESTS; ++i) {
+		do {
+			poly_f_ternary_p(&a, seed, nonce++);
+			poly_ntt(&a);
+			invret = poly_baseinv(&ainv, &a);
+		} while (invret != 0);
+
+		poly_basemul_montgomery(&d, &a, &ainv);
+		poly_invntt_tomont(&d);
+		poly_freeze(&d);
+
+		if ((d.coeffs[0] - 1) % Q) {
+			fprintf(stderr, "Polynomial inverse check failed at constant term: d[0] = %d\n", d.coeffs[0]);
+			return -1;
+		}
+
+		for (j = 1; j < N; ++j) {
+			if (d.coeffs[j] % Q) {
+				fprintf(stderr, "Polynomial inverse check failed: d[%d] = %d\n", j, d.coeffs[j]);
+				return -1;
+			}
+		}
+		
+	}
+	printf("Polynomial inversion (baseinv+basemul) test passed! %u\n", i);
+	
+	return 0;
+}

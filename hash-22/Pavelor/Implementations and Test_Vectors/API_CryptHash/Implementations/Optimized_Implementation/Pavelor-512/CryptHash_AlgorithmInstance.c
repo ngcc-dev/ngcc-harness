@@ -1,0 +1,295 @@
+/*
+ * Pavelor-512 optimized implementation.
+ * This file implements only the 512-bit hash instance.
+ * It follows the CryptHash API used by the submission package.
+ */
+
+#include "CryptHash_AlgorithmInstance.h"
+
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
+
+#if defined(_MSC_VER)
+#include <intrin.h>
+#include <wmmintrin.h>
+#define CH_FORCE_INLINE __forceinline
+#define CH_ALIGN16 __declspec(align(16))
+#else
+#include <wmmintrin.h>
+#define CH_FORCE_INLINE __attribute__((always_inline)) inline
+#define CH_ALIGN16 __attribute__((aligned(16)))
+#endif
+
+#define CH_STATE_WORDS 20u
+#define CH_WORD_BYTES  16u
+#define CH_STATE_BYTES (CH_STATE_WORDS * CH_WORD_BYTES)
+#define CH_STATE_BITS  2560u
+#define CH_ROUNDS      24u
+
+#define CH_DIGEST_BITS  512u
+#define CH_RATE_BITS    1536u
+#define CH_CAP_BITS     1024u
+#define CH_RATE_BYTES   (CH_RATE_BITS / 8u)
+#define CH_DIGEST_BYTES (CH_DIGEST_BITS / 8u)
+
+#define CH_OK                0
+#define CH_ERR_BAD_ARG       1
+#define CH_ERR_BAD_DIGESTLEN 2
+
+typedef union CHState {
+    __m128i v[CH_STATE_WORDS];
+    CH_ALIGN16 uint8_t b[CH_STATE_BYTES];
+} CHState;
+
+static const CH_ALIGN16 uint8_t IV_BYTES[320] = {
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x06u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x04u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x0au, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x02u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+    0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
+};
+
+static const CH_ALIGN16 uint8_t RC_BYTES[24][16] = {
+    { 0x24u, 0x3fu, 0x6au, 0x88u, 0x85u, 0xa3u, 0x08u, 0xd3u, 0x13u, 0x19u, 0x8au, 0x2eu, 0x03u, 0x70u, 0x73u, 0x44u },
+    { 0xa4u, 0x09u, 0x38u, 0x22u, 0x29u, 0x9fu, 0x31u, 0xd0u, 0x08u, 0x2eu, 0xfau, 0x98u, 0xecu, 0x4eu, 0x6cu, 0x89u },
+    { 0x45u, 0x28u, 0x21u, 0xe6u, 0x38u, 0xd0u, 0x13u, 0x77u, 0xbeu, 0x54u, 0x66u, 0xcfu, 0x34u, 0xe9u, 0x0cu, 0x6cu },
+    { 0xc0u, 0xacu, 0x29u, 0xb7u, 0xc9u, 0x7cu, 0x50u, 0xddu, 0x3fu, 0x84u, 0xd5u, 0xb5u, 0xb5u, 0x47u, 0x09u, 0x17u },
+    { 0x92u, 0x16u, 0xd5u, 0xd9u, 0x89u, 0x79u, 0xfbu, 0x1bu, 0xd1u, 0x31u, 0x0bu, 0xa6u, 0x98u, 0xdfu, 0xb5u, 0xacu },
+    { 0x2fu, 0xfdu, 0x72u, 0xdbu, 0xd0u, 0x1au, 0xdfu, 0xb7u, 0xb8u, 0xe1u, 0xafu, 0xedu, 0x6au, 0x26u, 0x7eu, 0x96u },
+    { 0xbau, 0x7cu, 0x90u, 0x45u, 0xf1u, 0x2cu, 0x7fu, 0x99u, 0x24u, 0xa1u, 0x99u, 0x47u, 0xb3u, 0x91u, 0x6cu, 0xf7u },
+    { 0x80u, 0x1fu, 0x2eu, 0x28u, 0x58u, 0xefu, 0xc1u, 0x66u, 0x36u, 0x92u, 0x0du, 0x87u, 0x15u, 0x74u, 0xe6u, 0x90u },
+    { 0xa4u, 0x58u, 0xfeu, 0xa3u, 0xf4u, 0x93u, 0x3du, 0x7eu, 0x0du, 0x95u, 0x74u, 0x8fu, 0x72u, 0x8eu, 0xb6u, 0x58u },
+    { 0x71u, 0x8bu, 0xcdu, 0x58u, 0x82u, 0x15u, 0x4au, 0xeeu, 0x7bu, 0x54u, 0xa4u, 0x1du, 0xc2u, 0x5au, 0x59u, 0xb5u },
+    { 0x9cu, 0x30u, 0xd5u, 0x39u, 0x2au, 0xf2u, 0x60u, 0x13u, 0xc5u, 0xd1u, 0xb0u, 0x23u, 0x28u, 0x60u, 0x85u, 0xf0u },
+    { 0xcau, 0x41u, 0x79u, 0x18u, 0xb8u, 0xdbu, 0x38u, 0xefu, 0x8eu, 0x79u, 0xdcu, 0xb0u, 0x60u, 0x3au, 0x18u, 0x0eu },
+    { 0x6cu, 0x9eu, 0x0eu, 0x8bu, 0xb0u, 0x1eu, 0x8au, 0x3eu, 0xd7u, 0x15u, 0x77u, 0xc1u, 0xbdu, 0x31u, 0x4bu, 0x27u },
+    { 0x78u, 0xafu, 0x2fu, 0xdau, 0x55u, 0x60u, 0x5cu, 0x60u, 0xe6u, 0x55u, 0x25u, 0xf3u, 0xaau, 0x55u, 0xabu, 0x94u },
+    { 0x57u, 0x48u, 0x98u, 0x62u, 0x63u, 0xe8u, 0x14u, 0x40u, 0x55u, 0xcau, 0x39u, 0x6au, 0x2au, 0xabu, 0x10u, 0xb6u },
+    { 0xb4u, 0xccu, 0x5cu, 0x34u, 0x11u, 0x41u, 0xe8u, 0xceu, 0xa1u, 0x54u, 0x86u, 0xafu, 0x7cu, 0x72u, 0xe9u, 0x93u },
+    { 0xb3u, 0xeeu, 0x14u, 0x11u, 0x63u, 0x6fu, 0xbcu, 0x2au, 0x2bu, 0xa9u, 0xc5u, 0x5du, 0x74u, 0x18u, 0x31u, 0xf6u },
+    { 0xceu, 0x5cu, 0x3eu, 0x16u, 0x9bu, 0x87u, 0x93u, 0x1eu, 0xafu, 0xd6u, 0xbau, 0x33u, 0x6cu, 0x24u, 0xcfu, 0x5cu },
+    { 0x7au, 0x32u, 0x53u, 0x81u, 0x28u, 0x95u, 0x86u, 0x77u, 0x3bu, 0x8fu, 0x48u, 0x98u, 0x6bu, 0x4bu, 0xb9u, 0xafu },
+    { 0xc4u, 0xbfu, 0xe8u, 0x1bu, 0x66u, 0x28u, 0x21u, 0x93u, 0x61u, 0xd8u, 0x09u, 0xccu, 0xfbu, 0x21u, 0xa9u, 0x91u },
+    { 0x48u, 0x7cu, 0xacu, 0x60u, 0x5du, 0xecu, 0x80u, 0x32u, 0xefu, 0x84u, 0x5du, 0x5du, 0xe9u, 0x85u, 0x75u, 0xb1u },
+    { 0xdcu, 0x26u, 0x23u, 0x02u, 0xebu, 0x65u, 0x1bu, 0x88u, 0x23u, 0x89u, 0x3eu, 0x81u, 0xd3u, 0x96u, 0xacu, 0xc5u },
+    { 0xf6u, 0xd6u, 0xffu, 0x38u, 0x3fu, 0x44u, 0x23u, 0x92u, 0xe0u, 0xb4u, 0x48u, 0x2au, 0x48u, 0x42u, 0x00u, 0x40u },
+    { 0x69u, 0xc8u, 0xf0u, 0x4au, 0x9eu, 0x1fu, 0x9bu, 0x5eu, 0x21u, 0xc6u, 0x68u, 0x42u, 0xf6u, 0xe9u, 0x6cu, 0x9au },
+};
+
+/* Initialize the 2560-bit internal state with the IV of this instance. */
+static CH_FORCE_INLINE void init_state(CHState* st)
+{
+    memcpy(st->b, IV_BYTES, CH_STATE_BYTES);
+}
+
+/* Load a 128-bit round constant. */
+static CH_FORCE_INLINE __m128i load_rc(unsigned r)
+{
+    return _mm_load_si128((const __m128i*)(const void*)RC_BYTES[r]);
+}
+
+/* Apply one round of the underlying 20-branch AES-instruction-based permutation. */
+static CH_FORCE_INLINE void round_local(CHState* st, unsigned r)
+{
+    const __m128i s0  = st->v[0],  s1  = st->v[1],  s2  = st->v[2],  s3  = st->v[3],  s4  = st->v[4];
+    const __m128i s5  = st->v[5],  s6  = st->v[6],  s7  = st->v[7],  s8  = st->v[8],  s9  = st->v[9];
+    const __m128i s10 = st->v[10], s11 = st->v[11], s12 = st->v[12], s13 = st->v[13], s14 = st->v[14];
+    const __m128i s15 = st->v[15], s16 = st->v[16], s17 = st->v[17], s18 = st->v[18], s19 = st->v[19];
+    const __m128i rc  = load_rc(r);
+
+    st->v[0]  = _mm_aesenc_si128(s19, s1);
+    st->v[1]  = _mm_aesenc_si128(s4,  s0);
+    st->v[2]  = _mm_aesenc_si128(s6,  s3);
+    st->v[3]  = _mm_aesenc_si128(s17, s4);
+    st->v[4]  = _mm_aesenc_si128(s9,  s5);
+    st->v[5]  = _mm_aesenc_si128(s0,  s2);
+    st->v[6]  = _mm_aesenc_si128(s13, s7);
+    st->v[7]  = _mm_xor_si128(rc, s8);
+    st->v[8]  = _mm_aesenc_si128(s8,  s9);
+    st->v[9]  = _mm_aesenc_si128(s5,  s10);
+    st->v[10] = _mm_aesenc_si128(s15, s6);
+    st->v[11] = _mm_aesenc_si128(s10, s12);
+    st->v[12] = _mm_aesenc_si128(s16, s13);
+    st->v[13] = _mm_aesenc_si128(s3,  s14);
+    st->v[14] = _mm_aesenc_si128(s12, s15);
+    st->v[15] = _mm_aesenc_si128(s14, s16);
+    st->v[16] = _mm_aesenc_si128(s18, s17);
+    st->v[17] = _mm_aesenc_si128(s7,  s18);
+    st->v[18] = _mm_aesenc_si128(s2,  s19);
+    st->v[19] = _mm_aesenc_si128(s1,  s11);
+}
+
+/* Apply the full 24-round permutation. */
+static CH_FORCE_INLINE void permute24(CHState* st)
+{
+    unsigned r;
+    for (r = 0u; r < CH_ROUNDS; ++r) {
+        round_local(st, r);
+    }
+}
+
+/* XOR one rate block into the rate part of the state. */
+static CH_FORCE_INLINE void xor_rate(CHState* st, const uint8_t* block)
+{
+    st->v[0] = _mm_xor_si128(st->v[0], _mm_loadu_si128((const __m128i*)(const void*)(block +   0)));
+    st->v[1] = _mm_xor_si128(st->v[1], _mm_loadu_si128((const __m128i*)(const void*)(block +  16)));
+    st->v[2] = _mm_xor_si128(st->v[2], _mm_loadu_si128((const __m128i*)(const void*)(block +  32)));
+    st->v[3] = _mm_xor_si128(st->v[3], _mm_loadu_si128((const __m128i*)(const void*)(block +  48)));
+    st->v[4] = _mm_xor_si128(st->v[4], _mm_loadu_si128((const __m128i*)(const void*)(block +  64)));
+    st->v[5] = _mm_xor_si128(st->v[5], _mm_loadu_si128((const __m128i*)(const void*)(block +  80)));
+    st->v[6] = _mm_xor_si128(st->v[6], _mm_loadu_si128((const __m128i*)(const void*)(block +  96)));
+    st->v[7] = _mm_xor_si128(st->v[7], _mm_loadu_si128((const __m128i*)(const void*)(block + 112)));
+    st->v[8] = _mm_xor_si128(st->v[8], _mm_loadu_si128((const __m128i*)(const void*)(block + 128)));
+    st->v[9] = _mm_xor_si128(st->v[9], _mm_loadu_si128((const __m128i*)(const void*)(block + 144)));
+    st->v[10] = _mm_xor_si128(st->v[10], _mm_loadu_si128((const __m128i*)(const void*)(block + 160)));
+    st->v[11] = _mm_xor_si128(st->v[11], _mm_loadu_si128((const __m128i*)(const void*)(block + 176)));
+}
+
+/* Absorb one complete rate block and apply the permutation. */
+static CH_FORCE_INLINE void absorb_block(CHState* st, const uint8_t* block)
+{
+    xor_rate(st, block);
+    permute24(st);
+}
+
+/* Extract the digest from the state.  The 1024-bit instance performs one extra squeeze permutation. */
+static CH_FORCE_INLINE void squeeze(CHState* st, uint8_t* digest)
+{
+    _mm_storeu_si128((__m128i*)(void*)(digest +   0), st->v[0]);
+    _mm_storeu_si128((__m128i*)(void*)(digest +  16), st->v[1]);
+    _mm_storeu_si128((__m128i*)(void*)(digest +  32), st->v[2]);
+    _mm_storeu_si128((__m128i*)(void*)(digest +  48), st->v[3]);
+}
+
+/* Append a single padding bit and absorb the block if it becomes full. */
+static CH_FORCE_INLINE void append_bit_and_absorb(CHState* st,
+                                                  uint8_t* block,
+                                                  size_t* bitpos,
+                                                  unsigned bit)
+{
+    const size_t byte_idx = *bitpos >> 3;
+    const unsigned bit_idx = (unsigned)(7u - (*bitpos & 7u));
+
+    if (bit != 0u) {
+        block[byte_idx] |= (uint8_t)(1u << bit_idx);
+    }
+    ++(*bitpos);
+
+    if (*bitpos == CH_RATE_BITS) {
+        absorb_block(st, block);
+        memset(block, 0, CH_RATE_BYTES);
+        *bitpos = 0u;
+    }
+}
+
+/* Absorb an arbitrary bit-length message using 10*1 padding. */
+static void absorb_padded(CHState* st,
+                          const uint8_t* msg,
+                          unsigned long long msg_len_bits)
+{
+    uint8_t block[CH_RATE_BYTES];
+    unsigned long long full_bytes = msg_len_bits >> 3;
+    unsigned rem_bits = (unsigned)(msg_len_bits & 7u);
+    unsigned long long offset = 0u;
+    size_t bitpos = 0u;
+
+    memset(block, 0, sizeof(block));
+
+    while (offset < full_bytes) {
+        const size_t bytepos = bitpos >> 3;
+        const size_t space = CH_RATE_BYTES - bytepos;
+        const unsigned long long remaining = full_bytes - offset;
+        const size_t take = (remaining < (unsigned long long)space) ? (size_t)remaining : space;
+
+        memcpy(block + bytepos, msg + offset, take);
+        offset += (unsigned long long)take;
+        bitpos += take * 8u;
+
+        if (bitpos == CH_RATE_BITS) {
+            absorb_block(st, block);
+            memset(block, 0, CH_RATE_BYTES);
+            bitpos = 0u;
+        }
+    }
+
+    if (rem_bits != 0u) {
+        block[bitpos >> 3] = (uint8_t)(msg[full_bytes] & (uint8_t)(0xFFu << (8u - rem_bits)));
+        bitpos += rem_bits;
+    }
+
+    append_bit_and_absorb(st, block, &bitpos, 1u);
+    while (bitpos != CH_RATE_BITS - 1u) {
+        append_bit_and_absorb(st, block, &bitpos, 0u);
+    }
+    append_bit_and_absorb(st, block, &bitpos, 1u);
+}
+
+/* Fast path for byte-aligned messages. */
+static void hash_bytes_fast(const uint8_t* msg, size_t msg_len_bytes, uint8_t* digest)
+{
+    CHState st;
+    uint8_t last[CH_RATE_BYTES];
+    size_t pos = 0u;
+
+    init_state(&st);
+
+    while (pos + CH_RATE_BYTES <= msg_len_bytes) {
+        absorb_block(&st, msg + pos);
+        pos += CH_RATE_BYTES;
+    }
+
+    memset(last, 0, sizeof(last));
+    if (msg_len_bytes != pos) {
+        memcpy(last, msg + pos, msg_len_bytes - pos);
+    }
+    last[msg_len_bytes - pos] = 0x80u;
+    last[CH_RATE_BYTES - 1u] |= 0x01u;
+    absorb_block(&st, last);
+    squeeze(&st, digest);
+}
+
+/*
+ * CryptHash API entry point for the 512-bit instance.
+ * Returns CH_ERR_BAD_DIGESTLEN unless digest_len_bits equals 512.
+ */
+int CryptHash(int digest_len_bits,
+              const unsigned char* msg,
+              unsigned long long msg_len_bits,
+              unsigned char* digest)
+{
+    static const unsigned char kEmpty[1] = { 0u };
+
+    if (digest == NULL || (msg == NULL && msg_len_bits != 0u)) return CH_ERR_BAD_ARG;
+    if (digest_len_bits != (int)CH_DIGEST_BITS) return CH_ERR_BAD_DIGESTLEN;
+    if (msg == NULL) msg = kEmpty;
+
+    if ((msg_len_bits & 7u) == 0u) {
+        hash_bytes_fast((const uint8_t*)msg, (size_t)(msg_len_bits >> 3), (uint8_t*)digest);
+        return CH_OK;
+    }
+
+    {
+        CHState st;
+        init_state(&st);
+        absorb_padded(&st, (const uint8_t*)msg, msg_len_bits);
+        squeeze(&st, (uint8_t*)digest);
+    }
+
+    return CH_OK;
+}

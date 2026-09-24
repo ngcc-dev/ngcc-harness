@@ -1,0 +1,28 @@
+#ifndef VISTRUTITH_WITNESS_H
+#define VISTRUTITH_WITNESS_H
+
+#include <stddef.h>
+#include <stdint.h>
+
+#include "params.h"
+#include "vistrutah.h"
+
+#define VISTRUTAH_WITNESS_KEY_BYTES 64u
+#define VISTRUTAH_WITNESS_ROUNDS 17u
+#define VISTRUTAH_TRACE_ROUND_BYTES 64u
+#define VISTRUTAH_WITNESS_PACKED_ROUND_BYTES (VISTRUTAH_TRACE_ROUND_BYTES / 2u)
+#define VISTRUTAH_WITNESS_INTERMEDIATE_ROUNDS \
+  (VISTRUTAH_512_ROUNDS_LONG_512KEY / ROUNDS_PER_STEP - 1u)
+#define VISTRUTAH_WITNESS_FULL_ROUNDS VISTRUTAH_WITNESS_INTERMEDIATE_ROUNDS
+#define VISTRUTAH_WITNESS_NORM_ROUNDS (VISTRUTAH_WITNESS_INTERMEDIATE_ROUNDS + 1u)
+#define VISTRUTAH_WITNESS_SBOX_BYTES                                                    \
+  (VISTRUTAH_WITNESS_FULL_ROUNDS * VISTRUTAH_TRACE_ROUND_BYTES +                       \
+   VISTRUTAH_WITNESS_NORM_ROUNDS * VISTRUTAH_WITNESS_PACKED_ROUND_BYTES)
+#define VISTRUTAH_WITNESS_TOTAL_BYTES (VISTRUTAH_WITNESS_KEY_BYTES + VISTRUTAH_WITNESS_SBOX_BYTES)
+
+uint8_t vistrutith_inv_norm(uint8_t x);
+
+void vistrutith_extend_witness(const params_t* params, uint8_t* w, const uint8_t* key,
+                               const uint8_t* in);
+
+#endif

@@ -1,0 +1,18 @@
+#ifndef SIG_IMPL_H
+#define SIG_IMPL_H
+
+#include "params.h"
+
+#include <stddef.h>
+#include <stdint.h>
+
+void ublockith_sign(const params_t* params, uint8_t* sig, const uint8_t* msg, size_t msglen,
+                    const uint8_t* owf_key, const uint8_t* owf_input, const uint8_t* owf_output,
+                    const uint8_t* witness, const uint8_t* rho, size_t rholen);
+
+int ublockith_verify(const params_t* params, const uint8_t* msg, size_t msglen,
+                     const uint8_t* sig, const uint8_t* owf_input, const uint8_t* owf_output);
+
+void sig_set_verbose(int v);
+
+#endif

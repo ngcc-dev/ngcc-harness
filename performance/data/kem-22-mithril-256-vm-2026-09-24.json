@@ -1,0 +1,285 @@
+{
+  "schema": 1,
+  "status": "preliminary",
+  "guide_complete": false,
+  "guide_gaps": [
+    "hardware CPU cycles unavailable on this host",
+    "baseline/peak process RSS and ELF image size are proxies, not an isolated static-memory measurement",
+    "the KAT manifest proves output equality but the complete functional vectors are not embedded in this report",
+    "-fPIC is added for the harness shared library and is not one of the guide's listed build flags"
+  ],
+  "started_utc": "2026-09-24T07:42:57.756510+00:00",
+  "ended_utc": "2026-09-24T07:43:12.812353+00:00",
+  "candidate": "kem-22",
+  "library": "kem-22/lib/libMithril-256.so",
+  "library_sha256": "f975f3b2b397e3c8ae6e0807861dc14a9260d3d0f34e2535f98a6a7b2de023c9",
+  "source_archive_sha256": "9fed68e7923c6bc9ede072183f7d3983058f88deec5534e779ed2200ee4f7f9f",
+  "kat_log": "kem-22/results/Mithril-256.log",
+  "kat_log_sha256": "143b7b25850801caef611821204831adee1b9875ba18643d07b827f733525f5e",
+  "guide": "doc/perf-x86.pdf, NICCS June 2026, sections 3.3-3.5",
+  "environment": {
+    "cpu_model": "AMD EPYC-Milan Processor",
+    "cpu_mhz_reported": 2200.02,
+    "cpu_number": 0,
+    "cpu_affinity": [
+      0
+    ],
+    "architecture": "x86_64",
+    "virtualized": true,
+    "logical_cpus_visible": 28,
+    "memory_total_kib": 181686020,
+    "os": "Ubuntu 26.04.1 LTS",
+    "kernel": "7.0.0-34-generic",
+    "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "cmake": "cmake version 4.2.3",
+    "perf_event_paranoid": "4",
+    "load_average_start": [
+      3.23291015625,
+      2.955078125,
+      2.06982421875
+    ],
+    "load_average_end": [
+      3.611328125,
+      3.056640625,
+      2.12255859375
+    ]
+  },
+  "elf_load_mem_bytes": 33677,
+  "input_rule": "ngcc_seed uses bytes 00..2f via the ICCS DRNG; 64-byte signing messages and S1..S8 hash inputs use byte[i]=(131*i+length) mod 256",
+  "rows": [
+    {
+      "operation": "keygen",
+      "input_bytes": 0,
+      "status": "complete",
+      "exit_code": 0,
+      "limit_seconds": 60,
+      "command": [
+        "taskset",
+        "-c",
+        "0",
+        "performance/ngcc_perf",
+        "kem-22/lib/libMithril-256.so",
+        "keygen",
+        "0",
+        "5",
+        "60"
+      ],
+      "metadata": {
+        "id": "kem-22",
+        "instance": "Mithril-256",
+        "variant": "Reference_Implementation",
+        "operation": "keygen",
+        "input_bytes": "0",
+        "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC ",
+        "baseline_rss_bytes": "2134016",
+        "pk_bytes": "1648",
+        "sk_bytes": "2000",
+        "ct_bytes": "1680",
+        "ss_bytes": "32",
+        "signature_bytes": "0",
+        "digest_bytes": "0",
+        "cpu_cycles_available": "no",
+        "warmups": "3",
+        "peak_rss_bytes": "20672512",
+        "measurement_count": "18800",
+        "guide_100_measurements": "met"
+      },
+      "trials": [
+        {
+          "number": 1,
+          "measurements": 3760,
+          "elapsed_seconds": 1.001926702,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 2,
+          "measurements": 3760,
+          "elapsed_seconds": 1.001868152,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 3,
+          "measurements": 3760,
+          "elapsed_seconds": 1.001897012,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 4,
+          "measurements": 3760,
+          "elapsed_seconds": 1.001233498,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 5,
+          "measurements": 3760,
+          "elapsed_seconds": 1.001359466,
+          "cpu_cycles": 0
+        }
+      ],
+      "stderr": "",
+      "measurements": 18800,
+      "guide_100_measurements_met": true,
+      "mean_seconds_per_operation": 0.00026639812925531917,
+      "middle_trial_seconds_per_operation": 0.0002664542957446808,
+      "operations_per_second": 3753.7801139796597,
+      "mean_cpu_cycles": null,
+      "throughput_MB_per_second": null
+    },
+    {
+      "operation": "enc",
+      "input_bytes": 0,
+      "status": "complete",
+      "exit_code": 0,
+      "limit_seconds": 60,
+      "command": [
+        "taskset",
+        "-c",
+        "0",
+        "performance/ngcc_perf",
+        "kem-22/lib/libMithril-256.so",
+        "enc",
+        "0",
+        "5",
+        "60"
+      ],
+      "metadata": {
+        "id": "kem-22",
+        "instance": "Mithril-256",
+        "variant": "Reference_Implementation",
+        "operation": "enc",
+        "input_bytes": "0",
+        "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC ",
+        "baseline_rss_bytes": "2138112",
+        "pk_bytes": "1648",
+        "sk_bytes": "2000",
+        "ct_bytes": "1680",
+        "ss_bytes": "32",
+        "signature_bytes": "0",
+        "digest_bytes": "0",
+        "cpu_cycles_available": "no",
+        "warmups": "3",
+        "peak_rss_bytes": "20672512",
+        "measurement_count": "16464",
+        "guide_100_measurements": "met"
+      },
+      "trials": [
+        {
+          "number": 1,
+          "measurements": 3296,
+          "elapsed_seconds": 1.004571377,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 2,
+          "measurements": 3296,
+          "elapsed_seconds": 1.004617987,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 3,
+          "measurements": 3296,
+          "elapsed_seconds": 1.004580137,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 4,
+          "measurements": 3280,
+          "elapsed_seconds": 1.000022829,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 5,
+          "measurements": 3296,
+          "elapsed_seconds": 1.004812465,
+          "cpu_cycles": 0
+        }
+      ],
+      "stderr": "",
+      "measurements": 16464,
+      "guide_100_measurements_met": true,
+      "mean_seconds_per_operation": 0.0003048229345845481,
+      "middle_trial_seconds_per_operation": 0.00030479914654126216,
+      "operations_per_second": 3280.5930477735496,
+      "mean_cpu_cycles": null,
+      "throughput_MB_per_second": null
+    },
+    {
+      "operation": "dec",
+      "input_bytes": 0,
+      "status": "complete",
+      "exit_code": 0,
+      "limit_seconds": 60,
+      "command": [
+        "taskset",
+        "-c",
+        "0",
+        "performance/ngcc_perf",
+        "kem-22/lib/libMithril-256.so",
+        "dec",
+        "0",
+        "5",
+        "60"
+      ],
+      "metadata": {
+        "id": "kem-22",
+        "instance": "Mithril-256",
+        "variant": "Reference_Implementation",
+        "operation": "dec",
+        "input_bytes": "0",
+        "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC ",
+        "baseline_rss_bytes": "2146304",
+        "pk_bytes": "1648",
+        "sk_bytes": "2000",
+        "ct_bytes": "1680",
+        "ss_bytes": "32",
+        "signature_bytes": "0",
+        "digest_bytes": "0",
+        "cpu_cycles_available": "no",
+        "warmups": "3",
+        "peak_rss_bytes": "20672512",
+        "measurement_count": "14560",
+        "guide_100_measurements": "met"
+      },
+      "trials": [
+        {
+          "number": 1,
+          "measurements": 2912,
+          "elapsed_seconds": 1.002571266,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 2,
+          "measurements": 2912,
+          "elapsed_seconds": 1.002606216,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 3,
+          "measurements": 2912,
+          "elapsed_seconds": 1.002487876,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 4,
+          "measurements": 2912,
+          "elapsed_seconds": 1.002378027,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 5,
+          "measurements": 2912,
+          "elapsed_seconds": 1.002408217,
+          "cpu_cycles": 0
+        }
+      ],
+      "stderr": "",
+      "measurements": 14560,
+      "guide_100_measurements_met": true,
+      "mean_seconds_per_operation": 0.00034426178585164835,
+      "middle_trial_seconds_per_operation": 0.0003442609464285714,
+      "operations_per_second": 2904.766201471246,
+      "mean_cpu_cycles": null,
+      "throughput_MB_per_second": null
+    }
+  ]
+}

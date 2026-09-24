@@ -1,0 +1,39 @@
+#ifndef PARAMS_H
+#define PARAMS_H
+
+/* Fixed parameter set for BW_KEM_C512 submission bundle. */
+#define KYBER_K 4
+
+/* Don't change parameters below this line */
+#define KYBER_NAMESPACE(s) pqcrystals_kyber1024_ref_##s
+
+#define KYBER_N 512
+#define KYBER_Q 3329
+
+#define KYBER_SYMBYTES 64   /* size in bytes of hashes, and seeds */
+#define KYBER_SSBYTES  64   /* size in bytes of shared key */
+
+#define KYBER_POLYBYTES		KYBER_N * KYBER_EQ / 8
+#define KYBER_POLYVECBYTES	(KYBER_K * KYBER_POLYBYTES)
+
+#define KYBER_EQ 12
+#define KYBER_POLYVECCOMPRESSEDBYTES (KYBER_K * 640)    /* u k*N*ep/8 */
+
+#define KYBER_ETA1 2
+#define KYBER_ETA2 2
+#define KYBER_POLYCOMPRESSEDBYTES    384                /* eg 5=>6 */
+
+#define KYBER_INDCPA_MSGBYTES       (KYBER_SYMBYTES)
+#define KYBER_INDCPA_PUBLICKEYBYTES (KYBER_POLYVECBYTES + KYBER_SYMBYTES)
+#define KYBER_INDCPA_SECRETKEYBYTES (KYBER_POLYVECBYTES)
+#define KYBER_INDCPA_BYTES          (KYBER_POLYVECCOMPRESSEDBYTES + KYBER_POLYCOMPRESSEDBYTES)
+
+#define KYBER_PUBLICKEYBYTES  (KYBER_INDCPA_PUBLICKEYBYTES)
+
+/* 65 bytes of additional space to save ID(pk) */
+#define PREFIXHASHBYTES 65
+
+#define KYBER_SECRETKEYBYTES  (KYBER_INDCPA_SECRETKEYBYTES + KYBER_INDCPA_PUBLICKEYBYTES + PREFIXHASHBYTES + KYBER_SYMBYTES)
+#define KYBER_CIPHERTEXTBYTES (KYBER_INDCPA_BYTES)
+
+#endif

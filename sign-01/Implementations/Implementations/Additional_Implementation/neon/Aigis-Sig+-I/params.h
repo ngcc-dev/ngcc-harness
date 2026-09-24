@@ -1,0 +1,105 @@
+#ifndef PARAMS_H
+#define PARAMS_H
+
+// #define PARAMS 3
+
+#define PARAM_Q 4171777
+#define QBITS 22
+#define PARAM_N 512
+#define NBITS 9
+#define MONT 2208763 // 2^32 % Q
+#define QINV 503339009U // q^(-1) mod 2^32
+#define NHW 15
+#define SEC 64
+
+#if PARAMS == 1
+#define SEEDBYTES 32
+#define RNG_SEED_BYTES 48
+#define CRHBYTES 48
+#define PARAM_D 15
+#define GAMMA1 16384
+#define SZBITS 15
+#define GAMMA2 347648
+#define ALPHA (2*GAMMA2)  // 695,296;  PARAM_Q / ALPHA = 6
+#define GAMMA3 504000
+#define PARAM_C 24
+#define PARAM_K 2
+#define PARAM_L 2
+#define ETA1 1
+#define ETA2 5
+#define SETA1BITS 2
+#define SETA2BITS 4
+#define REJ_ETA1_BYTES 192 //fail with prob. less than 2^-23
+#define REJ_ETA2_BYTES 384 //fail with prob. less than 2^-17
+#define BETA1 (ETA1*PARAM_C)
+#define BETA2 120
+#define OMEGA 72
+#define POLW1_SIZE_PACKED ((PARAM_N*3)/8)
+#elif PARAMS == 2
+#define SEEDBYTES 32
+#define RNG_SEED_BYTES 48
+#define CRHBYTES 48
+#define PARAM_D 15
+#define GAMMA1 65536
+#define SZBITS 17
+#define GAMMA2 347648
+#define ALPHA (2*GAMMA2) // 695,296;  PARAM_Q / ALPHA = 6
+#define GAMMA3 575000
+#define PARAM_C 44
+#define PARAM_K 4
+#define PARAM_L 4
+#define ETA1 1
+#define ETA2 1
+#define SETA1BITS 2
+#define SETA2BITS 2
+#define REJ_ETA1_BYTES 192 //fail with prob. less than 2^-23
+#define REJ_ETA2_BYTES 192 //fail with prob. less than 2^-23
+#define BETA1 (ETA1*PARAM_C)
+#define BETA2 44
+#define OMEGA 176
+#define POLW1_SIZE_PACKED ((PARAM_N*3)/8)
+#elif PARAMS == 3
+#define SEEDBYTES 64
+#define RNG_SEED_BYTES 96
+#define CRHBYTES 96
+#define PARAM_D 13
+#define GAMMA1 524288
+#define SZBITS 20
+#define GAMMA2 521472
+#define ALPHA (2*GAMMA2)  // 1,042,944;  PARAM_Q / ALPHA = 4
+#define GAMMA3 612000
+#define PARAM_C 118
+#define PARAM_K 8
+#define PARAM_L 7
+#define ETA1 1
+#define ETA2 1
+#define SETA1BITS 2
+#define SETA2BITS 2
+#define REJ_ETA1_BYTES 192 //fail with prob. less than 2^-23.4
+#define REJ_ETA2_BYTES 192 //fail with prob. less than 2^-23.4
+#define BETA1 (ETA1*PARAM_C)
+#define BETA2 118
+#define OMEGA 102
+#define POLW1_SIZE_PACKED ((PARAM_N*2)/8)
+#endif
+
+
+#define REJ_UNIFORM_BYTES 1440   //fail with prob. less than 2^-14
+
+#define POLZ_SIZE_PACKED (PARAM_N*SZBITS/8)
+#define POL_SIZE_PACKED ((PARAM_N*QBITS)/8)
+#define POLT1_SIZE_PACKED ((PARAM_N*(QBITS - PARAM_D))/8)
+#define POLT0_SIZE_PACKED ((PARAM_N*PARAM_D)/8)
+#define POLETA1_SIZE_PACKED ((PARAM_N*SETA1BITS)/8)
+#define POLETA2_SIZE_PACKED ((PARAM_N*SETA2BITS)/8)
+#define POLVECKH_MAX_SIZE_PACKED ((OMEGA * 6 + 7) / 8 + (PARAM_K * PARAM_N / SEC * 4 + 7) / 8 + 1)
+#define POLVECK_SIZE_PACKED (PARAM_K*POL_SIZE_PACKED)
+#define POLVECL_SIZE_PACKED (PARAM_L*POL_SIZE_PACKED)
+#define PK_SIZE_PACKED (SEEDBYTES + PARAM_K*POLT1_SIZE_PACKED)
+#define SK_SIZE_PACKED (2*SEEDBYTES + PARAM_L*POLETA1_SIZE_PACKED + PARAM_K*POLETA2_SIZE_PACKED + CRHBYTES + PARAM_K*POLT0_SIZE_PACKED)
+#define SIG_MAX_SIZE_PACKED  (PARAM_L * POLZ_SIZE_PACKED + SEEDBYTES + POLVECKH_MAX_SIZE_PACKED)
+#define SIG_MIN_SIZE_PACKED  (PARAM_L * POLZ_SIZE_PACKED + SEEDBYTES + 1)
+
+
+
+#endif

@@ -1,0 +1,74 @@
+#ifndef REDUCE_H
+#define REDUCE_H
+
+#include <stdint.h>
+#include "params.h"
+
+#define QINV 29857
+
+/*************************************************
+* Name:        montgomery_reduce
+*
+* Description: Montgomery reduction; given a 32-bit integer a, computes
+*              16-bit integer congruent to a * R^-1 mod q, where R=2^16
+*
+* Arguments:   - int32_t a: input integer to be reduced;
+*                           has to be in {-q2^15,...,q2^15-1}
+*
+* Returns:     integer in {-q+1,...,q-1} congruent to a * R^-1 modulo q.
+**************************************************/
+static inline int16_t montgomery_reduce(int32_t a)
+{
+	int16_t t;
+
+	t = (int16_t)a*QINV;
+	t = (a - (int32_t)t*NTRUOAEP_Q) >> 16;
+	return t;
+}
+
+
+static inline int16_t basic_reduce(int32_t a)
+{
+	while (a >= NTRUOAEP_Q/2)
+		a -= NTRUOAEP_Q;
+	while (a < -NTRUOAEP_Q/2)
+		a += NTRUOAEP_Q;
+	return a;
+}
+
+/*************************************************
+* Name:        barrett_reduce
+*
+* Description: Barrett reduction; given a 32-bit integer a within
+*              [-2^24, 2^24], computes centered representative
+*              congruent to a mod q in {-(q-1)/2,...,(q-1)/2}
+*
+* Arguments:   - int32_t a: input integer to be reduced
+*
+* Returns:     integer in {-(q-1)/2,...,(q-1)/2} congruent to a modulo q.
+**************************************************/
+static inline int16_t barrett_reduce(int32_t a)
+{
+	int32_t t;
+	const uint32_t v = ((1ULL << 45) + NTRUOAEP_Q/2)/NTRUOAEP_Q;
+
+	t  = (int32_t)(((int64_t)v * a + (1LL << 44)) >> 45);
+	t *= NTRUOAEP_Q;
+	return (int16_t)(a - t);
+}
+
+
+static inline int16_t onetime_reduce(int32_t a)
+{
+	int32_t mask;
+
+	mask = -(int32_t)((uint32_t)(NTRUOAEP_Q / 2 - 1 - a) >> 31);
+	a -= NTRUOAEP_Q & mask;
+
+	mask = -(int32_t)((uint32_t)(a + NTRUOAEP_Q / 2) >> 31);
+	a += NTRUOAEP_Q & mask;
+
+	return (int16_t)a;
+}
+
+#endif

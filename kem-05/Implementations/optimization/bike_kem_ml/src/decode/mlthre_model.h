@@ -1,0 +1,16 @@
+#ifndef __MLTHRE_MODEL_H_INCLUDED__
+#define __MLTHRE_MODEL_H_INCLUDED__
+
+#include "types.h"
+
+#define MLTHRE_MODEL_INPUT_DIM 11
+#define MLTHRE_MODEL_HIDDEN1_DIM 32
+#define MLTHRE_MODEL_HIDDEN2_DIM 16
+#define MLTHRE_MODEL_OUTPUT_DIM 5
+#define MLTHRE_MODEL_Q_SHIFT 14
+#define MLTHRE_MODEL_Q_SCALE 16384
+#define MLTHRE_MODEL_FEATURE_SCALE 256
+
+int32_t mlthre_model_predict_delta(IN const int32_t features[MLTHRE_MODEL_INPUT_DIM]);
+
+#endif

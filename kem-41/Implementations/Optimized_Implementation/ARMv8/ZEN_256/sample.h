@@ -1,0 +1,39 @@
+/*
+Copyright (c) 2026 Yu Zhang.
+Organization: State Key Laboratory of Cyberspace Security Defense,Institute of Information Engineering, CAS
+              School of Cyber Security, University of Chinese Academy of Sciences  
+File Description: Declares the ZEN key-encapsulation mechanism layer for the optimized ZEN-256 instance.
+*/
+#ifndef SAMPLE_H
+#define SAMPLE_H
+
+#include <stdint.h>
+#include "params.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    /// @brief Compute polynomial coefficients following a centered binomial distribution with parameter eta = 1
+    /// @param[out] r Base address of output polynomial coefficient array
+    /// @param[in] buf Base address of input uniformly random byte array
+    /// @return None
+    void cbd1(int16_t *r, const uint8_t *buf);
+
+    /// @brief Generate a ternary polynomial with coefficient distribution {-1:1/8, 0:3/4, 1:1/8} from an input byte array
+    /// @param[out] r Base address of output polynomial coefficient array
+    /// @param[in] buf Base address of input byte array
+    /// @return None
+    void tenary1_8(int16_t *r, const uint8_t *buf);
+
+    /// @brief Generate a ternary polynomial with coefficient distribution {-1:3/16, 0:5/8, 1:3/16} from an input byte array
+    /// @param[out] r Base address of output polynomial coefficient array
+    /// @param[in] buf Base address of input byte array
+    /// @return None
+    void tenary3_16(int16_t *r, const uint8_t *buf);
+
+#ifdef __cplusplus
+}
+#endif
+#endif

@@ -1,0 +1,285 @@
+{
+  "schema": 1,
+  "status": "preliminary",
+  "guide_complete": false,
+  "guide_gaps": [
+    "hardware CPU cycles unavailable on this host",
+    "baseline/peak process RSS and ELF image size are proxies, not an isolated static-memory measurement",
+    "the KAT manifest proves output equality but the complete functional vectors are not embedded in this report",
+    "-fPIC is added for the harness shared library and is not one of the guide's listed build flags"
+  ],
+  "started_utc": "2026-09-24T07:44:13.461887+00:00",
+  "ended_utc": "2026-09-24T07:44:28.725521+00:00",
+  "candidate": "kem-35",
+  "library": "kem-35/lib/libScloudplus-128-SHAKE-ref.so",
+  "library_sha256": "410f6c7a8cc88a4e60d081dce9ed5dda54888f688f3fd6899130a4824039e608",
+  "source_archive_sha256": "050aad7293ec90fafd9070e82877eedc81caf0aaaca932c995619a3f35429876",
+  "kat_log": "kem-35/results/Scloudplus-128-SHAKE-ref.log",
+  "kat_log_sha256": "3bf0bbbbc755c6606aa7961cb863c2b1f4027494d237da1a8312c228a5786edd",
+  "guide": "doc/perf-x86.pdf, NICCS June 2026, sections 3.3-3.5",
+  "environment": {
+    "cpu_model": "AMD EPYC-Milan Processor",
+    "cpu_mhz_reported": 2200.02,
+    "cpu_number": 0,
+    "cpu_affinity": [
+      0
+    ],
+    "architecture": "x86_64",
+    "virtualized": true,
+    "logical_cpus_visible": 28,
+    "memory_total_kib": 181686020,
+    "os": "Ubuntu 26.04.1 LTS",
+    "kernel": "7.0.0-34-generic",
+    "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "cmake": "cmake version 4.2.3",
+    "perf_event_paranoid": "4",
+    "load_average_start": [
+      3.98388671875,
+      3.26220703125,
+      2.25341796875
+    ],
+    "load_average_end": [
+      4.15380859375,
+      3.33251953125,
+      2.29296875
+    ]
+  },
+  "elf_load_mem_bytes": 28909,
+  "input_rule": "ngcc_seed uses bytes 00..2f via the ICCS DRNG; 64-byte signing messages and S1..S8 hash inputs use byte[i]=(131*i+length) mod 256",
+  "rows": [
+    {
+      "operation": "keygen",
+      "input_bytes": 0,
+      "status": "complete",
+      "exit_code": 0,
+      "limit_seconds": 60,
+      "command": [
+        "taskset",
+        "-c",
+        "0",
+        "performance/ngcc_perf",
+        "kem-35/lib/libScloudplus-128-SHAKE-ref.so",
+        "keygen",
+        "0",
+        "5",
+        "60"
+      ],
+      "metadata": {
+        "id": "kem-35",
+        "instance": "Scloudplus-128-SHAKE-packed10",
+        "variant": "Reference_Implementation",
+        "operation": "keygen",
+        "input_bytes": "0",
+        "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC ",
+        "baseline_rss_bytes": "2134016",
+        "pk_bytes": "6096",
+        "sk_bytes": "7440",
+        "ct_bytes": "6160",
+        "ss_bytes": "16",
+        "signature_bytes": "0",
+        "digest_bytes": "0",
+        "cpu_cycles_available": "no",
+        "warmups": "3",
+        "peak_rss_bytes": "20422656",
+        "measurement_count": "2880",
+        "guide_100_measurements": "met"
+      },
+      "trials": [
+        {
+          "number": 1,
+          "measurements": 576,
+          "elapsed_seconds": 1.008085576,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 2,
+          "measurements": 576,
+          "elapsed_seconds": 1.008162874,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 3,
+          "measurements": 576,
+          "elapsed_seconds": 1.008056166,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 4,
+          "measurements": 576,
+          "elapsed_seconds": 1.008444112,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 5,
+          "measurements": 576,
+          "elapsed_seconds": 1.008852628,
+          "cpu_cycles": 0
+        }
+      ],
+      "stderr": "",
+      "measurements": 2880,
+      "guide_100_measurements_met": true,
+      "mean_seconds_per_operation": 0.001750556026388889,
+      "middle_trial_seconds_per_operation": 0.001750282767361111,
+      "operations_per_second": 571.2470694598885,
+      "mean_cpu_cycles": null,
+      "throughput_MB_per_second": null
+    },
+    {
+      "operation": "enc",
+      "input_bytes": 0,
+      "status": "complete",
+      "exit_code": 0,
+      "limit_seconds": 60,
+      "command": [
+        "taskset",
+        "-c",
+        "0",
+        "performance/ngcc_perf",
+        "kem-35/lib/libScloudplus-128-SHAKE-ref.so",
+        "enc",
+        "0",
+        "5",
+        "60"
+      ],
+      "metadata": {
+        "id": "kem-35",
+        "instance": "Scloudplus-128-SHAKE-packed10",
+        "variant": "Reference_Implementation",
+        "operation": "enc",
+        "input_bytes": "0",
+        "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC ",
+        "baseline_rss_bytes": "2158592",
+        "pk_bytes": "6096",
+        "sk_bytes": "7440",
+        "ct_bytes": "6160",
+        "ss_bytes": "16",
+        "signature_bytes": "0",
+        "digest_bytes": "0",
+        "cpu_cycles_available": "no",
+        "warmups": "3",
+        "peak_rss_bytes": "20422656",
+        "measurement_count": "2800",
+        "guide_100_measurements": "met"
+      },
+      "trials": [
+        {
+          "number": 1,
+          "measurements": 560,
+          "elapsed_seconds": 1.018178754,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 2,
+          "measurements": 560,
+          "elapsed_seconds": 1.017950866,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 3,
+          "measurements": 560,
+          "elapsed_seconds": 1.017868907,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 4,
+          "measurements": 560,
+          "elapsed_seconds": 1.017223362,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 5,
+          "measurements": 560,
+          "elapsed_seconds": 1.017660149,
+          "cpu_cycles": 0
+        }
+      ],
+      "stderr": "",
+      "measurements": 2800,
+      "guide_100_measurements_met": true,
+      "mean_seconds_per_operation": 0.0018174578707142856,
+      "middle_trial_seconds_per_operation": 0.0018176230482142856,
+      "operations_per_second": 550.2190813407886,
+      "mean_cpu_cycles": null,
+      "throughput_MB_per_second": null
+    },
+    {
+      "operation": "dec",
+      "input_bytes": 0,
+      "status": "complete",
+      "exit_code": 0,
+      "limit_seconds": 60,
+      "command": [
+        "taskset",
+        "-c",
+        "0",
+        "performance/ngcc_perf",
+        "kem-35/lib/libScloudplus-128-SHAKE-ref.so",
+        "dec",
+        "0",
+        "5",
+        "60"
+      ],
+      "metadata": {
+        "id": "kem-35",
+        "instance": "Scloudplus-128-SHAKE-packed10",
+        "variant": "Reference_Implementation",
+        "operation": "dec",
+        "input_bytes": "0",
+        "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC ",
+        "baseline_rss_bytes": "2158592",
+        "pk_bytes": "6096",
+        "sk_bytes": "7440",
+        "ct_bytes": "6160",
+        "ss_bytes": "16",
+        "signature_bytes": "0",
+        "digest_bytes": "0",
+        "cpu_cycles_available": "no",
+        "warmups": "3",
+        "peak_rss_bytes": "20422656",
+        "measurement_count": "2800",
+        "guide_100_measurements": "met"
+      },
+      "trials": [
+        {
+          "number": 1,
+          "measurements": 560,
+          "elapsed_seconds": 1.018967327,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 2,
+          "measurements": 560,
+          "elapsed_seconds": 1.018851347,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 3,
+          "measurements": 560,
+          "elapsed_seconds": 1.019373333,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 4,
+          "measurements": 560,
+          "elapsed_seconds": 1.019027846,
+          "cpu_cycles": 0
+        },
+        {
+          "number": 5,
+          "measurements": 560,
+          "elapsed_seconds": 1.020435803,
+          "cpu_cycles": 0
+        }
+      ],
+      "stderr": "",
+      "measurements": 2800,
+      "guide_100_measurements_met": true,
+      "mean_seconds_per_operation": 0.001820234162857143,
+      "middle_trial_seconds_per_operation": 0.001819692582142857,
+      "operations_per_second": 549.3798657368035,
+      "mean_cpu_cycles": null,
+      "throughput_MB_per_second": null
+    }
+  ]
+}

@@ -1,0 +1,729 @@
+/*
+File Description: Implements unit tests for the optimized POLARLAC-128 implementation.
+*/
+
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "drng.h"
+#include "KEM_AlgorithmInstance.h"
+#include "ntt.h"
+#include "params.h"
+#include "polar.h"
+#include "poly.h"
+#include "pke.h"
+#include "sample.h"
+#include "symmetric.h"
+#include "poly.h"
+
+DRNG_ctx drng_algorithm;
+
+static int g_failures = 0;
+
+#ifndef TestNum
+#define TestNum 100000
+#endif
+
+static void report_test(const char *name, int ok)
+{
+    printf("[%s] %s\n", ok ? "PASS" : "FAIL", name);
+    fflush(stdout);
+    if (!ok) {
+        g_failures++;
+    }
+}
+
+static void fill_seed(uint8_t *seed, uint8_t base)
+{
+    for (int i = 0; i < KEM_SEED_LEN_BYTES; i++) {
+        seed[i] = (uint8_t)(base + i);
+    }
+}
+
+static void fill_message(uint8_t *msg, uint8_t base)
+{
+    for (int i = 0; i < PKE_MESSAGE_BYTES; i++) {
+        msg[i] = (uint8_t)(base + i);
+    }
+}
+
+static int derive_g_for_test(uint8_t *ss, uint8_t *seed_enc, const uint8_t *m, const uint8_t *pk)
+{
+    uint8_t derivation_input[PKE_MESSAGE_BYTES + PKE_PUBLIC_KEY_BYTES];
+    uint8_t g_output[KEM_SS_BYTES + KEM_SEED_LEN_BYTES];
+
+    memcpy(derivation_input, m, PKE_MESSAGE_BYTES);
+    memcpy(derivation_input + PKE_MESSAGE_BYTES, pk, PKE_PUBLIC_KEY_BYTES);
+
+    if (bit_xof((KEM_SS_BYTES + KEM_SEED_LEN_BYTES) * 8ULL, derivation_input,
+            sizeof(derivation_input) * 8ULL, g_output) != 0) {
+        return 0;
+    }
+
+    memcpy(ss, g_output, KEM_SS_BYTES);
+    memcpy(seed_enc, g_output + KEM_SS_BYTES, KEM_SEED_LEN_BYTES);
+    return 1;
+}
+
+static int derive_reject_key_for_test(uint8_t *ss, const uint8_t *reject_seed, const uint8_t *ct)
+{
+    uint8_t kdf_input[KEM_REJECT_SEED_BYTES + PKE_CIPHERTEXT_BYTES];
+
+    memcpy(kdf_input, reject_seed, KEM_REJECT_SEED_BYTES);
+    memcpy(kdf_input + KEM_REJECT_SEED_BYTES, ct, PKE_CIPHERTEXT_BYTES);
+
+    return bit_xof(KEM_SS_BYTES * 8ULL, kdf_input,
+        sizeof(kdf_input) * 8ULL, ss) == 0;
+}
+
+static void fill_canonical_poly(int16_t *poly)
+{
+    for (int i = 0; i < RL_KEM_N; i++) {
+        poly[i] = rl_kem_mod_q((int32_t)(i * 37) - 200);
+    }
+}
+
+static void fill_ternary_pattern(int16_t *poly)
+{
+    for (int i = 0; i < RL_KEM_N; i++) {
+        poly[i] = (int16_t)((i % 3) - 1);
+    }
+}
+
+static uint8_t ref_compress_c2_coeff(int16_t c, unsigned int d)
+{
+    uint32_t mask = (1u << d) - 1u;
+    uint32_t x = (uint32_t)rl_kem_mod_q(c);
+    uint32_t t = ((x << d) + (RL_KEM_Q >> 1)) / RL_KEM_Q;
+    return (uint8_t)(t & mask);
+}
+
+static int16_t ref_decompress_c2_coeff(uint8_t c, unsigned int d)
+{
+    uint32_t half = 1u << (d - 1);
+    return (int16_t)((((uint32_t)c * (uint32_t)RL_KEM_Q) + half) >> d);
+}
+
+static void naive_negacyclic_mul(int16_t *out, const int16_t *a, const int16_t *b)
+{
+    int32_t acc[RL_KEM_N];
+
+    memset(acc, 0, sizeof(acc));
+    for (int i = 0; i < RL_KEM_N; i++) {
+        for (int j = 0; j < RL_KEM_N; j++) {
+            int idx = i + j;
+            int32_t prod = (int32_t)a[i] * b[j];
+            if (idx >= RL_KEM_N) {
+                acc[idx - RL_KEM_N] -= prod;
+            } else {
+                acc[idx] += prod;
+            }
+        }
+    }
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        out[i] = rl_kem_mod_q(acc[i]);
+    }
+}
+
+static int test_uniform_sampler_range(void)
+{
+    uint8_t seed[PK_SEED_LEN_BYTES];
+    polarlac_polymat poly;
+
+    for (int i = 0; i < PK_SEED_LEN_BYTES; i++) {
+        seed[i] = (uint8_t)(0x10U + i);
+    }
+    poly_generate_uniformQ(&poly, seed, 0);
+    for (int i = 0; i < RL_KEM_K; i++) {
+        for(int j = 0; j < RL_KEM_K; j++){
+            for(int t = 0; t < RL_KEM_N; t++){
+                if (poly.row[i].vec[j].coeffs[t] < 0 || poly.row[i].vec[j].coeffs[t] >= RL_KEM_Q) {
+                    fprintf(stderr, "uniform sampler out of range at %d,%d,%d: %d\n", i, j, t, poly.row[i].vec[j].coeffs[t]);
+                    return 0;
+                }
+            }
+        }
+        
+
+        
+    }
+    return 1;
+}
+
+static int test_ternary_sampler_range(void)
+{
+    uint8_t seed[KEM_SEED_LEN_BYTES];
+    int16_t poly[RL_KEM_N];
+
+    fill_seed(seed, 0x80U);
+    poly_generate_tenary(poly, seed, 0);
+    for (int i = 0; i < RL_KEM_N; i++) {
+        if (poly[i] < -1 || poly[i] > 1) {
+            fprintf(stderr, "ternary sampler out of range at %d: %d\n", i, poly[i]);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+
+static int test_poly_compress_zero_selector_roundtrip(void)
+{
+    int16_t src[RL_KEM_N];
+    int16_t dec[RL_KEM_N];
+    uint8_t code[PK_LEN_BYTES];
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        src[i] = (int16_t)(i % RL_KEM_Q);
+    }
+
+    memset(code, 0xA5, sizeof(code));
+    memset(dec, 0, sizeof(dec));
+    if (poly_compress(code, src) != 0) {
+        fprintf(stderr, "poly_compress zero-selector unexpectedly rejected roundtrip input\n");
+        return 0;
+    }
+    poly_decompress(dec, code);
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        if (dec[i] != src[i]) {
+            fprintf(stderr, "poly_compress zero-selector mismatch at %d: got %d want %d\n",
+                i, dec[i], src[i]);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+static int test_poly_compress_zero_selector_capacity(void)
+{
+    int16_t src[RL_KEM_N];
+    int16_t dec[RL_KEM_N];
+    uint8_t code[PK_LEN_BYTES];
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        src[i] = 1;
+    }
+    for (int i = 0; i < PK_ZERO_SELECTOR_BITS; i++) {
+        src[i] = (int16_t)((i & 1) << 8);
+    }
+
+    memset(code, 0, sizeof(code));
+    memset(dec, 0, sizeof(dec));
+    if (poly_compress(code, src) != 0) {
+        fprintf(stderr, "poly_compress zero-selector rejected exact-capacity input\n");
+        return 0;
+    }
+    poly_decompress(dec, code);
+    for (int i = 0; i < RL_KEM_N; i++) {
+        if (dec[i] != src[i]) {
+            fprintf(stderr, "zero-selector exact-capacity mismatch at %d: got %d want %d\n",
+                i, dec[i], src[i]);
+            return 0;
+        }
+    }
+
+    src[PK_ZERO_SELECTOR_BITS] = 0;
+    if (poly_compress(code, src) == 0) {
+        fprintf(stderr, "poly_compress zero-selector accepted overflow input\n");
+        return 0;
+    }
+
+    return 1;
+}
+
+static int test_poly_compress_c2_reference(void)
+{
+    int16_t src[RL_KEM_N];
+    int16_t dec[RL_KEM_N];
+    uint8_t code[RL_KEM_Lv];
+
+    fill_canonical_poly(src);
+    poly_compress_c2(code, src, D_C2_BITS);
+
+    for (int i = 0; i < RL_KEM_Lv; i++) {
+        uint8_t want = ref_compress_c2_coeff(src[i], D_C2_BITS);
+        if (code[i] != want) {
+            fprintf(stderr, "compress_c2 mismatch at %d: got %u want %u\n",
+                i, (unsigned)code[i], (unsigned)want);
+            return 0;
+        }
+    }
+
+    poly_decompress_c2(dec, code, D_C2_BITS);
+    for (int i = 0; i < RL_KEM_Lv; i++) {
+        int16_t want = ref_decompress_c2_coeff(code[i], D_C2_BITS);
+        if (dec[i] != want) {
+            fprintf(stderr, "decompress_c2 mismatch at %d: got %d want %d\n",
+                i, dec[i], want);
+            return 0;
+        }
+    }
+    for (int i = RL_KEM_Lv; i < RL_KEM_N; i++) {
+        if (dec[i] != 0) {
+            fprintf(stderr, "decompress_c2 tail mismatch at %d: got %d want 0\n",
+                i, dec[i]);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+static int test_pack_c2_dbit_roundtrip(void)
+{
+    uint8_t src[RL_KEM_Lv];
+    uint8_t packed[C2_LEN_BYTES];
+    uint8_t unpacked[RL_KEM_Lv];
+    uint8_t mask = (uint8_t)((1u << D_C2_BITS) - 1u);
+
+    for (int i = 0; i < RL_KEM_Lv; i++) {
+        src[i] = (uint8_t)(i & mask);
+    }
+
+    memset(packed, 0, sizeof(packed));
+    memset(unpacked, 0, sizeof(unpacked));
+    pack_c2_dbit(packed, src);
+    unpack_c2_dbit(unpacked, packed);
+
+    for (int i = 0; i < RL_KEM_Lv; i++) {
+        if (unpacked[i] != src[i]) {
+            fprintf(stderr, "pack/unpack c2 mismatch at %d: got %u want %u\n",
+                i, (unsigned)unpacked[i], (unsigned)src[i]);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int test_ntt_roundtrip(void)
+{
+    int16_t poly[RL_KEM_N];
+    int16_t roundtrip[RL_KEM_N];
+
+    fill_canonical_poly(poly);
+    memcpy(roundtrip, poly, sizeof(roundtrip));
+    mq_poly_ntt(roundtrip);
+    mq_poly_intt(roundtrip);
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        int16_t want = rl_kem_mod_q(poly[i]);
+        int16_t got = rl_kem_mod_q(roundtrip[i]);
+        if (got != want) {
+            fprintf(stderr, "NTT roundtrip mismatch at %d: got %d want %d\n",
+                i, got, want);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int test_conj_ntt_bound_check(void)
+{
+    int16_t poly[RL_KEM_N];
+    int32_t score;
+
+    memset(poly, 0, sizeof(poly));
+    score = con_poly_rejection_score(poly);
+    if (score != 0 || !con_poly_within_bound(poly, (int32_t)CONJ_NTT_T)) {
+        fprintf(stderr, "conjugate NTT rejected the zero polynomial\n");
+        return 0;
+    }
+
+    fill_ternary_pattern(poly);
+    score = con_poly_rejection_score(poly);
+    if (score <= 0) {
+        fprintf(stderr, "conjugate NTT produced a non-positive score\n");
+        return 0;
+    }
+    if (!con_poly_within_bound(poly, score)) {
+        fprintf(stderr, "conjugate NTT rejected at its exact score\n");
+        return 0;
+    }
+    if (con_poly_within_bound(poly, score - 1)) {
+        fprintf(stderr, "conjugate NTT accepted below its exact score\n");
+        return 0;
+    }
+
+    return 1;
+}
+
+static int test_poly_mul_against_reference(void)
+{
+    int16_t a[RL_KEM_N];
+    int16_t s[RL_KEM_N];
+    int16_t got[RL_KEM_N];
+    int16_t want[RL_KEM_N];
+
+    fill_canonical_poly(a);
+    fill_ternary_pattern(s);
+    poly_mul(got, a, s);
+    naive_negacyclic_mul(want, a, s);
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        if (rl_kem_mod_q(got[i]) != want[i]) {
+            fprintf(stderr, "poly_mul mismatch at %d: got %d want %d\n",
+                i, rl_kem_mod_q(got[i]), want[i]);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int test_poly_mul_add_against_reference(void)
+{
+    int16_t a[RL_KEM_N];
+    int16_t s[RL_KEM_N];
+    int16_t e[RL_KEM_N];
+    int16_t got[RL_KEM_N];
+    int16_t prod[RL_KEM_N];
+
+    fill_canonical_poly(a);
+    fill_ternary_pattern(s);
+    fill_ternary_pattern(e);
+    poly_mul_add(got, a, s, e);
+    naive_negacyclic_mul(prod, a, s);
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        int16_t want = rl_kem_mod_q((int32_t)prod[i] + e[i]);
+        if (got[i] != want) {
+            fprintf(stderr, "poly_mul_add mismatch at %d: got %d want %d\n",
+                i, got[i], want);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int test_poly_mul_add_with_ntt_against_reference(void)
+{
+    int16_t a[RL_KEM_N];
+    int16_t a_ntt[RL_KEM_N];
+    int16_t s[RL_KEM_N];
+    int16_t e[RL_KEM_N];
+    int16_t got[RL_KEM_N];
+    int16_t prod[RL_KEM_N];
+
+    fill_canonical_poly(a);
+    fill_ternary_pattern(s);
+    fill_ternary_pattern(e);
+    memcpy(a_ntt, a, sizeof(a_ntt));
+    mq_poly_ntt(a_ntt);
+
+    poly_mul_add_with_ntt(got, a_ntt, s, e);
+    naive_negacyclic_mul(prod, a, s);
+
+    for (int i = 0; i < RL_KEM_N; i++) {
+        int16_t want = rl_kem_mod_q((int32_t)prod[i] + e[i]);
+        if (got[i] != want) {
+            fprintf(stderr, "poly_mul_add_with_ntt mismatch at %d: got %d want %d\n",
+                i, got[i], want);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int test_polar_encode_decode_ideal(void)
+{
+    uint8_t msg[PKE_MESSAGE_BYTES];
+    uint8_t code_m[RL_KEM_Lv];
+    uint8_t dec[PKE_MESSAGE_BYTES];
+    int16_t hatm[RL_KEM_Lv];
+    unsigned int expected_n = 0;
+    unsigned int info_count = 0;
+
+    while ((1u << expected_n) < CODE_LEN * 8U) {
+        expected_n++;
+    }
+    for (unsigned int i = 0; i < polar.N; i++) {
+        info_count += info_nodes[i];
+    }
+
+    if (polar.N != CODE_LEN * 8U || polar.n != expected_n ||
+            polar.K != (unsigned int)(PKE_MESSAGE_BYTES * 8) ||
+            polar.ecc_bytes != CODE_LEN ||
+            info_count != (unsigned int)(PKE_MESSAGE_BYTES * 8)) {
+        fprintf(stderr,
+            "polar parameter mismatch: N=%u/%u n=%u/%u K=%u/%u ecc_bytes=%u/%u info=%u/%u\n",
+            polar.N, (unsigned int)(CODE_LEN * 8U),
+            polar.n, expected_n,
+            polar.K, (unsigned int)(PKE_MESSAGE_BYTES * 8),
+            polar.ecc_bytes, (unsigned int)CODE_LEN,
+            info_count, (unsigned int)(PKE_MESSAGE_BYTES * 8));
+        return 0;
+    }
+
+    fill_message(msg, 0x3CU);
+    Encode_m(code_m, msg);
+    for (int i = 0; i < RL_KEM_Lv; i++) {
+        hatm[i] = code_m[i] ? RATIO : 0;
+    }
+    Decode_m(dec, hatm);
+
+    if (memcmp(msg, dec, sizeof(msg)) != 0) {
+        fprintf(stderr, "polar encode/decode mismatch\n");
+        return 0;
+    }
+    return 1;
+}
+
+static int test_pke_roundtrip(void)
+{
+    uint8_t seed_kg[KEM_SEED_LEN_BYTES];
+    uint8_t seed_enc[KEM_SEED_LEN_BYTES];
+    uint8_t pk[PKE_PUBLIC_KEY_BYTES];
+    uint8_t sk[PKE_SECRET_KEY_BYTES];
+    uint8_t ct[PKE_CIPHERTEXT_BYTES];
+    uint8_t msg[PKE_MESSAGE_BYTES];
+    uint8_t dec[PKE_MESSAGE_BYTES];
+
+    fill_seed(seed_kg, 0x01U);
+    fill_seed(seed_enc, 0xA5U);
+    fill_message(msg, 0x30U);
+
+    if (PKE_KeyGen(pk, sk, seed_kg) != 0) {
+        fprintf(stderr, "PKE_KeyGen failed\n");
+        return 0;
+    }
+
+    PKE_Encrypt(ct, pk, msg, seed_enc);
+    PKE_Decrypt(dec, ct, sk);
+    if (memcmp(msg, dec, sizeof(msg)) != 0) {
+        fprintf(stderr, "PKE roundtrip mismatch\n");
+        return 0;
+    }
+    return 1;
+}
+
+static int test_kem_roundtrip_and_fallback(void)
+{
+    uint8_t drng_seed[64];
+    unsigned long long pk_len = kem_get_pk_len_bytes();
+    unsigned long long sk_len = kem_get_sk_len_bytes();
+    unsigned long long ct_len = kem_get_ct_len_bytes();
+    unsigned long long ss_len = kem_get_ss_len_bytes();
+    unsigned char *pk;
+    unsigned char *sk;
+    unsigned char *ct;
+    unsigned char *ss;
+    unsigned char *ss_dec;
+    unsigned char *ct_bad;
+    unsigned char *ss_bad_1;
+    unsigned char *ss_bad_2;
+    uint8_t msg_known[PKE_MESSAGE_BYTES];
+    uint8_t seed_enc[KEM_SEED_LEN_BYTES];
+    uint8_t ss_expected[SS_KEY_BYTES];
+    uint8_t ss_reject_expected[SS_KEY_BYTES];
+    int ok = 0;
+
+    for (int i = 0; i < (int)sizeof(drng_seed); i++) {
+        drng_seed[i] = (uint8_t)(0xC3U + i);
+    }
+    if (init_random_number(&drng_algorithm, drng_seed, sizeof(drng_seed)) != 0) {
+        fprintf(stderr, "init_random_number failed\n");
+        return 0;
+    }
+
+    pk = (unsigned char *)malloc((size_t)pk_len);
+    sk = (unsigned char *)malloc((size_t)sk_len);
+    ct = (unsigned char *)malloc((size_t)ct_len);
+    ss = (unsigned char *)malloc((size_t)ss_len);
+    ss_dec = (unsigned char *)malloc((size_t)ss_len);
+    ct_bad = (unsigned char *)malloc((size_t)ct_len);
+    ss_bad_1 = (unsigned char *)malloc((size_t)ss_len);
+    ss_bad_2 = (unsigned char *)malloc((size_t)ss_len);
+    if (pk == NULL || sk == NULL || ct == NULL || ss == NULL || ss_dec == NULL ||
+            ct_bad == NULL || ss_bad_1 == NULL || ss_bad_2 == NULL) {
+        fprintf(stderr, "KEM test allocation failed\n");
+        goto done;
+    }
+
+    if (kem_keygen(pk, &pk_len, sk, &sk_len) != 0) {
+        fprintf(stderr, "KEM keygen failed\n");
+        goto done;
+    }
+
+    fill_message(msg_known, 0x5AU);
+    if (!derive_g_for_test(ss_expected, seed_enc, msg_known, pk)) {
+        fprintf(stderr, "KEM test G derivation failed\n");
+        goto done;
+    }
+    PKE_Encrypt(ct, pk, msg_known, seed_enc);
+    if (kem_dec(sk, sk_len, ct, ct_len, ss_dec, &ss_len) != 0) {
+        fprintf(stderr, "KEM known-message decapsulation failed\n");
+        goto done;
+    }
+    if (memcmp(ss_expected, ss_dec, (size_t)ss_len) != 0) {
+        fprintf(stderr, "KEM G(m||pk) shared secret mismatch\n");
+        goto done;
+    }
+
+    if (kem_enc(pk, pk_len, ss, &ss_len, ct, &ct_len) != 0 ||
+            kem_dec(sk, sk_len, ct, ct_len, ss_dec, &ss_len) != 0) {
+        fprintf(stderr, "KEM roundtrip call failed\n");
+        goto done;
+    }
+    if (memcmp(ss, ss_dec, (size_t)ss_len) != 0) {
+        fprintf(stderr, "KEM shared secret mismatch\n");
+        goto done;
+    }
+
+    memcpy(ct_bad, ct, (size_t)ct_len);
+    ct_bad[0] ^= 0x01U;
+    if (kem_dec(sk, sk_len, ct_bad, ct_len, ss_bad_1, &ss_len) != 0 ||
+            kem_dec(sk, sk_len, ct_bad, ct_len, ss_bad_2, &ss_len) != 0) {
+        fprintf(stderr, "KEM fallback call failed\n");
+        goto done;
+    }
+    if (memcmp(ss_bad_1, ss_bad_2, (size_t)ss_len) != 0) {
+        fprintf(stderr, "KEM fallback key is not deterministic\n");
+        goto done;
+    }
+    if (!derive_reject_key_for_test(ss_reject_expected,
+            sk + PKE_SECRET_KEY_BYTES + PKE_PUBLIC_KEY_BYTES, ct_bad)) {
+        fprintf(stderr, "KEM reject-key derivation failed\n");
+        goto done;
+    }
+    if (memcmp(ss_reject_expected, ss_bad_1, (size_t)ss_len) != 0) {
+        fprintf(stderr, "KEM H(z||ct) fallback key mismatch\n");
+        goto done;
+    }
+    if (memcmp(ss, ss_bad_1, (size_t)ss_len) == 0) {
+        fprintf(stderr, "KEM fallback key unexpectedly matches valid secret\n");
+        goto done;
+    }
+
+    ok = 1;
+
+done:
+    free(ss_bad_2);
+    free(ss_bad_1);
+    free(ct_bad);
+    free(ss_dec);
+    free(ss);
+    free(ct);
+    free(sk);
+    free(pk);
+    return ok;
+}
+
+static int test_kem_ss_len_matches_message_len(void)
+{
+    return kem_get_ss_len_bytes() == MESSAGE_LEN_BYTES;
+}
+
+static int test_kem_roundtrip_many(void)
+{
+    uint8_t drng_seed[64];
+    const unsigned long long pk_len_const = kem_get_pk_len_bytes();
+    const unsigned long long sk_len_const = kem_get_sk_len_bytes();
+    const unsigned long long ct_len_const = kem_get_ct_len_bytes();
+    const unsigned long long ss_len_const = kem_get_ss_len_bytes();
+    unsigned char *pk = NULL;
+    unsigned char *sk = NULL;
+    unsigned char *ct = NULL;
+    unsigned char *ss = NULL;
+    unsigned char *ss_dec = NULL;
+    int ok = 0;
+
+    for (int i = 0; i < (int)sizeof(drng_seed); i++) {
+        drng_seed[i] = (uint8_t)(0x5AU + (uint8_t)(3 * i));
+    }
+    if (init_random_number(&drng_algorithm, drng_seed, sizeof(drng_seed)) != 0) {
+        fprintf(stderr, "KEM many-test init_random_number failed\n");
+        return 0;
+    }
+
+    pk = (unsigned char *)malloc((size_t)pk_len_const);
+    sk = (unsigned char *)malloc((size_t)sk_len_const);
+    ct = (unsigned char *)malloc((size_t)ct_len_const);
+    ss = (unsigned char *)malloc((size_t)ss_len_const);
+    ss_dec = (unsigned char *)malloc((size_t)ss_len_const);
+    if (pk == NULL || sk == NULL || ct == NULL || ss == NULL || ss_dec == NULL) {
+        fprintf(stderr, "KEM many-test allocation failed\n");
+        goto done;
+    }
+
+    printf("Running %d KEM end-to-end roundtrip tests...\n", TestNum);
+    fflush(stdout);
+
+    for (int iter = 0; iter < TestNum; iter++) {
+        unsigned long long pk_len = pk_len_const;
+        unsigned long long sk_len = sk_len_const;
+        unsigned long long ct_len = ct_len_const;
+        unsigned long long ss_len_enc = ss_len_const;
+        unsigned long long ss_len_dec = ss_len_const;
+
+        if (kem_keygen(pk, &pk_len, sk, &sk_len) != 0) {
+            fprintf(stderr, "KEM many-test keygen failed at iter %d\n", iter);
+            goto done;
+        }
+        if (pk_len != pk_len_const || sk_len != sk_len_const) {
+            fprintf(stderr, "KEM many-test key length mismatch at iter %d\n", iter);
+            goto done;
+        }
+        if (kem_enc(pk, pk_len, ss, &ss_len_enc, ct, &ct_len) != 0) {
+            fprintf(stderr, "KEM many-test encapsulation failed at iter %d\n", iter);
+            goto done;
+        }
+        if (ct_len != ct_len_const || ss_len_enc != ss_len_const) {
+            fprintf(stderr, "KEM many-test encapsulation length mismatch at iter %d\n", iter);
+            goto done;
+        }
+        if (kem_dec(sk, sk_len, ct, ct_len, ss_dec, &ss_len_dec) != 0) {
+            fprintf(stderr, "KEM many-test decapsulation failed at iter %d\n", iter);
+            goto done;
+        }
+        if (ss_len_dec != ss_len_const) {
+            fprintf(stderr, "KEM many-test decapsulation length mismatch at iter %d\n", iter);
+            goto done;
+        }
+        if (memcmp(ss, ss_dec, (size_t)ss_len_const) != 0) {
+            fprintf(stderr, "KEM many-test shared secret mismatch at iter %d\n", iter);
+            goto done;
+        }
+    }
+
+    ok = 1;
+
+done:
+    free(ss_dec);
+    free(ss);
+    free(ct);
+    free(sk);
+    free(pk);
+    return ok;
+}
+
+int main(void)
+{
+    report_test("uniform sampler range", test_uniform_sampler_range());
+    report_test("ternary sampler range", test_ternary_sampler_range());
+    report_test("poly_compress zero-selector roundtrip", test_poly_compress_zero_selector_roundtrip());
+    report_test("poly_compress zero-selector capacity", test_poly_compress_zero_selector_capacity());
+    report_test("poly_compress_c2/poly_decompress_c2 reference", test_poly_compress_c2_reference());
+    report_test("pack_c2_dbit/unpack_c2_dbit", test_pack_c2_dbit_roundtrip());
+    report_test("kem ss length matches message length", test_kem_ss_len_matches_message_len());
+    report_test("NTT roundtrip", test_ntt_roundtrip());
+    report_test("conjugate NTT bound check", test_conj_ntt_bound_check());
+    report_test("poly_mul against reference", test_poly_mul_against_reference());
+    report_test("poly_mul_add against reference", test_poly_mul_add_against_reference());
+    report_test("poly_mul_add_with_ntt against reference", test_poly_mul_add_with_ntt_against_reference());
+    report_test("polar encode/decode ideal", test_polar_encode_decode_ideal());
+    report_test("PKE roundtrip", test_pke_roundtrip());
+    report_test("KEM roundtrip and fallback", test_kem_roundtrip_and_fallback());
+    report_test("KEM repeated end-to-end roundtrip", test_kem_roundtrip_many());
+
+    if (g_failures != 0) {
+        printf("Unit tests finished with %d failure(s)\n", g_failures);
+        return 1;
+    }
+
+    printf("All unit tests passed\n");
+    return 0;
+}

@@ -29,6 +29,30 @@ $(eval $(call MITHRIL,Mithril-128,128))
 $(eval $(call MITHRIL,Mithril-256,256))
 $(eval $(call MITHRIL,Mithril-512,512))
 
+# Optional performance variants, imported unchanged from the verified official
+# archive by performance/import_sources.py.  Normal harness builds remain the
+# reference implementation; request these explicitly with PERF_OPT=1.
+ifeq ($(PERF_OPT),1)
+MITHRIL_AVX_SRCS := arith/fprime.c arith/poly.c arith/poly.S arith/ring.c \
+                    arith/packing.c arith/packing.S arith/uniform.c \
+                    arith/ntt.S arith/intt.S arith/pointwise.S \
+                    pke.c kem.c utils/auxfunc.c utils/drng.c
+
+define MITHRIL_AVX
+SRCS_$(1)-avx2 := $(MITHRIL_AVX_SRCS)
+INC_$(1)-avx2  := -Isrc/$(1)-avx2/utils -Isrc/$(1)-avx2/arith
+DEFS_$(1)-avx2 := -DRRLWR_SECURITY_LEVEL=$(2)
+SHIMDEFS_$(1)-avx2 := -DNGCC_INSTANCE_HEADER='"kem.h"' -DNGCC_INSTANCE='"$(1)-avx2"'
+KATNAME_$(1)-avx2 := $(1)
+MANIFESTLABEL_$(1)-avx2 := $(1)
+$$(eval $$(call ngcc_instance,$(1)-avx2,Implementations/Optimized_Implementation/$(1)))
+endef
+
+$(eval $(call MITHRIL_AVX,Mithril-128,128))
+$(eval $(call MITHRIL_AVX,Mithril-256,256))
+$(eval $(call MITHRIL_AVX,Mithril-512,512))
+endif
+
 include ../api/link_finish.mk
 
 # Pinned honest encapsulation / decapsulation mismatch from issue #15.
