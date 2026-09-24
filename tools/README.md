@@ -87,6 +87,11 @@ a key and checks fresh honest shared secrets. Set `AMOEBA_PYTHON` when running
 `tools/reproduce.sh kem-02` if those dependencies live in a separate Python or
 Sage environment.
 
+Cheetah's `kem-09/reproduce_pk_compression_noise.py` is the static check for
+`kem-09-3`. Run it directly with `python3`; it enumerates public-key rounding
+errors and checks a nonzero omitted noise term, but does not estimate the full
+decryption-failure rate.
+
 The newer focused witnesses include Amoeba's two-error failure-tail calculation
 (`kem-02-3`), Mithril-256's honest shared-secret mismatch (`kem-22-1`),
 WeaverKEM-256's omitted BCH correction (`kem-39-2`), and the Aigis-Sig+ key-length
@@ -185,4 +190,5 @@ do not attack the candidates' underlying hardness assumptions; the CEDRUS+C
 driver instead exploits broken composition to produce a complete chosen-message
 forgery. Findings that are real but have no cheap runnable witness (for example
 CreTAKE's 64-bit ephemeral secret, which needs about 2^64 offline work) are
-documented in the corresponding `report.md` and `pseudocode.md` instead.
+documented in the public reports at <https://ngcc.dev/reports/> and, where
+available, candidate `pseudocode.md` files instead.

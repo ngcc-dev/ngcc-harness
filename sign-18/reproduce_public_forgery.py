@@ -7,6 +7,7 @@ UnfoldOrigami tree. Its bundled shared library is never loaded here.
 
 import argparse
 import ctypes as c
+import hashlib
 import os
 import pathlib
 import runpy
@@ -18,6 +19,10 @@ import time
 
 ATTACK_COMMIT = "defa3405d66e763580729b14d6f81c1300fbb219"
 ATTACK_URL = "https://github.com/pi-r2/UnfoldOrigami.git"
+ATTACK_SOURCE_SHA256 = {
+    "forge.sage": "1fe0c4ca114efd217a1e42291f60450dd3a4edd2606b8ef56e411ebc46594917",
+    "technical.py": "b287be01bf244ca7cdc749b2bb7c9ca00d756e0eee895bb117d5f722352e9cb2",
+}
 PK_BYTES = 2996
 SK_BYTES = 16
 
@@ -28,6 +33,10 @@ def reproduce(attack_dir: pathlib.Path, lib_path: pathlib.Path) -> None:
     ).strip()
     if commit != ATTACK_COMMIT:
         raise SystemExit(f"expected UnfoldOrigami commit {ATTACK_COMMIT}, got {commit}")
+    for name, expected in ATTACK_SOURCE_SHA256.items():
+        source = attack_dir / name
+        if not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != expected:
+            raise SystemExit(f"UnfoldOrigami source hash mismatch: {name}")
     if not lib_path.is_file():
         raise SystemExit(f"build {lib_path} from the archived Origami source first")
 

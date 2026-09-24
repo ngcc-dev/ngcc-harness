@@ -95,7 +95,8 @@ reference digest without retaining multi-gigabyte text files.
 Every published issue is identified in `security/vulnerabilities.csv` by its
 stable `xxx-yy-z` ID. The verification field distinguishes runtime witnesses,
 static checks, findings covered by both, and review findings for which no cheap
-automated witness is claimed.
+automated witness is claimed. The public report prose is maintained at
+<https://ngcc.dev/reports/>; this harness does not carry partial report copies.
 
 `api/drng.c`, `api/auxfunc.c` and the `api/API_PKC`, `api/API_CryptHash`
 trees are the official NICCS API package files, unmodified; the harness links

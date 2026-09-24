@@ -46,6 +46,7 @@ kem-07-1;Confirmed;review;Secret-derived decoder pivots select memory addresses
 kem-08-1;Confirmed;review;C128 decapsulation branches on decrypted coefficients
 kem-09-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-09-2;Lead;review;A degree-128 quotient defeats the full-dimension MLWE estimates
+kem-09-3;Confirmed;static;Cheetah's decryption-failure analysis omits public-key rounding
 kem-10-1;Confirmed;runtime;Malformed ciphertexts crash the reference decapsulator
 kem-10-2;Confirmed;review;Secret-derived decoder pivots select memory addresses
 kem-11-1;Confirmed;static;COMPASS-KEM-384 and -512 use a 256-bit key-generation root
@@ -73,6 +74,7 @@ kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every test
 kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with variable work
 kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
 kem-38-2;Confirmed;runtime+static;UVW exposes a stable list-decoding failure oracle
+kem-38-3;Lead;review;Retry reactions may expose UVW-KEM-128 session keys
 kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's independence premise
 kem-39-2;Confirmed;runtime;WeaverKEM-256 omits its high-layer BCH decoder
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
@@ -100,6 +102,7 @@ sign-06-1;Confirmed;static;The implemented message representative caps forgery s
 sign-06-2;Confirmed;static;The implementation expands the entire key pair from a 256-bit root
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
+sign-07-3;Lead;review;Compressed signatures may leak the CS-128 signing key
 sign-08-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-09-1;Confirmed;runtime+static;The unauthenticated signature salt invalidates the salted-target analysis
 sign-10-1;Lead;review;The hidden zero subspace has an unpriced algebraic recovery path
