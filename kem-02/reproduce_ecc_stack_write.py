@@ -54,6 +54,7 @@ class Kem:
 # (bytes of c1, bits per compressed c2 coefficient) per parameter set
 PARAMS = {"128": (720, 5), "192": (1188, 6), "256": (1440, 6), "384": (2376, 6), "512": (3456, 7)}
 CHECK_ROW = 5   # Hamming check bit 512 + 2^5 - 1 = 543 > 523-byte correction buffer
+CONTROL_ROW = 0  # neighboring check bit maps inside the correction buffer
 
 
 def child(level, row):
@@ -73,6 +74,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.parse_args()
     for level in PARAMS:
+        control = subprocess.run([sys.executable, __file__, "--child", level, str(CONTROL_ROW)],
+                                 capture_output=True, text=True)
+        assert control.returncode == 0, f"Amoeba{level}: in-bounds check-bit control crashed"
+        print(f"Amoeba{level}: CONTROL nearby check bit returned without abort ({control.stdout.strip()})")
         res = subprocess.run([sys.executable, __file__, "--child", level, str(CHECK_ROW)],
                              capture_output=True, text=True)
         crashed = res.returncode < 0

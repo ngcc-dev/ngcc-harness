@@ -180,11 +180,11 @@ echo "== kem-02-4 Amoeba: Hamming correction stack write (High) =="
 run_target kem-02 "kem-02-4" python3 kem-02/reproduce_ecc_stack_write.py
 
 echo
-echo "== kem-03-2 BAG-Loong: rejection key omits received ciphertext (Critical) =="
+echo "== kem-03-2 BAG-Loong: rejection key omits received ciphertext (High) =="
 run_target kem-03 "kem-03-2" python3 kem-03/reproduce_rejection_key.py kem-03/lib/libBAG-Loong-128.so
 
 echo
-echo "== kem-04-2 BAG-Piglet: rejection key omits received ciphertext (Critical) =="
+echo "== kem-04-2 BAG-Piglet: rejection key omits received ciphertext (High) =="
 run_target kem-04 "kem-04-2" python3 kem-04/reproduce_rejection_key.py kem-04/lib/libbag_piglet_128.so
 
 echo
@@ -194,6 +194,10 @@ run_target kem-19 "kem-19-1" python3 kem-19/reproduce_ring_projection.py
 echo
 echo "== kem-22-1 Mithril: honest shared-secret mismatch (Medium) =="
 run_target kem-22 "kem-22-1" make -C kem-22 exploit-decoder
+
+echo
+echo "== kem-28-1 OAEP-NTRU: noncanonical ciphertext aliases (Critical) =="
+run_target kem-28 "kem-28-1" python3 kem-28/reproduce_noncanonical_ciphertext.py
 
 echo
 echo "== kem-09-1 / kem-18-1: rejection mask leaks the secret (Critical) =="
@@ -375,7 +379,7 @@ echo "== kex-08-2 NIIKE-lv512: two-key secret cycle (Critical) =="
 run_target kex-08 "kex-08-2" make -C kex-08 exploit-lv512
 
 echo
-echo "== kex-08-3 NIIKE-lv128: crafted peer key forces the shared secret (Medium) =="
+echo "== kex-08-3 NIIKE-lv128: crafted peer key forces the shared secret (Low) =="
 run_target kex-08 "kex-08-3" python3 kex-08/reproduce_malicious_peer_key.py
 
 echo
@@ -411,6 +415,10 @@ run_target sign-24 "sign-24-1" make -C sign-24 reproduce
 echo
 echo "== sign-04-1 / sign-04-2 CEDRUS-alpha: WOTS truncation and address aliases =="
 run_target sign-04 "sign-04-1/sign-04-2" make -C sign-04 exploit
+
+echo
+echo "== sign-05-1 Chinith: public-key-only forgery in all 14 sets (Critical) =="
+run_target sign-05 "sign-05-1" make -C sign-05 reproduce
 
 echo
 echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack write =="
@@ -585,8 +593,15 @@ elif [ -z "$only" ] || [ "$only" = sign-33 ]; then
 fi
 
 echo
-echo "== sign-33-6 VDOO: independent-key public forgery replay (Probable) =="
-run_target sign-33 "sign-33-6" make -C sign-33 reproduce-public-forgery
+echo "== sign-33-6 VDOO: posted signature validity replay (Probable) =="
+if [ -z "$only" ] || [ "$only" = sign-33 ]; then
+    if make -C sign-33 reproduce-posted-signature; then
+        echo "sign-33-6  POSTED SIGNATURE VALID; public-key-only forgery untested"
+    else
+        echo "UNEXPECTED sign-33-6 replay failure"
+        fail=$((fail + 1))
+    fi
+fi
 
 echo
 echo "== sign-34-1 / sign-34-2 YuanYang.DSA: transcript leakage and public-key aliases =="

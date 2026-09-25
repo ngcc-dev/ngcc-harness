@@ -51,8 +51,8 @@ bin/replay_public_forgery: $(REPLAY_SOURCE) $(REPLAY_INPUTS) | bin
 .PHONY: replay-forgery
 replay-forgery: bin/replay_public_forgery
 
-.PHONY: reproduce-public-forgery
-reproduce-public-forgery: replay-forgery
+.PHONY: reproduce-posted-signature
+reproduce-posted-signature: replay-forgery
 	bin/replay_public_forgery
 
 include ../api/link_finish.mk

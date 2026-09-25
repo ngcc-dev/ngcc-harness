@@ -15,8 +15,10 @@ generated vectors without storing the original multi-gigabyte vector corpus.
 
 The following SHA-256 values, and sizes where recorded, identify the complete
 original ZIPs. The 25 previously missing entries were checked by streaming
-their official download URLs on 2026-09-23 UTC; the ZIPs are not stored in this
-repository. They are not required for a normal build.
+their official download URLs on 2026-09-23 UTC. Chinith was independently
+checked from its official URL on 2026-09-25 UTC; all 677 imported C/H files
+match that ZIP byte for byte. The ZIPs are not stored in this repository. They
+are not required for a normal build.
 
 | id | bytes | SHA-256 |
 |---|---:|---|
@@ -83,6 +85,7 @@ repository. They are not required for a normal build.
 | sign-02 | — | `698fbe834279a4100a66c20f3e0b634c738e1150936acf74b55efc6db6975e8d` |
 | sign-03 | 18695378 | `a31de849cf0a0703a4e57decbdf4d97b100d00dc74756feaded2c04a7593e110` |
 | sign-04 | — | `b90559ca94bda0130420f91fa52eeb242063a57188c766037c1b234ec3af563b` |
+| sign-05 | 12927882 | `4d31ba3fe8718f59901b7efdf01b4179912ef8e04f58b4b6dbba84186f002283` |
 | sign-06 | — | `ce88066506fe9b58c300b3ca51462c7a8350484d88ad5b8a9c9f17b5152ca820` |
 | sign-07 | 13640373 | `c790d31cd4a288990f3d692381ed721a06641938a02dfc2e0435b7d323475cef` |
 | sign-08 | — | `1846cfe63f0cef83e2e0ca21f5dcadce3c4b16da33713957be6d156e2a9e6e95` |

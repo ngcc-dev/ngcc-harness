@@ -73,7 +73,7 @@ kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure es
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
 kem-24-1;Probable;review;Encryption omits the specified rounding constant
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
-kem-28-1;Confirmed;review;Noncanonical ciphertext encoding defeats IND-CCA security
+kem-28-1;Confirmed;runtime;Noncanonical ciphertext encoding defeats IND-CCA security
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
 kem-31-1;Confirmed;runtime;Invalid ciphertexts trigger an assertion during decapsulation
 kem-31-2;Confirmed;runtime;Non-canonical field encodings make ciphertexts malleable without changing the key
@@ -113,6 +113,7 @@ sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time ke
 sign-04-1;Confirmed;runtime;The 160-bit WOTS implementation authenticates only 128 bits
 sign-04-2;Confirmed;runtime;FORC chain addresses are truncated to eight bits
 sign-04-3;Confirmed;review;Specified and implemented hash instantiations are incompatible
+sign-05-1;Confirmed;runtime;The final Fiat–Shamir challenge omits ã0, allowing public-key-only universal forgery
 sign-06-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-06-2;Confirmed;static;The implementation expands the entire key pair from a 256-bit root
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
@@ -161,6 +162,6 @@ sign-33-2;Confirmed;static;A 256-bit implementation prehash limits forgery secur
 sign-33-3;Proof gap;static;The VDOO-256 and -512 proof bound contains a 128-bit salt term
 sign-33-4;Confirmed;runtime;Signing reuses a publicly predictable randomness stream
 sign-33-5;Probable;review;Signing branches directly on private central-map coefficients
-sign-33-6;Probable;runtime;Restricted oil terms permit a public-key-only VDOO-128 forgery
+sign-33-6;Probable;review;Restricted oil terms may enable a public-key-only VDOO forgery
 sign-34-1;Confirmed;runtime;Wrong perturbation covariance leaks secret-basis information
 sign-34-2;Confirmed;runtime;Non-injective public-key packing creates key aliases

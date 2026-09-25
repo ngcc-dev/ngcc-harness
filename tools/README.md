@@ -103,19 +103,26 @@ without claiming an IND-CCA break for honestly generated keys.
 
 The September 25 additions include malformed-input and ciphertext-alias
 witnesses for Amoeba, BAG-Loong, BAG-Piglet, BRA, BRQC, C-Multi-UR-AG,
-QIMEN-PIKE, UVW-KEM, and NIIKE. Run each through `tools/reproduce.sh <id>`
-after building that candidate. The process-crash witnesses isolate their
-malformed calls in child processes. `kem-28-1` is classified as review here:
-its report links the external runtime witness, while this harness includes
-the reference source and KAT manifest for inspection.
+OAEP-NTRU, QIMEN-PIKE, UVW-KEM, and NIIKE. Run each through
+`tools/reproduce.sh <id>` after building that candidate. The process-crash
+witnesses isolate their malformed calls in child processes. `kem-28-1` tests
+`+q` ciphertext aliases and non-congruent controls at all three levels.
 
 `sign-23-1` builds a source-linked Shuttle covariance recovery driver and
 tests fresh-message forgeries at all three levels; allow several minutes for
 its ordinary signature samples. `sign-24-1` recovers Sigurd witnesses and
-forges at all three levels with two keys each. `sign-33-6` replays the published
-VDOO-128 forgery and checks its hashes and two negative controls. Run them with
+forges at all three levels with two keys each. `sign-33-6` checks only the
+validity of a posted VDOO-128 signature and two negative controls. Its public
+seed regenerates the secret key, so the replay does not establish a
+public-key-only forgery. Run them with
 `tools/reproduce.sh sign-23`, `sign-24`, or `sign-33`; build their drivers with
 `make -C <id> exploit` for Shuttle/Sigurd or `make -C sign-33 replay-forgery`.
+
+`sign-05-1` has one source-linked Chinith forgery witness per parameter set.
+`make -C sign-05 reproduce` builds and runs all 14; each creates a victim key,
+wipes the secret key, signs with a false zero-key witness, then checks acceptance
+and a one-bit message-change rejection. `tools/reproduce.sh sign-05` runs the
+same set.
 
 The newer focused witnesses include Amoeba's two-error failure-tail calculation
 (`kem-02-3`), Mithril-256's honest shared-secret mismatch (`kem-22-1`),

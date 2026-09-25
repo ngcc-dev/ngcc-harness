@@ -1,6 +1,6 @@
-/* Replay the fixed public-key-only VDOO-128 forgery in Feussner's 2026-09-25
- * preliminary disclosure. The secret key is discarded before verification.
- * This validates the supplied transcript, not the public-key attack search.
+/* Check a fixed VDOO-128 signature in Feussner's 2026-09-25 preliminary
+ * disclosure. The public seed below regenerates both the public and secret
+ * keys, so this replay cannot establish public-key-only forgery.
  */
 #include "SIG_AlgorithmInstance.h"
 #include "rng.h"
@@ -51,6 +51,8 @@ static void check_sha256(const char *label, const unsigned char *input, size_t l
 
 int main(void)
 {
+    /* The posted message is kept byte-for-byte for verification; its wording
+     * does not establish how the signature was generated. */
     const unsigned char message[] =
         "Independent-key public-key-only "
         "structural forgery against submitted VDOO-128";
@@ -94,6 +96,6 @@ int main(void)
               (unsigned char *)message, sizeof(message) - 1) != 0,
             "changed-signature control accepted");
     free(pk);
-    puts("SECURITY\tsign-33\tVDOO-128\tpublic-forgery-replay\tCONFIRMED\tposted independently seeded public key and fixed signature accepted; controls rejected");
+    puts("SECURITY\tsign-33\tVDOO-128\tposted-signature-replay\tVALID\tfixed signature accepted; controls rejected; public-key-only generation untested");
     return 0;
 }
