@@ -37,4 +37,27 @@ $(eval $(call VDOO,vdoo_128,128))
 $(eval $(call VDOO,vdoo_256,256))
 $(eval $(call VDOO,vdoo_512,512))
 
+REPLAY_SOURCE := ../security/vdoo_public_forgery_replay.c
+REPLAY_REF := $(REF)/vdoo_128
+REPLAY_INPUTS := $(addprefix $(REPLAY_REF)/,$(VDOO_SRCS))
+
+bin:
+	mkdir -p $@
+
+bin/replay_public_forgery: $(REPLAY_SOURCE) $(REPLAY_INPUTS) | bin
+	$(CC) -O2 -std=gnu11 -Wall -Wextra -Wno-unused-parameter -DVDOO_128 \
+		-I$(REPLAY_REF) -o $@ $^ -lcrypto
+
+.PHONY: replay-forgery
+replay-forgery: bin/replay_public_forgery
+
+.PHONY: reproduce-public-forgery
+reproduce-public-forgery: replay-forgery
+	bin/replay_public_forgery
+
 include ../api/link_finish.mk
+
+.PHONY: clean-witness
+clean: clean-witness
+clean-witness:
+	rm -rf bin

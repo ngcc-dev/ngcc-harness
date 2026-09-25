@@ -176,6 +176,18 @@ echo "== kem-02-3 Amoeba: two-error decryption-failure accounting (Medium) =="
 run_target kem-02 "kem-02-3" python3 kem-02/reproduce_dfr_tail.py
 
 echo
+echo "== kem-02-4 Amoeba: Hamming correction stack write (High) =="
+run_target kem-02 "kem-02-4" python3 kem-02/reproduce_ecc_stack_write.py
+
+echo
+echo "== kem-03-2 BAG-Loong: rejection key omits received ciphertext (Critical) =="
+run_target kem-03 "kem-03-2" python3 kem-03/reproduce_rejection_key.py kem-03/lib/libBAG-Loong-128.so
+
+echo
+echo "== kem-04-2 BAG-Piglet: rejection key omits received ciphertext (Critical) =="
+run_target kem-04 "kem-04-2" python3 kem-04/reproduce_rejection_key.py kem-04/lib/libbag_piglet_128.so
+
+echo
 echo "== kem-19-1 Lore: ring-projection preflight (Lead; lattice cost unverified) =="
 run_target kem-19 "kem-19-1" python3 kem-19/reproduce_ring_projection.py
 
@@ -197,10 +209,22 @@ if [ -z "$only" ] || [ "$only" = kem-06 ]; then
 fi
 
 echo
+echo "== kem-06-4 BRA: ignored ciphertext padding (Critical) =="
+run_target kem-06 "kem-06-4" python3 kem-06/reproduce_padding_alias.py
+
+echo
+echo "== kem-07-2 BRQC: ignored ciphertext padding (Critical) =="
+run_target kem-07 "kem-07-2" python3 kem-07/reproduce_padding_alias.py
+
+echo
 echo "== kem-10-1 C-Multi-UR-AG: malformed-ciphertext process crashes (High) =="
 run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-128.so kem-zero
 run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-256.so kem-ciphertext-flip
 run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-512.so kem-zero
+
+echo
+echo "== kem-10-3 C-Multi-UR-AG: ignored ciphertext padding (Critical) =="
+run_target kem-10 "kem-10-3" python3 kem-10/reproduce_padding_alias.py
 
 echo
 echo "== kem-13-1 DKEM: rejection key omits c1 (Medium) =="
@@ -227,6 +251,14 @@ echo "== kem-31-1 QIMEN-PIKE: invalid-ciphertext assertion aborts (Medium) =="
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-1.so kem-zero
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-2.so kem-zero
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-3.so kem-zero
+
+echo
+echo "== kem-31-2 QIMEN-PIKE: non-canonical ciphertext aliases (Critical) =="
+run_target kem-31 "kem-31-2" python3 kem-31/reproduce_ciphertext_alias.py
+
+echo
+echo "== kem-31-3 QIMEN-PIKE: malformed public-key denial of service (Medium) =="
+run_target kem-31 "kem-31-3" python3 kem-31/reproduce_malformed_public_key.py --timeout 10
 
 echo
 echo "== kem-33-1 QUBE: secret sampler has variable work (Medium) =="
@@ -269,6 +301,10 @@ if [ -z "$only" ] || [ "$only" = kem-38 ]; then
         echo "SKIP   kem-38 (build it: make -C kem-38)"; skipped=$((skipped + 1))
     fi
 fi
+
+echo
+echo "== kem-38-4 UVW: ignored ciphertext bits (Critical) =="
+run_target kem-38 "kem-38-4" python3 kem-38/reproduce_padding_alias.py
 
 echo
 echo "== kem-29-1 Polar-KEM: public-key-only shared-secret recovery (Critical) =="
@@ -339,6 +375,14 @@ echo "== kex-08-2 NIIKE-lv512: two-key secret cycle (Critical) =="
 run_target kex-08 "kex-08-2" make -C kex-08 exploit-lv512
 
 echo
+echo "== kex-08-3 NIIKE-lv128: crafted peer key forces the shared secret (Medium) =="
+run_target kex-08 "kex-08-3" python3 kex-08/reproduce_malicious_peer_key.py
+
+echo
+echo "== kex-08-4 NIIKE-lv128: malformed peer key aborts derivation (Medium) =="
+run_target kex-08 "kex-08-4" python3 kex-08/reproduce_malformed_key_abort.py
+
+echo
 echo "== kem-39-2 WeaverKEM-256: omitted BCH correction (Medium) =="
 run_target kem-39 "kem-39-2" make -C kem-39 exploit-bch
 
@@ -355,6 +399,14 @@ if [ -z "$only" ] || [ "$only" = sign-03 ]; then
         echo "SKIP   sign-03 (build it: make -C sign-03 exploit)"; skipped=$((skipped + 1))
     fi
 fi
+
+echo
+echo "== sign-23-1 Shuttle: covariance key recovery and forgery (Critical) =="
+run_target sign-23 "sign-23-1" make -C sign-23 reproduce
+
+echo
+echo "== sign-24-1 Sigurd: witness recovery and forgery (Critical) =="
+run_target sign-24 "sign-24-1" make -C sign-24 reproduce
 
 echo
 echo "== sign-04-1 / sign-04-2 CEDRUS-alpha: WOTS truncation and address aliases =="
@@ -531,6 +583,10 @@ if { [ -z "$only" ] || [ "$only" = sign-33 ]; } && [ -f sign-33/lib/libvdoo_128.
 elif [ -z "$only" ] || [ "$only" = sign-33 ]; then
     echo "SKIP   sign-33 (build it: make -C sign-33)"; skipped=$((skipped + 1))
 fi
+
+echo
+echo "== sign-33-6 VDOO: independent-key public forgery replay (Probable) =="
+run_target sign-33 "sign-33-6" make -C sign-33 reproduce-public-forgery
 
 echo
 echo "== sign-34-1 / sign-34-2 YuanYang.DSA: transcript leakage and public-key aliases =="

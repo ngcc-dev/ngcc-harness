@@ -1,0 +1,303 @@
+/*
+ * Protocol-core definitions for the SIG256_REF reference implementation.
+ * The constants below define serialization sizes, extension-field dimensions,
+ * Reed-Solomon layout, and Merkle proof bounds for this submitted instance.
+ *
+ * This header is consumed by both the template-facing wrapper and the protocol
+ * core.  Keep the constants here synchronized with the actual transcript
+ * layout: changing a parameter usually affects serialized signature size,
+ * Merkle proof capacity, RS encoding dimensions, and workspace storage.
+ */
+
+#ifndef SIG_CORE_H
+#define SIG_CORE_H
+
+#include <stddef.h>
+#include <stdint.h>
+
+#include "drng.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define SIG256_REF_PARAMETER_NOTE "Uses the current 256-bit parameter set as the submitted SIG256_REF instance."
+
+/*
+ * Compile-time parameters shared by the signer, verifier, and serializers.
+ *
+ * The first COLS blocks hold the embedded error vector.  The tail is split
+ * into interactive-check slots, final-polynomial slots, and extra random tail.
+ * TAIL_POLY_OFFSET intentionally skips the interactive slots; do not point the
+ * final response at TAIL_INTERACTIVE_OFFSET unless the protocol changes.
+ */
+enum
+{
+    M = 2748,
+    K = 1564,
+    M_K = 1184,
+    TEST_ROUNDS = 100,
+    opennum = 171,
+    SIGMA_REPETITIONS = 16,
+    TAIL_POLY_LEN = 5,
+    EXTRA_RANDOM_TAIL = 172,
+    TAIL_LEN = SIGMA_REPETITIONS + TAIL_POLY_LEN + EXTRA_RANDOM_TAIL,
+    N_PRIME_LEN = (M / 6) + TAIL_LEN,
+    N = 8 * N_PRIME_LEN,
+    total_groups = 6,
+    group_size = N / total_groups,
+    embded_num = 1184,
+    ROWS = embded_num / 16,
+    COLS = M / 6,
+    TAIL_INTERACTIVE_OFFSET = COLS,
+    TAIL_POLY_OFFSET = TAIL_INTERACTIVE_OFFSET + SIGMA_REPETITIONS,
+    RAW_POLY_LEN = 16,
+    RAW_PRODUCT_LEN = 31,
+    RAW_POLY_BYTES = RAW_POLY_LEN * 2,
+    HASH_DIGEST_LENGTH = 64,
+    MERKLE_LEAF_COUNT = 1024,
+    MERKLE_NODE_COUNT = (2 * MERKLE_LEAF_COUNT) - 2,
+    MERKLE_LEAF_OFFSET = MERKLE_LEAF_COUNT - 2,
+    MERKLE_TREE_HEIGHT = 10,
+    MERKLE_MAX_PROOF_HASHES = opennum * MERKLE_TREE_HEIGHT,
+    Y_BITS_PACKED_BYTES = embded_num / 8,
+    SEED_BYTES = 64,
+    PK_LEN_BYTES = SEED_BYTES + Y_BITS_PACKED_BYTES,
+    SK_LEN_BYTES = 2 * SEED_BYTES,
+    FS_COMMITMENT_INPUT_BYTES = HASH_DIGEST_LENGTH + PK_LEN_BYTES,
+    HASH_CTX_CAPACITY = 32768,
+    MAX_SIGNATURE_BYTES =
+        (2 * RAW_POLY_BYTES) +
+        (total_groups * HASH_DIGEST_LENGTH) +
+        (SIGMA_REPETITIONS * RAW_POLY_BYTES) +
+        (SIGMA_REPETITIONS * RAW_POLY_BYTES) +
+        (6 * RAW_POLY_BYTES) +
+        (N_PRIME_LEN * RAW_POLY_BYTES) +
+        4 +
+        (MERKLE_MAX_PROOF_HASHES * HASH_DIGEST_LENGTH) +
+        (opennum * RAW_POLY_BYTES)
+};
+
+/* One element of GF((2^16)^RAW_POLY_LEN) in reduced polynomial form. */
+typedef struct
+{
+    uint16_t coeffs[RAW_POLY_LEN];
+} RawGF2EX;
+
+/* Unreduced product before modular reduction in the extension field. */
+typedef struct
+{
+    uint16_t coeffs[RAW_PRODUCT_LEN];
+} RawGF2EX_Product;
+
+/* Simple transcript-hash accumulator backed by the template hash helpers. */
+typedef struct
+{
+    size_t len;
+    unsigned char buf[HASH_CTX_CAPACITY];
+} SIG_HASH_CTX;
+
+/*
+ * Pointer bundle returned from Prover() and consumed by the serializer.
+ * The pointed-to memory is owned by ProverWorkspace or by stack objects in
+ * sig_sign(); serialization must finish before those owners are released.
+ */
+typedef struct
+{
+    RawGF2EX *e_eval_commit_ptr;
+    RawGF2EX *v_eval_commit_ptr;
+    unsigned char (*root_hash_ptr)[HASH_DIGEST_LENGTH];
+    RawGF2EX *p_poly_interactive_ptr;
+    RawGF2EX *rv_out_interactive_ptr;
+    RawGF2EX *G_coeffs_raw_ptr;
+    RawGF2EX *w_hat_prime_raw_ptr;
+    unsigned char (*commitment_open_hashes_ptr)[HASH_DIGEST_LENGTH];
+    size_t commitment_open_hash_count;
+    RawGF2EX *e_hat_encoded_commitment_open_output_ptr;
+} ProverOutputs;
+
+/*
+ * Large signer-side scratch space kept outside the call stack.
+ *
+ * The reference code keeps full Merkle trees, encoded words, Fiat-Shamir hash
+ * values, and response arrays here.  This keeps the API stack frame small and
+ * makes the lifetime of serialized transcript components explicit.
+ */
+typedef struct
+{
+    SIG_HASH_CTX sha_ctx;
+    unsigned char commitment_hash_storage[total_groups][MERKLE_NODE_COUNT][HASH_DIGEST_LENGTH];
+    unsigned char root_hash_storage[total_groups][HASH_DIGEST_LENGTH];
+    RawGF2EX v_hat_prime_raw[N_PRIME_LEN];
+    RawGF2EX v_encoded[N];
+    RawGF2EX e_hat_encoded[N];
+    RawGF2EX ye_raw[ROWS];
+    RawGF2EX yv_raw[ROWS];
+    RawGF2EX tau_vec_raw[COLS];
+    RawGF2EX w_hat_prime_raw[N_PRIME_LEN];
+    RawGF2EX f_coeffs_raw[7];
+    RawGF2EX G_coeffs_raw[6];
+    RawGF2EX p_poly_interactive[SIGMA_REPETITIONS];
+    RawGF2EX rv_out_interactive[SIGMA_REPETITIONS];
+    int commitment_open_trees[opennum];
+    int commitment_open_choices[opennum];
+    unsigned char message_hash[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_commitment[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_intercheck[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_polyres[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_mask[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_open[HASH_DIGEST_LENGTH];
+    uint16_t rand_challenges_flat[SIGMA_REPETITIONS * ROWS];
+    uint16_t gamma_vec[SIGMA_REPETITIONS];
+    unsigned char commitment_open_hashes[MERKLE_MAX_PROOF_HASHES][HASH_DIGEST_LENGTH];
+    size_t commitment_open_hash_count;
+    RawGF2EX e_hat_encoded_commitment_open_output[opennum];
+    SIG_HASH_CTX message_prefix_ctx;
+} ProverWorkspace;
+
+/*
+ * Large verifier-side scratch space kept outside the call stack.
+ *
+ * The verifier reconstructs only derived challenges and the masked codeword
+ * needed to check opened leaves; it does not store the signer's full Merkle
+ * tree or secret e vector.
+ */
+typedef struct
+{
+    SIG_HASH_CTX sha_ctx;
+    RawGF2EX w_hat_encoded[N];
+    RawGF2EX yw_raw[ROWS];
+    RawGF2EX tau_vec_raw[COLS];
+    int derived_trees[opennum];
+    int derived_choices[opennum];
+    unsigned char message_hash[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_commitment[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_intercheck[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_polyres[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_mask[HASH_DIGEST_LENGTH];
+    unsigned char fs_value_open[HASH_DIGEST_LENGTH];
+    uint16_t rand_challenges_flat[SIGMA_REPETITIONS * ROWS];
+    uint16_t gamma_vec[SIGMA_REPETITIONS];
+    SIG_HASH_CTX message_prefix_ctx;
+} VerifierWorkspace;
+
+/* Reset per-call signer and verifier workspaces before use. */
+void sig_init_prover_workspace(ProverWorkspace *ws);
+void sig_init_verifier_workspace(VerifierWorkspace *ws);
+
+/*
+ * Deterministically expand compact seeds into public and private state.
+ * These functions use template pseudoXOF labels defined in sig_core.c; REF and
+ * OPT instances of the same security level must preserve byte-identical output.
+ */
+void random_H(unsigned long H[embded_num][M], const unsigned char seed[SEED_BYTES]);
+void random_e(unsigned long e[M], const unsigned char seed[SEED_BYTES]);
+void generate_y(unsigned long y[embded_num], unsigned long e[M], unsigned long H[embded_num][M]);
+/*
+ * Convert binary vectors/matrices into the extension-field layout.
+ * Embedding groups bits into GF(2^16)-backed extension elements so later
+ * polynomial relations can be evaluated uniformly over RawGF2EX values.
+ */
+void embed_H_raw(RawGF2EX H_hat_raw[ROWS][COLS], const unsigned long H[embded_num][M]);
+void embed_e_raw(RawGF2EX e_hat_prime_raw[N_PRIME_LEN], const unsigned long e[M]);
+void embed_y_raw(uint16_t y_hat_scalars[ROWS], const unsigned long y[embded_num]);
+void Compute_YE_Raw(RawGF2EX ye_hat[ROWS], const RawGF2EX H_hat_raw[ROWS][COLS], const RawGF2EX e_hat_prime_raw[N_PRIME_LEN]);
+/* Build every derived object needed by keygen and signing. */
+void sig_build_public_state(
+    const unsigned char H_seed[SEED_BYTES],
+    const unsigned char e_seed[SEED_BYTES],
+    unsigned long H_bits[embded_num][M],
+    unsigned long e_bits[M],
+    unsigned long y_bits[embded_num],
+    RawGF2EX H_hat_raw[ROWS][COLS],
+    RawGF2EX e_hat_prime_raw[N_PRIME_LEN],
+    uint16_t y_hat_prime_raw[ROWS],
+    RawGF2EX ye_raw[ROWS]);
+void sig_build_public_state_direct(
+    const unsigned char H_seed[SEED_BYTES],
+    const unsigned char e_seed[SEED_BYTES],
+    unsigned long e_bits[M],
+    unsigned long y_bits[embded_num],
+    RawGF2EX H_hat_raw[ROWS][COLS],
+    RawGF2EX e_hat_prime_raw[N_PRIME_LEN],
+    uint16_t y_hat_prime_raw[ROWS],
+    RawGF2EX ye_raw[ROWS]);
+
+/*
+ * Run the Fiat-Shamir prover and expose its transcript buffers.
+ * The caller supplies fs_commitment_input with the PK suffix already populated;
+ * Prover overwrites the leading message-hash bytes, then hashes the resulting
+ * buffer together with the freshly built Merkle roots to derive z_commit.
+ */
+void Prover(
+    ProverWorkspace *ws,
+    const unsigned char *message,
+    size_t message_len,
+    unsigned char fs_commitment_input[FS_COMMITMENT_INPUT_BYTES],
+    unsigned long e_bits[M],
+    RawGF2EX H_hat_raw[ROWS][COLS],
+    uint16_t y_hat_prime_raw[ROWS],
+    RawGF2EX e_hat_prime_raw[N_PRIME_LEN],
+    const RawGF2EX ye_raw[ROWS],
+    RawGF2EX *z_commit,
+    RawGF2EX *e_eval_commit,
+    RawGF2EX *v_eval_commit,
+    RawGF2EX *delta_raw,
+    ProverOutputs *outputs);
+
+/*
+ * Recompute the Fiat-Shamir verifier checks from a serialized transcript.
+ * The verifier derives z_commit from message_hash || PK || root_hash and the
+ * later challenge values from the remaining serialized transcript fields, then
+ * accepts only if Merkle, interactive, and final polynomial checks all match.
+ */
+int Verifier(
+    VerifierWorkspace *ws,
+    const unsigned char *message,
+    size_t message_len,
+    unsigned char fs_commitment_input[FS_COMMITMENT_INPUT_BYTES],
+    RawGF2EX H_hat_raw[ROWS][COLS],
+    uint16_t y_hat_prime_raw[ROWS],
+    const RawGF2EX *e_eval_commit,
+    const RawGF2EX *v_eval_commit,
+    const unsigned char root_hash[total_groups][HASH_DIGEST_LENGTH],
+    const RawGF2EX p_poly_interactive[SIGMA_REPETITIONS],
+    const RawGF2EX rv_out_interactive[SIGMA_REPETITIONS],
+    const RawGF2EX G_coeffs_raw[6],
+    const RawGF2EX w_hat_prime_raw[N_PRIME_LEN],
+    const unsigned char commitment_open_hashes[MERKLE_MAX_PROOF_HASHES][HASH_DIGEST_LENGTH],
+    size_t commitment_open_hash_count,
+    RawGF2EX e_hat_encoded_commitment_open_output[opennum],
+    RawGF2EX *z_commit,
+    RawGF2EX *delta_raw,
+    RawGF2EX *vc_poly_challenge_raw,
+    RawGF2EX *vc_verifier_check_raw);
+
+/* Compact external key and signature encoding helpers. */
+void sig_pack_secret_key(unsigned char sk[SK_LEN_BYTES], const unsigned char H_seed[SEED_BYTES], const unsigned char e_seed[SEED_BYTES]);
+void sig_unpack_secret_key(const unsigned char sk[SK_LEN_BYTES], unsigned char H_seed[SEED_BYTES], unsigned char e_seed[SEED_BYTES]);
+void sig_pack_public_key(unsigned char pk[PK_LEN_BYTES], const unsigned char H_seed[SEED_BYTES], const unsigned long y_bits[embded_num]);
+void sig_unpack_public_key(const unsigned char pk[PK_LEN_BYTES], unsigned char H_seed[SEED_BYTES], unsigned long y_bits[embded_num]);
+int sig_serialize_signature(unsigned char *sn, unsigned long long *sn_len_bytes, const ProverOutputs *outputs);
+int sig_deserialize_signature(
+    const unsigned char *sn,
+    unsigned long long sn_len_bytes,
+    RawGF2EX *e_eval_commit,
+    RawGF2EX *v_eval_commit,
+    unsigned char root_hash[total_groups][HASH_DIGEST_LENGTH],
+    RawGF2EX p_poly_interactive[SIGMA_REPETITIONS],
+    RawGF2EX rv_out_interactive[SIGMA_REPETITIONS],
+    RawGF2EX G_coeffs_raw[6],
+    RawGF2EX w_hat_prime_raw[N_PRIME_LEN],
+    unsigned char commitment_open_hashes[MERKLE_MAX_PROOF_HASHES][HASH_DIGEST_LENGTH],
+    size_t *commitment_open_hash_count,
+    RawGF2EX e_hat_encoded_commitment_open_output[opennum]);
+
+/* Initialize arithmetic tables and fail fast if retained backends disagree. */
+int sig_run_self_test(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

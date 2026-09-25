@@ -30,10 +30,13 @@ $(CANDIDATES): harness | results
 	 if [ $$rc -eq 0 ]; then echo "BUILD $@ ok"; \
 	 else echo "BUILD $@ FAILED (results/build-$@.log)"; exit $$rc; fi
 
-exploits: sign-03 sign-07 sign-34 kex-02 kex-05
+exploits: sign-03 sign-07 sign-23 sign-24 sign-33 sign-34 kex-02 kex-05
 	@$(MAKE) --no-print-directory -C sign-03 exploit
 	@$(MAKE) --no-print-directory -C sign-07 exploit
 	@$(MAKE) --no-print-directory -C sign-10/cryptanalysis
+	@$(MAKE) --no-print-directory -C sign-23 exploit
+	@$(MAKE) --no-print-directory -C sign-24 exploit
+	@$(MAKE) --no-print-directory -C sign-33 replay-forgery
 	@$(MAKE) --no-print-directory -C sign-34 exploit
 	@$(MAKE) --no-print-directory -C kex-02 exploit
 	@$(MAKE) --no-print-directory -C kex-05 replay exploit

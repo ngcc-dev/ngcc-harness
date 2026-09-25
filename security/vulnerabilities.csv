@@ -37,18 +37,24 @@ kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
 kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth ciphertext byte
 kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
 kem-02-3;Confirmed;runtime;The decryption-failure bound omits detected two-error rejections
+kem-02-4;Confirmed;runtime;A one-bit ciphertext change writes outside the Hamming correction buffer
 kem-03-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
+kem-03-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
 kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
+kem-04-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
 kem-06-1;Confirmed;runtime;A malformed secret key drives the BRA decoder out of bounds
 kem-06-2;Confirmed;runtime;Reference field multiplication touches one limb past its output
 kem-06-3;Confirmed;review;Secret-derived decoder pivots select memory addresses
+kem-06-4;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
 kem-07-1;Confirmed;review;Secret-derived decoder pivots select memory addresses
+kem-07-2;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
 kem-08-1;Confirmed;review;C128 decapsulation branches on decrypted coefficients
 kem-09-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-09-2;Lead;review;A degree-128 quotient defeats the full-dimension MLWE estimates
 kem-09-3;Confirmed;static;Cheetah's decryption-failure analysis omits public-key rounding
 kem-10-1;Confirmed;runtime;Malformed ciphertexts crash the reference decapsulator
 kem-10-2;Confirmed;review;Secret-derived decoder pivots select memory addresses
+kem-10-3;Confirmed;runtime;Ignored padding bits make CMultiURAG-512 ciphertexts malleable without changing the key
 kem-11-1;Confirmed;static;COMPASS-KEM-384 and -512 use a 256-bit key-generation root
 kem-12-1;Confirmed;static;The specified CTL-512 public-key space has at most 256 bits of support
 kem-12-2;Confirmed;static;CTL-512 returns only 384 shared-secret bits
@@ -67,8 +73,11 @@ kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure es
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
 kem-24-1;Probable;review;Encryption omits the specified rounding constant
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
+kem-28-1;Confirmed;review;Noncanonical ciphertext encoding defeats IND-CCA security
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
 kem-31-1;Confirmed;runtime;Invalid ciphertexts trigger an assertion during decapsulation
+kem-31-2;Confirmed;runtime;Non-canonical field encodings make ciphertexts malleable without changing the key
+kem-31-3;Confirmed;runtime;Malformed public keys hang or abort encapsulation
 kem-32-1;Confirmed;review;Debug path retains the secret error vector
 kem-33-1;Confirmed;runtime;Decapsulation re-expands the private seed with a variable-length sampler
 kem-33-2;Probable;review;Decryption multiplication traverses secret support positions
@@ -77,6 +86,7 @@ kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with var
 kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
 kem-38-2;Confirmed;runtime+static;UVW exposes a stable list-decoding failure oracle
 kem-38-3;Lead;review;Retry reactions may expose UVW-KEM-128 session keys
+kem-38-4;Confirmed;runtime;Unused c1 bits make ciphertexts malleable without changing the key
 kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's independence premise
 kem-39-2;Confirmed;runtime;WeaverKEM-256 omits its high-layer BCH decoder
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
@@ -90,12 +100,15 @@ kex-06-1;Confirmed;static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
 kex-07-1;Confirmed;review;Both party identities are hard-wired to zero
 kex-08-1;Confirmed;runtime;The raw shared j-invariant is distinguishable from a uniform key
 kex-08-2;Confirmed;runtime;NIIKE-lv512 key generation cycles between two hard-coded secret keys
+kex-08-3;Confirmed;runtime;A crafted peer key forces the honest party's shared secret
+kex-08-4;Confirmed;runtime;Malformed peer keys terminate the honest party's process
 kex-09-1;Confirmed;runtime;Decapsulation re-expands its secret key with a variable-length sampler
 sign-01-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-01-2;Confirmed;runtime;Malformed hint counts cause an attacker-controlled stack write
 sign-01-3;Confirmed;runtime;Signature API ignores declared key-buffer lengths
 sign-01-4;Confirmed;runtime;Honest signing writes one polynomial past the mask vector
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
+sign-02-2;Probable;review;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
 sign-04-1;Confirmed;runtime;The 160-bit WOTS implementation authenticates only 128 bits
 sign-04-2;Confirmed;runtime;FORC chain addresses are truncated to eight bits
@@ -131,6 +144,8 @@ sign-18-4;Probable;review;Signing indexes field tables and signature state with 
 sign-18-5;Confirmed;runtime;Public variable permutation permits signature forgery
 sign-22-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-22-2;Confirmed;static;The implementation expands the complete key pair from a 256-bit root
+sign-23-1;Confirmed;runtime;Reversed transition leaks Shuttle's signing key
+sign-24-1;Confirmed;runtime;Chunked Reed–Solomon encoding reveals the signing witness
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
 sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
 sign-26-1;Lead;review;Prime sizing assumes a superseded square-root isogeny cost
@@ -146,5 +161,6 @@ sign-33-2;Confirmed;static;A 256-bit implementation prehash limits forgery secur
 sign-33-3;Proof gap;static;The VDOO-256 and -512 proof bound contains a 128-bit salt term
 sign-33-4;Confirmed;runtime;Signing reuses a publicly predictable randomness stream
 sign-33-5;Probable;review;Signing branches directly on private central-map coefficients
+sign-33-6;Probable;runtime;Restricted oil terms permit a public-key-only VDOO-128 forgery
 sign-34-1;Confirmed;runtime;Wrong perturbation covariance leaks secret-basis information
 sign-34-2;Confirmed;runtime;Non-injective public-key packing creates key aliases
