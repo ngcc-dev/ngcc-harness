@@ -92,6 +92,15 @@ Cheetah's `kem-09/reproduce_pk_compression_noise.py` is the static check for
 errors and checks a nonzero omitted noise term, but does not estimate the full
 decryption-failure rate.
 
+DKEM's `kem-13-1` witness changes two `c1` components while keeping `c2` fixed
+and checks that both rejected ciphertexts return the same key. Its changed-`c2`
+control returns a different key. The `kem-13-2` witness encapsulates 64 times
+to a zero-vector public key and finds distinct ciphertexts with one repeated
+key; an honestly generated public key yields distinct keys. Both witnesses run
+on DKEM-128, DKEM-256, and DKEM-512 with `tools/reproduce.sh kem-13` after
+`make -C kem-13`. They demonstrate key-binding and contributiveness failures,
+without claiming an IND-CCA break for honestly generated keys.
+
 The newer focused witnesses include Amoeba's two-error failure-tail calculation
 (`kem-02-3`), Mithril-256's honest shared-secret mismatch (`kem-22-1`),
 WeaverKEM-256's omitted BCH correction (`kem-39-2`), and the Aigis-Sig+ key-length

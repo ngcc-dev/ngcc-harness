@@ -203,6 +203,14 @@ run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-256.so kem-ciphertext-flip
 run_crash kem-10 "kem-10-1" kem-10/lib/libCMultiURAG-512.so kem-zero
 
 echo
+echo "== kem-13-1 DKEM: rejection key omits c1 (Medium) =="
+run_target kem-13 "kem-13-1" make -C kem-13 reproduce-rejection-binding
+
+echo
+echo "== kem-13-2 DKEM: malicious public key repeats the sender key (Medium) =="
+run_target kem-13 "kem-13-2" make -C kem-13 reproduce-malicious-key
+
+echo
 echo "== kem-14-1 DTRU: caller length causes stack overflow (High) =="
 run_target kem-14 "kem-14-1" make -C kem-14 exploit
 

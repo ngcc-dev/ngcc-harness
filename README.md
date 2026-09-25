@@ -26,6 +26,7 @@ make -C kem-01 && make -C sign-07    # <id>/lib/lib<instance>.so
 make -C kem-01 test                  # reproduce the submitted KATs (kat.sha256)
 tools/reproduce.sh                   # run every reproducer and its controls
 tools/reproduce.sh kem-01            # or one candidate
+tools/reproduce.sh kem-13            # DKEM's two findings, all three parameter sets
 make design-audit                    # static specification/parameter findings
 make check-vulnerabilities           # validate all stable vulnerability IDs
 make check-reference-data            # validate all specs and parameter records
