@@ -188,10 +188,6 @@ echo "== kem-02-4 Amoeba: Hamming correction stack write (High) =="
 run_target kem-02 "kem-02-4" python3 kem-02/reproduce_ecc_stack_write.py
 
 echo
-echo "== kem-02-5 Amoeba: unseeded fresh processes repeat the key (Critical) =="
-run_target kem-02 "kem-02-5" make -C kem-02 exploit-unseeded-keygen
-
-echo
 echo "== kem-03-2 BAG-Loong: rejection key omits received ciphertext (High) =="
 run_target kem-03 "kem-03-2" python3 kem-03/reproduce_rejection_key.py kem-03/lib/libBAG-Loong-128.so
 

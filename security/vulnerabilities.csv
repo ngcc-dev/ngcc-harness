@@ -42,7 +42,7 @@ kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth cipher
 kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
 kem-02-3;Confirmed;runtime;The decryption-failure bound omits detected two-error rejections
 kem-02-4;Confirmed;runtime;A one-bit ciphertext change writes outside the Hamming correction buffer
-kem-02-5;Confirmed;runtime;Uninitialized standalone key generation repeats a universal key pair
+kem-02-5;Withdrawn;review;Withdrawn — unseeded caller repeats Amoeba keys
 kem-03-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-03-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
 kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
@@ -158,8 +158,8 @@ sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root atta
 sign-26-1;Lead;review;Prime sizing assumes a superseded square-root isogeny cost
 sign-27-1;Confirmed;runtime;An all-zero signature aborts the verifier process
 sign-27-2;Lead;review;Triangle prime sizing relies on the former square-root attack cost
-sign-27-3;Confirmed;runtime;A known signature transfers to a new message in about 2^(lambda/2) work
-sign-27-4;Confirmed;runtime;Distinct challenges can share the identical response, invalidating special soundness
+sign-27-3;Confirmed;static;A known signature transfers to a new message in about 2^(lambda/2) work
+sign-27-4;Proof gap;review;Distinct challenges can share the identical response, invalidating special soundness
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Probable;review;Secret-dependent echelon pivots during signing

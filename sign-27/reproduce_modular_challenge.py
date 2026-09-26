@@ -79,7 +79,8 @@ def main() -> int:
                 f"scaled transfer found after {counter + 1} messages: "
                 f"c1={c1}, c2={c2}, q mod c1={q % c1}"
             )
-            print("ATTACK sign-27-3/sign-27-4 CONFIRMED")
+            print("MODEL sign-27-3 SCALED: challenge transfer found in Python")
+            print("PROOF GAP sign-27-4 CONFIRMED: distinct challenges share one response")
             return 0
     print("scaled transfer search unexpectedly failed")
     return 1

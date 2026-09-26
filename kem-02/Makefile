@@ -58,6 +58,6 @@ PYTHON ?= python3
 exploit-key-recovery: lib/libAmoeba128_attack.so
 	OPENBLAS_NUM_THREADS=4 $(PYTHON) recover_amoeba576.py --recover
 
-.PHONY: exploit-unseeded-keygen
-exploit-unseeded-keygen: all
+.PHONY: check-unseeded-keygen
+check-unseeded-keygen: all
 	python3 reproduce_unseeded_keygen.py

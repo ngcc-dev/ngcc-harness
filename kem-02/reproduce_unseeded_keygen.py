@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproduce Amoeba's repeated first key in fresh unseeded processes."""
+"""Demonstrate the effect of omitting caller-required DRNG seeding."""
 
 from __future__ import annotations
 
@@ -74,7 +74,7 @@ def main() -> int:
             print(f"{library.name}: seeded control keys unexpectedly match", file=sys.stderr)
             return 1
         print(
-            f"ATTACK kem-02-5 {library.stem.removeprefix('lib')} CONFIRMED: "
+            f"OBSERVATION kem-02-5 {library.stem.removeprefix('lib')}: "
             f"fresh unseeded key digest {first['digest']}; seeded control differs"
         )
     return 0
