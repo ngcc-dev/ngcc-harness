@@ -67,3 +67,9 @@ $(eval $(call PIKE,NGCC-2,NGCC_2,2,fp_p765.c,))
 $(eval $(call PIKE,NGCC-3,NGCC_3,3,fp_p1534.c,-DPIKE_COMPRESSED_SHARED_SECRET_BYTES=64))
 
 include ../api/link_finish.mk
+
+.PHONY: reproduce-hint
+reproduce-hint: libs
+	python3 reproduce_qimen_hint.py lib/libNGCC-1.so 1
+	python3 reproduce_qimen_hint.py lib/libNGCC-2.so 2
+	python3 reproduce_qimen_hint.py lib/libNGCC-3.so 3

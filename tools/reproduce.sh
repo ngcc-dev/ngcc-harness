@@ -106,6 +106,21 @@ echo "== hash-10-1 FEILIAN: allocation failure falsely reports success (Low) =="
 run_target hash-10 "hash-10-1" make -C hash-10 exploit
 
 echo
+echo "== hash-10-2 FEILIAN: RTL length-domain collisions (Critical) =="
+if [ -z "$only" ] || [ "$only" = hash-10 ]; then
+    if command -v verilator >/dev/null 2>&1; then
+        run_target hash-10 "hash-10-2" make -C hash-10 rtl-exploit
+    else
+        echo "SKIP   hash-10-2 (install Verilator)"
+        skipped=$((skipped + 1))
+    fi
+fi
+
+echo
+echo "== hash-10-4 FEILIAN: unused partial-byte bits affect C hashes (Low) =="
+run_target hash-10 "hash-10-4" make -C hash-10 unused-bits
+
+echo
 echo "== hash-12-1 Iphe: cross-profile output relation (Medium) =="
 run_target hash-12 "hash-12-1" make -C hash-12 exploit
 
@@ -260,6 +275,7 @@ run_target kem-27 "kem-27-1" make -C kem-27 exploit
 
 echo
 echo "== kem-31-1 QIMEN-PIKE: invalid-ciphertext assertion aborts (Medium) =="
+run_target kem-31 "kem-31-1" make -C kem-31 reproduce-hint
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-1.so kem-zero
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-2.so kem-zero
 run_crash kem-31 "kem-31-1" kem-31/lib/libNGCC-3.so kem-zero

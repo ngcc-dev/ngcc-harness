@@ -8,11 +8,11 @@ official `KAT_*.c` generators do. Runtime findings are checked by the
 candidate-local reproducers or `tools/ngcc_attack`; other findings use static
 checks or documented source review.
 
-The required candidate reference sources are included in this repository.
-Nothing else shipped inside a submission is executed: no candidate Makefile,
-CMake, script or prebuilt binary is run. Each `<id>/Makefile` lists the sources
-explicitly and compiles them with fixed flags (see `api/README.md`, "Rules
-that every candidate Makefile follows").
+The required candidate reference sources and FEILIAN RTL witness sources are
+included in this repository. No candidate Makefile, CMake script, other
+submitted script or prebuilt binary is run. Each `<id>/Makefile` lists the
+sources explicitly and compiles them with fixed flags (see `api/README.md`,
+"Rules that every candidate Makefile follows").
 
 This repository is not affiliated with NICCS. `SOURCE_ARCHIVES.md` records the
 official submission archives from which the included source files were taken.
@@ -37,7 +37,8 @@ make check-reference-data            # validate all specs and parameter records
 gcc, GNU make, Python 3, CMake, and `pdftotext`; some candidate Makefiles also
 need GMP or OpenSSL development libraries. The complete reproduction suite
 additionally needs clang for the kem-06 ASan check, NumPy and SciPy for the
-Python witnesses, and SageMath for kex-08-1, sign-15-4, and kem-09-2. The
+Python witnesses, and SageMath for kex-08-1, sign-15-4, and kem-09-2.
+The FEILIAN `hash-10-2` RTL witness needs Verilator and a C++ compiler. The
 sign-15-4 optimized build needs an AVX2-capable CPU. The sign-10-2 and
 sign-16-2 witnesses fetch separately published, SHA-256-checked artifacts
 over the network. The kem-09-2 estimate needs the pinned lattice-estimator

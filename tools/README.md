@@ -148,6 +148,16 @@ the published lattice-cost estimate remains an unconfirmed lead. All are
 invoked by `tools/reproduce.sh`; the Aigis-Sig+ checks require GCC
 AddressSanitizer and `rg`.
 
+FEILIAN's `hash-10-2` witness compiles the submitted 1SC, 2SC, 4SC and 8SC
+SystemVerilog cores with Verilator. It confirms the `0x61`/`0x6100` collision
+in 1SC/4SC/8SC and checks 2SC as a negative control. Run
+`make -C hash-10 rtl-exploit`; `hash-10-4` uses
+`make -C hash-10 unused-bits` to compare two encodings of the same one-bit
+message through the three reference C libraries. `hash-10-3` and `hash-10-5`
+are source and specification reviews. For QIMEN-PIKE,
+`make -C kem-31 reproduce-hint` checks all four negative-hint positions at each level against
+honest decapsulation controls.
+
 AFS-KEX has candidate-local C128/C256/C512 `reproduce_pfs_break*` drivers. Each
 records an honest exchange, erases both live session states, then treats the API
 long-term secret keys as compromised. Their first halves contain the composite
