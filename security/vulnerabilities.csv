@@ -2,12 +2,15 @@ ID;Status;Verification;Title
 hash-01-1;Confirmed;review;Partial-message bits control a machine branch
 hash-02-1;Confirmed;runtime;Allocation failure returns a successful all-zero digest
 hash-02-2;Confirmed;review;Partial-bit AXIS update branches on secret state
+hash-02-3;Confirmed;runtime;The invertible AXIS state caps AXIS-1024 second-preimage security at 768 bits
 hash-04-1;Confirmed;review;Fixed-length outputs occupy only one determinant fiber
 hash-04-2;Lead;review;Projective positive-word collision lead for CHAMP-512
 hash-04-3;Confirmed;runtime;Known-length preimages admit an exact square-root search
 hash-04-4;Confirmed;runtime;Unsupported digest lengths cause full-size writes
 hash-04-5;Confirmed;review;Message bytes index a large precomputed matrix table
 hash-05-1;Confirmed;review;Secret state indexes a 256-byte substitution table
+hash-05-2;Confirmed;review;Narrow-pipe iteration limits uHash second-preimage security for long messages
+hash-05-3;Confirmed;runtime;Unused partial-byte bits cancel padding and give trivial collisions
 hash-09-1;Confirmed;runtime;Trivial collisions in all Eijen implementations
 hash-09-2;Confirmed;runtime;Cross-instance three-block relations
 hash-10-1;Confirmed;runtime;Padding-allocation failure returns a successful all-zero digest
@@ -26,6 +29,7 @@ hash-21-2;Confirmed;runtime;Reduction modulo 2^32-5 creates reachable state merg
 hash-21-3;Confirmed;review;Secret state indexes a 256-byte S-box
 hash-22-1;Confirmed;review;"Secret state indexes AES S-box; tail bits branch"
 hash-24-1;Confirmed;runtime;Full-round core permutation has a one-query invariant-subspace distinguisher
+hash-24-2;Confirmed;review;Truncated tree chaining values cap QSH second-preimage security
 hash-25-1;Confirmed;runtime;Allocation failure reports success without writing a digest
 hash-26-1;Confirmed;runtime;An invariant subspace reduces CHIME collision bounds to 64 and 224 bits
 hash-27-1;Confirmed;review;Secret state indexes an eight-bit substitution table
@@ -38,6 +42,7 @@ kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth cipher
 kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
 kem-02-3;Confirmed;runtime;The decryption-failure bound omits detected two-error rejections
 kem-02-4;Confirmed;runtime;A one-bit ciphertext change writes outside the Hamming correction buffer
+kem-02-5;Confirmed;runtime;Uninitialized standalone key generation repeats a universal key pair
 kem-03-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-03-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
 kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
@@ -120,6 +125,7 @@ sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
 sign-07-3;Lead;review;Compressed signatures may leak the CS-128 signing key
 sign-08-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
+sign-08-2;Confirmed;runtime;The compression-consistency restart leaks an equivalent DARTS-128 signing key
 sign-09-1;Confirmed;runtime+static;The unauthenticated signature salt invalidates the salted-target analysis
 sign-10-1;Lead;review;The hidden zero subspace has an unpriced algebraic recovery path
 sign-10-2;Confirmed;runtime;The public key yields a universal signing trapdoor
@@ -152,6 +158,8 @@ sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root atta
 sign-26-1;Lead;review;Prime sizing assumes a superseded square-root isogeny cost
 sign-27-1;Confirmed;runtime;An all-zero signature aborts the verifier process
 sign-27-2;Lead;review;Triangle prime sizing relies on the former square-root attack cost
+sign-27-3;Confirmed;runtime;A known signature transfers to a new message in about 2^(lambda/2) work
+sign-27-4;Confirmed;runtime;Distinct challenges can share the identical response, invalidating special soundness
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Probable;review;Secret-dependent echelon pivots during signing

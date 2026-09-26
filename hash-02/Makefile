@@ -19,3 +19,11 @@ include ../api/link_finish.mk
 exploit: lib/libAXIS-512.so
 	$(MAKE) -C ../security hash_oom_false_success
 	../security/hash_oom_false_success lib/libAXIS-512.so axis hash-02-1
+
+.PHONY: reproduce-inverse
+reproduce-inverse: build/axis_inverse
+	./build/axis_inverse
+
+build/axis_inverse: reproduce_invertible_step.c
+	@mkdir -p build
+	$(CC) -O2 -std=gnu11 -I$(REF)/AXIS-1024 -o $@ $<

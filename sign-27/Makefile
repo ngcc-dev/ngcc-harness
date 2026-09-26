@@ -73,3 +73,7 @@ $(eval $(call TRI,SQIsignTriangle_lvl5,lvl5,fp_p27500_64.c))
 $(eval $(call TRI,SQIsignTriangle_lvl6,lvl6,fp_p1131016_64.c))
 
 include ../api/link_finish.mk
+
+.PHONY: exploit-modular-challenge
+exploit-modular-challenge:
+	python3 reproduce_modular_challenge.py

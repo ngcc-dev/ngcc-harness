@@ -94,6 +94,14 @@ echo "== hash-02-1 AXIS: allocation failure falsely reports success (Low) =="
 run_target hash-02 "hash-02-1" make -C hash-02 exploit
 
 echo
+echo "== hash-02-3 AXIS: invertible state bounds second-preimage security (High) =="
+run_target hash-02 "hash-02-3" make -C hash-02 reproduce-inverse
+
+echo
+echo "== hash-05-3 uHash: partial-byte padding collisions (High) =="
+run_target hash-05 "hash-05-3" make -C hash-05 reproduce
+
+echo
 echo "== hash-10-1 FEILIAN: allocation failure falsely reports success (Low) =="
 run_target hash-10 "hash-10-1" make -C hash-10 exploit
 
@@ -178,6 +186,10 @@ run_target kem-02 "kem-02-3" python3 kem-02/reproduce_dfr_tail.py
 echo
 echo "== kem-02-4 Amoeba: Hamming correction stack write (High) =="
 run_target kem-02 "kem-02-4" python3 kem-02/reproduce_ecc_stack_write.py
+
+echo
+echo "== kem-02-5 Amoeba: unseeded fresh processes repeat the key (Critical) =="
+run_target kem-02 "kem-02-5" make -C kem-02 exploit-unseeded-keygen
 
 echo
 echo "== kem-03-2 BAG-Loong: rejection key omits received ciphertext (High) =="
@@ -443,6 +455,10 @@ if [ -z "$only" ] || [ "$only" = sign-07 ]; then
 fi
 
 echo
+echo "== sign-08-2 DARTS-128: compression restart leaks the signing key (Critical) =="
+run_target sign-08 "sign-08-2" make -C sign-08 exploit-key-recovery
+
+echo
 echo "== sign-10-1 Facto-DSA: hidden-zero-subspace algebraic recovery lead (High) =="
 if [ -z "$only" ] || [ "$only" = sign-10 ]; then
     if [ -x sign-10/cryptanalysis/build/selftest ] &&
@@ -499,6 +515,10 @@ run sign-25 "[control sign-25-1]" NOT-CONFIRMED sig-uninit-verdict sign-25/lib/l
 echo
 echo "== sign-27-1 SQIsignTriangle: all-zero signature aborts (Medium) =="
 run_crash sign-27 "sign-27-1" sign-27/lib/libSQIsignTriangle_lvl1.so sig-zero
+
+echo
+echo "== sign-27-3/-4 SQIsignTriangle: modular challenge transfer and proof failure =="
+run_target sign-27 "sign-27-3/sign-27-4" make -C sign-27 exploit-modular-challenge
 
 echo
 echo "== sign-18-2 Origami: signature constraint-subspace recovery =="

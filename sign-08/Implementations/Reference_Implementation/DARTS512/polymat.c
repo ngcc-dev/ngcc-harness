@@ -1,0 +1,97 @@
+#include "polymat.h"
+#include "params.h"
+#include "poly.h"
+#include "polyvec.h"
+#include <stdint.h>
+
+/*************************************************
+ * Name:        polymat_expand
+ *
+ * Description: Implementation of ExpandA. Generates matrix A with uniformly
+ *              random coefficients a_{i,j} by performing rejection
+ *              sampling on the output stream of SHAKE128(seed|j|i)
+ *              or AES256CTR(seed,j|i).
+ *
+ * Arguments:   - polyvecl mat[K]: output matrix k \times l
+ *              - const uint8_t seed[]: byte array containing seed seed
+ **************************************************/
+void polymatkl_expand(polyvecl mat[K], const uint8_t seed[SEEDBYTES]) {
+    unsigned int i, j;
+
+    for (i = 0; i < K; ++i)
+        for (j = 0; j < L-1; ++j)
+            poly_uniform(&mat[i].vec[j + 1], seed, (i << 8) + j);
+}
+
+/*************************************************
+ * Name:        polymat_expand
+ *
+ * Description: Implementation of ExpandA. Generates matrix A with uniformly
+ *              random coefficients a_{i,j} by performing rejection
+ *              sampling on the output stream of SHAKE128(seed|j|i)
+ *              or AES256CTR(seed,j|i).
+ *
+ * Arguments:   - polyvecm mat[K]: output matrix k \times l-1
+ *              - const uint8_t seed[]: byte array containing seed seed
+ **************************************************/
+void polymatkl_1_expand(polyvecl_1 mat[K], const uint8_t seed[SEEDBYTES]) {
+    unsigned int i, j;
+
+    for (i = 0; i < K; ++i)
+        for (j = 0; j < L-1; ++j)
+            poly_uniform(&mat[i].vec[j], seed, (i << 8) + j);
+}
+
+/*************************************************
+ * Name:        polymatkl_1_pointwise_montgomery
+ *
+ * Description: Pointwise multiplication of matrix A and vector v in
+ *              NTT domain, where A has dimension k x (l-1)
+ *
+ * Arguments:   - polyveck *t: output vector of polynomials of length K
+ *              - const polyvecl_1 mat[K]: input matrix k x (l-1)
+ *              - const polyvecl_1 *v: input vector of polynomials of length l-1
+ **************************************************/
+void polymatkl_1_pointwise_montgomery(polyveck *r, const polyvecl_1 mat[K], const polyvecl_1 *a) {
+    unsigned int i;
+
+    for (i = 0; i < K; ++i) {
+        polyvecl_1_basemul_acc_montgomery(&r->vec[i], &mat[i], a);
+    }
+}
+
+/*************************************************
+ * Name:        polymatkl_pointwise_montgomery
+ *
+ * Description: Pointwise multiplication of matrix A and vector v in
+ *              NTT domain, where A has dimension k x l
+ *
+ * Arguments:   - polyveck *r: output vector of polynomials of length K
+ *              - const polyvecl mat[K]: input matrix k x l
+ *              - const polyvecl *a: input vector of polynomials of length l
+ **************************************************/
+void polymatkl_pointwise_montgomery(polyveck *r, const polyvecl mat[K], const polyvecl *a) {
+    unsigned int i;
+
+    for (i = 0; i < K; ++i) {
+        polyvecl_basemul_acc_montgomery(&r->vec[i], &mat[i], a);
+    }
+}
+
+/*************************************************
+ * Name:        polymatk1_pointwise_montgomery
+ *
+ * Description: Pointwise multiplication of matrix A and vector v in
+ *              NTT domain, where A has dimension k x 1
+ *
+ * Arguments:   - polyveck *r: output vector of polynomials of length K
+ *              - const polyveck *a: input matrix k x 1
+ *              - const poly *b: input vector of polynomials of length 1
+ **************************************************/
+void polymatk1_pointwise_montgomery(polyveck *r, const polyveck *a, const poly *b) {
+    unsigned int i;
+
+    for (i = 0; i < K; ++i) {
+        poly_basemul_montgomery(&r->vec[i], &a->vec[i], b);
+    }
+}

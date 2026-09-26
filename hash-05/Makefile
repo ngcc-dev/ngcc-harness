@@ -16,3 +16,7 @@ $(eval $(call ngcc_instance,uHash-768,$(REF)/uHash-768))
 $(eval $(call ngcc_instance,uHash-1024,$(REF)/uHash-1024))
 
 include ../api/link_finish.mk
+
+.PHONY: exploit reproduce
+exploit reproduce: libs
+	python3 reproduce_partial_bit_collision.py

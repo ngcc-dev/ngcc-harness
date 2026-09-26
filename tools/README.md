@@ -124,6 +124,21 @@ wipes the secret key, signs with a false zero-key witness, then checks acceptanc
 and a one-bit message-change rejection. `tools/reproduce.sh sign-05` runs the
 same set.
 
+The September 26 import adds `hash-02-3`, `hash-05-3`, `kem-02-5`,
+`sign-08-2`, and `sign-27-3`/`sign-27-4` to the runner. AXIS checks that its
+submitted beat can be inverted for known message bits; this does not perform
+the estimated 2^768 second-preimage attack. uHash checks full-round collisions
+at every output size with canonical-input controls. Amoeba compares keys from
+fresh unseeded processes against separately seeded controls. The DARTS witness
+fetches Bing Shi's attack at a pinned commit, replays the published
+20-million-signature accumulators, and signs a fresh message with the recovered
+algebraic key; it requires Git and Python with NumPy. The SQIsignTriangle
+witness checks the submitted verifier equations and runs a scaled challenge
+search, not a full-size forgery. The `hash-05-2` and `hash-24-2` second-preimage
+findings are design analyses with no feasible full-size witness. Set
+`NGCC_SAGE_PYTHON` to a NumPy-enabled Python when running the DARTS witness if
+the default `python3` lacks NumPy.
+
 The newer focused witnesses include Amoeba's two-error failure-tail calculation
 (`kem-02-3`), Mithril-256's honest shared-secret mismatch (`kem-22-1`),
 WeaverKEM-256's omitted BCH correction (`kem-39-2`), and the Aigis-Sig+ key-length
