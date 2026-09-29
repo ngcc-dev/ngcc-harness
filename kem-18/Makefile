@@ -22,3 +22,7 @@ $(eval $(call LOONG,Loong384))
 $(eval $(call LOONG,Loong512))
 
 include ../api/link_finish.mk
+
+.PHONY: reproduce-public-recovery
+reproduce-public-recovery:
+	sh reproduce_public_recovery.sh

@@ -192,6 +192,13 @@ echo "== hash-31-1 ZC-DMC: cross-domain distinguisher =="
 run_target hash-31 "hash-31-1" make -C hash-31 exploit
 
 echo
+echo "== hash-30-1 / hash-31-2 / hash-32-2 ZC: conditional iterative trail (High Lead) =="
+if [ -z "$only" ] || [ "$only" = hash-30 ] ||
+   [ "$only" = hash-31 ] || [ "$only" = hash-32 ]; then
+    python3 security/zc_iterative_differential.py || fail=$((fail + 1))
+fi
+
+echo
 echo "== kem-01-1 Aigis-Enc+: dead implicit rejection (Critical) =="
 for l in kem-01/lib/*.so; do
     run kem-01 "kem-01-1" CONFIRMED kem-ct-flip "$l"
@@ -250,6 +257,18 @@ echo "== kem-18-2 LoongKEM: reducible-ring quotient attacks (High lead) =="
 run_target kem-18 "kem-18-2" python3 kem-18/reproduce_reducible_ring.py
 
 echo
+echo "== kem-18-3 Loong128: public-only shared-secret recovery (Critical; may take minutes) =="
+if [ -z "$only" ] || [ "$only" = kem-18 ]; then
+    loong_python=${NGCC_FPYLLL_PYTHON:-python3}
+    if "$loong_python" -c 'import fpylll' >/dev/null 2>&1; then
+        run_target kem-18 "kem-18-3" make -C kem-18 reproduce-public-recovery
+    else
+        echo "SKIP   kem-18-3 (install Python fpylll or set NGCC_FPYLLL_PYTHON)"
+        skipped=$((skipped + 1))
+    fi
+fi
+
+echo
 echo "== kem-06-1 / kem-06-2 BRA: decoder and field out-of-bounds accesses =="
 if [ -z "$only" ] || [ "$only" = kem-06 ]; then
     run_target kem-06 "kem-06-1" make -C kem-06 exploit
@@ -294,6 +313,10 @@ run_target kem-14 "kem-14-1" make -C kem-14 exploit
 echo
 echo "== kem-14-2/-3 DTRU: rejection oracle and missing public-key binding (Low) =="
 run_target kem-14 "kem-14-2/kem-14-3" make -C kem-14 exploit-rejection-contract
+
+echo
+echo "== kem-15-1 FLIT512: reference/optimized interoperability failure (Low) =="
+run_target kem-15 "kem-15-1" python3 kem-15/reproduce_interop.py
 
 echo
 echo "== kem-16-1 HARE: headline DFR claims require refined model (Medium Proof gap) =="
@@ -409,7 +432,7 @@ if [ -z "$only" ] || [ "$only" = kex-02 ]; then
 fi
 
 echo
-echo "== kex-05-1 LoomKEX-256: honest exchange aborts at pass 3 (Medium) =="
+echo "== kex-05-1 LoomKEX-256: honest exchange aborts at pass 3 (Low) =="
 if [ -z "$only" ] || [ "$only" = kex-05 ]; then
     if [ -x kex-05/reproduce_failure ]; then
         witness=$(mktemp)
@@ -428,7 +451,15 @@ if [ -z "$only" ] || [ "$only" = kex-05 ]; then
 fi
 
 echo
-echo "== kex-05-2 LoomKEX-256: rollback-state ephemeral-key recovery (High) =="
+echo "== kex-01-2 / kex-01-3 ADKEX: honest mismatch and truncated-message read (Low) =="
+if [ -z "$only" ] || [ "$only" = kex-01 ]; then
+    make -C kex-01 reproduce-correctness || fail=$((fail + 1))
+    make -C kex-01 reproduce-truncated || fail=$((fail + 1))
+    make -C kex-01 clean-reproducers || fail=$((fail + 1))
+fi
+
+echo
+echo "== kex-05-2 LoomKEX-256: ephemeral-key reuse recovery (High) =="
 if [ -z "$only" ] || [ "$only" = kex-05 ]; then
     if [ -x kex-05/reproduce_state_rollback_key_recovery ]; then
         out=$(kex-05/reproduce_state_rollback_key_recovery 2>&1)
@@ -443,6 +474,10 @@ if [ -z "$only" ] || [ "$only" = kex-05 ]; then
         echo "SKIP   kex-05 kex-05-2 (build it: make -C kex-05 exploit)"; skipped=$((skipped + 1))
     fi
 fi
+
+echo
+echo "== kex-05-3 Loom: byte-identical Shuttle authentication module (Critical) =="
+run_target kex-05 "kex-05-3" python3 kex-05/validate_shuttle_embedding.py
 
 echo
 echo "== kex-08-1 NIIKE: raw shared-invariant distinguisher (Critical) =="
@@ -635,6 +670,10 @@ run_target sign-18 "sign-18-2" python3 sign-18/reproduce_signature_subspace.py
 echo
 echo "== sign-18-5 Origami: public-key-only signature forgery (Critical) =="
 run_target sign-18 "sign-18-5" python3 sign-18/reproduce_public_forgery.py
+
+echo
+echo "== sign-19-1 Phoenix: reference/AVX2 signature interoperability failure (Low) =="
+run_target sign-19 "sign-19-1" python3 sign-19/reproduce_interop.py
 
 echo
 echo "== sign-29-1 Tins: one-signature witness recovery =="

@@ -40,8 +40,11 @@ hash-24-3;Confirmed;runtime;QSH admits full-mode free-start and low-cost semi-fr
 hash-25-1;Confirmed;runtime;Allocation failure reports success without writing a digest
 hash-26-1;Confirmed;runtime;An invariant subspace reduces CHIME collision bounds to 64 and 224 bits
 hash-27-1;Confirmed;review;Secret state indexes an eight-bit substitution table
+hash-30-1;Lead;static;A conditional iterative trail gives a 2^384 full-round collision estimate
 hash-31-1;Confirmed;runtime;Cross-domain distinguisher between ZC-1536-512 and ZC-1536-768
+hash-31-2;Lead;static;A conditional iterative trail gives a 2^384 full-round collision estimate
 hash-32-1;Confirmed;static;The specified and implemented ZC-EDMC mappings differ
+hash-32-2;Lead;static;A conditional iterative trail gives a 2^384 full-round collision estimate
 hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multiplication
 kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA security
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
@@ -78,6 +81,7 @@ kem-13-3;Confirmed;runtime;A 16-bit NTT butterfly silently breaks honest DKEM-51
 kem-14-1;Confirmed;runtime;Caller-declared ciphertext length overflows a decapsulation stack buffer
 kem-14-2;Confirmed;runtime;Decapsulation return value exposes the implicit-rejection branch
 kem-14-3;Confirmed;runtime;Rejection key omits the specified public-key binding
+kem-15-1;Confirmed;runtime;FLIT512 reference and optimized implementations silently derive different keys
 kem-16-1;Proof gap;runtime;Headline DFR values lack a reproducible HARE calculation
 kem-17-1;Confirmed;runtime;Publicly reproducible secret keys
 kem-17-2;Confirmed;static;HEP-QC-7 has at most 256 bits of key-generation support
@@ -86,6 +90,7 @@ kem-17-4;Confirmed;runtime;Public column multiplicities break the EPC-P assumpti
 kem-17-5;Confirmed;review;Secret permutation and mixing matrix drive memory and control flow
 kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-18-2;Lead;static;Reducible rings project LoongKEM into much smaller SLWE instances
+kem-18-3;Confirmed;runtime;Public consistency equations recover a Loong128 shared secret
 kem-19-1;Lead;review;Lore-512's reducible ring admits smaller quotient attacks
 kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit seed
 kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure estimate
@@ -114,11 +119,15 @@ kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's indepe
 kem-39-2;Confirmed;runtime;WeaverKEM-256 omits its high-layer BCH decoder
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
 kem-40-2;Probable;review;Decapsulation addresses a private array with a secret-derived index
+kex-01-1;Confirmed;review;The stated no-matching-session theorem is false for responder sessions
+kex-01-2;Confirmed;runtime;ADKEX-512 silently derives different keys in honest sessions
+kex-01-3;Confirmed;runtime;Incoming message lengths are ignored before fixed-size reads
 kex-02-1;Confirmed;runtime;The ephemeral key is generated once as long-term state
 kex-02-2;Confirmed;review;Secret-derived decryption coefficients take a sign branch
 kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret to 64 bits
 kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-session aborts
-kex-05-2;Confirmed;runtime;Resettable pass-1 state enables ephemeral-key recovery
+kex-05-2;Confirmed;runtime;Ephemeral-key reuse recovers the complete Loom-KEM secret key
+kex-05-3;Confirmed;runtime+static;Shuttle signing-key leakage enables permanent responder impersonation
 kex-06-1;Confirmed;static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
 kex-06-2;Lead;runtime;Static-key reconciliation admits an active reaction-recovery path
 kex-07-1;Confirmed;review;Both party identities are hard-wired to zero
@@ -176,6 +185,7 @@ sign-18-2;Confirmed;runtime;Signatures expose the hidden-algebra constraint subs
 sign-18-3;Probable;review;Variable-time hidden-zone linear solving
 sign-18-4;Probable;review;Signing indexes field tables and signature state with private values
 sign-18-5;Confirmed;runtime;Public variable permutation permits signature forgery
+sign-19-1;Confirmed;runtime;Phoenix parameter sets define incompatible signature languages
 sign-22-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-22-2;Confirmed;static;The implementation expands the complete key pair from a 256-bit root
 sign-22-3;Confirmed;runtime+static;Rhyme-SM3 omits the specified doubled-width parity mask
