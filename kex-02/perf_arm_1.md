@@ -21,7 +21,7 @@ Independent measurement following the structure of the NICCS ARM self-assessment
 | memory | 30562 MiB |
 | OS / kernel | Ubuntu 26.04.1 LTS / 7.0.0-34-generic |
 | compiler / build tool | gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0 / cmake version 4.2.3 |
-| campaign start / end (UTC) | 2026-09-28T15:05:46 / 2026-09-29T02:47:54 |
+| campaign start / end (UTC) | 2026-09-28T15:05:46 / 2026-09-29T08:43:52 |
 
 ## 3. Functional testing (KAT)
 

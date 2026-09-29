@@ -21,7 +21,7 @@ Independent measurement following the structure of the NICCS ARM self-assessment
 | memory | 30562 MiB |
 | OS / kernel | Ubuntu 26.04.1 LTS / 7.0.0-34-generic |
 | compiler / build tool | gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0 / cmake version 4.2.3 |
-| campaign start / end (UTC) | 2026-09-28T15:05:46 / 2026-09-29T02:47:54 |
+| campaign start / end (UTC) | 2026-09-28T15:05:46 / 2026-09-29T08:43:52 |
 
 ## 3. Functional testing (KAT)
 
@@ -119,6 +119,10 @@ Share of each operation spent in the ICCS placeholder hash functions and in the 
 | `TRINE-256-ShortSig` | verify | 10% | 0.0% | pseudoXOF 533, pseudohash 1 |
 | `TRINE-512-Balanced` | keygen | 61% | 0.0% | drng 1, pseudoXOF 47 |
 | `TRINE-512-Balanced` | sign | 3.0% | 0.0% | drng 2, pseudoXOF 7.56e+03, pseudohash 1 |
+| `TRINE-512-Balanced` | verify | 3.0% | 0.0% | pseudoXOF 4.6e+03, pseudohash 1 |
+| `TRINE-512-ShortSig` | keygen | 30% | 0.0% | drng 1, pseudoXOF 137 |
+| `TRINE-512-ShortSig` | sign | 3.1% | 0.0% | drng 2, pseudoXOF 3.31e+03, pseudohash 1 |
+| `TRINE-512-ShortSig` | verify | 3.1% | 0.0% | pseudoXOF 1.21e+03, pseudohash 1 |
 
 ## 7. Raw evidence index
 
@@ -160,10 +164,14 @@ Paths are relative to `performance/data/arm_1/` in the [harness](https://github.
 | `TRINE-512-Balanced` | timing verify | `records/sign-30/TRINE-512-Balanced__verify.json` |
 | `TRINE-512-Balanced` | hash profile keygen | `profile/sign-30/TRINE-512-Balanced__keygen.json` |
 | `TRINE-512-Balanced` | hash profile sign | `profile/sign-30/TRINE-512-Balanced__sign.json` |
+| `TRINE-512-Balanced` | hash profile verify | `profile/sign-30/TRINE-512-Balanced__verify.json` |
 | `TRINE-512-ShortSig` | KAT log (sha256 `017d43d0061955ce…`) | `kat/sign-30/TRINE-512-ShortSig.log` |
 | `TRINE-512-ShortSig` | timing keygen | `records/sign-30/TRINE-512-ShortSig__keygen.json` |
 | `TRINE-512-ShortSig` | timing sign | `records/sign-30/TRINE-512-ShortSig__sign.json` |
 | `TRINE-512-ShortSig` | timing verify | `records/sign-30/TRINE-512-ShortSig__verify.json` |
+| `TRINE-512-ShortSig` | hash profile keygen | `profile/sign-30/TRINE-512-ShortSig__keygen.json` |
+| `TRINE-512-ShortSig` | hash profile sign | `profile/sign-30/TRINE-512-ShortSig__sign.json` |
+| `TRINE-512-ShortSig` | hash profile verify | `profile/sign-30/TRINE-512-ShortSig__verify.json` |
 
 Scripts: `performance/campaign.py`, `performance/ngcc_perf.c`, `performance/hashprof/` in the [harness](https://github.com/ngcc-dev/ngcc-harness).
 

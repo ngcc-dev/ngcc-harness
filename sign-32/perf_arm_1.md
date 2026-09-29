@@ -21,7 +21,7 @@ Independent measurement following the structure of the NICCS ARM self-assessment
 | memory | 30562 MiB |
 | OS / kernel | Ubuntu 26.04.1 LTS / 7.0.0-34-generic |
 | compiler / build tool | gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0 / cmake version 4.2.3 |
-| campaign start / end (UTC) | 2026-09-28T15:05:46 / 2026-09-29T02:47:54 |
+| campaign start / end (UTC) | 2026-09-28T15:05:46 / 2026-09-29T08:43:52 |
 
 ## 3. Functional testing (KAT)
 
@@ -87,6 +87,9 @@ Share of each operation spent in the ICCS placeholder hash functions and in the 
 | `UVW-256` | keygen | 0.0% | 0.6% | drng 1.09e+05 |
 | `UVW-256` | sign | 0.0% | 3.4% | drng 1.59e+06, pseudoXOF 1 |
 | `UVW-256` | verify | 0.6% | 0.0% | pseudoXOF 1 |
+| `UVW-512` | keygen | 0.0% | 0.3% | drng 3.51e+05 |
+| `UVW-512` | sign | 0.0% | 0.4% | drng 2.89e+05, pseudoXOF 1 |
+| `UVW-512` | verify | 0.2% | 0.0% | pseudoXOF 1 |
 
 ## 7. Raw evidence index
 
@@ -112,6 +115,9 @@ Paths are relative to `performance/data/arm_1/` in the [harness](https://github.
 | `UVW-512` | timing keygen | `records/sign-32/UVW-512__keygen.json` |
 | `UVW-512` | timing sign | `records/sign-32/UVW-512__sign.json` |
 | `UVW-512` | timing verify | `records/sign-32/UVW-512__verify.json` |
+| `UVW-512` | hash profile keygen | `profile/sign-32/UVW-512__keygen.json` |
+| `UVW-512` | hash profile sign | `profile/sign-32/UVW-512__sign.json` |
+| `UVW-512` | hash profile verify | `profile/sign-32/UVW-512__verify.json` |
 
 Scripts: `performance/campaign.py`, `performance/ngcc_perf.c`, `performance/hashprof/` in the [harness](https://github.com/ngcc-dev/ngcc-harness).
 

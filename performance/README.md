@@ -11,7 +11,7 @@ Results are published per test system (`performance/systems.csv`):
 | system | results | evidence |
 |---|---|---|
 | `x86_1` — Intel Core i7-12700, one performance core, fixed 2.1 GHz | [summary](summary_x86_1.md) · [method](method_x86_1.md) · `<id>/perf_x86_1.md` per candidate | [`data/x86_1/`](data/x86_1/) |
-| `arm_1` — Qualcomm Snapdragon X Elite (Oryon), one core, fixed 2.71 GHz (preliminary: hash shares of the 512-bit TRINE and UVW signature instances pending) | [summary](summary_arm_1.md) · [method](method_arm_1.md) · `<id>/perf_arm_1.md` per candidate | [`data/arm_1/`](data/arm_1/) |
+| `arm_1` — Qualcomm Snapdragon X Elite (Oryon), one core, fixed 2.71 GHz | [summary](summary_arm_1.md) · [method](method_arm_1.md) · `<id>/perf_arm_1.md` per candidate | [`data/arm_1/`](data/arm_1/) |
 
 The [symmetric cryptography survey](symmetric-survey.md) records how each
 public-key submission implements its hashing and randomness (from

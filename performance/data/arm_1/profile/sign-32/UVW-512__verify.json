@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "sign-32",
+ "label": "UVW-512",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "6",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-32/libUVW-512.so",
+  "verify",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "DBG_SIGN: e1e1e2_hw=34710 fe_hw=34710 diff=0\nDBG_SIGN: e1e1e2_hw=34710 f_hw=17397 e_hw=17313 sum=34710 w=34710 d_zeros=0 p_dups=0\nDBG_VFY: ew=17313 ertw=17397 sum=34710 w=34710 match=1\nDBG_VFY: ew=17313 ertw=17397 sum=34710 w=34710 match=1\nDBG_VFY: ew=17313 ertw=17397 sum=34710 w=34710 match=1\nDBG_VFY: ew=17313 ertw=17397 sum=34710 w=34710 match=1\n",
+ "meta": {
+  "id": "sign-32",
+  "instance": "UVW-512",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 87842295
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1024,
+   "out_bits": 524288,
+   "calls": 3,
+   "ticks": 171970
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.001957712967312614
+ },
+ "hash_share": 0.001957712967312614
+}
