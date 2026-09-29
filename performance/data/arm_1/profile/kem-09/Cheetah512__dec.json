@@ -1,0 +1,74 @@
+{
+ "schema": 2,
+ "candidate": "kem-09",
+ "label": "Cheetah512",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-09/libCheetah512.so",
+  "dec",
+  "0",
+  "934",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-09",
+  "instance": "Cheetah512",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 934,
+  "ticks": 24166246
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 10240,
+   "calls": 1868,
+   "ticks": 1405590
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 768,
+   "out_bits": 2432,
+   "calls": 934,
+   "ticks": 177811
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 245760,
+   "calls": 934,
+   "ticks": 16837467
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 32896,
+   "out_bits": 512,
+   "calls": 934,
+   "ticks": 1099966
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 2560,
+   "calls": 934,
+   "ticks": 176219
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.8150646567116796
+ },
+ "hash_share": 0.8150646567116796
+}

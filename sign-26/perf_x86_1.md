@@ -33,7 +33,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `si
 | `SQIsign2D-lvl3` | harness-default | MISMATCH [1] |
 | `SQIsign2D-lvl4` | harness-default | PASS |
 
-[1] The submitted Test_Vectors/KAT_SIG_SQIsign2D-lvl3.txt is a splice of level-2 and level-3 records (10 of 12 records have the level-2 secret-key length of 676 bytes instead of 900), so no level-3 build can reproduce it These instances are timed anyway; their output is not validated.
+[1] The submitted Test_Vectors/KAT_SIG_SQIsign2D-lvl3.txt is a splice of level-2 and level-3 records (10 of 12 records have the level-2 secret-key length of 676 bytes instead of 900), so no level-3 build can reproduce it; the public keys agree (sign-26/pseudocode.md, discrepancy 2). These instances are timed anyway; their output is not validated.
 
 ## 4. Performance
 

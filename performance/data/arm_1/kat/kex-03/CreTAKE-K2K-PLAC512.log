@@ -1,0 +1,20 @@
+library     = lib/libCreTAKE-K2K-PLAC512.so
+id          = kex-03
+type        = kex
+algorithm   = CreTAKE
+instance    = CreTAKE-K2K-PLAC512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CreTAKE512/CreTAKE-K2K-PLAC512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 2116
+sk_len      = 6276
+sta_len     = 2688
+stb_len     = 128
+ss_len      = 128
+total_msg   = 9284
+timing  full exchange 5.644 ms (avg over 10)
+wrote  kat/KAT_KEX_CreTAKE-K2K-PLAC512.txt (584700 bytes)
+manifest 34b37defb46030f36ee3eb796f5f0bf74dc18de75f4f1f4e3b006c262cf83d50 strict KAT_KEX_CreTAKE-K2K-PLAC512.txt
+RESULT kex-03 CreTAKE-K2K-PLAC512 PASS 

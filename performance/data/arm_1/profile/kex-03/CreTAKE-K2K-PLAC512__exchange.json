@@ -1,0 +1,118 @@
+{
+ "schema": 2,
+ "candidate": "kex-03",
+ "label": "CreTAKE-K2K-PLAC512",
+ "operation": "exchange",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kex-03/libCreTAKE-K2K-PLAC512.so",
+  "exchange",
+  "0",
+  "280",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kex-03",
+  "instance": "CreTAKE-K2K-PLAC512",
+  "operation": "exchange",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 280,
+  "ticks": 24172914
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 1024,
+   "calls": 1120,
+   "ticks": 86493
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 1960,
+   "ticks": 79098
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 128,
+   "out_bits": 1536,
+   "calls": 560,
+   "ticks": 34150
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 20992,
+   "out_bits": 512,
+   "calls": 280,
+   "ticks": 213933
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 5184,
+   "out_bits": 512,
+   "calls": 280,
+   "ticks": 57188
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 17440,
+   "out_bits": 1024,
+   "calls": 560,
+   "ticks": 714687
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 4232,
+   "out_bits": 512,
+   "calls": 560,
+   "ticks": 121859
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 568,
+   "out_bits": 8192,
+   "calls": 11200,
+   "ticks": 6920707
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 109152,
+   "out_bits": 1024,
+   "calls": 560,
+   "ticks": 4366609
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 6340,
+   "out_bits": 512,
+   "calls": 560,
+   "ticks": 161027
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 552,
+   "out_bits": 7168,
+   "calls": 13077,
+   "ticks": 7072009
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.8052722150089145,
+  "drng": 0.003272174798619645,
+  "pseudohash": 0.011702602342439972
+ },
+ "hash_share": 0.8169748173513545
+}

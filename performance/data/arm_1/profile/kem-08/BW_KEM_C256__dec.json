@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "kem-08",
+ "label": "BW_KEM_C256",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-08/libBW_KEM_C256.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-08",
+  "instance": "BW_KEM_C256",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 4684929
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 11776,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 219681
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 520,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 86607
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 1536,
+   "calls": 9000,
+   "ticks": 543253
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 4032,
+   "calls": 16000,
+   "ticks": 2539991
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.7050106842601029,
+  "pseudohash": 0.018486299365475977
+ },
+ "hash_share": 0.7234969836255789
+}

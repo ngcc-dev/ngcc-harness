@@ -1,0 +1,90 @@
+{
+ "schema": 2,
+ "candidate": "sign-04",
+ "label": "CEDRUSALPHA-256s",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-04/libCEDRUSALPHA-256s.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-04",
+  "instance": "CEDRUSALPHA-256s",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 252820320
+ },
+ "calls": [
+  {
+   "fn": "sm3hash",
+   "in_bits": 512,
+   "out_bits": 256,
+   "calls": 522309,
+   "ticks": 10153730
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 6400,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 354
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 12800,
+   "out_bits": 256,
+   "calls": 4992,
+   "ticks": 1178632
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 1024,
+   "out_bits": 256,
+   "calls": 287523,
+   "ticks": 8165795
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 768,
+   "out_bits": 256,
+   "calls": 11708648,
+   "ticks": 226224132
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1280,
+   "out_bits": 400,
+   "calls": 3,
+   "ticks": 172
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 123
+  }
+ ],
+ "share": {
+  "sm3hash": 0.9719260026251054,
+  "pseudoXOF": 6.803250624791551e-07,
+  "drng": 4.865115272380005e-07
+ },
+ "hash_share": 0.9719266829501679
+}

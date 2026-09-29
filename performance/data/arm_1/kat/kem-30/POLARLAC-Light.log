@@ -1,0 +1,17 @@
+library     = lib/libPOLARLAC-Light.so
+id          = kem-30
+type        = kem
+algorithm   = PolarLAC
+instance    = POLARLAC-Light
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/x86/POLARLAC-Light
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 530
+sk_len      = 1570
+ct_len      = 608
+ss_len      = 16
+timing  keygen 0.037 ms  enc 0.048 ms  dec 0.059 ms (avg over 10)
+wrote  kat/KAT_KEM_POLARLAC-Light.txt (56850 bytes)
+manifest d99488d8c1e1aa411d4e64920a14b132b99ad6991786e6524b2279e5e2c0be3b strict KAT_KEM_POLARLAC-Light.txt
+RESULT kem-30 POLARLAC-Light PASS 

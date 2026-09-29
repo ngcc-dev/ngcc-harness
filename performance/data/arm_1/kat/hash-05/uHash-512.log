@@ -1,0 +1,18 @@
+library     = lib/libuHash-512.so
+id          = hash-05
+type        = hash
+algorithm   = uHash
+instance    = uHash-512
+variant     = Reference_Implementation
+source_dir  = uHash/Implementations/3 实现代码/Implementations/Reference_Implementation/uHash-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.297 s
+wrote  kat/KAT_2_12_uHash-512.txt (2804822 bytes)
+manifest 87a5813566d944bf12bea9fc0a0ef7594b6138702d1801cbba59025ce0b3456a strict KAT_2_12_uHash-512.txt
+timing  KAT_2_23 0.605 s
+wrote  kat/KAT_2_23_uHash-512.txt (815 bytes)
+manifest 5949b9e9f180f15e21caabad1369c2a83ce170f7193b358f192af4febd1a4540 strict KAT_2_23_uHash-512.txt
+RESULT hash-05 uHash-512 PASS 

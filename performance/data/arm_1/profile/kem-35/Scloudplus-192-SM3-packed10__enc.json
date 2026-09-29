@@ -1,0 +1,83 @@
+{
+ "schema": 2,
+ "candidate": "kem-35",
+ "label": "Scloudplus-192-SM3-packed10",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-35/libScloudplus-192-SM3-packed10.so",
+  "enc",
+  "0",
+  "83",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-35",
+  "instance": "Scloudplus-192-SM3-packed10",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 83,
+  "ticks": 24429520
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 192,
+   "calls": 83,
+   "ticks": 2553
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 1024,
+   "calls": 83,
+   "ticks": 6430
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 91656,
+   "out_bits": 512,
+   "calls": 83,
+   "ticks": 274062
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 160,
+   "out_bits": 8320,
+   "calls": 69056,
+   "ticks": 22365367
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 712,
+   "out_bits": 1024,
+   "calls": 83,
+   "ticks": 6440
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 101680,
+   "out_bits": 192,
+   "calls": 83,
+   "ticks": 149671
+  }
+ ],
+ "share": {
+  "drng": 0.00010450471396900143,
+  "pseudoXOF": 0.9221592565060631,
+  "pseudohash": 0.011218476662660584
+ },
+ "hash_share": 0.9333777331687237
+}

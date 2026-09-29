@@ -1,0 +1,16 @@
+library     = lib/libOPSsig-256.so
+id          = sign-17
+type        = sig
+algorithm   = OPS Digital Signature Algorithm
+instance    = OPSsig-256
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/OPSsig-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3392
+sk_len      = 5056
+sn_len      = 5540
+timing  keygen 1.103 ms  sign 1.322 ms  verify 1.033 ms (avg over 10)
+wrote  kat/KAT_SIG_OPSsig-256-reference.txt (283974 bytes)
+manifest b5cd3841fdb689efd677f88378b78948498b9709954f10f1fc031313316d8e5e strict KAT_SIG_OPSsig-256-reference.txt
+RESULT sign-17 OPSsig-256 PASS 

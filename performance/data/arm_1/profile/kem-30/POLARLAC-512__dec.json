@@ -1,0 +1,67 @@
+{
+ "schema": 2,
+ "candidate": "kem-30",
+ "label": "POLARLAC-512",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-30/libPOLARLAC-512.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-30",
+  "instance": "POLARLAC-512",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 9570103
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 20992,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 761570
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 17440,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 1272159
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 568,
+   "out_bits": 8192,
+   "calls": 4000,
+   "ticks": 2470526
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 552,
+   "out_bits": 7168,
+   "calls": 5000,
+   "ticks": 2699272
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.7527115434389786
+ },
+ "hash_share": 0.7527115434389786
+}

@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "sign-32",
+ "label": "UVW-128",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-32/libUVW-128.so",
+  "verify",
+  "0",
+  "12",
+  "1"
+ ],
+ "stderr": "DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0\nDBG_SIGN: e1e1e2_hw=8633 f_hw=4334 e_hw=4299 sum=8633 w=8633 d_zeros=0 p_dups=0\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\nDBG_VFY: ew=4299 ertw=4334 sum=8633 w=8633 match=1\n",
+ "meta": {
+  "id": "sign-32",
+  "instance": "UVW-128",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 12,
+  "ticks": 21743331
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 524288,
+   "calls": 12,
+   "ticks": 462798
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.02128459526279575
+ },
+ "hash_share": 0.02128459526279575
+}

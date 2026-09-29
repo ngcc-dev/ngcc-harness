@@ -1,0 +1,131 @@
+{
+ "schema": 2,
+ "candidate": "sign-24",
+ "label": "Sigurd-256",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-24/libSigurd-256.so",
+  "verify",
+  "0",
+  "33",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-24",
+  "instance": "Sigurd256_REF",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 33,
+  "ticks": 23723734
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 1536,
+   "out_bits": 512,
+   "calls": 33,
+   "ticks": 4031
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 167680,
+   "out_bits": 512,
+   "calls": 33,
+   "ticks": 198381
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 624,
+   "out_bits": 117264,
+   "calls": 33,
+   "ticks": 291963
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 5676,
+   "ticks": 487491
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 600,
+   "out_bits": 2736,
+   "calls": 33,
+   "ticks": 6991
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 648,
+   "out_bits": 256,
+   "calls": 33,
+   "ticks": 648
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 2560,
+   "out_bits": 512,
+   "calls": 33,
+   "ticks": 5237
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 576,
+   "out_bits": 3253632,
+   "calls": 33,
+   "ticks": 7914436
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 5280,
+   "out_bits": 512,
+   "calls": 33,
+   "ticks": 8252
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 9216,
+   "out_bits": 512,
+   "calls": 33,
+   "ticks": 13068
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1024,
+   "out_bits": 512,
+   "calls": 28875,
+   "ticks": 3006207
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 648,
+   "out_bits": 19200,
+   "calls": 33,
+   "ticks": 47800
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 600,
+   "out_bits": 256,
+   "calls": 33,
+   "ticks": 658
+  }
+ ],
+ "share": {
+  "pseudohash": 0.15691741443400098,
+  "pseudoXOF": 0.3482797438211034
+ },
+ "hash_share": 0.5051971582551044
+}

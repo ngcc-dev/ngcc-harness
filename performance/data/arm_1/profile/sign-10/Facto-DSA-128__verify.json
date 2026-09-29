@@ -1,0 +1,54 @@
+{
+ "schema": 2,
+ "candidate": "sign-10",
+ "label": "Facto-DSA-128",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-10/libFacto-DSA-128.so",
+  "verify",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-10",
+  "instance": "Facto-DSA-128",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 6493712
+ },
+ "calls": [
+  {
+   "fn": "sm3hash",
+   "in_bits": 320320,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 5651274
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 880,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 77081
+  }
+ ],
+ "share": {
+  "sm3hash": 0.8702686537376465,
+  "pseudoXOF": 0.01187009833512789
+ },
+ "hash_share": 0.8821387520727744
+}

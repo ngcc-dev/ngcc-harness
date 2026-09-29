@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-10",
+ "label": "FEILIAN512",
+ "instance": "FEILIAN512",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 65536,
+ "plan": {
+  "iterations_per_trial": 1431,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5108138036138916,
+  "timeout_per_process_s": 301.50648828216833
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-10/lib/libFEILIAN512.so",
+ "library_sha256": "36ca919252d5f99a54257a199d56932576d6afbc462b19c0c0b455ab54532060",
+ "kat_log": "kat/hash-10/FEILIAN512.log",
+ "kat_log_sha256": "8dd4b4ba1e6d4a36768cc1f21facd06c22d9705c2f93c4fff1e5aa83aad26b00",
+ "started_utc": "2026-09-28T19:46:38.955268+00:00",
+ "ended_utc": "2026-09-28T19:46:41.991439+00:00",
+ "load_average_start": [
+  4.04296875,
+  3.97607421875,
+  3.8291015625
+ ],
+ "load_average_end": [
+  4.0390625,
+  3.9765625,
+  3.830078125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-10",
+    "instance": "FEILIAN512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1478656",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1609728",
+    "measurement_count": "1431",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1431,
+     "seconds": 0.602479948,
+     "cycles": 1623009340
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-10/lib/libFEILIAN512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1431",
+    "3"
+   ],
+   "wall_s": 0.6075844764709473,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-10",
+    "instance": "FEILIAN512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1630208",
+    "measurement_count": "1431",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1431,
+     "seconds": 0.602358646,
+     "cycles": 1622959012
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-10/lib/libFEILIAN512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1431",
+    "3"
+   ],
+   "wall_s": 0.6076319217681885,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-10",
+    "instance": "FEILIAN512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1490944",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1622016",
+    "measurement_count": "1431",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1431,
+     "seconds": 0.602211874,
+     "cycles": 1622925222
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-10/lib/libFEILIAN512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1431",
+    "3"
+   ],
+   "wall_s": 0.6073715686798096,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-10",
+    "instance": "FEILIAN512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1630208",
+    "measurement_count": "1431",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1431,
+     "seconds": 0.602320313,
+     "cycles": 1622870436
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-10/lib/libFEILIAN512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1431",
+    "3"
+   ],
+   "wall_s": 0.6074988842010498,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-10",
+    "instance": "FEILIAN512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1630208",
+    "measurement_count": "1431",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1431,
+     "seconds": 0.602328281,
+     "cycles": 1622888144
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-10/lib/libFEILIAN512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1431",
+    "3"
+   ],
+   "wall_s": 0.6059305667877197,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1431,
+   "seconds": 0.602479948,
+   "cycles": 1623009340
+  },
+  {
+   "measurements": 1431,
+   "seconds": 0.602358646,
+   "cycles": 1622959012
+  },
+  {
+   "measurements": 1431,
+   "seconds": 0.602211874,
+   "cycles": 1622925222
+  },
+  {
+   "measurements": 1431,
+   "seconds": 0.602320313,
+   "cycles": 1622870436
+  },
+  {
+   "measurements": 1431,
+   "seconds": 0.602328281,
+   "cycles": 1622888144
+  }
+ ],
+ "measurements": 7155,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0004209223007686932,
+ "median_trial_seconds": 0.0004209142424877708,
+ "min_trial_seconds": 0.0004208328958770091,
+ "max_trial_seconds": 0.00042102022921034247,
+ "mean_cycles": 1134123.2919636618,
+ "median_trial_cycles": 1134119.6519916141,
+ "operations_per_second": 2375.7353748513406,
+ "throughput_MB_per_second": 155.69619352625745,
+ "sizes": {
+  "input_bytes": 65536,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 64
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1499136,
+ "peak_rss_bytes": 1630208,
+ "timing_scope": "loop"
+}

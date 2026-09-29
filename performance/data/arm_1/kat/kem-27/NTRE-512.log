@@ -1,0 +1,17 @@
+library     = lib/libNTRE-512.so
+id          = kem-27
+type        = kem
+algorithm   = NTRE
+instance    = NTRE-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/NTRE-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3456
+sk_len      = 6944
+ct_len      = 3456
+ss_len      = 64
+timing  keygen 0.111 ms  enc 0.100 ms  dec 0.117 ms (avg over 10)
+wrote  kat/KAT_KEM_NTRE-512.txt (280790 bytes)
+manifest 07b1ff0a8ea6e14faf39fee74807809dd1e024564a696f5345012c4faa686f53 strict KAT_KEM_NTRE-512.txt
+RESULT kem-27 NTRE-512 PASS 

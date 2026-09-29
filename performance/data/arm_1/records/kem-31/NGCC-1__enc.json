@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-31",
+ "label": "NGCC-1",
+ "instance": "NGCC-1",
+ "variant": "reference",
+ "flags": "harness-default",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 20,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 4.539617240941772,
+  "timeout_per_process_s": 302.7237703445651
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-31/lib/libNGCC-1.so",
+ "library_sha256": "9858108545837a7cb7893b06a769134d47be95df49d7deca858568c6dae990e8",
+ "kat_log": "kat/kem-31/NGCC-1.log",
+ "kat_log_sha256": "88c74f0596728d5c6e3c5066182b80087dc59ed647d7687fcb139c9a7c20c312",
+ "started_utc": "2026-09-28T21:07:48.854602+00:00",
+ "ended_utc": "2026-09-28T21:07:54.546025+00:00",
+ "load_average_start": [
+  4.0068359375,
+  4.02587890625,
+  4.0
+ ],
+ "load_average_end": [
+  4.005859375,
+  4.025390625,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-31",
+    "instance": "NGCC-1",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3928064",
+    "pk_bytes": "389",
+    "sk_bytes": "472",
+    "ct_bytes": "602",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "3993600",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.824699688,
+     "cycles": 2222906754
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-31/lib/libNGCC-1.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 1.1238276958465576,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-31",
+    "instance": "NGCC-1",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3940352",
+    "pk_bytes": "389",
+    "sk_bytes": "472",
+    "ct_bytes": "602",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4005888",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.8503825,
+     "cycles": 2292321825
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-31/lib/libNGCC-1.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 1.155872106552124,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-31",
+    "instance": "NGCC-1",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3923968",
+    "pk_bytes": "389",
+    "sk_bytes": "472",
+    "ct_bytes": "602",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "3989504",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.831439322,
+     "cycles": 2241081344
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-31/lib/libNGCC-1.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 1.134404182434082,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-31",
+    "instance": "NGCC-1",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3936256",
+    "pk_bytes": "389",
+    "sk_bytes": "472",
+    "ct_bytes": "602",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4001792",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.833245781,
+     "cycles": 2245963996
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-31/lib/libNGCC-1.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 1.1462769508361816,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-31",
+    "instance": "NGCC-1",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3948544",
+    "pk_bytes": "389",
+    "sk_bytes": "472",
+    "ct_bytes": "602",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4014080",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.830214062,
+     "cycles": 2238176524
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-31/lib/libNGCC-1.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 1.1308932304382324,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 20,
+   "seconds": 0.824699688,
+   "cycles": 2222906754
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.8503825,
+   "cycles": 2292321825
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.831439322,
+   "cycles": 2241081344
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.833245781,
+   "cycles": 2245963996
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.830214062,
+   "cycles": 2238176524
+  }
+ ],
+ "measurements": 100,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.04169981353,
+ "median_trial_seconds": 0.0415719661,
+ "min_trial_seconds": 0.0412349844,
+ "max_trial_seconds": 0.042519125000000005,
+ "mean_cycles": 112404504.43,
+ "median_trial_cycles": 112054067.2,
+ "operations_per_second": 23.980922583276598,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 389,
+  "sk_bytes": 472,
+  "ct_bytes": 602,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 3948544,
+ "peak_rss_bytes": 4014080,
+ "timing_scope": "loop"
+}

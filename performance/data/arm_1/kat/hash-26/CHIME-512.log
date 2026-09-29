@@ -1,0 +1,18 @@
+library     = lib/libCHIME-512.so
+id          = hash-26
+type        = hash
+algorithm   = CHIME
+instance    = CHIME-512
+variant     = Reference_Implementation
+source_dir  = CHIME/Implementations/Reference_Implementation/CHIME-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.071 s
+wrote  kat/KAT_2_12_CHIME-512.txt (2804822 bytes)
+manifest 036c52e94823d0e1e9c40ea8c5e41d140bf6d6079b414ee465aad6476e8bbb35 strict KAT_2_12_CHIME-512.txt
+timing  KAT_2_23 0.042 s
+wrote  kat/KAT_2_23_CHIME-512.txt (815 bytes)
+manifest 1caccb9a2adbc23b60fdb27a755488233e9c76a79222ffa1f7cd50be817b6574 strict KAT_2_23_CHIME-512.txt
+RESULT hash-26 CHIME-512 PASS 

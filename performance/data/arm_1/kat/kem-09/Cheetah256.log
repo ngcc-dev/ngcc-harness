@@ -1,0 +1,17 @@
+library     = lib/libCheetah256.so
+id          = kem-09
+type        = kem
+algorithm   = CheetahKEM
+instance    = Cheetah256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Cheetah256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1648
+sk_len      = 3808
+ct_len      = 1728
+ss_len      = 32
+timing  keygen 0.214 ms  enc 0.226 ms  dec 0.323 ms (avg over 10)
+wrote  kat/KAT_KEM_Cheetah256.txt (146710 bytes)
+manifest 2aa9b22a0ad39d3892c898b6f9f2e2c291275548271da1fd4a8253fb52a68821 strict KAT_KEM_Cheetah256.txt
+RESULT kem-09 Cheetah256 PASS 

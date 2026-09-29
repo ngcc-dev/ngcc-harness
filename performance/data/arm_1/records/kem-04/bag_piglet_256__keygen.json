@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-04",
+ "label": "bag_piglet_256",
+ "instance": "bag_piglet_256",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 209,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5400818815594484,
+  "timeout_per_process_s": 301.52404912893564
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-04/lib/libbag_piglet_256.so",
+ "library_sha256": "2122b0925ba2a0d329c751b37c86d484654d3332711d27f629b5bd2e1f664488",
+ "kat_log": "kat/kem-04/bag_piglet_256.log",
+ "kat_log_sha256": "d6120009f7d2f065944224d42fda94fc089eeb3935c132fd7f1118cd6029f155",
+ "started_utc": "2026-09-28T19:54:10.774933+00:00",
+ "ended_utc": "2026-09-28T19:54:13.544296+00:00",
+ "load_average_start": [
+  4.01416015625,
+  4.048828125,
+  3.9482421875
+ ],
+ "load_average_end": [
+  4.0126953125,
+  4.0478515625,
+  3.94873046875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-04",
+    "instance": "bag_piglet_256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1482752",
+    "pk_bytes": "1573",
+    "sk_bytes": "32",
+    "ct_bytes": "3097",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1605632",
+    "measurement_count": "209",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 209,
+     "seconds": 0.542511354,
+     "cycles": 1462630255
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-04/lib/libbag_piglet_256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "209",
+    "3"
+   ],
+   "wall_s": 0.5543124675750732,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-04",
+    "instance": "bag_piglet_256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1470464",
+    "pk_bytes": "1573",
+    "sk_bytes": "32",
+    "ct_bytes": "3097",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1593344",
+    "measurement_count": "209",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 209,
+     "seconds": 0.541861874,
+     "cycles": 1460691629
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-04/lib/libbag_piglet_256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "209",
+    "3"
+   ],
+   "wall_s": 0.5519614219665527,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-04",
+    "instance": "bag_piglet_256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1490944",
+    "pk_bytes": "1573",
+    "sk_bytes": "32",
+    "ct_bytes": "3097",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1613824",
+    "measurement_count": "209",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 209,
+     "seconds": 0.543142812,
+     "cycles": 1464325372
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-04/lib/libbag_piglet_256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "209",
+    "3"
+   ],
+   "wall_s": 0.5551965236663818,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-04",
+    "instance": "bag_piglet_256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1486848",
+    "pk_bytes": "1573",
+    "sk_bytes": "32",
+    "ct_bytes": "3097",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1609728",
+    "measurement_count": "209",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 209,
+     "seconds": 0.541589218,
+     "cycles": 1459927947
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-04/lib/libbag_piglet_256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "209",
+    "3"
+   ],
+   "wall_s": 0.5534865856170654,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-04",
+    "instance": "bag_piglet_256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1490944",
+    "pk_bytes": "1573",
+    "sk_bytes": "32",
+    "ct_bytes": "3097",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1613824",
+    "measurement_count": "209",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 209,
+     "seconds": 0.543929843,
+     "cycles": 1466517192
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-04/lib/libbag_piglet_256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "209",
+    "3"
+   ],
+   "wall_s": 0.554253339767456,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 209,
+   "seconds": 0.542511354,
+   "cycles": 1462630255
+  },
+  {
+   "measurements": 209,
+   "seconds": 0.541861874,
+   "cycles": 1460691629
+  },
+  {
+   "measurements": 209,
+   "seconds": 0.543142812,
+   "cycles": 1464325372
+  },
+  {
+   "measurements": 209,
+   "seconds": 0.541589218,
+   "cycles": 1459927947
+  },
+  {
+   "measurements": 209,
+   "seconds": 0.543929843,
+   "cycles": 1466517192
+  }
+ ],
+ "measurements": 1045,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.002596205838277512,
+ "median_trial_seconds": 0.0025957481052631577,
+ "min_trial_seconds": 0.002591335971291866,
+ "max_trial_seconds": 0.002602535133971292,
+ "mean_cycles": 6999131.4784689,
+ "median_trial_cycles": 6998230.885167464,
+ "operations_per_second": 385.17747139166113,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1573,
+  "sk_bytes": 32,
+  "ct_bytes": 3097,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1490944,
+ "peak_rss_bytes": 1613824,
+ "timing_scope": "loop"
+}

@@ -1,0 +1,74 @@
+{
+ "schema": 2,
+ "candidate": "kem-39",
+ "label": "WeaverKEM-256",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-39/libWeaverKEM-256.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-39",
+  "instance": "WeaverKEM-256",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 5946123
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 3584,
+   "calls": 4000,
+   "ticks": 559143
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 768,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 38860
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 5376,
+   "calls": 16000,
+   "ticks": 3329975
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 1088,
+   "calls": 4000,
+   "ticks": 201495
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 12544,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 241496
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.7350956244934724
+ },
+ "hash_share": 0.7350956244934724
+}

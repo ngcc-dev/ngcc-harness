@@ -1,0 +1,16 @@
+library     = lib/libDARTS128.so
+id          = sign-08
+type        = sig
+algorithm   = DARTS
+instance    = DARTS128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/DARTS128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1120
+sk_len      = 1536
+sn_len      = 1449
+timing  keygen 0.266 ms  sign 3.034 ms  verify 0.095 ms (avg over 10)
+wrote  kat/KAT_SIG_DARTS128.txt (86314 bytes)
+manifest 6b5b75cbc386c7e55cb7f1dd5551541ed7ba2b0fc9d8f3dea1be99575b1a8cfb strict KAT_SIG_DARTS128.txt
+RESULT sign-08 DARTS128 PASS 

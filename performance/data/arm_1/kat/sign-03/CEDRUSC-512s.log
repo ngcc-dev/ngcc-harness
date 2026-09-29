@@ -1,0 +1,16 @@
+library     = lib/libCEDRUSC-512s.so
+id          = sign-03
+type        = sig
+algorithm   = CEDRUS+C
+instance    = CEDRUSC-512s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CEDRUSC-512s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 128
+sk_len      = 256
+sn_len      = 98212
+timing  keygen 1951.340 ms  sign 24010.946 ms  verify 32.100 ms (avg over 10)
+wrote  kat/KAT_SIG_CEDRUSC-512s.txt (1976124 bytes)
+manifest 62194879a8dae6b18a3ff459e26ffc2e9f06eed4544036c96baec634050ca59c strict KAT_SIG_CEDRUSC-512s.txt
+RESULT sign-03 CEDRUSC-512s PASS 

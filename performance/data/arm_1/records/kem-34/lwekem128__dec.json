@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-34",
+ "label": "lwekem128",
+ "instance": "lwekem128",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "dec",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 584,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5298684368133544,
+  "timeout_per_process_s": 301.517921062088
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-34/lib/liblwekem128.so",
+ "library_sha256": "9099f803bfd7a6c12468f155c865a555dbd584abd1f49ea9447e86b5d9692ef3",
+ "kat_log": "kat/kem-34/lwekem128.log",
+ "kat_log_sha256": "0b425f13e606a2ad36567c0bbdd99fd79f4eaa612e55d3b971fbba774268fa51",
+ "started_utc": "2026-09-28T19:52:38.536002+00:00",
+ "ended_utc": "2026-09-28T19:52:41.752729+00:00",
+ "load_average_start": [
+  4.0751953125,
+  4.0703125,
+  3.939453125
+ ],
+ "load_average_end": [
+  4.0751953125,
+  4.0703125,
+  3.939453125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-34",
+    "instance": "lwekem128",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1466368",
+    "pk_bytes": "880",
+    "sk_bytes": "1776",
+    "ct_bytes": "912",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1531904",
+    "measurement_count": "584",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 584,
+     "seconds": 0.649772708,
+     "cycles": 1751709134
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-34/lib/liblwekem128.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "584",
+    "3"
+   ],
+   "wall_s": 0.6597321033477783,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-34",
+    "instance": "lwekem128",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1454080",
+    "pk_bytes": "880",
+    "sk_bytes": "1776",
+    "ct_bytes": "912",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1519616",
+    "measurement_count": "584",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 584,
+     "seconds": 0.629292968,
+     "cycles": 1696605660
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-34/lib/liblwekem128.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "584",
+    "3"
+   ],
+   "wall_s": 0.6395351886749268,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-34",
+    "instance": "lwekem128",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1462272",
+    "pk_bytes": "880",
+    "sk_bytes": "1776",
+    "ct_bytes": "912",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1527808",
+    "measurement_count": "584",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 584,
+     "seconds": 0.62911875,
+     "cycles": 1696351465
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-34/lib/liblwekem128.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "584",
+    "3"
+   ],
+   "wall_s": 0.6393277645111084,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-34",
+    "instance": "lwekem128",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1466368",
+    "pk_bytes": "880",
+    "sk_bytes": "1776",
+    "ct_bytes": "912",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1531904",
+    "measurement_count": "584",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 584,
+     "seconds": 0.629421718,
+     "cycles": 1696594728
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-34/lib/liblwekem128.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "584",
+    "3"
+   ],
+   "wall_s": 0.6379032135009766,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-34",
+    "instance": "lwekem128",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1454080",
+    "pk_bytes": "880",
+    "sk_bytes": "1776",
+    "ct_bytes": "912",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1519616",
+    "measurement_count": "584",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 584,
+     "seconds": 0.629222031,
+     "cycles": 1696259801
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-34/lib/liblwekem128.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "584",
+    "3"
+   ],
+   "wall_s": 0.6400790214538574,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 584,
+   "seconds": 0.649772708,
+   "cycles": 1751709134
+  },
+  {
+   "measurements": 584,
+   "seconds": 0.629292968,
+   "cycles": 1696605660
+  },
+  {
+   "measurements": 584,
+   "seconds": 0.62911875,
+   "cycles": 1696351465
+  },
+  {
+   "measurements": 584,
+   "seconds": 0.629421718,
+   "cycles": 1696594728
+  },
+  {
+   "measurements": 584,
+   "seconds": 0.629222031,
+   "cycles": 1696259801
+  }
+ ],
+ "measurements": 2920,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0010845301969178082,
+ "median_trial_seconds": 0.0010775564520547946,
+ "min_trial_seconds": 0.0010772581335616437,
+ "max_trial_seconds": 0.0011126245,
+ "mean_cycles": 2923808.489041096,
+ "median_trial_cycles": 2905127.9589041094,
+ "operations_per_second": 922.0582357614019,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 880,
+  "sk_bytes": 1776,
+  "ct_bytes": 912,
+  "ss_bytes": 16,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1466368,
+ "peak_rss_bytes": 1531904,
+ "timing_scope": "loop"
+}

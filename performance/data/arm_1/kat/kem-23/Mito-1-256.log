@@ -1,0 +1,17 @@
+library     = lib/libMito-1-256.so
+id          = kem-23
+type        = kem
+algorithm   = Mito
+instance    = MITO_1_256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Mito-1-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 8522
+sk_len      = 8682
+ct_len      = 12714
+ss_len      = 64
+timing  keygen 6.827 ms  enc 11.437 ms  dec 15.955 ms (avg over 10)
+wrote  kat/KAT_KEM_MITO_1_256.txt (602040 bytes)
+manifest 9fcf72fe6d1d4e15317668bd274d0075e88fe4fa20e37af1d80e267db32fbeb8 strict KAT_KEM_MITO_1_256.txt
+RESULT kem-23 MITO_1_256 PASS 

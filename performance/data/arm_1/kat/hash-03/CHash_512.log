@@ -1,0 +1,18 @@
+library     = lib/libCHash_512.so
+id          = hash-03
+type        = hash
+algorithm   = C Hash
+instance    = CHash_512
+variant     = Reference_Implementation
+source_dir  = C Hash/Implementations/Reference_Implementation/CHash_512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.670 s
+wrote  kat/KAT_2_12_CHash_512.txt (2804822 bytes)
+manifest 31ef1ef3331fedd864770218c542ba509abedd7d8c14501337c54f2ef51701e1 strict KAT_2_12_CHash_512.txt
+timing  KAT_2_23 1.073 s
+wrote  kat/KAT_2_23_CHash_512.txt (815 bytes)
+manifest 0f0c53f5a1f0f1e8a95205dd70bdc04cf5342dc09ff6ac79e54bfa4e51010769 strict KAT_2_23_CHash_512.txt
+RESULT hash-03 CHash_512 PASS 

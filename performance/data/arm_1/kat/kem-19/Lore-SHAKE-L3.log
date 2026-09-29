@@ -1,0 +1,17 @@
+library     = lib/libLore-SHAKE-L3.so
+id          = kem-19
+type        = kem
+algorithm   = Lore
+instance    = Lore-SHAKE-L3
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Lore-SHAKE/Lore-L3
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1954
+sk_len      = 7736
+ct_len      = 2114
+ss_len      = 32
+timing  keygen 0.353 ms  enc 0.541 ms  dec 0.516 ms (avg over 10)
+wrote  kat/KAT_KEM_Lore-L3.txt (239110 bytes)
+manifest c507ad33a674e802c421a23e97de24c4425256ed5dcb3c338df3badeabe799e7 strict KAT_KEM_Lore-L3.txt
+RESULT kem-19 Lore-SHAKE-L3 PASS 

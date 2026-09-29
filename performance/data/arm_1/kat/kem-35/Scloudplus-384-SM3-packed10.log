@@ -1,0 +1,17 @@
+library     = lib/libScloudplus-384-SM3-packed10.so
+id          = kem-35
+type        = kem
+algorithm   = Scloud+
+instance    = Scloudplus-384-SM3-packed10
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Scloudplus-384/kem
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 33296
+sk_len      = 40144
+ct_len      = 33600
+ss_len      = 48
+timing  keygen 52.391 ms  enc 51.534 ms  dec 54.319 ms (avg over 10)
+wrote  kat/KAT_KEM_Scloudplus-384-SM3-packed10.txt (2144180 bytes)
+manifest e8d2b82b6c41fb64ae049063fd29cd2190f05b21974a6716c95a431479e7fc38 strict KAT_KEM_Scloudplus-384-SM3-packed10.txt
+RESULT kem-35 Scloudplus-384-SM3-packed10 PASS 

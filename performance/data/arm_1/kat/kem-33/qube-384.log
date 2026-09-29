@@ -1,0 +1,17 @@
+library     = lib/libqube-384.so
+id          = kem-33
+type        = kem
+algorithm   = QUBE
+instance    = qube_384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/qube-384
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 20738
+sk_len      = 20834
+ct_len      = 20633
+ss_len      = 48
+timing  keygen 1.996 ms  enc 2.117 ms  dec 3.596 ms (avg over 10)
+wrote  kat/KAT_KEM_qube_384.txt (1247480 bytes)
+manifest 029ebad98209867992e10fb00ea5e4966b770eda05a92d96f85b5375ac762cfe strict KAT_KEM_qube_384.txt
+RESULT kem-33 qube_384 MISMATCH KAT_KEM_qube_384.txt: sha256 a3b0b7e9265a78413ba0b6d8751ff7fe99172a995bb3970ca78e2ad550807255 != manifest 029ebad98209867992e10fb00ea5e4966b770eda05a92d96f85b5375ac762cfe

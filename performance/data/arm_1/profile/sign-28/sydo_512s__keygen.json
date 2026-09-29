@@ -1,0 +1,54 @@
+{
+ "schema": 2,
+ "candidate": "sign-28",
+ "label": "sydo_512s",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-28/libsydo_512s.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-28",
+  "instance": "sydo_512s",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199970",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 4774678
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 552,
+   "out_bits": 256,
+   "calls": 23000,
+   "ticks": 458222
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 60181
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.09596919415298791,
+  "drng": 0.012604200744008287
+ },
+ "hash_share": 0.09596919415298791
+}

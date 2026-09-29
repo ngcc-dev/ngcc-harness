@@ -1,0 +1,82 @@
+{
+ "schema": 2,
+ "candidate": "sign-07",
+ "label": "CS-512",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-07/libCS-512.so",
+  "verify",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-07",
+  "instance": "CS_512",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 23411873
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 16896,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 1237892
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 34304,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 2474353
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1536,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 149598
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 120,
+   "calls": 1000,
+   "ticks": 30582
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 9,
+   "calls": 140000,
+   "ticks": 4250906
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8448,
+   "calls": 30000,
+   "ticks": 10296876
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.1649523299566848,
+  "drng": 0.6226910593612053
+ },
+ "hash_share": 0.1649523299566848
+}

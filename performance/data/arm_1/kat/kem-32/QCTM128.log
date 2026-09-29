@@ -1,0 +1,17 @@
+library     = lib/libQCTM128.so
+id          = kem-32
+type        = kem
+algorithm   = QCTM
+instance    = QCTM128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/QCTM128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 167987
+sk_len      = 192545
+ct_len      = 640
+ss_len      = 32
+timing  keygen 16617.101 ms  enc 4.024 ms  dec 1469.330 ms (avg over 10)
+wrote  kat/KAT_KEM_QCTM128.txt (7226500 bytes)
+manifest 7f6df616a9bd54518f825b4114d8b44842b5742030b86cb1476d58367597f26c strict KAT_KEM_QCTM128.txt
+RESULT kem-32 QCTM128 PASS 

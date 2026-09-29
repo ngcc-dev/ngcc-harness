@@ -1,0 +1,17 @@
+library     = lib/libDTRU-Light.so
+id          = kem-14
+type        = kem
+algorithm   = DTRU
+instance    = DTRU-Light
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/DTRU-Light
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 640
+sk_len      = 864
+ct_len      = 512
+ss_len      = 32
+timing  keygen 0.027 ms  enc 0.022 ms  dec 0.046 ms (avg over 10)
+wrote  kat/KAT_KEM_DTRU-Light.txt (43320 bytes)
+manifest dd13f5e7a3e409f0e333c946fc1d07a442cf5d1a84ba80712465a403cc35ef2f strict KAT_KEM_DTRU-Light.txt
+RESULT kem-14 DTRU-Light PASS 

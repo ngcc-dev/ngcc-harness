@@ -1,0 +1,17 @@
+library     = lib/libCheetah384.so
+id          = kem-09
+type        = kem
+algorithm   = CheetahKEM
+instance    = Cheetah384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Cheetah384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2704
+sk_len      = 5920
+ct_len      = 2832
+ss_len      = 48
+timing  keygen 0.623 ms  enc 1.310 ms  dec 0.952 ms (avg over 10)
+wrote  kat/KAT_KEM_Cheetah384.txt (232470 bytes)
+manifest 1c5fe7ee3d71f5dc96a2730fcd9bfb9ac1d6df9d52053c87d5c8c97903cc344d strict KAT_KEM_Cheetah384.txt
+RESULT kem-09 Cheetah384 PASS 

@@ -1,0 +1,18 @@
+library     = lib/libGarnet_512_Cap512.so
+id          = hash-11
+type        = hash
+algorithm   = Garnet
+instance    = Garnet_512_Cap512
+variant     = Reference_Implementation
+source_dir  = Garnet/Implementations/API_CryptHash/Implementations/Reference_Implementation/Garnet
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.086 s
+wrote  kat/KAT_2_12_Garnet_512_Cap512.txt (2804822 bytes)
+manifest 7d2bfabc1c5b925731f56bc515a57526bf37d86aebcd856ceb9530f3a6b44a70 strict KAT_2_12_Garnet_512_Cap512.txt
+timing  KAT_2_23 0.051 s
+wrote  kat/KAT_2_23_Garnet_512_Cap512.txt (815 bytes)
+manifest 8aca883c2a9b8c374433048ea6b7f7f80c291a2a6555b9c2b423d331198ac4d9 strict KAT_2_23_Garnet_512_Cap512.txt
+RESULT hash-11 Garnet_512_Cap512 PASS 

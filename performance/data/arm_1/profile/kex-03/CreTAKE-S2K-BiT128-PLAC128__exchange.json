@@ -1,0 +1,196 @@
+{
+ "schema": 2,
+ "candidate": "kex-03",
+ "label": "CreTAKE-S2K-BiT128-PLAC128",
+ "operation": "exchange",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kex-03/libCreTAKE-S2K-BiT128-PLAC128.so",
+  "exchange",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kex-03",
+  "instance": "CreTAKE-S2K-BiT128-PLAC128",
+  "operation": "exchange",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 26329306
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 5000,
+   "ticks": 155961
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 3000,
+   "ticks": 120887
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 640,
+   "calls": 3000,
+   "ticks": 173308
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 1536,
+   "calls": 5539,
+   "ticks": 329010
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 9616,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 345830
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 552,
+   "out_bits": 1024,
+   "calls": 27281,
+   "ticks": 2130117
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 288,
+   "out_bits": 256,
+   "calls": 8360,
+   "ticks": 88715
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 4864,
+   "out_bits": 256,
+   "calls": 6539,
+   "ticks": 601074
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 27360,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 981102
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1928,
+   "out_bits": 512,
+   "calls": 2000,
+   "ticks": 245696
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 192,
+   "out_bits": 5376,
+   "calls": 27090,
+   "ticks": 5580319
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 4368,
+   "out_bits": 640,
+   "calls": 2000,
+   "ticks": 495573
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 176,
+   "out_bits": 1088,
+   "calls": 21572,
+   "ticks": 1068116
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 5632,
+   "calls": 5466,
+   "ticks": 1180409
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 5120,
+   "calls": 16617,
+   "ticks": 3259799
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 184,
+   "out_bits": 2048,
+   "calls": 24000,
+   "ticks": 1893231
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 5248,
+   "out_bits": 128,
+   "calls": 1000,
+   "ticks": 102904
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 64,
+   "out_bits": 640,
+   "calls": 1000,
+   "ticks": 30049
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 8384,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 317943
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 128,
+   "calls": 1000,
+   "ticks": 19820
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 176,
+   "out_bits": 1024,
+   "calls": 6000,
+   "ticks": 238022
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 30392
+  }
+ ],
+ "share": {
+  "drng": 0.011669126409940314,
+  "pseudoXOF": 0.667336009540092,
+  "sm3hash": 0.04803951156175556,
+  "pseudohash": 0.009331655000705298
+ },
+ "hash_share": 0.7247071761025529
+}

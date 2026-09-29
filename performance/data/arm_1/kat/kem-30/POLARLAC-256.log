@@ -1,0 +1,17 @@
+library     = lib/libPOLARLAC-256.so
+id          = kem-30
+type        = kem
+algorithm   = PolarLAC
+instance    = POLARLAC-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/x86/POLARLAC-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1060
+sk_len      = 3140
+ct_len      = 1280
+ss_len      = 32
+timing  keygen 0.074 ms  enc 0.101 ms  dec 0.127 ms (avg over 10)
+wrote  kat/KAT_KEM_POLARLAC-256.txt (112630 bytes)
+manifest 7cc9399824c345969e711183e0eea590fb8c90e78635093ff0f669678e3da3ea strict KAT_KEM_POLARLAC-256.txt
+RESULT kem-30 POLARLAC-256 PASS 

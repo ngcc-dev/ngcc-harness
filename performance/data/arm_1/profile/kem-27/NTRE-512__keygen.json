@@ -1,0 +1,62 @@
+{
+ "schema": 2,
+ "candidate": "kem-27",
+ "label": "NTRE-512",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-27/libNTRE-512.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-27",
+  "instance": "NTRE-512",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 2661638
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 4608,
+   "calls": 2000,
+   "ticks": 359782
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 27648,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 497473
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 60557
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.1351731527728414,
+  "sm3hash": 0.18690483078465217,
+  "drng": 0.022751779167565236
+ },
+ "hash_share": 0.32207798355749356
+}

@@ -1,0 +1,16 @@
+library     = lib/libTSUOV_512.so
+id          = sign-31
+type        = sig
+algorithm   = TSUOV
+instance    = TSUOV_512
+variant     = Reference_Implementation
+source_dir  = Implementations/Digital_Signature-TSUOV-x86-Reference_Implementation/API_PKC/Implementations/Reference_Implementation/TSUOV_512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 21319
+sk_len      = 128
+sn_len      = 2939
+timing  keygen 235.424 ms  sign 234.699 ms  verify 230.618 ms (avg over 10)
+wrote  kat/KAT_SIG_TSUOV_512.txt (491934 bytes)
+manifest e9cdbdc06168c2d57b8bb2ec50067c9a78a83ee2e81a420b149ff62d20b6d37d strict KAT_SIG_TSUOV_512.txt
+RESULT sign-31 TSUOV_512 PASS 

@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "iccs",
+ "label": "sm3hash-256",
+ "instance": "sm3hash-256",
+ "variant": "iccs-baseline",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 16384,
+ "plan": {
+  "iterations_per_trial": 5187,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5058897192706295,
+  "timeout_per_process_s": 301.5035338315624
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "performance/iccs/lib/libsm3hash-256.so",
+ "library_sha256": "ed1bd8de8a9c5034dd4352f177142cab9931f856845f8750eb257e696bfb2541",
+ "kat_log": "kat/iccs/sm3hash-256.log",
+ "kat_log_sha256": "2e854c08f3e9efc368313d1be2496f9b60f3c9d7343e9de536fd40ccdccc9cab",
+ "started_utc": "2026-09-28T19:32:13.535252+00:00",
+ "ended_utc": "2026-09-28T19:32:16.692153+00:00",
+ "load_average_start": [
+  1.5322265625,
+  3.10009765625,
+  3.7490234375
+ ],
+ "load_average_end": [
+  1.5322265625,
+  3.10009765625,
+  3.7490234375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695228108,
+  "core_clock_min_hz": 2686861117,
+  "core_clock_max_hz": 2696419686,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "iccs",
+    "instance": "sm3hash-256",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1437696",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1503232",
+    "measurement_count": "5187",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5187,
+     "seconds": 0.626002656,
+     "cycles": 1687181750
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "performance/iccs/lib/libsm3hash-256.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "5187",
+    "3"
+   ],
+   "wall_s": 0.6295602321624756,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "iccs",
+    "instance": "sm3hash-256",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1454080",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1519616",
+    "measurement_count": "5187",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5187,
+     "seconds": 0.625906562,
+     "cycles": 1687086090
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "performance/iccs/lib/libsm3hash-256.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "5187",
+    "3"
+   ],
+   "wall_s": 0.6302156448364258,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "iccs",
+    "instance": "sm3hash-256",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1523712",
+    "measurement_count": "5187",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5187,
+     "seconds": 0.626471354,
+     "cycles": 1687668562
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "performance/iccs/lib/libsm3hash-256.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "5187",
+    "3"
+   ],
+   "wall_s": 0.6326172351837158,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "iccs",
+    "instance": "sm3hash-256",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1523712",
+    "measurement_count": "5187",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5187,
+     "seconds": 0.625929374,
+     "cycles": 1687047513
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "performance/iccs/lib/libsm3hash-256.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "5187",
+    "3"
+   ],
+   "wall_s": 0.6321368217468262,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "iccs",
+    "instance": "sm3hash-256",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1523712",
+    "measurement_count": "5187",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5187,
+     "seconds": 0.626003646,
+     "cycles": 1687058623
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "performance/iccs/lib/libsm3hash-256.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "5187",
+    "3"
+   ],
+   "wall_s": 0.6322023868560791,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 5187,
+   "seconds": 0.626002656,
+   "cycles": 1687181750
+  },
+  {
+   "measurements": 5187,
+   "seconds": 0.625906562,
+   "cycles": 1687086090
+  },
+  {
+   "measurements": 5187,
+   "seconds": 0.626471354,
+   "cycles": 1687668562
+  },
+  {
+   "measurements": 5187,
+   "seconds": 0.625929374,
+   "cycles": 1687047513
+  },
+  {
+   "measurements": 5187,
+   "seconds": 0.626003646,
+   "cycles": 1687058623
+  }
+ ],
+ "measurements": 25935,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00012069842267206479,
+ "median_trial_seconds": 0.00012068684326200116,
+ "min_trial_seconds": 0.00012066831733179103,
+ "max_trial_seconds": 0.00012077720339309813,
+ "mean_cycles": 325276.3654520918,
+ "median_trial_cycles": 325252.76460381725,
+ "operations_per_second": 8285.112413746947,
+ "throughput_MB_per_second": 135.74328178682998,
+ "sizes": {
+  "input_bytes": 16384,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 32
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1458176,
+ "peak_rss_bytes": 1523712,
+ "timing_scope": "loop"
+}

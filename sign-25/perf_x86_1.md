@@ -45,7 +45,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `si
 | `SQISign2Dsquare-Level5-sec_compressed` | guide | PASS |
 | `SQISign2Dsquare-Level5-sec_uncompressed` | guide | PASS |
 
-[1] CRYPTOFAIL: sig_verify accepts a modified message because the verifier's verdict is decided by stale stack contents (confirmed finding sign-25-1). Key generation and signing are timed normally These instances are timed anyway; their output is not validated.
+[1] CRYPTOFAIL: sig_verify accepts a modified message because the verifier's verdict is decided by stale stack contents (confirmed finding sign-25-1). Key generation and signing are timed normally; the verification time is that of the flawed verifier. These instances are timed anyway; their output is not validated.
 
 ## 4. Performance
 

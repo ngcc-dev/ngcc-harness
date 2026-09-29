@@ -1,0 +1,17 @@
+library     = lib/libHARE-384-kr.so
+id          = kem-16
+type        = kem
+algorithm   = HARE
+instance    = HARE-384-kr
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/HARE-384/kr
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 13157
+sk_len      = 13301
+ct_len      = 23693
+ss_len      = 48
+timing  keygen 13.921 ms  enc 29.618 ms  dec 44.290 ms (avg over 10)
+wrote  kat/KAT_KEM_HARE-384-kr.txt (1006400 bytes)
+manifest 193dffad16c77d2c009bbdd88684e3db6ec2591e35f2bc614b3311babd2122b8 strict KAT_KEM_HARE-384-kr.txt
+RESULT kem-16 HARE-384-kr PASS 

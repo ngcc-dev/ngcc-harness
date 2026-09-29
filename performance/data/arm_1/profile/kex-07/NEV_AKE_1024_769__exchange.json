@@ -1,0 +1,111 @@
+{
+ "schema": 2,
+ "candidate": "kex-07",
+ "label": "NEV_AKE_1024_769",
+ "operation": "exchange",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kex-07/libNEV_AKE_1024_769.so",
+  "exchange",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kex-07",
+  "instance": "NEV_AKE_1024_769_ICCS",
+  "operation": "exchange",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 9658532
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 2048,
+   "calls": 3000,
+   "ticks": 240270
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 256,
+   "out_bits": 256,
+   "calls": 3000,
+   "ticks": 29951
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 4096,
+   "calls": 1000,
+   "ticks": 159585
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 296,
+   "out_bits": 256,
+   "calls": 40000,
+   "ticks": 399591
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 50448,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 1791716
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 256,
+   "calls": 4000,
+   "ticks": 43952
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 40616,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 1450081
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 3072,
+   "calls": 3000,
+   "ticks": 360241
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 8000,
+   "ticks": 243008
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 3840,
+   "calls": 4000,
+   "ticks": 600819
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.48109422839827004,
+  "sm3hash": 0.04447280394163419,
+  "drng": 0.025159931136532965
+ },
+ "hash_share": 0.5255670323399042
+}

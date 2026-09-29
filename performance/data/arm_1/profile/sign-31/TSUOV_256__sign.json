@@ -1,0 +1,98 @@
+{
+ "schema": 2,
+ "candidate": "sign-31",
+ "label": "TSUOV_256",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-31/libTSUOV_256.so",
+  "sign",
+  "0",
+  "44",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-31",
+  "instance": "TSUOV_256",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 44,
+  "ticks": 24593074
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 6728,
+   "calls": 5060,
+   "ticks": 1354961
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 768,
+   "out_bits": 1296,
+   "calls": 142,
+   "ticks": 16334
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 288,
+   "out_bits": 256,
+   "calls": 142,
+   "ticks": 1498
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 69904,
+   "calls": 5016,
+   "ticks": 13592217
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 20136,
+   "calls": 44,
+   "ticks": 34269
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 768,
+   "out_bits": 512,
+   "calls": 44,
+   "ticks": 3827
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 1296,
+   "calls": 3,
+   "ticks": 179
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 132,
+   "ticks": 4206
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.6098448693319103,
+  "sm3hash": 6.091145824226772e-05,
+  "pseudohash": 0.00015561291768568662,
+  "drng": 0.00017102376059210817
+ },
+ "hash_share": 0.6100613937078383
+}

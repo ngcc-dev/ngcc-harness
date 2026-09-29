@@ -1,0 +1,17 @@
+library     = lib/liblwekem256.so
+id          = kem-34
+type        = kem
+algorithm   = Rudraksh2
+instance    = lwekem256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/lwekem256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1760
+sk_len      = 3552
+ct_len      = 1728
+ss_len      = 32
+timing  keygen 1.743 ms  enc 1.742 ms  dec 1.768 ms (avg over 10)
+wrote  kat/KAT_KEM_lwekem256.txt (143830 bytes)
+manifest bfdce1714c26198adfb5710378c2156cceb4d9f63bf2feb07f9326c417400c50 strict KAT_KEM_lwekem256.txt
+RESULT kem-34 lwekem256 PASS 

@@ -1,0 +1,75 @@
+{
+ "schema": 2,
+ "candidate": "kem-22",
+ "label": "Mithril-512",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-22/libMithril-512.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-22",
+  "instance": "Mithril-512",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 16212303
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1384,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 115090
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 616,
+   "out_bits": 4352,
+   "calls": 1000,
+   "ticks": 327812
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 40411
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 24744,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 889049
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 616,
+   "out_bits": 1664,
+   "calls": 17000,
+   "ticks": 2302378
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.22417105083713276,
+  "drng": 0.0024926131716141746
+ },
+ "hash_share": 0.22417105083713276
+}

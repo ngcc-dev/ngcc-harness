@@ -1,0 +1,67 @@
+{
+ "schema": 2,
+ "candidate": "kem-34",
+ "label": "lwekem128",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-34/liblwekem128.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-34",
+  "instance": "lwekem128",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 20791437
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 256,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10464
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 152,
+   "out_bits": 6144,
+   "calls": 81000,
+   "ticks": 19075606
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 7424,
+   "out_bits": 128,
+   "calls": 1000,
+   "ticks": 137765
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 256,
+   "calls": 19000,
+   "ticks": 198323
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.9341421663158732
+ },
+ "hash_share": 0.9341421663158732
+}

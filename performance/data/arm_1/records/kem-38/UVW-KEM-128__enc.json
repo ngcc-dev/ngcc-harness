@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-38",
+ "label": "UVW-KEM-128",
+ "instance": "UVW_KEM_128",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 3107,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 3.508489355141602,
+  "timeout_per_process_s": 302.105093613085
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-38/lib/libUVW-KEM-128.so",
+ "library_sha256": "5ddab1082dc1de8d15385c06bab64e26599ddc1998b1dce36881a0b75b140013",
+ "kat_log": "kat/kem-38/UVW-KEM-128.log",
+ "kat_log_sha256": "8ca83c17d929f4cde846dd190fff260ef0c19d19fb3effa57cd2b1ec8b191078",
+ "started_utc": "2026-09-28T20:04:18.768266+00:00",
+ "ended_utc": "2026-09-28T20:04:23.131463+00:00",
+ "load_average_start": [
+  4.056640625,
+  4.0546875,
+  4.00341796875
+ ],
+ "load_average_end": [
+  4.0517578125,
+  4.0537109375,
+  4.0029296875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-38",
+    "instance": "UVW_KEM_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "4415488",
+    "pk_bytes": "208013",
+    "sk_bytes": "35",
+    "ct_bytes": "1032",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "5103616",
+    "measurement_count": "3107",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3107,
+     "seconds": 0.616084166,
+     "cycles": 1659422517
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-38/lib/libUVW-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "3107",
+    "3"
+   ],
+   "wall_s": 0.8728697299957275,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-38",
+    "instance": "UVW_KEM_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3944448",
+    "pk_bytes": "208013",
+    "sk_bytes": "35",
+    "ct_bytes": "1032",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "5033984",
+    "measurement_count": "3107",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3107,
+     "seconds": 0.615274531,
+     "cycles": 1657845707
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-38/lib/libUVW-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "3107",
+    "3"
+   ],
+   "wall_s": 0.8717257976531982,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-38",
+    "instance": "UVW_KEM_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3330048",
+    "pk_bytes": "208013",
+    "sk_bytes": "35",
+    "ct_bytes": "1032",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4280320",
+    "measurement_count": "3107",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3107,
+     "seconds": 0.615881041,
+     "cycles": 1659380350
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-38/lib/libUVW-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "3107",
+    "3"
+   ],
+   "wall_s": 0.8726575374603271,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-38",
+    "instance": "UVW_KEM_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "2592768",
+    "pk_bytes": "208013",
+    "sk_bytes": "35",
+    "ct_bytes": "1032",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4218880",
+    "measurement_count": "3107",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3107,
+     "seconds": 0.616014219,
+     "cycles": 1659907702
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-38/lib/libUVW-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "3107",
+    "3"
+   ],
+   "wall_s": 0.8729300498962402,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-38",
+    "instance": "UVW_KEM_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "2592768",
+    "pk_bytes": "208013",
+    "sk_bytes": "35",
+    "ct_bytes": "1032",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4218880",
+    "measurement_count": "3107",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3107,
+     "seconds": 0.615715885,
+     "cycles": 1659085460
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-38/lib/libUVW-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "3107",
+    "3"
+   ],
+   "wall_s": 0.8728556632995605,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 3107,
+   "seconds": 0.616084166,
+   "cycles": 1659422517
+  },
+  {
+   "measurements": 3107,
+   "seconds": 0.615274531,
+   "cycles": 1657845707
+  },
+  {
+   "measurements": 3107,
+   "seconds": 0.615881041,
+   "cycles": 1659380350
+  },
+  {
+   "measurements": 3107,
+   "seconds": 0.616014219,
+   "cycles": 1659907702
+  },
+  {
+   "measurements": 3107,
+   "seconds": 0.615715885,
+   "cycles": 1659085460
+  }
+ ],
+ "measurements": 15535,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00019819567698744768,
+ "median_trial_seconds": 0.00019822370164145476,
+ "min_trial_seconds": 0.00019802849404570324,
+ "max_trial_seconds": 0.00019828907821049246,
+ "mean_cycles": 533996.8932088831,
+ "median_trial_cycles": 534078.0012874155,
+ "operations_per_second": 5045.518727753749,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 208013,
+  "sk_bytes": 35,
+  "ct_bytes": 1032,
+  "ss_bytes": 64,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 4415488,
+ "peak_rss_bytes": 5103616,
+ "timing_scope": "loop"
+}

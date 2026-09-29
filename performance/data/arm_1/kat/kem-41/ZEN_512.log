@@ -1,0 +1,17 @@
+library     = lib/libZEN_512.so
+id          = kem-41
+type        = kem
+algorithm   = ZEN
+instance    = ZEN_512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ZEN_512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2458
+sk_len      = 5210
+ct_len      = 2048
+ss_len      = 64
+timing  keygen 0.235 ms  enc 0.136 ms  dec 0.171 ms (avg over 10)
+wrote  kat/KAT_KEM_ZEN_512.txt (197990 bytes)
+manifest e3ad86b847ce51fdf368b387cfa8ae539299a80e6fca6800e87d58733e63359e strict KAT_KEM_ZEN_512.txt
+RESULT kem-41 ZEN_512 PASS 

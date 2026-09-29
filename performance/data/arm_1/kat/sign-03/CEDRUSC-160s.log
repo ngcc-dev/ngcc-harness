@@ -1,0 +1,16 @@
+library     = lib/libCEDRUSC-160s.so
+id          = sign-03
+type        = sig
+algorithm   = CEDRUS+C
+instance    = CEDRUSC-160s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CEDRUSC-160s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 40
+sk_len      = 80
+sn_len      = 9460
+timing  keygen 162.861 ms  sign 2410.023 ms  verify 6.150 ms (avg over 10)
+wrote  kat/KAT_SIG_CEDRUSC-160s.txt (195774 bytes)
+manifest d778b84d797edec2ff391fa80884ab12775e40f2876426f3e6a316364b60a2fc strict KAT_SIG_CEDRUSC-160s.txt
+RESULT sign-03 CEDRUSC-160s PASS 

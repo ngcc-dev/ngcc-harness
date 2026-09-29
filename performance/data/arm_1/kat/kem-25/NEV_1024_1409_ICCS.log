@@ -1,0 +1,17 @@
+library     = lib/libNEV_1024_1409_ICCS.so
+id          = kem-25
+type        = kem
+algorithm   = NEV
+instance    = NEV_1024_1409_ICCS
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/NEV-R2
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1344
+sk_len      = 2720
+ct_len      = 1344
+ss_len      = 32
+timing  keygen 0.068 ms  enc 0.040 ms  dec 0.041 ms (avg over 10)
+wrote  kat/KAT_KEM_NEV_1024_1409_ICCS.txt (111190 bytes)
+manifest 2bce40d35c873c9e1d749ecc394aafc1a32e5cadc84e5e1193f1e09a10506dae strict KAT_KEM_NEV_1024_1409_ICCS.txt
+RESULT kem-25 NEV_1024_1409_ICCS PASS 

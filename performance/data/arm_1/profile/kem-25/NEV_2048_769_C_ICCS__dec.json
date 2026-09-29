@@ -1,0 +1,54 @@
+{
+ "schema": 2,
+ "candidate": "kem-25",
+ "label": "NEV_2048_769_C_ICCS",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-25/libNEV_2048_769_C_ICCS.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-25",
+  "instance": "NEV_2048_769_C_ICCS",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 2044277
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 1024,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 257178
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 3584,
+   "calls": 1000,
+   "ticks": 270483
+  }
+ ],
+ "share": {
+  "pseudohash": 0.12580389056864602,
+  "pseudoXOF": 0.13231230405664204
+ },
+ "hash_share": 0.25811619462528806
+}

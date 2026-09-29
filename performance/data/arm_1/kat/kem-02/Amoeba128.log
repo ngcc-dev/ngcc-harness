@@ -1,0 +1,17 @@
+library     = lib/libAmoeba128.so
+id          = kem-02
+type        = kem
+algorithm   = Amoeba
+instance    = Amoeba128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Amoeba-576/src
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 784
+sk_len      = 1712
+ct_len      = 1047
+ss_len      = 64
+timing  keygen 0.102 ms  enc 0.134 ms  dec 0.159 ms (avg over 10)
+wrote  kat/KAT_KEM_Amoeba128.txt (74520 bytes)
+manifest 1ae8995c621577c22fd0ee2bfeeee15b9219f37d52ec4b4078857373c1f955eb strict KAT_KEM_Amoeba128.txt
+RESULT kem-02 Amoeba128 PASS 

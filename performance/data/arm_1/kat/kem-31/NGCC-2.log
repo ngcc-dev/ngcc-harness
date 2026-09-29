@@ -1,0 +1,17 @@
+library     = lib/libNGCC-2.so
+id          = kem-31
+type        = kem
+algorithm   = QIMEN-PIKE
+instance    = NGCC-2
+variant     = Reference_Implementation
+source_dir  = Implementations/Implementations
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 592
+sk_len      = 734
+ct_len      = 882
+ss_len      = 32
+timing  keygen 329.903 ms  enc 104.406 ms  dec 164.515 ms (avg over 10)
+wrote  kat/KAT_KEM_NGCC-2.txt (47160 bytes)
+manifest 313b807df9d1c5e75a9bbb6afc489248af5de3ed32ffd0cc4ceb87f90c4465b2 strict KAT_KEM_NGCC-2.txt
+RESULT kem-31 NGCC-2 PASS 

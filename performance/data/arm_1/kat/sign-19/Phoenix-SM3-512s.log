@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SM3-512s.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SM3-512s
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SM3-512s
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 128
+sk_len      = 256
+sn_len      = 98476
+timing  keygen 689.463 ms  sign 6903.926 ms  verify 11.475 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SM3-512s.txt (1976036 bytes)
+manifest 9b91c27e409b84377355fcab398ca8edd7bbb287de0b72d79f3f7f07149e68e3 strict KAT_SIG_Phoenix-SM3-512s.txt
+RESULT sign-19 Phoenix-SM3-512s MISMATCH KAT_SIG_Phoenix-SM3-512s.txt: sha256 7e6d2c127a618ca53f90ab38f7ffd38020af24a9fe648b336ee60cb5e06391b2 != manifest 9b91c27e409b84377355fcab398ca8edd7bbb287de0b72d79f3f7f07149e68e3

@@ -1,0 +1,16 @@
+library     = lib/libqube-192.so
+id          = kem-33
+type        = kem
+algorithm   = QUBE
+instance    = qube_192
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/qube-192
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 6364
+sk_len      = 6412
+ct_len      = 6362
+ss_len      = 24
+timing  keygen 0.371 ms  enc 0.404 ms  dec 0.696 ms (avg over 10)
+wrote  kat/KAT_KEM_qube_192.txt (385630 bytes)
+RESULT kem-33 qube_192 NOKAT no reference file Test_Vectors/KAT_KEM_qube_192.txt

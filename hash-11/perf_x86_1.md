@@ -37,7 +37,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `ha
 | `Garnet_1024` | guide | PASS |
 | `Garnet_1024_DM4x4` | harness-default | MISMATCH [1] (not timed) |
 
-[1] No reference source: the submission ships a second 1024-bit KAT set (DM4x4, apparently a 512-bit-rate variant) whose only code is x86-64 assembly in the optimized tree
+[1] No reference source: the submission ships a second 1024-bit KAT set (DM4x4, apparently a 512-bit-rate variant) whose only code is x86-64 assembly in the optimized tree; the harness label reuses the Garnet_1024 C sources, so its timing would duplicate Garnet_1024 (hash-11/pseudocode.md, discrepancy 3).
 
 ## 4. Performance
 

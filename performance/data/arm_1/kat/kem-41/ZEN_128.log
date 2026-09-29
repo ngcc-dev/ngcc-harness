@@ -1,0 +1,17 @@
+library     = lib/libZEN_128.so
+id          = kem-41
+type        = kem
+algorithm   = ZEN
+instance    = ZEN_128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ZEN_128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 615
+sk_len      = 1303
+ct_len      = 512
+ss_len      = 16
+timing  keygen 0.055 ms  enc 0.043 ms  dec 0.049 ms (avg over 10)
+wrote  kat/KAT_KEM_ZEN_128.txt (51290 bytes)
+manifest e2b8232212b02a2aed917dc2a7ba53ba46ec705a281914a10876c70b8b331659 strict KAT_KEM_ZEN_128.txt
+RESULT kem-41 ZEN_128 PASS 

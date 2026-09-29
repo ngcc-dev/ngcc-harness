@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "sign-32",
+ "label": "UVW-256",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-32/libUVW-256.so",
+  "verify",
+  "0",
+  "4",
+  "1"
+ ],
+ "stderr": "DBG_SIGN: e1e1e2_hw=17088 fe_hw=17088 diff=0\nDBG_SIGN: e1e1e2_hw=17088 f_hw=8545 e_hw=8543 sum=17088 w=17088 d_zeros=0 p_dups=0\nDBG_VFY: ew=8543 ertw=8545 sum=17088 w=17088 match=1\nDBG_VFY: ew=8543 ertw=8545 sum=17088 w=17088 match=1\nDBG_VFY: ew=8543 ertw=8545 sum=17088 w=17088 match=1\nDBG_VFY: ew=8543 ertw=8545 sum=17088 w=17088 match=1\nDBG_VFY: ew=8543 ertw=8545 sum=17088 w=17088 match=1\n",
+ "meta": {
+  "id": "sign-32",
+  "instance": "UVW-256",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 4,
+  "ticks": 25410180
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 768,
+   "out_bits": 524288,
+   "calls": 4,
+   "ticks": 154330
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.00607355004962578
+ },
+ "hash_share": 0.00607355004962578
+}

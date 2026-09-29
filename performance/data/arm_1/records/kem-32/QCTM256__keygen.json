@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-32",
+ "label": "QCTM256",
+ "instance": "QCTM256",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 1,
+  "warmups": 0,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 189.63269591331482,
+  "timeout_per_process_s": 413.7796175479889
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-32/lib/libQCTM256.so",
+ "library_sha256": "40fd6207a98573f815e2886cd3d607b834787acfc244be8ef6bbedcd1ddde8b7",
+ "kat_log": "kat/kem-32/QCTM256.log",
+ "kat_log_sha256": "aa2c8443858ae876fa07e84f3ea2a8ef9b859cb600d8eefc871ef49d030a3202",
+ "started_utc": "2026-09-28T21:50:25.739101+00:00",
+ "ended_utc": "2026-09-28T21:54:07.619671+00:00",
+ "load_average_start": [
+  4.1083984375,
+  4.04931640625,
+  4.01318359375
+ ],
+ "load_average_end": [
+  4.14794921875,
+  4.05078125,
+  4.01025390625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-32",
+    "instance": "QCTM256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon",
+    "baseline_rss_bytes": "3936256",
+    "pk_bytes": "595662",
+    "sk_bytes": "641942",
+    "ct_bytes": "1153",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "peak_rss_bytes": "484347904",
+    "measurement_count": "1",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 1,
+     "seconds": 44.651459358,
+     "cycles": 120254832012
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-32/lib/libQCTM256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "wall_s": 44.655489444732666,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-32",
+    "instance": "QCTM256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon",
+    "baseline_rss_bytes": "3350528",
+    "pk_bytes": "595662",
+    "sk_bytes": "641942",
+    "ct_bytes": "1153",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "peak_rss_bytes": "485163008",
+    "measurement_count": "1",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 1,
+     "seconds": 43.742797014,
+     "cycles": 117809870389
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-32/lib/libQCTM256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "wall_s": 43.747621297836304,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-32",
+    "instance": "QCTM256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon",
+    "baseline_rss_bytes": "5439488",
+    "pk_bytes": "595662",
+    "sk_bytes": "641942",
+    "ct_bytes": "1153",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "peak_rss_bytes": "485408768",
+    "measurement_count": "1",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 1,
+     "seconds": 44.854304827,
+     "cycles": 120805831786
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-32/lib/libQCTM256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "wall_s": 44.85802102088928,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-32",
+    "instance": "QCTM256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon",
+    "baseline_rss_bytes": "5480448",
+    "pk_bytes": "595662",
+    "sk_bytes": "641942",
+    "ct_bytes": "1153",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "peak_rss_bytes": "485453824",
+    "measurement_count": "1",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 1,
+     "seconds": 44.745977066,
+     "cycles": 120511250007
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-32/lib/libQCTM256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "wall_s": 44.74996280670166,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-32",
+    "instance": "QCTM256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon",
+    "baseline_rss_bytes": "3330048",
+    "pk_bytes": "595662",
+    "sk_bytes": "641942",
+    "ct_bytes": "1153",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "peak_rss_bytes": "485109760",
+    "measurement_count": "1",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 1,
+     "seconds": 43.865520921,
+     "cycles": 118138919164
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-32/lib/libQCTM256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "wall_s": 43.869319677352905,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1,
+   "seconds": 44.651459358,
+   "cycles": 120254832012
+  },
+  {
+   "measurements": 1,
+   "seconds": 43.742797014,
+   "cycles": 117809870389
+  },
+  {
+   "measurements": 1,
+   "seconds": 44.854304827,
+   "cycles": 120805831786
+  },
+  {
+   "measurements": 1,
+   "seconds": 44.745977066,
+   "cycles": 120511250007
+  },
+  {
+   "measurements": 1,
+   "seconds": 43.865520921,
+   "cycles": 118138919164
+  }
+ ],
+ "measurements": 5,
+ "guide_100_measurements_met": false,
+ "mean_seconds": 44.3720118372,
+ "median_trial_seconds": 44.651459358,
+ "min_trial_seconds": 43.742797014,
+ "max_trial_seconds": 44.854304827,
+ "mean_cycles": 119504140671.6,
+ "median_trial_cycles": 120254832012.0,
+ "operations_per_second": 0.022536728865686313,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 595662,
+  "sk_bytes": 641942,
+  "ct_bytes": 1153,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon",
+ "baseline_rss_bytes": 5480448,
+ "peak_rss_bytes": 485453824,
+ "timing_scope": "loop"
+}

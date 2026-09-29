@@ -1,0 +1,16 @@
+library     = lib/libCOMPASS-SIG-512.so
+id          = sign-06
+type        = sig
+algorithm   = COMPASS-SIG
+instance    = COMPASS-SIG-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/COMPASS-SIG-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 7648
+sk_len      = 4608
+sn_len      = 9024
+timing  keygen 1.644 ms  sign 2.745 ms  verify 1.513 ms (avg over 10)
+wrote  kat/KAT_SIG_COMPASS-SIG-512.txt (429814 bytes)
+manifest 63dc1ef758035d3aa0947fe1afd701ca2c8603a6c7e690e2a7525dd728a4739b strict KAT_SIG_COMPASS-SIG-512.txt
+RESULT sign-06 COMPASS-SIG-512 PASS 

@@ -1,0 +1,17 @@
+library     = lib/libZEN_256.so
+id          = kem-41
+type        = kem
+algorithm   = ZEN
+instance    = ZEN_256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ZEN_256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1229
+sk_len      = 2605
+ct_len      = 1024
+ss_len      = 32
+timing  keygen 0.081 ms  enc 0.045 ms  dec 0.063 ms (avg over 10)
+wrote  kat/KAT_KEM_ZEN_256.txt (100190 bytes)
+manifest 1b8e99d6b2ddb998e8bac1f9961a54f324230ee00efdedd18b6a7b1b24901e4b strict KAT_KEM_ZEN_256.txt
+RESULT kem-41 ZEN_256 PASS 

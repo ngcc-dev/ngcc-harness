@@ -1,0 +1,67 @@
+{
+ "schema": 2,
+ "candidate": "sign-29",
+ "label": "Tins512",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-29/libTins512.so",
+  "keygen",
+  "0",
+  "65",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-29",
+  "instance": "Tins512",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 65,
+  "ticks": 24416696
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 547056,
+   "calls": 65,
+   "ticks": 1359224
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 130,
+   "ticks": 5508
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 546012,
+   "calls": 65,
+   "ticks": 1356129
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 522,
+   "calls": 130,
+   "ticks": 6518
+  }
+ ],
+ "share": {
+  "drng": 0.11170139481607176
+ },
+ "hash_share": 0
+}

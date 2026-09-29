@@ -1,0 +1,138 @@
+{
+ "schema": 2,
+ "candidate": "sign-24",
+ "label": "Sigurd-512",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-24/libSigurd-512.so",
+  "verify",
+  "0",
+  "4",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-24",
+  "instance": "Sigurd512_REF",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 4,
+  "ticks": 26731605
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 3072,
+   "out_bits": 1024,
+   "calls": 4,
+   "ticks": 1320
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1088,
+   "out_bits": 13940256,
+   "calls": 4,
+   "ticks": 6413474
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 12696,
+   "out_bits": 1024,
+   "calls": 4,
+   "ticks": 2652
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 34816,
+   "out_bits": 1024,
+   "calls": 4,
+   "ticks": 5891
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 2048,
+   "out_bits": 1024,
+   "calls": 6784,
+   "ticks": 1982538
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1160,
+   "out_bits": 512,
+   "calls": 4,
+   "ticks": 241
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1024,
+   "out_bits": 1024,
+   "calls": 1024,
+   "ticks": 261902
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 636416,
+   "out_bits": 1024,
+   "calls": 4,
+   "ticks": 91135
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1160,
+   "out_bits": 78848,
+   "calls": 4,
+   "ticks": 34275
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1112,
+   "out_bits": 512,
+   "calls": 4,
+   "ticks": 228
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1136,
+   "out_bits": 484368,
+   "calls": 4,
+   "ticks": 211730
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1112,
+   "out_bits": 4096,
+   "calls": 4,
+   "ticks": 1792
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 5120,
+   "out_bits": 1024,
+   "calls": 4,
+   "ticks": 1614
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 1024,
+   "calls": 4,
+   "ticks": 978
+  }
+ ],
+ "share": {
+  "pseudohash": 0.08783722488791826,
+  "pseudoXOF": 0.24920838086601982
+ },
+ "hash_share": 0.33704560575393805
+}

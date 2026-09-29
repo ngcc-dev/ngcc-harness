@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "kem-26",
+ "label": "HQC-128",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-26/libHQC-128.so",
+  "keygen",
+  "0",
+  "137",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-26",
+  "instance": "HQC-128",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 137,
+  "ticks": 25344052
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 411,
+   "ticks": 12547
+  }
+ ],
+ "share": {
+  "drng": 0.0004950668503994547
+ },
+ "hash_share": 0
+}

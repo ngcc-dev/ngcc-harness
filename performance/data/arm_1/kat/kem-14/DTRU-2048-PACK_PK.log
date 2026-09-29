@@ -1,0 +1,17 @@
+library     = lib/libDTRU-2048-PACK_PK.so
+id          = kem-14
+type        = kem
+algorithm   = DTRU
+instance    = DTRU-2048-PACK_PK
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/DTRU-2048
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3012
+sk_len      = 3844
+ct_len      = 2560
+ss_len      = 64
+timing  keygen 0.176 ms  enc 0.130 ms  dec 0.239 ms (avg over 10)
+wrote  kat/KAT_KEM_DTRU-2048.txt (191990 bytes)
+manifest 6e5688f50320924a07b42e79e9d79fb7ccae13c0189c350f833f120175acb767 strict KAT_KEM_DTRU-2048.txt
+RESULT kem-14 DTRU-2048-PACK_PK PASS 

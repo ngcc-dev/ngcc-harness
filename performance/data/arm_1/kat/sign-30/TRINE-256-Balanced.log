@@ -1,0 +1,16 @@
+library     = lib/libTRINE-256-Balanced.so
+id          = sign-30
+type        = sig
+algorithm   = TRINE
+instance    = TRINE-256-Balanced
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/TRINE-256-balanced
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 96064
+sk_len      = 64
+sn_len      = 11712
+timing  keygen 13.641 ms  sign 110369.990 ms  verify 68838.234 ms (avg over 3)
+wrote  kat/KAT_SIG_TRINE-256-Balanced.txt (648135 bytes)
+manifest 217c00622aada1942404652d5f6366c683f8387dd20ccbc19eb6165a3db88a4e strict:3 KAT_SIG_TRINE-256-Balanced.txt
+RESULT sign-30 TRINE-256-Balanced PASS 

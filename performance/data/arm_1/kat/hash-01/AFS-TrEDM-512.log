@@ -1,0 +1,18 @@
+library     = lib/libAFS-TrEDM-512.so
+id          = hash-01
+type        = hash
+algorithm   = AFS-TrEDM
+instance    = AFS-TrEDM-512
+variant     = Reference_Implementation
+source_dir  = AFS-TrEDM/Implementations/Reference_Implementation/AFS-TrEDM-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.116 s
+wrote  kat/KAT_2_12_AFS-TrEDM-512.txt (2804822 bytes)
+manifest 752b1b15dcbf9e6df2afe522d010884053643634c24196ce5651ebb396c6c7aa strict KAT_2_12_AFS-TrEDM-512.txt
+timing  KAT_2_23 0.112 s
+wrote  kat/KAT_2_23_AFS-TrEDM-512.txt (815 bytes)
+manifest 98a75b2c885f1eddf28ebf1928775d203858598cddfd1dbcc507d180e38c0bc9 strict KAT_2_23_AFS-TrEDM-512.txt
+RESULT hash-01 AFS-TrEDM-512 PASS 

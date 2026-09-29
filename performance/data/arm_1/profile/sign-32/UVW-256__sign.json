@@ -1,0 +1,75 @@
+{
+ "schema": 2,
+ "candidate": "sign-32",
+ "label": "UVW-256",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-32/libUVW-256.so",
+  "sign",
+  "0",
+  "1",
+  "0"
+ ],
+ "stderr": "DBG_SIGN: e1e1e2_hw=17088 fe_hw=17088 diff=0\nDBG_SIGN: e1e1e2_hw=17088 f_hw=8545 e_hw=8543 sum=17088 w=17088 d_zeros=0 p_dups=0\n",
+ "meta": {
+  "id": "sign-32",
+  "instance": "UVW-256",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199960",
+  "warmups": "0",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1,
+  "ticks": 1710654708
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 19200,
+   "calls": 12768,
+   "ticks": 9697121
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 64,
+   "calls": 45976,
+   "ticks": 1398758
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 768,
+   "out_bits": 524288,
+   "calls": 1,
+   "ticks": 38568
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8,
+   "calls": 1532455,
+   "ticks": 46422475
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 1,
+   "ticks": 57
+  }
+ ],
+ "share": {
+  "drng": 0.03362362417793083,
+  "pseudoXOF": 2.2545753868173377e-05
+ },
+ "hash_share": 2.2545753868173377e-05
+}

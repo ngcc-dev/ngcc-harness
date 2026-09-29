@@ -1,0 +1,60 @@
+{
+ "schema": 2,
+ "candidate": "sign-23",
+ "label": "SHUTTLE-256",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-23/libSHUTTLE-256.so",
+  "verify",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-23",
+  "instance": "SHUTTLE-256",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 10537004
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 3000,
+   "ticks": 120085
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 2048,
+   "calls": 1000,
+   "ticks": 99082
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8192,
+   "calls": 16000,
+   "ticks": 5605431
+  }
+ ],
+ "share": {
+  "drng": 0.5527755327795263
+ },
+ "hash_share": 0
+}

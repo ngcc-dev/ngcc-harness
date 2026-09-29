@@ -1,0 +1,81 @@
+{
+ "schema": 2,
+ "candidate": "kem-31",
+ "label": "NGCC-1",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-31/libNGCC-1.so",
+  "keygen",
+  "0",
+  "10",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-31",
+  "instance": "NGCC-1",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 10,
+  "ticks": 26713491
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 144,
+   "calls": 23,
+   "ticks": 692
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 160,
+   "calls": 219,
+   "ticks": 6786
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 80,
+   "calls": 76,
+   "ticks": 2292
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 184,
+   "calls": 14,
+   "ticks": 420
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 168,
+   "calls": 99,
+   "ticks": 2992
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 88,
+   "calls": 18828,
+   "ticks": 574276
+  }
+ ],
+ "share": {
+  "drng": 0.021991060621765982
+ },
+ "hash_share": 0
+}

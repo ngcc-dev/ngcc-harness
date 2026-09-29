@@ -1,0 +1,20 @@
+library     = lib/libCreTAKE-K2K-ZEN128.so
+id          = kex-03
+type        = kex
+algorithm   = CreTAKE
+instance    = CreTAKE-K2K-ZEN128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CreTAKE128/CreTAKE-K2K-ZEN128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 615
+sk_len      = 1303
+sta_len     = 592
+stb_len     = 32
+ss_len      = 32
+total_msg   = 2151
+timing  full exchange 0.762 ms (avg over 10)
+wrote  kat/KAT_KEX_CreTAKE-K2K-ZEN128.txt (137270 bytes)
+manifest 9db6fea236b3e5585eb80d17a5d36822060557ef4b056b6b3a43eedead82cbbb strict KAT_KEX_CreTAKE-K2K-ZEN128.txt
+RESULT kex-03 CreTAKE-K2K-ZEN128 PASS 

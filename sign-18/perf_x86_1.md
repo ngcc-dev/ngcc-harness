@@ -33,7 +33,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `si
 | `Origami-384` | guide | PASS [1] |
 | `Origami-512` | guide | PASS [1] |
 
-[1] Not a KAT problem (KATs pass): sig_sign fails with return code -4 for about 8% of (message, salt) pairs — for some targets every one of the MAX_SIGN_ATTEMPTS = 8192 zone solves in origami_ref.c fails — and the API does not retry. The benchmark retries signing with a fresh salt, as an application would These instances are timed anyway; their output is not validated.
+[1] Not a KAT problem (KATs pass): sig_sign fails with return code -4 for about 8% of (message, salt) pairs — for some targets every one of the MAX_SIGN_ATTEMPTS = 8192 zone solves in origami_ref.c fails — and the API does not retry. The benchmark retries signing with a fresh salt, as an application would; retries are included in the signing time and counted in each record (sign_failures_retried). These instances are timed anyway; their output is not validated.
 
 ## 4. Performance
 

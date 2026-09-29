@@ -1,0 +1,20 @@
+library     = lib/libADKEX-128.so
+id          = kex-01
+type        = kex
+algorithm   = ADKEX
+instance    = ADKEX-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ADKEX-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 800
+sk_len      = 1600
+sta_len     = 3232
+stb_len     = 96
+ss_len      = 32
+total_msg   = 2400
+timing  full exchange 0.676 ms (avg over 10)
+wrote  kat/KAT_KEX_ADKEX-128.txt (167560 bytes)
+manifest 929c7a387c2a11b4ebeff30c173283c6c327d409961a8c166de49def1304ed49 strict KAT_KEX_ADKEX-128.txt
+RESULT kex-01 ADKEX-128 PASS 

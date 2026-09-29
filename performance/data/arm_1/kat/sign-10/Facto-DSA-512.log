@@ -1,0 +1,15 @@
+library     = lib/libFacto-DSA-512.so
+id          = sign-10
+type        = sig
+algorithm   = Facto-DSA
+instance    = Facto-DSA-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Facto-DSA-512
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 5674240
+sk_len      = 61922
+sn_len      = 128
+timing  keygen 598.181 ms  sign 26.887 ms  verify 37.189 ms (avg over 10)
+wrote  kat/KAT_SIG_Facto-DSA-512.txt (114730044 bytes)
+RESULT sign-10 Facto-DSA-512 NOKAT no reference file Implementations and Test_Vectors/Test_Vectors/KAT_SIG_Facto-DSA-512.txt

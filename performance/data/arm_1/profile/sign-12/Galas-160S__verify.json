@@ -1,0 +1,117 @@
+{
+ "schema": 2,
+ "candidate": "sign-12",
+ "label": "Galas-160S",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-12/libGalas-160S.so",
+  "verify",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-12",
+  "instance": "Galas-160S",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199950",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 30627566
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 29640,
+   "out_bits": 512,
+   "calls": 6,
+   "ticks": 6777
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 872,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 264
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 360,
+   "out_bits": 480,
+   "calls": 82902,
+   "ticks": 1695730
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 384,
+   "out_bits": 384,
+   "calls": 82515,
+   "ticks": 1685145
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 200,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 205
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 655400,
+   "out_bits": 512,
+   "calls": 39,
+   "ticks": 908045
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 327720,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 35069
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1096,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 326
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 384,
+   "out_bits": 128,
+   "calls": 580314,
+   "ticks": 6129630
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 4520,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 644
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 12488,
+   "out_bits": 512,
+   "calls": 6,
+   "ticks": 3105
+  }
+ ],
+ "share": {
+  "pseudohash": 0.0311626134443723,
+  "pseudoXOF": 0.31052108417626134
+ },
+ "hash_share": 0.34168369762063366
+}

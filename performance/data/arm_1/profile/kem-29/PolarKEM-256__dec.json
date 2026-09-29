@@ -1,0 +1,117 @@
+{
+ "schema": 2,
+ "candidate": "kem-29",
+ "label": "PolarKEM-256",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-29/libPolarKEM-256.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-29",
+  "instance": "PolarKEM-256",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 9002777
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 16000,
+   "calls": 1000,
+   "ticks": 628562
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 632,
+   "out_bits": 2048,
+   "calls": 1000,
+   "ticks": 155081
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 384,
+   "out_bits": 1024,
+   "calls": 2000,
+   "ticks": 81700
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 624,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 20149
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 416,
+   "out_bits": 32768,
+   "calls": 2000,
+   "ticks": 5046987
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 16384,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 598647
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 632,
+   "out_bits": 640,
+   "calls": 1000,
+   "ticks": 58619
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 9848,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 181417
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 632,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 20021
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 10240,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 381507
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 648,
+   "out_bits": 16000,
+   "calls": 1000,
+   "ticks": 1245627
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.8060563979314382,
+  "sm3hash": 0.12902363348553453
+ },
+ "hash_share": 0.9350800314169727
+}

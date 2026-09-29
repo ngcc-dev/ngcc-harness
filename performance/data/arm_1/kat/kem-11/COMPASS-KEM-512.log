@@ -1,0 +1,17 @@
+library     = lib/libCOMPASS-KEM-512.so
+id          = kem-11
+type        = kem
+algorithm   = COMPASS-KEM
+instance    = COMPASS-KEM-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/COMPASS-KEM-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2848
+sk_len      = 6240
+ct_len      = 3264
+ss_len      = 32
+timing  keygen 1.960 ms  enc 1.862 ms  dec 1.904 ms (avg over 10)
+wrote  kat/KAT_KEM_COMPASS-KEM-512.txt (250070 bytes)
+manifest e84aa9ebf4663a72490307b3350f833f302c0a9b134170c68bccea17cb2825d2 strict KAT_KEM_COMPASS-KEM-512.txt
+RESULT kem-11 COMPASS-KEM-512 PASS 

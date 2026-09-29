@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "sign-12",
+ "label": "Galas-384S",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-12/libGalas-384S.so",
+  "keygen",
+  "0",
+  "31",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-12",
+  "instance": "Galas-384S",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 31,
+  "ticks": 23603554
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 186,
+   "ticks": 7429
+  }
+ ],
+ "share": {
+  "drng": 0.0003147407377719474
+ },
+ "hash_share": 0
+}

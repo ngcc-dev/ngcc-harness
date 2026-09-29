@@ -1,0 +1,74 @@
+{
+ "schema": 2,
+ "candidate": "sign-04",
+ "label": "CEDRUSALPHA-384s",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-04/libCEDRUSALPHA-384s.so",
+  "verify",
+  "0",
+  "53",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-04",
+  "instance": "CEDRUSALPHA-384s",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 53,
+  "ticks": 25005897
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1664,
+   "out_bits": 608,
+   "calls": 53,
+   "ticks": 6153
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 15232,
+   "out_bits": 384,
+   "calls": 53,
+   "ticks": 29279
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1408,
+   "out_bits": 384,
+   "calls": 27613,
+   "ticks": 1572464
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 34432,
+   "out_bits": 384,
+   "calls": 424,
+   "ticks": 527796
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1024,
+   "out_bits": 384,
+   "calls": 393896,
+   "ticks": 22391935
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.9808737115089293
+ },
+ "hash_share": 0.9808737115089293
+}

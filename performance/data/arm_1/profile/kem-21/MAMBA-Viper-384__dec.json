@@ -1,0 +1,88 @@
+{
+ "schema": 2,
+ "candidate": "kem-21",
+ "label": "MAMBA-Viper-384",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-21/libMAMBA-Viper-384.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-21",
+  "instance": "MAMBA-Viper-384",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 15863557
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 400,
+   "out_bits": 3328,
+   "calls": 49000,
+   "ticks": 6328544
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 21360,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 382517
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 368,
+   "out_bits": 14336,
+   "calls": 1000,
+   "ticks": 553188
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 752,
+   "out_bits": 768,
+   "calls": 1000,
+   "ticks": 58598
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 752,
+   "out_bits": 384,
+   "calls": 1000,
+   "ticks": 39161
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 496,
+   "out_bits": 5632,
+   "calls": 2000,
+   "ticks": 849553
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 400,
+   "out_bits": 512,
+   "calls": 7000,
+   "ticks": 142968
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.5266491619754636
+ },
+ "hash_share": 0.5266491619754636
+}

@@ -1,0 +1,17 @@
+library     = lib/libBW_KEM_C512.so
+id          = kem-08
+type        = kem
+algorithm   = BW-KEM
+instance    = BW_KEM_C512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/BW_KEM_C512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3136
+sk_len      = 6337
+ct_len      = 2944
+ss_len      = 64
+timing  keygen 0.570 ms  enc 0.602 ms  dec 0.663 ms (avg over 100)
+wrote  kat/KAT_KEM_BW_KEM_C512.txt (2520190 bytes)
+manifest e38e8794da09443a946e0c3b1f3af32a8ba3ea199621c0dd3b6ed8ca2e6dfd5e strict:100 KAT_KEM_BW_KEM_C512.txt
+RESULT kem-08 BW_KEM_C512 PASS 

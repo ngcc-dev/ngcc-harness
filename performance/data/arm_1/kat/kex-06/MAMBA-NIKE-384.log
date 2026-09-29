@@ -1,0 +1,20 @@
+library     = lib/libMAMBA-NIKE-384.so
+id          = kex-06
+type        = kex
+algorithm   = MAMBA-NIKE
+instance    = MAMBA-NIKE-384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-NIKE-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 1
+pk_len      = 2848
+sk_len      = 6944
+sta_len     = 48
+stb_len     = 0
+ss_len      = 48
+total_msg   = 3360
+timing  full exchange 6.023 ms (avg over 10)
+wrote  kat/KAT_KEX_MAMBA-NIKE-384.txt (464700 bytes)
+manifest 371fa5970e4702735b3330e075d388d1ce831b07ea29073caf48d5d3a3c118e8 strict KAT_KEX_MAMBA-NIKE-384.txt
+RESULT kex-06 MAMBA-NIKE-384 PASS 

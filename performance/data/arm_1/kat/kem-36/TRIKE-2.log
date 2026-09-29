@@ -1,0 +1,17 @@
+library     = lib/libTRIKE-2.so
+id          = kem-36
+type        = kem
+algorithm   = TRIKE
+instance    = TRIKE-2
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/TRIKE-2
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1980
+sk_len      = 6328
+ct_len      = 3928
+ss_len      = 32
+timing  keygen 20.105 ms  enc 2.129 ms  dec 10.802 ms (avg over 10)
+wrote  kat/KAT_KEM_TRIKE-2.txt (247750 bytes)
+manifest a5555d9209dc20bc4ce5a167a08123625a97dcfd4f56e77aedc2222eb7c81ea7 strict KAT_KEM_TRIKE-2.txt
+RESULT kem-36 TRIKE-2 PASS 

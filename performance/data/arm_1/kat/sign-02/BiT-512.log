@@ -1,0 +1,16 @@
+library     = lib/libBiT-512.so
+id          = sign-02
+type        = sig
+algorithm   = BiT
+instance    = BiT-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/BiT-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 5056
+sk_len      = 9024
+sn_len      = 6695
+timing  keygen 1.047 ms  sign 3.098 ms  verify 1.014 ms (avg over 10)
+wrote  kat/KAT_SIG_BiT-512.txt (419714 bytes)
+manifest 7d5e997a890ea513827bd22f03991219f995bd8655998b973900b8073cd860f5 strict KAT_SIG_BiT-512.txt
+RESULT sign-02 BiT-512 PASS 

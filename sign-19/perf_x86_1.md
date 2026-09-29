@@ -49,7 +49,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `si
 | `Phoenix-SM3-512f` | harness-default | MISMATCH [1] |
 | `Phoenix-SM3-512s` | harness-default | MISMATCH [1] |
 
-[1] The submitted SM3 KAT signatures are rejected by the submitted code's own sig_verify at -O0/-O2/-O3, so the vectors were produced by different code These instances are timed anyway; their output is not validated.
+[1] The submitted SM3 KAT signatures are rejected by the submitted code's own sig_verify at -O0/-O2/-O3, so the vectors were produced by different code; the SM3 path also copies 48/64 bytes out of a 32-byte hash output in the 384/512 parameter sets (out-of-bounds read). The SHAKE parameter sets pass. These instances are timed anyway; their output is not validated.
 
 ## 4. Performance
 

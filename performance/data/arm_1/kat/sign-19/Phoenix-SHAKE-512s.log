@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SHAKE-512s.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SHAKE-512s
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SHAKE-512s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 128
+sk_len      = 256
+sn_len      = 98476
+timing  keygen 727.358 ms  sign 6734.047 ms  verify 12.058 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SHAKE-512s.txt (1978084 bytes)
+manifest 79f005dec126c90bce1091bfb2f52839ec769acd8139f661a689713e2cbe4f41 strict KAT_SIG_Phoenix-SHAKE-512s.txt
+RESULT sign-19 Phoenix-SHAKE-512s PASS 

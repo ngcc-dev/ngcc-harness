@@ -1,0 +1,17 @@
+library     = lib/libUVW-KEM-512.so
+id          = kem-38
+type        = kem
+algorithm   = UVW-KEM
+instance    = UVW_KEM_512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/UVW-KEM-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 4001850
+sk_len      = 67
+ct_len      = 4820
+ss_len      = 64
+timing  keygen 12898.262 ms  enc 6.329 ms  dec 21113.139 ms (avg over 10)
+wrote  kat/KAT_KEM_UVW_KEM_512.txt (80138420 bytes)
+manifest 060dd13b3df8957a015f6cd26c8752cdf7517a676b86a8fcce40e134ea7c1bef strict KAT_KEM_UVW_KEM_512.txt
+RESULT kem-38 UVW_KEM_512 PASS 

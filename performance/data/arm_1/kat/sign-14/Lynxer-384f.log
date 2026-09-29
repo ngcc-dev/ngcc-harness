@@ -1,0 +1,16 @@
+library     = lib/libLynxer-384f.so
+id          = sign-14
+type        = sig
+algorithm   = Lynxer
+instance    = Lynxer-384f
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Lynxer-384f
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 96
+sk_len      = 96
+sn_len      = 34109
+timing  keygen 204.296 ms  sign 1324.796 ms  verify 906.237 ms (avg over 10)
+wrote  kat/KAT_SIG_Lynxer-384f.txt (690204 bytes)
+manifest 386be0c03b266fbb6247a71673bf088a50a2e130857dd690855bd1a86a44ec6a strict KAT_SIG_Lynxer-384f.txt
+RESULT sign-14 Lynxer-384f PASS 

@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "sign-31",
+ "label": "TSUOV_128",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-31/libTSUOV_128.so",
+  "verify",
+  "0",
+  "323",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-31",
+  "instance": "TSUOV_128",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 323,
+  "ticks": 24421369
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 2872,
+   "calls": 19703,
+   "ticks": 2325819
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 688,
+   "calls": 323,
+   "ticks": 18644
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 640,
+   "out_bits": 512,
+   "calls": 323,
+   "ticks": 27864
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 19752,
+   "calls": 19703,
+   "ticks": 15047550
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.7121637202238744,
+  "pseudohash": 0.0011409679776756168
+ },
+ "hash_share": 0.71330468820155
+}

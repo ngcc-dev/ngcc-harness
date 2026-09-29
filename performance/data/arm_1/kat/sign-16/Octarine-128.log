@@ -1,0 +1,16 @@
+library     = lib/libOctarine-128.so
+id          = sign-16
+type        = sig
+algorithm   = Octarine
+instance    = Octarine-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Octarine-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1344
+sk_len      = 2432
+sn_len      = 2564
+timing  keygen 0.204 ms  sign 0.463 ms  verify 0.227 ms (avg over 10)
+wrote  kat/KAT_SIG_Octarine-128.txt (131014 bytes)
+manifest 015a3de43929b31c80cc69eaf2a96df39be16b4dda3e6c7ee651682d9aa9f99b nolen KAT_SIG_Octarine-128.txt
+RESULT sign-16 Octarine-128 PASS (1 blank _Len lines in reference: generated in template mode)

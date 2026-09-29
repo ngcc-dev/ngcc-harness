@@ -1,0 +1,90 @@
+{
+ "schema": 2,
+ "candidate": "kem-15",
+ "label": "FLIT512_REF",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-15/libFLIT512_REF.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-15",
+  "instance": "FLIT512_REF",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 5493103
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 42401
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 8192,
+   "calls": 2000,
+   "ticks": 1234352
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 88111
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1024,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 256764
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1024,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 58841
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 24576,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 963968
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 18432,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 740648
+  }
+ ],
+ "share": {
+  "drng": 0.007718952293448712,
+  "pseudoXOF": 0.23542121820763237,
+  "pseudohash": 0.3731025979305322
+ },
+ "hash_share": 0.6085238161381645
+}

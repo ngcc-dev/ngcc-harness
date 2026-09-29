@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-19",
+ "label": "Phoenix-SHAKE-192f",
+ "instance": "Phoenix-SHAKE-192f",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 116,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.571266781487427,
+  "timeout_per_process_s": 301.54276006889245
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-19/lib/libPhoenix-SHAKE-192f.so",
+ "library_sha256": "bfe4d58d45981b5eafdcf131554571c6f0491574cc3a860a2e50cff50a7335f6",
+ "kat_log": "kat/sign-19/Phoenix-SHAKE-192f.log",
+ "kat_log_sha256": "892831ab5c0196ca9cc5be38922da9c37ec2a662ac606ee6f95edd3dbcbb5ad4",
+ "started_utc": "2026-09-28T21:00:42.511977+00:00",
+ "ended_utc": "2026-09-28T21:00:45.762200+00:00",
+ "load_average_start": [
+  4.0859375,
+  4.0888671875,
+  4.02587890625
+ ],
+ "load_average_end": [
+  4.07861328125,
+  4.0869140625,
+  4.025390625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-19",
+    "instance": "Phoenix-SHAKE-192f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1490944",
+    "pk_bytes": "48",
+    "sk_bytes": "96",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "30766",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1556480",
+    "measurement_count": "116",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 116,
+     "seconds": 0.629845156,
+     "cycles": 1697668999
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-19/lib/libPhoenix-SHAKE-192f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "116",
+    "3"
+   ],
+   "wall_s": 0.6484003067016602,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-19",
+    "instance": "Phoenix-SHAKE-192f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1490944",
+    "pk_bytes": "48",
+    "sk_bytes": "96",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "30766",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1556480",
+    "measurement_count": "116",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 116,
+     "seconds": 0.629340625,
+     "cycles": 1696499700
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-19/lib/libPhoenix-SHAKE-192f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "116",
+    "3"
+   ],
+   "wall_s": 0.6495213508605957,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-19",
+    "instance": "Phoenix-SHAKE-192f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1490944",
+    "pk_bytes": "48",
+    "sk_bytes": "96",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "30766",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1560576",
+    "measurement_count": "116",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 116,
+     "seconds": 0.631155,
+     "cycles": 1701186381
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-19/lib/libPhoenix-SHAKE-192f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "116",
+    "3"
+   ],
+   "wall_s": 0.6513898372650146,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-19",
+    "instance": "Phoenix-SHAKE-192f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1478656",
+    "pk_bytes": "48",
+    "sk_bytes": "96",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "30766",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1548288",
+    "measurement_count": "116",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 116,
+     "seconds": 0.629874218,
+     "cycles": 1697697012
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-19/lib/libPhoenix-SHAKE-192f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "116",
+    "3"
+   ],
+   "wall_s": 0.6505715847015381,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-19",
+    "instance": "Phoenix-SHAKE-192f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1486848",
+    "pk_bytes": "48",
+    "sk_bytes": "96",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "30766",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1556480",
+    "measurement_count": "116",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 116,
+     "seconds": 0.62987375,
+     "cycles": 1697727471
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-19/lib/libPhoenix-SHAKE-192f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "116",
+    "3"
+   ],
+   "wall_s": 0.6501872539520264,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 116,
+   "seconds": 0.629845156,
+   "cycles": 1697668999
+  },
+  {
+   "measurements": 116,
+   "seconds": 0.629340625,
+   "cycles": 1696499700
+  },
+  {
+   "measurements": 116,
+   "seconds": 0.631155,
+   "cycles": 1701186381
+  },
+  {
+   "measurements": 116,
+   "seconds": 0.629874218,
+   "cycles": 1697697012
+  },
+  {
+   "measurements": 116,
+   "seconds": 0.62987375,
+   "cycles": 1697727471
+  }
+ ],
+ "measurements": 580,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.005431187498275862,
+ "median_trial_seconds": 0.005429946120689655,
+ "min_trial_seconds": 0.005425350215517241,
+ "max_trial_seconds": 0.005440991379310345,
+ "mean_cycles": 14639275.10862069,
+ "median_trial_cycles": 14635319.068965517,
+ "operations_per_second": 184.12179662687973,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 48,
+  "sk_bytes": 96,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 30766,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+ "baseline_rss_bytes": 1490944,
+ "peak_rss_bytes": 1560576,
+ "timing_scope": "loop"
+}

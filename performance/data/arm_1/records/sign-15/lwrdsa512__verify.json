@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-15",
+ "label": "lwrdsa512",
+ "instance": "lwrdsa512",
+ "variant": "reference",
+ "flags": "harness-default",
+ "operation": "verify",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 125,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.6629902191552737,
+  "timeout_per_process_s": 301.5977941314932
+ },
+ "kat": "OVERFLOW",
+ "kat_not_passed": true,
+ "disturbed_retries": 0,
+ "library": "sign-15/lib/liblwrdsa512.so",
+ "library_sha256": "8aa65d30c91d17ceb76f47aef4fef22caffedd1b6aca54010f037aee503a6505",
+ "kat_log": "kat/sign-15/lwrdsa512.log",
+ "kat_log_sha256": "86ce37323564f7d45bf23f539cac8b5544f883fb245ad9b980d88f071f6961d9",
+ "started_utc": "2026-09-28T19:59:52.875772+00:00",
+ "ended_utc": "2026-09-28T19:59:55.553988+00:00",
+ "load_average_start": [
+  4.12451171875,
+  4.09375,
+  4.009765625
+ ],
+ "load_average_end": [
+  4.12451171875,
+  4.09375,
+  4.009765625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-15",
+    "instance": "lwrdsa512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1892352",
+    "pk_bytes": "6688",
+    "sk_bytes": "7920",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "10081",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "64",
+    "verify_rejections": "127",
+    "peak_rss_bytes": "1966080",
+    "measurement_count": "125",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 125,
+     "seconds": 0.50028625,
+     "cycles": 1348173193
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-15/lib/liblwrdsa512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "125",
+    "3"
+   ],
+   "wall_s": 0.532804012298584,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-15",
+    "instance": "lwrdsa512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1912832",
+    "pk_bytes": "6688",
+    "sk_bytes": "7920",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "10081",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "64",
+    "verify_rejections": "127",
+    "peak_rss_bytes": "1986560",
+    "measurement_count": "125",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 125,
+     "seconds": 0.503046562,
+     "cycles": 1355825398
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-15/lib/liblwrdsa512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "125",
+    "3"
+   ],
+   "wall_s": 0.5362567901611328,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-15",
+    "instance": "lwrdsa512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1908736",
+    "pk_bytes": "6688",
+    "sk_bytes": "7920",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "10081",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "64",
+    "verify_rejections": "127",
+    "peak_rss_bytes": "1982464",
+    "measurement_count": "125",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 125,
+     "seconds": 0.503547447,
+     "cycles": 1356882467
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-15/lib/liblwrdsa512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "125",
+    "3"
+   ],
+   "wall_s": 0.5367558002471924,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-15",
+    "instance": "lwrdsa512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1904640",
+    "pk_bytes": "6688",
+    "sk_bytes": "7920",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "10081",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "64",
+    "verify_rejections": "127",
+    "peak_rss_bytes": "1978368",
+    "measurement_count": "125",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 125,
+     "seconds": 0.503325886,
+     "cycles": 1356435046
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-15/lib/liblwrdsa512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "125",
+    "3"
+   ],
+   "wall_s": 0.5365214347839355,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-15",
+    "instance": "lwrdsa512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1912832",
+    "pk_bytes": "6688",
+    "sk_bytes": "7920",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "10081",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "64",
+    "verify_rejections": "127",
+    "peak_rss_bytes": "1986560",
+    "measurement_count": "125",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 125,
+     "seconds": 0.502479531,
+     "cycles": 1353975096
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-15/lib/liblwrdsa512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "125",
+    "3"
+   ],
+   "wall_s": 0.5357210636138916,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 125,
+   "seconds": 0.50028625,
+   "cycles": 1348173193
+  },
+  {
+   "measurements": 125,
+   "seconds": 0.503046562,
+   "cycles": 1355825398
+  },
+  {
+   "measurements": 125,
+   "seconds": 0.503547447,
+   "cycles": 1356882467
+  },
+  {
+   "measurements": 125,
+   "seconds": 0.503325886,
+   "cycles": 1356435046
+  },
+  {
+   "measurements": 125,
+   "seconds": 0.502479531,
+   "cycles": 1353975096
+  }
+ ],
+ "measurements": 625,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0040202970816,
+ "median_trial_seconds": 0.004024372496,
+ "min_trial_seconds": 0.00400229,
+ "max_trial_seconds": 0.004028379576,
+ "mean_cycles": 10834065.92,
+ "median_trial_cycles": 10846603.184,
+ "operations_per_second": 248.73783695657127,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 6688,
+  "sk_bytes": 7920,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 10081,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+ "baseline_rss_bytes": 1912832,
+ "peak_rss_bytes": 1986560,
+ "timing_scope": "loop"
+}

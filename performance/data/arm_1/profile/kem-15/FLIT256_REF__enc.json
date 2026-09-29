@@ -1,0 +1,98 @@
+{
+ "schema": 2,
+ "candidate": "kem-15",
+ "label": "FLIT256_REF",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-15/libFLIT256_REF.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-15",
+  "instance": "FLIT256_REF",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 1464097
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 2048,
+   "calls": 1000,
+   "ticks": 80534
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 86454
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 19979
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 5120,
+   "calls": 1000,
+   "ticks": 199637
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 256,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10005
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 8192,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 154839
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 9832,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 181608
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 30342
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.2050069086952572,
+  "pseudohash": 0.05904936626466689,
+  "sm3hash": 0.23663186250637766,
+  "drng": 0.020724036727074777
+ },
+ "hash_share": 0.5006881374663017
+}

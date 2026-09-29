@@ -1,0 +1,16 @@
+library     = lib/libTins512.so
+id          = sign-29
+type        = sig
+algorithm   = Tins
+instance    = Tins512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Tins512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 195
+sk_len      = 128
+sn_len      = 51187
+timing  keygen 15.510 ms  sign 5440.568 ms  verify 5327.662 ms (avg over 10)
+wrote  kat/KAT_SIG_Tins512.txt (1030948 bytes)
+manifest d114ef119466a541e8fd8bba06fbdbd583a1bb7bddc3843d25b039842603cc26 strict KAT_SIG_Tins512.txt
+RESULT sign-29 Tins512 PASS 

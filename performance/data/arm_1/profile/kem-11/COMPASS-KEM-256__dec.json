@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "kem-11",
+ "label": "COMPASS-KEM-256",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-11/libCOMPASS-KEM-256.so",
+  "dec",
+  "0",
+  "573",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-11",
+  "instance": "COMPASS-KEM-256",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199970",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 573,
+  "ticks": 24200729
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 12032,
+   "out_bits": 256,
+   "calls": 573,
+   "ticks": 125480
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 573,
+   "ticks": 49409
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 65536,
+   "calls": 9168,
+   "ticks": 23176468
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 1024,
+   "calls": 2292,
+   "ticks": 92452
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.9666816235163825,
+  "pseudohash": 0.0020416327127996846
+ },
+ "hash_share": 0.9687232562291822
+}

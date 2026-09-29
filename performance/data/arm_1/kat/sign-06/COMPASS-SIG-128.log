@@ -1,0 +1,16 @@
+library     = lib/libCOMPASS-SIG-128.so
+id          = sign-06
+type        = sig
+algorithm   = COMPASS-SIG
+instance    = COMPASS-SIG-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/COMPASS-SIG-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1664
+sk_len      = 960
+sn_len      = 2080
+timing  keygen 0.398 ms  sign 0.819 ms  verify 0.396 ms (avg over 10)
+wrote  kat/KAT_SIG_COMPASS-SIG-128.txt (98284 bytes)
+manifest 88bac61fab04e4d82f16ff80b4b2d1116127fc98823a5fbd25f9befe459f9a56 strict KAT_SIG_COMPASS-SIG-128.txt
+RESULT sign-06 COMPASS-SIG-128 PASS 

@@ -1,0 +1,16 @@
+library     = lib/libSQISign2Dsquare-Level2-sec_uncompressed.so
+id          = sign-25
+type        = sig
+algorithm   = SQIsign2D2
+instance    = SQISign2Dsquare-Level2-sec_uncompressed
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/SQISign2Dsquare-Level2-sec
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 84
+sk_len      = 643
+sn_len      = 260
+timing  keygen 15.619 ms  sign 89.504 ms  verify 19.146 ms (avg over 10)
+wrote  kat/KAT_SIG_SQISign2Dsquare-Level2-sec_uncompressed.txt (23914 bytes)
+manifest 2d773b99eca4944044cf11b66ba2e8a3701248672a9bf941f96b5690b88ba5f2 strict KAT_SIG_SQISign2Dsquare-Level2-sec_uncompressed.txt
+RESULT sign-25 SQISign2Dsquare-Level2-sec_uncompressed PASS 

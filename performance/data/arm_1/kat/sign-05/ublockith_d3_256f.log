@@ -1,0 +1,16 @@
+library     = lib/libublockith_d3_256f.so
+id          = sign-05
+type        = sig
+algorithm   = Chinith
+instance    = ublockith_d3_256f
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ublockith_d3_256f
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 64
+sk_len      = 64
+sn_len      = 31556
+timing  keygen 0.008 ms  sign 138.255 ms  verify 168.643 ms (avg over 10)
+wrote  kat/KAT_SIG_ublockith_d3_256f.txt (637864 bytes)
+manifest a2e8b83327e9e26fa6d9f3ba5be4adac625138897eac13d0cfdef10444316493 strict KAT_SIG_ublockith_d3_256f.txt
+RESULT sign-05 ublockith_d3_256f PASS 

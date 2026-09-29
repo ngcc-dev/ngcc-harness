@@ -1,0 +1,17 @@
+library     = lib/libTRIKE-9.so
+id          = kem-36
+type        = kem
+algorithm   = TRIKE
+instance    = TRIKE-9
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/TRIKE-9
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 14320
+sk_len      = 44228
+ct_len      = 28576
+ss_len      = 64
+timing  keygen 638.503 ms  enc 44.425 ms  dec 254.205 ms (avg over 10)
+wrote  kat/KAT_KEM_TRIKE-9.txt (1746180 bytes)
+manifest 3269e31846f7609ca7a5d53f39be7392942ff8bc231df5bcbcb8f7c805a07b2a strict KAT_KEM_TRIKE-9.txt
+RESULT kem-36 TRIKE-9 PASS 

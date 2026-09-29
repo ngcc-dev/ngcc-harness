@@ -1,0 +1,82 @@
+{
+ "schema": 2,
+ "candidate": "sign-08",
+ "label": "DARTS128",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-08/libDARTS128.so",
+  "verify",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-08",
+  "instance": "DARTS128",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 2287249
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 272,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 68881
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 544,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 38968
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 9472,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 395903
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 5632,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 268710
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 544,
+   "out_bits": 9216,
+   "calls": 1000,
+   "ticks": 706510
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 544,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 76540
+  }
+ ],
+ "share": {
+  "pseudohash": 0.3206883028476567,
+  "pseudoXOF": 0.35939156602538685
+ },
+ "hash_share": 0.6800798688730436
+}

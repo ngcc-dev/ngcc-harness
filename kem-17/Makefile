@@ -28,9 +28,13 @@ HEP_SRCS := ../KEM_HEP_QC.c ../PKE_HEP_QC.c \
   ../../common/gf2x.c ../../common/parsing.c ../../common/reed_muller.c \
   ../../common/reed_solomon.c ../../common/symmetric.c ../../common/vector.c
 
+# common/parsing.h and common/vector.h include <immintrin.h> without using any
+# intrinsics; on AArch64 compat/aarch64/immintrin.h stands in for it.
+HEP_COMPAT := $(if $(filter aarch64,$(shell uname -m)),-Icompat/aarch64)
+
 define HEP
 SRCS_hep-qc-$(1) := $(HEP_SRCS)
-INC_hep-qc-$(1)  := -I$(IMPL)/common -I$(IMPL)/common/hep-qc-$(1) -I$(REF)
+INC_hep-qc-$(1)  := -I$(IMPL)/common -I$(IMPL)/common/hep-qc-$(1) -I$(REF) $(HEP_COMPAT)
 DEFS_hep-qc-$(1) := -DHEP_QC_ARCH_REF=1
 CFLAGS_hep-qc-$(1) := -std=c99
 SHIMDEFS_hep-qc-$(1) := -DNGCC_INSTANCE_HEADER='"KEM_HEP_QC.h"' -DNGCC_INSTANCE='"hep-qc-$(1)"'

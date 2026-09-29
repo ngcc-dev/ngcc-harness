@@ -1,0 +1,20 @@
+library     = lib/libDKEX-512.so
+id          = kex-04
+type        = kex
+algorithm   = DKEX
+instance    = DKEX-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/DKEX-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 3
+pk_len      = 2592
+sk_len      = 4896
+sta_len     = 9312
+stb_len     = 2592
+ss_len      = 64
+total_msg   = 15718
+timing  full exchange 5.224 ms (avg over 10)
+wrote  kat/KAT_KEX_DKEX-512.txt (915240 bytes)
+manifest b670e450b0907a173bd47c978ca567e16576bc9a635ba3afd3dc8e2e7cd8acb8 strict KAT_KEX_DKEX-512.txt
+RESULT kex-04 DKEX-512 PASS 

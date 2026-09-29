@@ -1,0 +1,20 @@
+library     = lib/libCreTAKE-K2K-PLAC256.so
+id          = kex-03
+type        = kex
+algorithm   = CreTAKE
+instance    = CreTAKE-K2K-PLAC256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CreTAKE256/CreTAKE-K2K-PLAC256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 1060
+sk_len      = 3140
+sta_len     = 1376
+stb_len     = 64
+ss_len      = 64
+total_msg   = 4900
+timing  full exchange 1.621 ms (avg over 10)
+wrote  kat/KAT_KEX_CreTAKE-K2K-PLAC256.txt (300520 bytes)
+manifest 976e3b7ae11de5d3743373883e88792372b6e30cb706d3f70954747ae5a6effe strict KAT_KEX_CreTAKE-K2K-PLAC256.txt
+RESULT kex-03 CreTAKE-K2K-PLAC256 PASS 

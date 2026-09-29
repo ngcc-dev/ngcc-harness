@@ -1,0 +1,16 @@
+library     = lib/libGalas-256S.so
+id          = sign-12
+type        = sig
+algorithm   = Galas
+instance    = Galas-256S
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Galas-256S
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 64
+sk_len      = 64
+sn_len      = 12114
+timing  keygen 13.362 ms  sign 3133.425 ms  verify 2289.388 ms (avg over 10)
+wrote  kat/KAT_SIG_Galas-256S.txt (249024 bytes)
+manifest 521c4668552901da3c6ff81f74ac2643e88bc40901af9e70353f29c618b3b139 strict KAT_SIG_Galas-256S.txt
+RESULT sign-12 Galas-256S MISMATCH KAT_SIG_Galas-256S.txt: sha256 93b2a2563243258b06d716f1e26da83f20aef727c76883b0731796c32ffcd783 != manifest 521c4668552901da3c6ff81f74ac2643e88bc40901af9e70353f29c618b3b139

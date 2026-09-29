@@ -1,0 +1,20 @@
+library     = lib/libADKEX-256.so
+id          = kex-01
+type        = kex
+algorithm   = ADKEX
+instance    = ADKEX-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ADKEX-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 1568
+sk_len      = 3136
+sta_len     = 6336
+stb_len     = 96
+ss_len      = 32
+total_msg   = 4768
+timing  full exchange 1.867 ms (avg over 10)
+wrote  kat/KAT_KEX_ADKEX-256.txt (323100 bytes)
+manifest 3f1adda1d491f0fd80d481fbceb4770bcfed233a6ab1878a8a1e4d95efa4c156 strict KAT_KEX_ADKEX-256.txt
+RESULT kex-01 ADKEX-256 PASS 

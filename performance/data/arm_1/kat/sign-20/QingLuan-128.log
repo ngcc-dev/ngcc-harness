@@ -1,0 +1,16 @@
+library     = lib/libQingLuan-128.so
+id          = sign-20
+type        = sig
+algorithm   = Qing Luan
+instance    = QingLuan-128
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/QingLuan-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 77
+sk_len      = 32
+sn_len      = 18720
+timing  keygen 0.077 ms  sign 4.526 ms  verify 2.007 ms (avg over 10)
+wrote  kat/KAT_SIG_QingLuan-128.txt (380764 bytes)
+manifest 0d318e4fc5c8852f65651fab444ffcdefec73d608d0e9f6863ce2f89d63f7531 strict KAT_SIG_QingLuan-128.txt
+RESULT sign-20 QingLuan-128 PASS 

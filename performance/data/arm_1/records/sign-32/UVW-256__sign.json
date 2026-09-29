@@ -1,0 +1,173 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-32",
+ "label": "UVW-256",
+ "instance": "UVW-256",
+ "variant": "reference",
+ "flags": "harness-default",
+ "operation": "sign",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 1,
+  "warmups": 0,
+  "trials": 3,
+  "separate_processes": false,
+  "estimated_s": 573.8579510743996,
+  "timeout_per_process_s": 2021.573853223199
+ },
+ "kat": "CRYPTOFAIL",
+ "kat_not_passed": true,
+ "disturbed_retries": 0,
+ "library": "sign-32/lib/libUVW-256.so",
+ "library_sha256": "24e91424d0e02b90d3232792bd9d734c4ce1220801bfeadfda720df9cbf6839e",
+ "kat_log": "kat/sign-32/UVW-256.log",
+ "kat_log_sha256": "d34d6e65965da1aad7df3d02368894342eaf69675a4c6043dbe2b56f62054804",
+ "started_utc": "2026-09-29T01:43:15.119306+00:00",
+ "ended_utc": "2026-09-29T01:52:08.541938+00:00",
+ "load_average_start": [
+  4.26220703125,
+  4.1484375,
+  4.046875
+ ],
+ "load_average_end": [
+  4.0,
+  4.0234375,
+  4.00634765625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-32",
+    "instance": "UVW-256",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "150605824",
+    "pk_bytes": "23040012",
+    "sk_bytes": "40",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2444",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "517672960",
+    "measurement_count": "3",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 1,
+     "seconds": 88.909259394,
+     "cycles": 239481198727
+    },
+    {
+     "measurements": 1,
+     "seconds": 59.173398935,
+     "cycles": 159327737477
+    },
+    {
+     "measurements": 1,
+     "seconds": 59.041381696,
+     "cycles": 158855222164
+    }
+   ],
+   "stderr": "DBG_SIGN: e1e1e2_hw=17088 fe_hw=17088 diff=0\nDBG_SIGN: e1e1e2_hw=17088 f_hw=8545 e_hw=8543 sum=17088 w=17088 d_zeros=0 p_dups=0\nDBG_SIGN: e1e1e2_hw=17088 fe_hw=17088 diff=0\nDBG_SIGN: e1e1e2_hw=17088 f_hw=8506 e_hw=8582 sum=17088 w=17088 d_zeros=0 p_dups=0\nDBG_SIGN: e1e1e2_hw=17088 fe_hw=17088 diff=0\nDBG_SIGN: e1e1e2_hw=17088 f_hw=8557 e_hw=8531 sum=17088 w=17088 d_zeros=0 p_dups=0",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-32/lib/libUVW-256.so",
+    "sign",
+    "0",
+    "3",
+    "1",
+    "1",
+    "0"
+   ],
+   "wall_s": 533.4225339889526,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1,
+   "seconds": 88.909259394,
+   "cycles": 239481198727
+  },
+  {
+   "measurements": 1,
+   "seconds": 59.173398935,
+   "cycles": 159327737477
+  },
+  {
+   "measurements": 1,
+   "seconds": 59.041381696,
+   "cycles": 158855222164
+  }
+ ],
+ "measurements": 3,
+ "guide_100_measurements_met": false,
+ "mean_seconds": 69.041346675,
+ "median_trial_seconds": 59.173398935,
+ "min_trial_seconds": 59.041381696,
+ "max_trial_seconds": 88.909259394,
+ "mean_cycles": 185888052789.33334,
+ "median_trial_cycles": 159327737477.0,
+ "operations_per_second": 0.014484074372235584,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 23040012,
+  "sk_bytes": 40,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 2444,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 150605824,
+ "peak_rss_bytes": 517672960,
+ "timing_scope": "loop"
+}

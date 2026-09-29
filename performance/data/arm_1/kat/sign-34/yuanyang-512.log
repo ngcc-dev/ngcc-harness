@@ -1,0 +1,16 @@
+library     = lib/libyuanyang-512.so
+id          = sign-34
+type        = sig
+algorithm   = YuanYang.DSA
+instance    = yuanyang-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/yuanyang-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 738
+sk_len      = 15584
+sn_len      = 561
+timing  keygen 3.066 ms  sign 2.063 ms  verify 0.062 ms (avg over 10)
+wrote  kat/KAT_SIG_YuanYang-512.txt (341864 bytes)
+manifest 4f14c22e72e0cbd3e6888c06a0091748b05a00acf4f1206d34a171736d38d16f strict KAT_SIG_YuanYang-512.txt
+RESULT sign-34 yuanyang-512 PASS 

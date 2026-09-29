@@ -1,0 +1,17 @@
+library     = lib/libNGCC-1.so
+id          = kem-31
+type        = kem
+algorithm   = QIMEN-PIKE
+instance    = NGCC-1
+variant     = Reference_Implementation
+source_dir  = Implementations/Implementations
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 389
+sk_len      = 472
+ct_len      = 602
+ss_len      = 32
+timing  keygen 93.531 ms  enc 33.430 ms  dec 51.549 ms (avg over 10)
+wrote  kat/KAT_KEM_NGCC-1.txt (32260 bytes)
+manifest a4611564d383ffac34f41ee2bcc24d7d22d60431538f828f2647f3f9d9548bc0 strict KAT_KEM_NGCC-1.txt
+RESULT kem-31 NGCC-1 PASS 

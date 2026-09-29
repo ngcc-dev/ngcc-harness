@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "kem-02",
+ "label": "Amoeba192",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-02/libAmoeba192.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-02",
+  "instance": "Amoeba192",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 4915874
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 1536,
+   "calls": 15000,
+   "ticks": 1743362
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 1032,
+   "out_bits": 256,
+   "calls": 4000,
+   "ticks": 113328
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 528,
+   "out_bits": 1296,
+   "calls": 10000,
+   "ticks": 1162148
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 13160,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 474303
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.6875304371104711,
+  "sm3hash": 0.023053479401628277
+ },
+ "hash_share": 0.7105839165120994
+}

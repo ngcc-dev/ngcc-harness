@@ -1,0 +1,62 @@
+{
+ "schema": 2,
+ "candidate": "kem-14",
+ "label": "DTRU-2048-PACK_PK",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-14/libDTRU-2048-PACK_PK.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-14",
+  "instance": "DTRU-2048-PACK_PK",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 3131478
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 40134
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1040,
+   "out_bits": 512,
+   "calls": 2000,
+   "ticks": 209220
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 12288,
+   "calls": 1000,
+   "ticks": 904494
+  }
+ ],
+ "share": {
+  "drng": 0.012816312297260272,
+  "pseudohash": 0.06681190160045831,
+  "pseudoXOF": 0.2888393276274015
+ },
+ "hash_share": 0.3556512292278598
+}

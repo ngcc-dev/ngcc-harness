@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-17",
+ "label": "hep-qc-5",
+ "instance": "hep-qc-5",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 20,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 4.973313654985962,
+  "timeout_per_process_s": 302.9839881929916
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-17/lib/libhep-qc-5.so",
+ "library_sha256": "d27b99a3774fe6b40a9f5cf0a17b2ca86b3ee8ef58d03c621231b74fbb5f22e1",
+ "kat_log": "kat/kem-17/hep-qc-5.log",
+ "kat_log_sha256": "73aad6621f7563f6d8b79c057030086ee86214237dbd1c921abea6b75c82c91b",
+ "started_utc": "2026-09-28T20:06:04.783522+00:00",
+ "ended_utc": "2026-09-28T20:06:09.703534+00:00",
+ "load_average_start": [
+  4.00732421875,
+  4.0341796875,
+  4.0
+ ],
+ "load_average_end": [
+  4.00634765625,
+  4.033203125,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-17",
+    "instance": "hep-qc-5",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "10285056",
+    "pk_bytes": "1852485",
+    "sk_bytes": "1852581",
+    "ct_bytes": "14421",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "52293632",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.562999947,
+     "cycles": 1516193990
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-17/lib/libhep-qc-5.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 0.985313892364502,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-17",
+    "instance": "hep-qc-5",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "11317248",
+    "pk_bytes": "1852485",
+    "sk_bytes": "1852581",
+    "ct_bytes": "14421",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "53325824",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.563027031,
+     "cycles": 1516125631
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-17/lib/libhep-qc-5.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 0.9845259189605713,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-17",
+    "instance": "hep-qc-5",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "9703424",
+    "pk_bytes": "1852485",
+    "sk_bytes": "1852581",
+    "ct_bytes": "14421",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "53809152",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.563062344,
+     "cycles": 1516320001
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-17/lib/libhep-qc-5.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 0.9841723442077637,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-17",
+    "instance": "hep-qc-5",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "10264576",
+    "pk_bytes": "1852485",
+    "sk_bytes": "1852581",
+    "ct_bytes": "14421",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "52273152",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.562997344,
+     "cycles": 1516284286
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-17/lib/libhep-qc-5.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 0.982398271560669,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-17",
+    "instance": "hep-qc-5",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "10358784",
+    "pk_bytes": "1852485",
+    "sk_bytes": "1852581",
+    "ct_bytes": "14421",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "52367360",
+    "measurement_count": "20",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 20,
+     "seconds": 0.563167343,
+     "cycles": 1516462497
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-17/lib/libhep-qc-5.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "20",
+    "3"
+   ],
+   "wall_s": 0.9834499359130859,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 20,
+   "seconds": 0.562999947,
+   "cycles": 1516193990
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.563027031,
+   "cycles": 1516125631
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.563062344,
+   "cycles": 1516320001
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.562997344,
+   "cycles": 1516284286
+  },
+  {
+   "measurements": 20,
+   "seconds": 0.563167343,
+   "cycles": 1516462497
+  }
+ ],
+ "measurements": 100,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.02815254009,
+ "median_trial_seconds": 0.02815135155,
+ "min_trial_seconds": 0.0281498672,
+ "max_trial_seconds": 0.028158367150000002,
+ "mean_cycles": 75813864.05,
+ "median_trial_cycles": 75814214.3,
+ "operations_per_second": 35.52077350047741,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1852485,
+  "sk_bytes": 1852581,
+  "ct_bytes": 14421,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+ "baseline_rss_bytes": 11317248,
+ "peak_rss_bytes": 53809152,
+ "timing_scope": "loop"
+}

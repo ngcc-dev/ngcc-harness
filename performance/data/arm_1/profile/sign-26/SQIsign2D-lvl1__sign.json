@@ -1,0 +1,75 @@
+{
+ "schema": 2,
+ "candidate": "sign-26",
+ "label": "SQIsign2D-lvl1",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-26/libSQIsign2D-lvl1.so",
+  "sign",
+  "0",
+  "7",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-26",
+  "instance": "SQIsign2D-lvl1",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 7,
+  "ticks": 28784515
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1536,
+   "out_bits": 256,
+   "calls": 7,
+   "ticks": 271
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 1327,
+   "ticks": 40224
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 16,
+   "calls": 7350,
+   "ticks": 222038
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 136,
+   "calls": 6750,
+   "ticks": 204691
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8,
+   "calls": 239,
+   "ticks": 7294
+  }
+ ],
+ "share": {
+  "pseudoXOF": 9.414784303296408e-06,
+  "drng": 0.01647576830806425
+ },
+ "hash_share": 9.414784303296408e-06
+}

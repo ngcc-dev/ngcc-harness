@@ -1,0 +1,17 @@
+library     = lib/libMithril-128.so
+id          = kem-22
+type        = kem
+algorithm   = Mithril
+instance    = Mithril-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Mithril-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 944
+sk_len      = 1136
+ct_len      = 928
+ss_len      = 16
+timing  keygen 0.080 ms  enc 0.090 ms  dec 0.094 ms (avg over 10)
+wrote  kat/KAT_KEM_Mithril-128.txt (62850 bytes)
+manifest b67d879ad859d01032abcc0f588fa6b09c6ba9cf399f3f1d4993e67e49ca92f0 strict KAT_KEM_Mithril-128.txt
+RESULT kem-22 Mithril-128 PASS 

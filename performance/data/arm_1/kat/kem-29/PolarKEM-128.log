@@ -1,0 +1,17 @@
+library     = lib/libPolarKEM-128.so
+id          = kem-29
+type        = kem
+algorithm   = Polar-KEM
+instance    = PolarKEM-128
+variant     = Reference_Implementation
+source_dir  = Submission_Package/Implementations/Reference_Implementation/PolarKEM-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1024
+sk_len      = 2048
+ct_len      = 768
+ss_len      = 16
+timing  keygen 0.047 ms  enc 0.146 ms  dec 0.526 ms (avg over 10)
+wrote  kat/KAT_KEM_PolarKEM-128.txt (79500 bytes)
+manifest a2c6867608998900c0e2e3870c209930effffca72fcb9f6a99660fc11f70a3d1 strict KAT_KEM_PolarKEM-128.txt
+RESULT kem-29 PolarKEM-128 PASS 

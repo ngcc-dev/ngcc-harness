@@ -32,7 +32,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `si
 | `UVW-256` | harness-default | CRYPTOFAIL [1] |
 | `UVW-512` | harness-default | CRYPTOFAIL [1] |
 
-[1] CRYPTOFAIL: sig_verify computes the verification result but returns 0 unconditionally, so every signature (including a modified message) is accepted (confirmed finding sign-32-1) These instances are timed anyway; their output is not validated.
+[1] CRYPTOFAIL: sig_verify computes the verification result but returns 0 unconditionally, so every signature (including a modified message) is accepted (confirmed finding sign-32-1); the generated KAT text itself matches the submitted vectors (sign-32/Makefile). Timed anyway: verification time is that of the full check whose result is discarded. UVW-512 key generation alone takes more than 30 minutes, so its operations have few timed calls. These instances are timed anyway; their output is not validated.
 
 ## 4. Performance
 

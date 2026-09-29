@@ -1,0 +1,16 @@
+library     = lib/libsydo_512s.so
+id          = sign-28
+type        = sig
+algorithm   = SYDO
+instance    = sydo_512s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/sydo_512s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 246
+sk_len      = 534
+sn_len      = 56672
+timing  keygen 0.198 ms  sign 1101.250 ms  verify 1035.121 ms (avg over 10)
+wrote  kat/KAT_SIG_sydo_512s.txt (1153244 bytes)
+manifest 2c70cb7ffb113b6337d001d27072c189381fa2a25412392d6076343e86cf3dd0 strict KAT_SIG_sydo_512s.txt
+RESULT sign-28 sydo_512s PASS 

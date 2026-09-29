@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "kem-32",
+ "label": "QCTM128",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-32/libQCTM128.so",
+  "keygen",
+  "0",
+  "3",
+  "0"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-32",
+  "instance": "QCTM128",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "0",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 1232379319
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 3,
+   "ticks": 192
+  }
+ ],
+ "share": {
+  "drng": 1.5579618794300783e-07
+ },
+ "hash_share": 0
+}

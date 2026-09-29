@@ -1,0 +1,61 @@
+{
+ "schema": 2,
+ "candidate": "kem-14",
+ "label": "DTRU-Prime",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-14/libDTRU-Prime.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-14",
+  "instance": "DTRU-Prime",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 3902631
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 520,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 87380
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 256,
+   "out_bits": 6528,
+   "calls": 1000,
+   "ticks": 256140
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 11128,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 450325
+  }
+ ],
+ "share": {
+  "pseudohash": 0.13778012832881203,
+  "pseudoXOF": 0.06563264628400686
+ },
+ "hash_share": 0.2034127746128189
+}

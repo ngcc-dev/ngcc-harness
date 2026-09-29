@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "kem-36",
+ "label": "TRIKE-9",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-36/libTRIKE-9.so",
+  "dec",
+  "0",
+  "5",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-36",
+  "instance": "TRIKE-9",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 5,
+  "ticks": 28443743
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 114048,
+   "calls": 15,
+   "ticks": 65901
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 32,
+   "calls": 4385,
+   "ticks": 133134
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 229120,
+   "out_bits": 512,
+   "calls": 5,
+   "ticks": 40801
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 342528,
+   "out_bits": 512,
+   "calls": 5,
+   "ticks": 61423
+  }
+ ],
+ "share": {
+  "drng": 0.006997496778113907,
+  "pseudohash": 0.003593901126163318
+ },
+ "hash_share": 0.003593901126163318
+}

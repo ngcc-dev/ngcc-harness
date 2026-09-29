@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-29",
+ "label": "XRH-2-1024",
+ "instance": "XRH-2-1024",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 8192,
+ "plan": {
+  "iterations_per_trial": 3726,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.505642552150879,
+  "timeout_per_process_s": 301.5033855312905
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-29/lib/libXRH-2-1024.so",
+ "library_sha256": "a74eb2a5b780fb12cc02fd1114ee1952673b8064da1d1eccf343229fb418a8ee",
+ "kat_log": "kat/hash-29/XRH-2-1024.log",
+ "kat_log_sha256": "f49e8677b0d8cb7f254c83ec95b55323236f2287b3810ddb436aa5e6a96e2fce",
+ "started_utc": "2026-09-28T19:58:48.838890+00:00",
+ "ended_utc": "2026-09-28T19:58:51.923639+00:00",
+ "load_average_start": [
+  4.37548828125,
+  4.1201171875,
+  4.01611328125
+ ],
+ "load_average_end": [
+  4.37548828125,
+  4.1201171875,
+  4.01611328125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-29",
+    "instance": "XRH-2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "8192",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1425408",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1490944",
+    "measurement_count": "3726",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3726,
+     "seconds": 0.612826042,
+     "cycles": 1651847224
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-29/lib/libXRH-2-1024.so",
+    "hash",
+    "8192",
+    "1",
+    "1",
+    "3726",
+    "3"
+   ],
+   "wall_s": 0.6151523590087891,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-29",
+    "instance": "XRH-2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "8192",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1437696",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1503232",
+    "measurement_count": "3726",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3726,
+     "seconds": 0.612845624,
+     "cycles": 1651815557
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-29/lib/libXRH-2-1024.so",
+    "hash",
+    "8192",
+    "1",
+    "1",
+    "3726",
+    "3"
+   ],
+   "wall_s": 0.6171894073486328,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-29",
+    "instance": "XRH-2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "8192",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1441792",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1507328",
+    "measurement_count": "3726",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3726,
+     "seconds": 0.613028594,
+     "cycles": 1651865125
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-29/lib/libXRH-2-1024.so",
+    "hash",
+    "8192",
+    "1",
+    "1",
+    "3726",
+    "3"
+   ],
+   "wall_s": 0.6173977851867676,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-29",
+    "instance": "XRH-2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "8192",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1441792",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1507328",
+    "measurement_count": "3726",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3726,
+     "seconds": 0.613032187,
+     "cycles": 1651826945
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-29/lib/libXRH-2-1024.so",
+    "hash",
+    "8192",
+    "1",
+    "1",
+    "3726",
+    "3"
+   ],
+   "wall_s": 0.6174464225769043,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-29",
+    "instance": "XRH-2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "8192",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1441792",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1507328",
+    "measurement_count": "3726",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 3726,
+     "seconds": 0.61302875,
+     "cycles": 1651822186
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-29/lib/libXRH-2-1024.so",
+    "hash",
+    "8192",
+    "1",
+    "1",
+    "3726",
+    "3"
+   ],
+   "wall_s": 0.6174004077911377,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 3726,
+   "seconds": 0.612826042,
+   "cycles": 1651847224
+  },
+  {
+   "measurements": 3726,
+   "seconds": 0.612845624,
+   "cycles": 1651815557
+  },
+  {
+   "measurements": 3726,
+   "seconds": 0.613028594,
+   "cycles": 1651865125
+  },
+  {
+   "measurements": 3726,
+   "seconds": 0.613032187,
+   "cycles": 1651826945
+  },
+  {
+   "measurements": 3726,
+   "seconds": 0.61302875,
+   "cycles": 1651822186
+  }
+ ],
+ "measurements": 18630,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00016450677385936662,
+ "median_trial_seconds": 0.00016452726623725173,
+ "min_trial_seconds": 0.0001644729044551798,
+ "max_trial_seconds": 0.00016452823054213632,
+ "mean_cycles": 443326.733064949,
+ "median_trial_cycles": 443324.46188942564,
+ "operations_per_second": 6078.777040846227,
+ "throughput_MB_per_second": 49.797341518612285,
+ "sizes": {
+  "input_bytes": 8192,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 128
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1441792,
+ "peak_rss_bytes": 1507328,
+ "timing_scope": "loop"
+}

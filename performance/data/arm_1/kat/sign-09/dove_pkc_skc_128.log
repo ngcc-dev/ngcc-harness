@@ -1,0 +1,16 @@
+library     = lib/libdove_pkc_skc_128.so
+id          = sign-09
+type        = sig
+algorithm   = DOVE
+instance    = dove_pkc_skc_128
+variant     = Reference_Implementation
+source_dir  = Implementations/Digital_Signature-DOVE-x86-reference_implementation/API_PKC/Implementations/Reference_Implementation/DOVE_pkc_skc_ref
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 43576
+sk_len      = 24
+sn_len      = 136
+timing  keygen 25.005 ms  sign 7.102 ms  verify 2.229 ms (avg over 10)
+wrote  kat/KAT_SIG_dove_pkc_skc_128.txt (878914 bytes)
+manifest 7071f69bd7a41939bc6eef918e0934878cc08f6cd3cca3d7223868c0f13eeb54 strict KAT_SIG_dove_pkc_skc_128.txt
+RESULT sign-09 dove_pkc_skc_128 PASS 

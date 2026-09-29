@@ -1,0 +1,97 @@
+{
+ "schema": 2,
+ "candidate": "kex-04",
+ "label": "DKEX-512",
+ "operation": "exchange",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kex-04/libDKEX-512.so",
+  "exchange",
+  "0",
+  "335",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kex-04",
+  "instance": "DKEX-512",
+  "operation": "exchange",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 335,
+  "ticks": 25802132
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 1024,
+   "calls": 335,
+   "ticks": 26028
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 335,
+   "ticks": 13586
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 552,
+   "out_bits": 256,
+   "calls": 68340,
+   "ticks": 1319306
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1024,
+   "out_bits": 512,
+   "calls": 670,
+   "ticks": 38739
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 93440,
+   "out_bits": 512,
+   "calls": 670,
+   "ticks": 2222504
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 560,
+   "out_bits": 256,
+   "calls": 343040,
+   "ticks": 6625588
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 335,
+   "ticks": 19969
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 670,
+   "ticks": 20471
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.08864658935935991,
+  "drng": 0.0020938579804180525,
+  "sm3hash": 0.3079161830502999
+ },
+ "hash_share": 0.3965627724096598
+}

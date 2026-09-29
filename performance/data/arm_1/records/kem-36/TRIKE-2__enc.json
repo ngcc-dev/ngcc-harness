@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-36",
+ "label": "TRIKE-2",
+ "instance": "TRIKE-2",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 257,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.6410947358355714,
+  "timeout_per_process_s": 301.5846568415013
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-36/lib/libTRIKE-2.so",
+ "library_sha256": "b3401de77db2f206853949e6b13c97e6e6e8f406e1ae6c37147bcb1dbbc79781",
+ "kat_log": "kat/kem-36/TRIKE-2.log",
+ "kat_log_sha256": "45ce672140b72918b5db7476af97d416ce4fc78d314245be8c9bd14a793f32b2",
+ "started_utc": "2026-09-28T21:02:43.778150+00:00",
+ "ended_utc": "2026-09-28T21:02:47.130252+00:00",
+ "load_average_start": [
+  4.0380859375,
+  4.06884765625,
+  4.01953125
+ ],
+ "load_average_end": [
+  4.0380859375,
+  4.06884765625,
+  4.01953125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-36",
+    "instance": "TRIKE-2",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1519616",
+    "pk_bytes": "1980",
+    "sk_bytes": "6328",
+    "ct_bytes": "3928",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1589248",
+    "measurement_count": "257",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 257,
+     "seconds": 0.638264687,
+     "cycles": 1720002034
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-36/lib/libTRIKE-2.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "257",
+    "3"
+   ],
+   "wall_s": 0.6755349636077881,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-36",
+    "instance": "TRIKE-2",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1527808",
+    "pk_bytes": "1980",
+    "sk_bytes": "6328",
+    "ct_bytes": "3928",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1597440",
+    "measurement_count": "257",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 257,
+     "seconds": 0.632377187,
+     "cycles": 1704393039
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-36/lib/libTRIKE-2.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "257",
+    "3"
+   ],
+   "wall_s": 0.6676619052886963,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-36",
+    "instance": "TRIKE-2",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1527808",
+    "pk_bytes": "1980",
+    "sk_bytes": "6328",
+    "ct_bytes": "3928",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1597440",
+    "measurement_count": "257",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 257,
+     "seconds": 0.635343073,
+     "cycles": 1712145686
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-36/lib/libTRIKE-2.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "257",
+    "3"
+   ],
+   "wall_s": 0.6721546649932861,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-36",
+    "instance": "TRIKE-2",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1527808",
+    "pk_bytes": "1980",
+    "sk_bytes": "6328",
+    "ct_bytes": "3928",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1597440",
+    "measurement_count": "257",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 257,
+     "seconds": 0.632386875,
+     "cycles": 1704265895
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-36/lib/libTRIKE-2.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "257",
+    "3"
+   ],
+   "wall_s": 0.6690430641174316,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-36",
+    "instance": "TRIKE-2",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1527808",
+    "pk_bytes": "1980",
+    "sk_bytes": "6328",
+    "ct_bytes": "3928",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1597440",
+    "measurement_count": "257",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 257,
+     "seconds": 0.632387864,
+     "cycles": 1704369138
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-36/lib/libTRIKE-2.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "257",
+    "3"
+   ],
+   "wall_s": 0.6675598621368408,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 257,
+   "seconds": 0.638264687,
+   "cycles": 1720002034
+  },
+  {
+   "measurements": 257,
+   "seconds": 0.632377187,
+   "cycles": 1704393039
+  },
+  {
+   "measurements": 257,
+   "seconds": 0.635343073,
+   "cycles": 1712145686
+  },
+  {
+   "measurements": 257,
+   "seconds": 0.632386875,
+   "cycles": 1704265895
+  },
+  {
+   "measurements": 257,
+   "seconds": 0.632387864,
+   "cycles": 1704369138
+  }
+ ],
+ "measurements": 1285,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00246751726536965,
+ "median_trial_seconds": 0.0024606531673151753,
+ "min_trial_seconds": 0.0024606116225680936,
+ "max_trial_seconds": 0.002483520182879378,
+ "mean_cycles": 6649942.250583658,
+ "median_trial_cycles": 6631879.529182879,
+ "operations_per_second": 405.2656546863892,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1980,
+  "sk_bytes": 6328,
+  "ct_bytes": 3928,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1527808,
+ "peak_rss_bytes": 1597440,
+ "timing_scope": "loop"
+}

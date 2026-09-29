@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-04",
+ "label": "CEDRUSALPHA-512s",
+ "instance": "CEDRUSALPHA-512s",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "sign",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 2,
+  "warmups": 0,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 260.1020795898651,
+  "timeout_per_process_s": 456.061247753919
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-04/lib/libCEDRUSALPHA-512s.so",
+ "library_sha256": "19b25e5ab007e879e10c7af9d3575f5496dd357f21ff0616f4f42b677e10c0de",
+ "kat_log": "kat/sign-04/CEDRUSALPHA-512s.log",
+ "kat_log_sha256": "e196c87b22c20f228c4a55b2ee1456c707cb164f10c80d4a92de84d95919b382",
+ "started_utc": "2026-09-28T23:27:17.115433+00:00",
+ "ended_utc": "2026-09-28T23:32:43.354943+00:00",
+ "load_average_start": [
+  4.0322265625,
+  4.052734375,
+  4.06884765625
+ ],
+ "load_average_end": [
+  4.0048828125,
+  4.0478515625,
+  4.0654296875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-04",
+    "instance": "CEDRUSALPHA-512s",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "12840960",
+    "pk_bytes": "128",
+    "sk_bytes": "256",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "98048",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "12910592",
+    "measurement_count": "2",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 2,
+     "seconds": 62.649819247,
+     "cycles": 168520486671
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-04/lib/libCEDRUSALPHA-512s.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "2",
+    "0"
+   ],
+   "wall_s": 65.42219805717468,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-04",
+    "instance": "CEDRUSALPHA-512s",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "12836864",
+    "pk_bytes": "128",
+    "sk_bytes": "256",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "98048",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "12906496",
+    "measurement_count": "2",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 2,
+     "seconds": 62.36472581,
+     "cycles": 168082245585
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-04/lib/libCEDRUSALPHA-512s.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "2",
+    "0"
+   ],
+   "wall_s": 65.13341736793518,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-04",
+    "instance": "CEDRUSALPHA-512s",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "12836864",
+    "pk_bytes": "128",
+    "sk_bytes": "256",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "98048",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "12906496",
+    "measurement_count": "2",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 2,
+     "seconds": 62.364335758,
+     "cycles": 168079580223
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-04/lib/libCEDRUSALPHA-512s.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "2",
+    "0"
+   ],
+   "wall_s": 65.13502287864685,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-04",
+    "instance": "CEDRUSALPHA-512s",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "12836864",
+    "pk_bytes": "128",
+    "sk_bytes": "256",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "98048",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "12906496",
+    "measurement_count": "2",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 2,
+     "seconds": 62.664396851,
+     "cycles": 168887025744
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-04/lib/libCEDRUSALPHA-512s.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "2",
+    "0"
+   ],
+   "wall_s": 65.43352842330933,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-04",
+    "instance": "CEDRUSALPHA-512s",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "12836864",
+    "pk_bytes": "128",
+    "sk_bytes": "256",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "98048",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "0",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "12906496",
+    "measurement_count": "2",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 2,
+     "seconds": 62.344744352,
+     "cycles": 168019545850
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-04/lib/libCEDRUSALPHA-512s.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "2",
+    "0"
+   ],
+   "wall_s": 65.11517214775085,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 2,
+   "seconds": 62.649819247,
+   "cycles": 168520486671
+  },
+  {
+   "measurements": 2,
+   "seconds": 62.36472581,
+   "cycles": 168082245585
+  },
+  {
+   "measurements": 2,
+   "seconds": 62.364335758,
+   "cycles": 168079580223
+  },
+  {
+   "measurements": 2,
+   "seconds": 62.664396851,
+   "cycles": 168887025744
+  },
+  {
+   "measurements": 2,
+   "seconds": 62.344744352,
+   "cycles": 168019545850
+  }
+ ],
+ "measurements": 10,
+ "guide_100_measurements_met": false,
+ "mean_seconds": 31.238802201800002,
+ "median_trial_seconds": 31.182362905,
+ "min_trial_seconds": 31.172372176,
+ "max_trial_seconds": 31.3321984255,
+ "mean_cycles": 84158888407.3,
+ "median_trial_cycles": 84041122792.5,
+ "operations_per_second": 0.032011470655631584,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 128,
+  "sk_bytes": 256,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 98048,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 12840960,
+ "peak_rss_bytes": 12910592,
+ "timing_scope": "loop"
+}

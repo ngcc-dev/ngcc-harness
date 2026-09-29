@@ -1,0 +1,17 @@
+library     = lib/libQCTM512.so
+id          = kem-32
+type        = kem
+algorithm   = QCTM
+instance    = QCTM512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/QCTM512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2374727
+sk_len      = 2467243
+ct_len      = 2264
+ss_len      = 64
+timing  keygen 235129.718 ms  enc 50.714 ms  dec 63707.273 ms (avg over 3)
+wrote  kat/KAT_KEM_QCTM512.txt (29066523 bytes)
+manifest 2bc39c914f585865d7b6585ec77094a218698c23fc97855a5b85be7fa34cfc7b strict:3 KAT_KEM_QCTM512.txt
+RESULT kem-32 QCTM512 PASS 

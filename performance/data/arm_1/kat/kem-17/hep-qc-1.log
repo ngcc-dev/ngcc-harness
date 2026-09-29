@@ -1,0 +1,17 @@
+library     = lib/libhep-qc-1.so
+id          = kem-17
+type        = kem
+algorithm   = HEP-QC
+instance    = hep-qc-1
+variant     = Reference_Implementation
+source_dir  = Implementations/Implementations/ref/hep-qc-1
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 285889
+sk_len      = 285969
+ct_len      = 4433
+ss_len      = 32
+timing  keygen 80.541 ms  enc 4.203 ms  dec 80.069 ms (avg over 10)
+wrote  kat/KAT_KEM_AlgorithmInstance.txt (11528890 bytes)
+manifest eb914a1e3b37cf4cbdc0ebf7bfd1fac2dbaf11049ec31f360603c67b91c60dd3 strict KAT_KEM_AlgorithmInstance.txt
+RESULT kem-17 hep-qc-1 PASS 

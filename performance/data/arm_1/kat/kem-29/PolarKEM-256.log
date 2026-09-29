@@ -1,0 +1,17 @@
+library     = lib/libPolarKEM-256.so
+id          = kem-29
+type        = kem
+algorithm   = Polar-KEM
+instance    = PolarKEM-256
+variant     = Reference_Implementation
+source_dir  = Submission_Package/Implementations/Reference_Implementation/PolarKEM-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2048
+sk_len      = 4096
+ct_len      = 1280
+ss_len      = 32
+timing  keygen 0.094 ms  enc 0.185 ms  dec 0.377 ms (avg over 10)
+wrote  kat/KAT_KEM_PolarKEM-256.txt (151510 bytes)
+manifest ece4d6c7d9eaa91d216144ea769f7b395ea8ec5168f0df81d78b439332f94742 strict KAT_KEM_PolarKEM-256.txt
+RESULT kem-29 PolarKEM-256 PASS 

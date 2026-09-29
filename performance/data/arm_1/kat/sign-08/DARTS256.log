@@ -1,0 +1,16 @@
+library     = lib/libDARTS256.so
+id          = sign-08
+type        = sig
+algorithm   = DARTS
+instance    = DARTS256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/DARTS256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2208
+sk_len      = 2880
+sn_len      = 2489
+timing  keygen 0.306 ms  sign 6.523 ms  verify 0.238 ms (avg over 10)
+wrote  kat/KAT_SIG_DARTS256.txt (155754 bytes)
+manifest c63879f993b98649439facdf3b20ecf6138805f7197d7593a515eb6c36cb3faa strict KAT_SIG_DARTS256.txt
+RESULT sign-08 DARTS256 PASS 

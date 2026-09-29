@@ -1,0 +1,16 @@
+library     = lib/libBiT-256.so
+id          = sign-02
+type        = sig
+algorithm   = BiT
+instance    = BiT-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/BiT-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2144
+sk_len      = 4160
+sn_len      = 3456
+timing  keygen 0.366 ms  sign 0.863 ms  verify 0.368 ms (avg over 10)
+wrote  kat/KAT_SIG_BiT-256.txt (199414 bytes)
+manifest 16a641e1db1fdfa1d441a8566706083237dacead5f51dee7da20f9659ae2b677 strict KAT_SIG_BiT-256.txt
+RESULT sign-02 BiT-256 PASS 

@@ -1,0 +1,75 @@
+{
+ "schema": 2,
+ "candidate": "sign-32",
+ "label": "UVW-128",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-32/libUVW-128.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0\nDBG_SIGN: e1e1e2_hw=8633 f_hw=4334 e_hw=4299 sum=8633 w=8633 d_zeros=0 p_dups=0\nDBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0\nDBG_SIGN: e1e1e2_hw=8633 f_hw=4303 e_hw=4330 sum=8633 w=8633 d_zeros=0 p_dups=0\nDBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0\nDBG_SIGN: e1e1e2_hw=8633 f_hw=4310 e_hw=4323 sum=8633 w=8633 d_zeros=0 p_dups=0\nDBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0\nDBG_SIGN: e1e1e2_hw=8633 f_hw=4308 e_hw=4325 sum=8633 w=8633 d_zeros=0 p_dups=0\n",
+ "meta": {
+  "id": "sign-32",
+  "instance": "UVW-128",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 504210640
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 3,
+   "ticks": 155
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 64,
+   "calls": 61145,
+   "ticks": 1855228
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 524288,
+   "calls": 3,
+   "ticks": 115503
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 9728,
+   "calls": 19353,
+   "ticks": 7581122
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8,
+   "calls": 211587,
+   "ticks": 6408321
+  }
+ ],
+ "share": {
+  "drng": 0.03142501316513273,
+  "pseudoXOF": 0.00022907687945656997
+ },
+ "hash_share": 0.00022907687945656997
+}

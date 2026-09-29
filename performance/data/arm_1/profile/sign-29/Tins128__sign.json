@@ -1,0 +1,125 @@
+{
+ "schema": 2,
+ "candidate": "sign-29",
+ "label": "Tins128",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-29/libTins128.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-29",
+  "instance": "Tins128",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 24828252
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 3,
+   "ticks": 92
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 424,
+   "out_bits": 256,
+   "calls": 147456,
+   "ticks": 1481350
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 38640,
+   "calls": 3,
+   "ticks": 4583
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 150,
+   "calls": 10051,
+   "ticks": 304859
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 128,
+   "out_bits": 128,
+   "calls": 294906,
+   "ticks": 3069197
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 38364,
+   "calls": 3,
+   "ticks": 4439
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 3832,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 223
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 288,
+   "calls": 147456,
+   "ticks": 5916317
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 138,
+   "calls": 6,
+   "ticks": 181
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 12582920,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 664639
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 100
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 8060,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 432
+  }
+ ],
+ "share": {
+  "drng": 0.25094682460932005,
+  "sm3hash": 0.08645973143820193,
+  "pseudoXOF": 0.12361711972312832
+ },
+ "hash_share": 0.21007685116133024
+}

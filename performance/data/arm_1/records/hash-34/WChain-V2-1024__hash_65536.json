@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-34",
+ "label": "WChain-V2-1024",
+ "instance": "WChain-V2-1024",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 65536,
+ "plan": {
+  "iterations_per_trial": 2510,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.50793693387146,
+  "timeout_per_process_s": 301.50476216032285
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-34/lib/libWChain-V2-1024.so",
+ "library_sha256": "304f6510cc43dbd26a135a42c05a5f201086257c239034d2fba625bb9ab2b9e3",
+ "kat_log": "kat/hash-34/WChain-V2-1024.log",
+ "kat_log_sha256": "9f8ac22a5d0ed869def54eeab092f167e32650c9f0d14f6a8a0caf4af8d6b792",
+ "started_utc": "2026-09-28T20:48:13.005913+00:00",
+ "ended_utc": "2026-09-28T20:48:16.181069+00:00",
+ "load_average_start": [
+  4.02001953125,
+  4.076171875,
+  4.04150390625
+ ],
+ "load_average_end": [
+  4.02001953125,
+  4.076171875,
+  4.04150390625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-34",
+    "instance": "WChain-V2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1507328",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1572864",
+    "measurement_count": "2510",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2510,
+     "seconds": 0.627497708,
+     "cycles": 1690918521
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-34/lib/libWChain-V2-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "2510",
+    "3"
+   ],
+   "wall_s": 0.6323285102844238,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-34",
+    "instance": "WChain-V2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1511424",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1576960",
+    "measurement_count": "2510",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2510,
+     "seconds": 0.640765573,
+     "cycles": 1726547762
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-34/lib/libWChain-V2-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "2510",
+    "3"
+   ],
+   "wall_s": 0.6454870700836182,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-34",
+    "instance": "WChain-V2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1511424",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1576960",
+    "measurement_count": "2510",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2510,
+     "seconds": 0.628564427,
+     "cycles": 1693799996
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-34/lib/libWChain-V2-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "2510",
+    "3"
+   ],
+   "wall_s": 0.6332886219024658,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-34",
+    "instance": "WChain-V2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1564672",
+    "measurement_count": "2510",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2510,
+     "seconds": 0.628298906,
+     "cycles": 1692792917
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-34/lib/libWChain-V2-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "2510",
+    "3"
+   ],
+   "wall_s": 0.6312527656555176,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-34",
+    "instance": "WChain-V2-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1564672",
+    "measurement_count": "2510",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2510,
+     "seconds": 0.627934843,
+     "cycles": 1691822134
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-34/lib/libWChain-V2-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "2510",
+    "3"
+   ],
+   "wall_s": 0.6326470375061035,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 2510,
+   "seconds": 0.627497708,
+   "cycles": 1690918521
+  },
+  {
+   "measurements": 2510,
+   "seconds": 0.640765573,
+   "cycles": 1726547762
+  },
+  {
+   "measurements": 2510,
+   "seconds": 0.628564427,
+   "cycles": 1693799996
+  },
+  {
+   "measurements": 2510,
+   "seconds": 0.628298906,
+   "cycles": 1692792917
+  },
+  {
+   "measurements": 2510,
+   "seconds": 0.627934843,
+   "cycles": 1691822134
+  }
+ ],
+ "measurements": 12550,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00025123995673306777,
+ "median_trial_seconds": 0.0002503182892430279,
+ "min_trial_seconds": 0.00024999908685258967,
+ "max_trial_seconds": 0.00025528508884462155,
+ "mean_cycles": 676962.6557768924,
+ "median_trial_cycles": 674419.4888446215,
+ "operations_per_second": 3980.258606167726,
+ "throughput_MB_per_second": 260.8502280138081,
+ "sizes": {
+  "input_bytes": 65536,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 128
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1511424,
+ "peak_rss_bytes": 1576960,
+ "timing_scope": "loop"
+}

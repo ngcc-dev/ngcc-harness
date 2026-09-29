@@ -1,0 +1,17 @@
+library     = lib/libTRIKE-7.so
+id          = kem-36
+type        = kem
+algorithm   = TRIKE
+instance    = TRIKE-7
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/TRIKE-7
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 8776
+sk_len      = 27260
+ct_len      = 17488
+ss_len      = 64
+timing  keygen 485.233 ms  enc 41.396 ms  dec 121.635 ms (avg over 10)
+wrote  kat/KAT_KEM_TRIKE-7.txt (1074170 bytes)
+manifest edef3cf90ca260283f52a773b251d136d110366cc8c2c09144fa0135f3b36ab1 strict KAT_KEM_TRIKE-7.txt
+RESULT kem-36 TRIKE-7 PASS 

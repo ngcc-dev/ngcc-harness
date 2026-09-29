@@ -1,0 +1,16 @@
+library     = lib/libFlextree-384s.so
+id          = sign-11
+type        = sig
+algorithm   = FlexTree
+instance    = Flextree-384s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Flextree-384s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 96
+sk_len      = 192
+sn_len      = 60180
+timing  keygen 920.959 ms  sign 12347.147 ms  verify 15.480 ms (avg over 10)
+wrote  kat/KAT_SIG_Flextree-384s.txt (1213554 bytes)
+manifest 998537273dacf3b317b07f69cc96493435af63c4914c7fb31930b31b05ee4b9e strict KAT_SIG_Flextree-384s.txt
+RESULT sign-11 Flextree-384s PASS 

@@ -1,0 +1,16 @@
+library     = lib/libCEDRUSALPHA-160s.so
+id          = sign-04
+type        = sig
+algorithm   = CEDRUS-alpha
+instance    = CEDRUSALPHA-160s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CEDRUSALPHA-160s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 40
+sk_len      = 80
+sn_len      = 10300
+timing  keygen 145.508 ms  sign 2166.519 ms  verify 5.347 ms (avg over 10)
+wrote  kat/KAT_SIG_CEDRUSALPHA-160s.txt (212584 bytes)
+manifest 544ae2d4d7682151efd9862b5c27c77534834bd4be869b3609164cf752f04d35 strict KAT_SIG_CEDRUSALPHA-160s.txt
+RESULT sign-04 CEDRUSALPHA-160s PASS 

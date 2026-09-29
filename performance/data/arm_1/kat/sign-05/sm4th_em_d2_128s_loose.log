@@ -1,0 +1,16 @@
+library     = lib/libsm4th_em_d2_128s_loose.so
+id          = sign-05
+type        = sig
+algorithm   = Chinith
+instance    = sm4th_em_d2_128s_loose
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/sm4th_em_d2_128s_loose
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 32
+sk_len      = 32
+sn_len      = 3818
+timing  keygen 0.004 ms  sign 47.698 ms  verify 44.090 ms (avg over 10)
+wrote  kat/KAT_SIG_sm4th_em_d2_128s_loose.txt (81814 bytes)
+manifest 8328d7f5a44a367c5598d473f89943daab7fc328148ee84eb3f55a471d8a0bfd strict KAT_SIG_sm4th_em_d2_128s_loose.txt
+RESULT sign-05 sm4th_em_d2_128s_loose PASS 

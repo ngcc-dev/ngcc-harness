@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-08",
+ "label": "Duet-512",
+ "instance": "Duet-512",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 16384,
+ "plan": {
+  "iterations_per_trial": 1212,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.511743874209595,
+  "timeout_per_process_s": 301.50704632452573
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-08/lib/libDuet-512.so",
+ "library_sha256": "c0c0bde0ed8dc2a618eef8cc9062e4d93f52794770ffa0d86348ff14a64ad072",
+ "kat_log": "kat/hash-08/Duet-512.log",
+ "kat_log_sha256": "098cbd7321ce065e9a3ff3b58a3dc9307a842fef91c983c7c1b3e653d0a82e5f",
+ "started_utc": "2026-09-28T19:47:28.753319+00:00",
+ "ended_utc": "2026-09-28T19:47:31.825116+00:00",
+ "load_average_start": [
+  4.0166015625,
+  3.98095703125,
+  3.8388671875
+ ],
+ "load_average_end": [
+  4.0166015625,
+  3.98095703125,
+  3.8388671875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-08",
+    "instance": "Duet-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1441792",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1507328",
+    "measurement_count": "1212",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1212,
+     "seconds": 0.609901146,
+     "cycles": 1643429477
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-08/lib/libDuet-512.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "1212",
+    "3"
+   ],
+   "wall_s": 0.6132364273071289,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-08",
+    "instance": "Duet-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1449984",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1515520",
+    "measurement_count": "1212",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1212,
+     "seconds": 0.609979062,
+     "cycles": 1643612414
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-08/lib/libDuet-512.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "1212",
+    "3"
+   ],
+   "wall_s": 0.6153650283813477,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-08",
+    "instance": "Duet-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1429504",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1495040",
+    "measurement_count": "1212",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1212,
+     "seconds": 0.609892031,
+     "cycles": 1643471271
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-08/lib/libDuet-512.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "1212",
+    "3"
+   ],
+   "wall_s": 0.6151976585388184,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-08",
+    "instance": "Duet-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1449984",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1515520",
+    "measurement_count": "1212",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1212,
+     "seconds": 0.610048437,
+     "cycles": 1643663100
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-08/lib/libDuet-512.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "1212",
+    "3"
+   ],
+   "wall_s": 0.6133966445922852,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-08",
+    "instance": "Duet-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1445888",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1511424",
+    "measurement_count": "1212",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1212,
+     "seconds": 0.609765573,
+     "cycles": 1643331178
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-08/lib/libDuet-512.so",
+    "hash",
+    "16384",
+    "1",
+    "1",
+    "1212",
+    "3"
+   ],
+   "wall_s": 0.6144442558288574,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1212,
+   "seconds": 0.609901146,
+   "cycles": 1643429477
+  },
+  {
+   "measurements": 1212,
+   "seconds": 0.609979062,
+   "cycles": 1643612414
+  },
+  {
+   "measurements": 1212,
+   "seconds": 0.609892031,
+   "cycles": 1643471271
+  },
+  {
+   "measurements": 1212,
+   "seconds": 0.610048437,
+   "cycles": 1643663100
+  },
+  {
+   "measurements": 1212,
+   "seconds": 0.609765573,
+   "cycles": 1643331178
+  }
+ ],
+ "measurements": 6060,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.000503232054290429,
+ "median_trial_seconds": 0.0005032187673267327,
+ "min_trial_seconds": 0.0005031069084158416,
+ "max_trial_seconds": 0.0005033402945544555,
+ "mean_cycles": 1356024.3300330034,
+ "median_trial_cycles": 1355999.3985148515,
+ "operations_per_second": 1987.1548155055968,
+ "throughput_MB_per_second": 32.5575444972437,
+ "sizes": {
+  "input_bytes": 16384,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 64
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1449984,
+ "peak_rss_bytes": 1515520,
+ "timing_scope": "loop"
+}

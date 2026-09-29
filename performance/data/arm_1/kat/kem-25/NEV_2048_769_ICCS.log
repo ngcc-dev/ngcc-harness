@@ -1,0 +1,17 @@
+library     = lib/libNEV_2048_769_ICCS.so
+id          = kem-25
+type        = kem
+algorithm   = NEV
+instance    = NEV_2048_769_ICCS
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/NEV-C3
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2458
+sk_len      = 4980
+ct_len      = 2458
+ss_len      = 64
+timing  keygen 0.144 ms  enc 0.096 ms  dec 0.090 ms (avg over 10)
+wrote  kat/KAT_KEM_NEV_2048_769_ICCS.txt (201590 bytes)
+manifest b8029513ddf961290d8ae2f383c2f2b118322405a5650d7e477205c3c1a0fcdc strict KAT_KEM_NEV_2048_769_ICCS.txt
+RESULT kem-25 NEV_2048_769_ICCS PASS 

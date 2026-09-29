@@ -1,0 +1,17 @@
+library     = lib/libPOLARLAC-512-Star.so
+id          = kem-30
+type        = kem
+algorithm   = PolarLAC
+instance    = POLARLAC-512-Star
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/x86/POLARLAC-512-Star
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2522
+sk_len      = 6682
+ct_len      = 2970
+ss_len      = 64
+timing  keygen 0.241 ms  enc 0.326 ms  dec 0.477 ms (avg over 10)
+wrote  kat/KAT_KEM_POLARLAC-512-Star.txt (247150 bytes)
+manifest e6aa29a4abe624146755e30d25b308b571bbcc17087e653edabd2dc64161714e strict KAT_KEM_POLARLAC-512-Star.txt
+RESULT kem-30 POLARLAC-512-Star PASS 

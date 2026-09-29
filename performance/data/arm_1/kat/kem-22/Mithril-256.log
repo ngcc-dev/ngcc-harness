@@ -1,0 +1,17 @@
+library     = lib/libMithril-256.so
+id          = kem-22
+type        = kem
+algorithm   = Mithril
+instance    = Mithril-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Mithril-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1648
+sk_len      = 2000
+ct_len      = 1680
+ss_len      = 32
+timing  keygen 0.228 ms  enc 0.218 ms  dec 0.247 ms (avg over 10)
+wrote  kat/KAT_KEM_Mithril-256.txt (109590 bytes)
+manifest 635babbe484a6534705c992406d16e86f7b54b1f080b6300be0358e57f4b4337 strict KAT_KEM_Mithril-256.txt
+RESULT kem-22 Mithril-256 PASS 

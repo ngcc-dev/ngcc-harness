@@ -1,0 +1,16 @@
+library     = lib/libGalas-384S.so
+id          = sign-12
+type        = sig
+algorithm   = Galas
+instance    = Galas-384S
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Galas-384S
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 96
+sk_len      = 96
+sn_len      = 27784
+timing  keygen 31.816 ms  sign 9692.843 ms  verify 6561.776 ms (avg over 10)
+wrote  kat/KAT_SIG_Galas-384S.txt (563704 bytes)
+manifest 75f452a6455643105112f13dd5f492954be27cd522c8df7b4ec9386225db2023 strict KAT_SIG_Galas-384S.txt
+RESULT sign-12 Galas-384S MISMATCH KAT_SIG_Galas-384S.txt: sha256 4f05f3e0a2453537b2181b5883683cbe82a99ba21da51c4ea484eccc317f1962 != manifest 75f452a6455643105112f13dd5f492954be27cd522c8df7b4ec9386225db2023

@@ -1,0 +1,16 @@
+library     = lib/libFlextree-256s.so
+id          = sign-11
+type        = sig
+algorithm   = FlexTree
+instance    = Flextree-256s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Flextree-256s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 64
+sk_len      = 128
+sn_len      = 25420
+timing  keygen 135.504 ms  sign 2558.049 ms  verify 10.957 ms (avg over 10)
+wrote  kat/KAT_SIG_Flextree-256s.txt (516434 bytes)
+manifest a08e047d2c95c47b575cd3baaa6e8c3491bf3193c44081177057e7f8f5d3fd04 strict KAT_SIG_Flextree-256s.txt
+RESULT sign-11 Flextree-256s PASS 

@@ -1,0 +1,13 @@
+library     = lib/liblwrdsa128.so
+id          = sign-15
+type        = sig
+algorithm   = MORNING-ATLAS
+instance    = lwrdsa128
+variant     = Reference_Implementation
+source_dir  = Implementation/Reference_Implementation/lwrdsa128
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 1328
+sk_len      = 2128
+sn_len      = 2081
+RESULT sign-15 lwrdsa128 OVERFLOW sig_sign returned length 2137 > claimed 2081 for sn

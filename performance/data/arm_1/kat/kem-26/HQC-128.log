@@ -1,0 +1,17 @@
+library     = lib/libHQC-128.so
+id          = kem-26
+type        = kem
+algorithm   = NSS-HQC
+instance    = HQC-128
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/HQC-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3713
+sk_len      = 3777
+ct_len      = 5185
+ss_len      = 32
+timing  keygen 7.622 ms  enc 13.938 ms  dec 27.506 ms (avg over 10)
+wrote  kat/KAT_KEM_HQC-128.txt (256530 bytes)
+manifest e12c02dfd31ba3d1fde5fa077817fc05821a2b2e0426c7844c37189a54989de0 strict KAT_KEM_HQC-128.txt
+RESULT kem-26 HQC-128 PASS 

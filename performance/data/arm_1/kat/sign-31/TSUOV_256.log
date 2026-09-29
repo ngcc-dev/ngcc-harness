@@ -1,0 +1,16 @@
+library     = lib/libTSUOV_256.so
+id          = sign-31
+type        = sig
+algorithm   = TSUOV
+instance    = TSUOV_256
+variant     = Reference_Implementation
+source_dir  = Implementations/Digital_Signature-TSUOV-x86-Reference_Implementation/API_PKC/Implementations/Reference_Implementation/TSUOV_256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2170
+sk_len      = 64
+sn_len      = 2412
+timing  keygen 18.149 ms  sign 22.973 ms  verify 20.902 ms (avg over 10)
+wrote  kat/KAT_SIG_TSUOV_256.txt (97114 bytes)
+manifest 32069217036e74ab584e6920d9990311b4d1ae93dd271048cdd1f1c057f72937 strict KAT_SIG_TSUOV_256.txt
+RESULT sign-31 TSUOV_256 PASS 

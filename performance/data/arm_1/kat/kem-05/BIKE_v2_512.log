@@ -1,0 +1,17 @@
+library     = lib/libBIKE_v2_512.so
+id          = kem-05
+type        = kem
+algorithm   = BIKE-MLThre
+instance    = BIKE_v2_512
+variant     = Reference_Implementation
+source_dir  = Implementations/reference
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 18751
+sk_len      = 37566
+ct_len      = 18815
+ss_len      = 64
+timing  keygen 47866.445 ms  enc 142.241 ms  dec 785.057 ms (avg over 10)
+wrote  kat/KAT_KEM_BIKE_MLThre_512.txt (1506340 bytes)
+manifest 11ac65a824a0bedaf02e437a364ea7d7972824554eda09753d5855c8893a7088 strict KAT_KEM_BIKE_MLThre_512.txt
+RESULT kem-05 BIKE_v2_512 PASS 

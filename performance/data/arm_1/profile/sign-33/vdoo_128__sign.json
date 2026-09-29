@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "sign-33",
+ "label": "vdoo_128",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-33/libvdoo_128.so",
+  "sign",
+  "0",
+  "165",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-33",
+  "instance": "VDOO-128",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 165,
+  "ticks": 244155882
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 244,
+   "ticks": 7596
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 256,
+   "calls": 165,
+   "ticks": 3788
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 384,
+   "out_bits": 280,
+   "calls": 244,
+   "ticks": 5958
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8,
+   "calls": 960175,
+   "ticks": 29113133
+  }
+ ],
+ "share": {
+  "drng": 0.11927105241724219,
+  "pseudoXOF": 3.991712147242064e-05
+ },
+ "hash_share": 3.991712147242064e-05
+}

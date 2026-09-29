@@ -1,0 +1,111 @@
+{
+ "schema": 2,
+ "candidate": "kem-37",
+ "label": "TriQ-KEM-128",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-37/libTriQ-KEM-128.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-37",
+  "instance": "TriQ-KEM-128",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 17890033
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 1664,
+   "calls": 1000,
+   "ticks": 69177
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 9856,
+   "calls": 1000,
+   "ticks": 383283
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 128,
+   "calls": 1000,
+   "ticks": 10658
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 8320,
+   "calls": 1000,
+   "ticks": 324076
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 776,
+   "out_bits": 128,
+   "calls": 1000,
+   "ticks": 20411
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 776,
+   "out_bits": 8320,
+   "calls": 1000,
+   "ticks": 625995
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 16320,
+   "calls": 1000,
+   "ticks": 628547
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 24512,
+   "calls": 1000,
+   "ticks": 941709
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 2000,
+   "ticks": 80911
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 136,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10779
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.16790667742200363,
+  "drng": 0.0045226859000204195,
+  "sm3hash": 0.000602514260314668
+ },
+ "hash_share": 0.1685091916823183
+}

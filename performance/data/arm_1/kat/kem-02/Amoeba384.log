@@ -1,0 +1,17 @@
+library     = lib/libAmoeba384.so
+id          = kem-02
+type        = kem
+algorithm   = Amoeba
+instance    = Amoeba384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Amoeba-1728/src
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2440
+sk_len      = 5096
+ct_len      = 2769
+ss_len      = 64
+timing  keygen 0.236 ms  enc 0.333 ms  dec 0.362 ms (avg over 10)
+wrote  kat/KAT_KEM_Amoeba384.txt (209770 bytes)
+manifest ae08dbe4316138bdef5f8e28de565e9568c011ee43c658b3d030c0e1d1ebc169 strict KAT_KEM_Amoeba384.txt
+RESULT kem-02 Amoeba384 PASS 

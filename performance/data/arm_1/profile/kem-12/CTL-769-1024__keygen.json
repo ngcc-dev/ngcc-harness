@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "kem-12",
+ "label": "CTL-769-1024",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-12/libCTL-769-1024.so",
+  "keygen",
+  "0",
+  "47",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-12",
+  "instance": "CTL-769-1024",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199950",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 47,
+  "ticks": 22211042
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 384,
+   "out_bits": 256,
+   "calls": 47,
+   "ticks": 668
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 320,
+   "out_bits": 256,
+   "calls": 293,
+   "ticks": 3411
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 320,
+   "out_bits": 1024,
+   "calls": 15744,
+   "ticks": 631706
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 47,
+   "ticks": 1751
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.028624726386092106,
+  "drng": 7.883466250705392e-05
+ },
+ "hash_share": 0.028624726386092106
+}

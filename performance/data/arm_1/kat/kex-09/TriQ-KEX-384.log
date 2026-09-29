@@ -1,0 +1,20 @@
+library     = lib/libTriQ-KEX-384.so
+id          = kex-09
+type        = kex
+algorithm   = TriQ-KEX
+instance    = TriQ-KEX-384
+variant     = Reference_Implementation
+source_dir  = TriQ-KEX/Implementations/Reference_Implementation/TriQ-KEX-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 12255
+sk_len      = 12495
+sta_len     = 49037
+stb_len     = 48814
+ss_len      = 48
+total_msg   = 85276
+timing  full exchange 201.330 ms (avg over 10)
+wrote  kat/KAT_KEX_TriQ-KEX-384.txt (4658040 bytes)
+manifest fa0640014bcdda74907d6f353aaac60ca5cc0dbce8886086161533feaa66327b strict KAT_KEX_TriQ-KEX-384.txt
+RESULT kex-09 TriQ-KEX-384 PASS 

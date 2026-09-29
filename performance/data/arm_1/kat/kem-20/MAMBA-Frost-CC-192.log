@@ -1,0 +1,17 @@
+library     = lib/libMAMBA-Frost-CC-192.so
+id          = kem-20
+type        = kem
+algorithm   = MAMBA-Frost
+instance    = MAMBA-Frost-CC-192
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-Frost-CC-192
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 9712
+sk_len      = 11528
+ct_len      = 9760
+ss_len      = 24
+timing  keygen 25.488 ms  enc 26.509 ms  dec 27.025 ms (avg over 10)
+wrote  kat/KAT_KEM_MAMBA-Frost-CC-192.txt (622880 bytes)
+manifest a83c463b19de1115da68ce66fd1cd5f5eba772c939e2c59e7fbda86da88373e8 strict KAT_KEM_MAMBA-Frost-CC-192.txt
+RESULT kem-20 MAMBA-Frost-CC-192 PASS 

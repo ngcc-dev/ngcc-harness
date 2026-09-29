@@ -1,0 +1,17 @@
+library     = lib/libFLIT128_REF.so
+id          = kem-15
+type        = kem
+algorithm   = FLIT
+instance    = FLIT128_REF
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/FLIT128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 615
+sk_len      = 1351
+ct_len      = 512
+ss_len      = 32
+timing  keygen 0.032 ms  enc 0.030 ms  dec 0.037 ms (avg over 10)
+wrote  kat/KAT_KEM_FLIT128_REF.txt (52570 bytes)
+manifest 0aaf72c554c91d83f363ee34a74ddb8114082b8f52054de55d80d2cdc123404c strict KAT_KEM_FLIT128_REF.txt
+RESULT kem-15 FLIT128_REF PASS 

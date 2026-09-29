@@ -1,0 +1,17 @@
+library     = lib/libDTRU-Prime.so
+id          = kem-14
+type        = kem
+algorithm   = DTRU
+instance    = DTRU-Prime
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/DTRU-Prime
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1495
+sk_len      = 1935
+ct_len      = 1359
+ss_len      = 32
+timing  keygen 27.165 ms  enc 0.078 ms  dec 0.161 ms (avg over 10)
+wrote  kat/KAT_KEM_DTRU-Prime.txt (98810 bytes)
+manifest 19417f6febb233742cf08beb408b3b60c01965ea93aa3e9709cbbb092e9a34fc strict KAT_KEM_DTRU-Prime.txt
+RESULT kem-14 DTRU-Prime PASS 

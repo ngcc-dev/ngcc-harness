@@ -1,0 +1,17 @@
+library     = lib/libLoong128.so
+id          = kem-18
+type        = kem
+algorithm   = LoongKEM
+instance    = Loong128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Loong128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1472
+sk_len      = 1848
+ct_len      = 1512
+ss_len      = 16
+timing  keygen 1.643 ms  enc 1.643 ms  dec 1.655 ms (avg over 10)
+wrote  kat/KAT_KEM_Loong128.txt (99350 bytes)
+manifest 75672c8d94a18620e00a5cefe3ef77a4569b9fdcaf0fd3ee7277ac69336e941c strict KAT_KEM_Loong128.txt
+RESULT kem-18 Loong128 PASS 

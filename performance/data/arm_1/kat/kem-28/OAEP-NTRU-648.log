@@ -1,0 +1,17 @@
+library     = lib/libOAEP-NTRU-648.so
+id          = kem-28
+type        = kem
+algorithm   = OAEP-NTRU
+instance    = OAEP-NTRU-648
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/OAEP-NTRU-648
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1053
+sk_len      = 2138
+ct_len      = 1085
+ss_len      = 32
+timing  keygen 0.041 ms  enc 0.029 ms  dec 0.022 ms (avg over 10)
+wrote  kat/KAT_KEM_OAEP-NTRU-648.txt (88550 bytes)
+manifest 8626ce8766863743babd3c20e21dbd0e4695d2defc453ed697b9159b458596bd strict KAT_KEM_OAEP-NTRU-648.txt
+RESULT kem-28 OAEP-NTRU-648 PASS 

@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-30",
+ "label": "ZC-DM-1280-1024",
+ "instance": "ZC-DM-1280-1024",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 65536,
+ "plan": {
+  "iterations_per_trial": 1430,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5094924687677005,
+  "timeout_per_process_s": 301.5056954812606
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-30/lib/libZC-DM-1280-1024.so",
+ "library_sha256": "079ddf0d79233e9af44135b1312753489f65982613d3f729b280461ab94ea011",
+ "kat_log": "kat/hash-30/ZC-DM-1280-1024.log",
+ "kat_log_sha256": "be7e7ccb9e73949dfb0ec5dfd1a4eba3b7eb5a2ab290641603174fa17dce0d3f",
+ "started_utc": "2026-09-28T20:03:44.899007+00:00",
+ "ended_utc": "2026-09-28T20:03:48.049707+00:00",
+ "load_average_start": [
+  4.001953125,
+  4.04443359375,
+  4.0
+ ],
+ "load_average_end": [
+  4.00146484375,
+  4.04345703125,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-30",
+    "instance": "ZC-DM-1280-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1495040",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1560576",
+    "measurement_count": "1430",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1430,
+     "seconds": 0.624546093,
+     "cycles": 1682922261
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-30/lib/libZC-DM-1280-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1430",
+    "3"
+   ],
+   "wall_s": 0.6294248104095459,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-30",
+    "instance": "ZC-DM-1280-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1564672",
+    "measurement_count": "1430",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1430,
+     "seconds": 0.626974427,
+     "cycles": 1689394160
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-30/lib/libZC-DM-1280-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1430",
+    "3"
+   ],
+   "wall_s": 0.6294407844543457,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-30",
+    "instance": "ZC-DM-1280-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3567616",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "3633152",
+    "measurement_count": "1430",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1430,
+     "seconds": 0.625706771,
+     "cycles": 1686293989
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-30/lib/libZC-DM-1280-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1430",
+    "3"
+   ],
+   "wall_s": 0.6308825016021729,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-30",
+    "instance": "ZC-DM-1280-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1495040",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1560576",
+    "measurement_count": "1430",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1430,
+     "seconds": 0.624842761,
+     "cycles": 1683559273
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-30/lib/libZC-DM-1280-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1430",
+    "3"
+   ],
+   "wall_s": 0.6299388408660889,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-30",
+    "instance": "ZC-DM-1280-1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1495040",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1560576",
+    "measurement_count": "1430",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1430,
+     "seconds": 0.62583625,
+     "cycles": 1686674217
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "hash-30/lib/libZC-DM-1280-1024.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1430",
+    "3"
+   ],
+   "wall_s": 0.6309146881103516,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1430,
+   "seconds": 0.624546093,
+   "cycles": 1682922261
+  },
+  {
+   "measurements": 1430,
+   "seconds": 0.626974427,
+   "cycles": 1689394160
+  },
+  {
+   "measurements": 1430,
+   "seconds": 0.625706771,
+   "cycles": 1686293989
+  },
+  {
+   "measurements": 1430,
+   "seconds": 0.624842761,
+   "cycles": 1683559273
+  },
+  {
+   "measurements": 1430,
+   "seconds": 0.62583625,
+   "cycles": 1686674217
+  }
+ ],
+ "measurements": 7150,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00043746941286713285,
+ "median_trial_seconds": 0.00043755718251748256,
+ "min_trial_seconds": 0.00043674551958041954,
+ "max_trial_seconds": 0.0004384436552447552,
+ "mean_cycles": 1178859.2867132868,
+ "median_trial_cycles": 1179226.5657342658,
+ "operations_per_second": 2285.8740990509377,
+ "throughput_MB_per_second": 149.80704495540226,
+ "sizes": {
+  "input_bytes": 65536,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 128
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 3567616,
+ "peak_rss_bytes": 3633152,
+ "timing_scope": "loop"
+}

@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SM3-128s.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SM3-128s
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SM3-128s
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 32
+sk_len      = 64
+sn_len      = 6258
+timing  keygen 92.338 ms  sign 1116.774 ms  verify 3.742 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SM3-128s.txt (130630 bytes)
+manifest 6dcab365399ac8e598f13dba217e23122e1bf0c4f455614bd09b16b467eb52c9 strict KAT_SIG_Phoenix-SM3-128s.txt
+RESULT sign-19 Phoenix-SM3-128s MISMATCH KAT_SIG_Phoenix-SM3-128s.txt: sha256 48fb91e3a7b0f1af1afca0ab741f6a5a0560aa86b8dc45e812d414cc03f729b5 != manifest 6dcab365399ac8e598f13dba217e23122e1bf0c4f455614bd09b16b467eb52c9

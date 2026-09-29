@@ -32,7 +32,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `si
 | `Facto-DSA-256` | guide | PASS |
 | `Facto-DSA-512` | harness-default | NOKAT [1] |
 
-[1] NOKAT: the submission contains no KAT file for Facto-DSA-512, so its output cannot be checked against submitted vectors These instances are timed anyway; their output is not validated.
+[1] NOKAT: the submission contains no KAT file for Facto-DSA-512, so its output cannot be checked against submitted vectors; the other Facto-DSA instances pass. These instances are timed anyway; their output is not validated.
 
 ## 4. Performance
 

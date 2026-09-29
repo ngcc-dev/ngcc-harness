@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-02",
+ "label": "Amoeba512",
+ "instance": "Amoeba512",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 1164,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5135502536779786,
+  "timeout_per_process_s": 301.5081301522068
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-02/lib/libAmoeba512.so",
+ "library_sha256": "14e67c6613434b1c7feacabba78b103041c4f505176f49c5caab38c0ba1b7854",
+ "kat_log": "kat/kem-02/Amoeba512.log",
+ "kat_log_sha256": "4aeac966c6f66723194895409dec5255bd0613171208ad19e40b0fb793fc95d2",
+ "started_utc": "2026-09-28T20:05:59.582463+00:00",
+ "ended_utc": "2026-09-28T20:06:02.634462+00:00",
+ "load_average_start": [
+  4.00830078125,
+  4.03515625,
+  4.0
+ ],
+ "load_average_end": [
+  4.00732421875,
+  4.0341796875,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-02",
+    "instance": "Amoeba512",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1536000",
+    "pk_bytes": "3520",
+    "sk_bytes": "7040",
+    "ct_bytes": "3914",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1605632",
+    "measurement_count": "1164",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1164,
+     "seconds": 0.607214322,
+     "cycles": 1636060605
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-02/lib/libAmoeba512.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "1164",
+    "3"
+   ],
+   "wall_s": 0.6109771728515625,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-02",
+    "instance": "Amoeba512",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1536000",
+    "pk_bytes": "3520",
+    "sk_bytes": "7040",
+    "ct_bytes": "3914",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1605632",
+    "measurement_count": "1164",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1164,
+     "seconds": 0.604604166,
+     "cycles": 1629147619
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-02/lib/libAmoeba512.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "1164",
+    "3"
+   ],
+   "wall_s": 0.6088895797729492,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-02",
+    "instance": "Amoeba512",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "3520",
+    "sk_bytes": "7040",
+    "ct_bytes": "3914",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1593344",
+    "measurement_count": "1164",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1164,
+     "seconds": 0.604843593,
+     "cycles": 1630020190
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-02/lib/libAmoeba512.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "1164",
+    "3"
+   ],
+   "wall_s": 0.610975980758667,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-02",
+    "instance": "Amoeba512",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1536000",
+    "pk_bytes": "3520",
+    "sk_bytes": "7040",
+    "ct_bytes": "3914",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1605632",
+    "measurement_count": "1164",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1164,
+     "seconds": 0.604220625,
+     "cycles": 1628074781
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-02/lib/libAmoeba512.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "1164",
+    "3"
+   ],
+   "wall_s": 0.6103546619415283,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-02",
+    "instance": "Amoeba512",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1540096",
+    "pk_bytes": "3520",
+    "sk_bytes": "7040",
+    "ct_bytes": "3914",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1609728",
+    "measurement_count": "1164",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1164,
+     "seconds": 0.604533697,
+     "cycles": 1629027059
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-02/lib/libAmoeba512.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "1164",
+    "3"
+   ],
+   "wall_s": 0.610710620880127,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1164,
+   "seconds": 0.607214322,
+   "cycles": 1636060605
+  },
+  {
+   "measurements": 1164,
+   "seconds": 0.604604166,
+   "cycles": 1629147619
+  },
+  {
+   "measurements": 1164,
+   "seconds": 0.604843593,
+   "cycles": 1630020190
+  },
+  {
+   "measurements": 1164,
+   "seconds": 0.604220625,
+   "cycles": 1628074781
+  },
+  {
+   "measurements": 1164,
+   "seconds": 0.604533697,
+   "cycles": 1629027059
+  }
+ ],
+ "measurements": 5820,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0005198309970790378,
+ "median_trial_seconds": 0.0005194193865979381,
+ "min_trial_seconds": 0.0005190898840206186,
+ "max_trial_seconds": 0.0005216617886597938,
+ "mean_cycles": 1400744.0298969073,
+ "median_trial_cycles": 1399611.3565292095,
+ "operations_per_second": 1923.7021370773602,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 3520,
+  "sk_bytes": 7040,
+  "ct_bytes": 3914,
+  "ss_bytes": 64,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1540096,
+ "peak_rss_bytes": 1609728,
+ "timing_scope": "loop"
+}

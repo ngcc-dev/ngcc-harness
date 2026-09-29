@@ -1,0 +1,75 @@
+{
+ "schema": 2,
+ "candidate": "kem-20",
+ "label": "MAMBA-Frost-512",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-20/libMAMBA-Frost-512.so",
+  "keygen",
+  "0",
+  "5",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-20",
+  "instance": "MAMBA-Frost-512",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 5,
+  "ticks": 26567954
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 332800,
+   "calls": 5,
+   "ticks": 64456
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 291456,
+   "out_bits": 256,
+   "calls": 5,
+   "ticks": 25827
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 256,
+   "out_bits": 256,
+   "calls": 5,
+   "ticks": 57
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1032,
+   "out_bits": 332800,
+   "calls": 5,
+   "ticks": 181463
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1792,
+   "calls": 5,
+   "ticks": 456
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.010230482934440491,
+  "drng": 1.7163534685433436e-05
+ },
+ "hash_share": 0.010230482934440491
+}

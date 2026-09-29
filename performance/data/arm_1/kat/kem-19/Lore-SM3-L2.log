@@ -1,0 +1,17 @@
+library     = lib/libLore-SM3-L2.so
+id          = kem-19
+type        = kem
+algorithm   = Lore
+instance    = Lore-SM3-L2
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Lore-SM3/Lore-L2
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1186
+sk_len      = 4518
+ct_len      = 1282
+ss_len      = 32
+timing  keygen 0.265 ms  enc 0.569 ms  dec 0.376 ms (avg over 10)
+wrote  kat/KAT_KEM_Lore-L2.txt (142750 bytes)
+manifest 0d153f00c6b1946f69438cfe6e375f62a6378a359e7b1799c328a49189fc046f strict KAT_KEM_Lore-L2.txt
+RESULT kem-19 Lore-SM3-L2 PASS 

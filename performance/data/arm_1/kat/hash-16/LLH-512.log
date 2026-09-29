@@ -1,0 +1,18 @@
+library     = lib/libLLH-512.so
+id          = hash-16
+type        = hash
+algorithm   = LLH
+instance    = LLH-512
+variant     = Reference_Implementation
+source_dir  = LLH/Implementations and Test_Vectors/LLH_C/API_CryptHash/Implementations/Reference_Implementation/LLH-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.071 s
+wrote  kat/KAT_2_12_LLH-512.txt (2804822 bytes)
+manifest 0a6a761d32769bb0198d6d49df62505944baad47bcd29e77397f9b6cd1595fa9 strict KAT_2_12_LLH-512.txt
+timing  KAT_2_23 0.030 s
+wrote  kat/KAT_2_23_LLH-512.txt (815 bytes)
+manifest 79735c5f8bd6c07688e9e181b6d30800430276a1905357a533579cc625d74c62 strict KAT_2_23_LLH-512.txt
+RESULT hash-16 LLH-512 PASS 

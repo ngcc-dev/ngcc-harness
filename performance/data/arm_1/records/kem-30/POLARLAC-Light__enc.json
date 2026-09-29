@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-30",
+ "label": "POLARLAC-Light",
+ "instance": "POLARLAC-Light",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 10149,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.505048796975708,
+  "timeout_per_process_s": 301.5030292781854
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-30/lib/libPOLARLAC-Light.so",
+ "library_sha256": "482d769b0073f9cd496f7f81a5e3e8a9e1982e57ef917f6301f4e812bd283394",
+ "kat_log": "kat/kem-30/POLARLAC-Light.log",
+ "kat_log_sha256": "b06e208be907c37a2afd88dae3cfab7aeefee95e49de7ad7677048da959217a4",
+ "started_utc": "2026-09-28T20:43:33.737604+00:00",
+ "ended_utc": "2026-09-28T20:43:36.822030+00:00",
+ "load_average_start": [
+  4.2734375,
+  4.11669921875,
+  4.04541015625
+ ],
+ "load_average_end": [
+  4.2734375,
+  4.11669921875,
+  4.04541015625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-30",
+    "instance": "POLARLAC-Light",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1482752",
+    "pk_bytes": "530",
+    "sk_bytes": "1570",
+    "ct_bytes": "608",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1548288",
+    "measurement_count": "10149",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10149,
+     "seconds": 0.610722187,
+     "cycles": 1645951549
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-30/lib/libPOLARLAC-Light.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "10149",
+    "3"
+   ],
+   "wall_s": 0.6147613525390625,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-30",
+    "instance": "POLARLAC-Light",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1474560",
+    "pk_bytes": "530",
+    "sk_bytes": "1570",
+    "ct_bytes": "608",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1540096",
+    "measurement_count": "10149",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10149,
+     "seconds": 0.618442552,
+     "cycles": 1666507097
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-30/lib/libPOLARLAC-Light.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "10149",
+    "3"
+   ],
+   "wall_s": 0.6207385063171387,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-30",
+    "instance": "POLARLAC-Light",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1478656",
+    "pk_bytes": "530",
+    "sk_bytes": "1570",
+    "ct_bytes": "608",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1544192",
+    "measurement_count": "10149",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10149,
+     "seconds": 0.614026249,
+     "cycles": 1654769377
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-30/lib/libPOLARLAC-Light.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "10149",
+    "3"
+   ],
+   "wall_s": 0.618175745010376,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-30",
+    "instance": "POLARLAC-Light",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1470464",
+    "pk_bytes": "530",
+    "sk_bytes": "1570",
+    "ct_bytes": "608",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1536000",
+    "measurement_count": "10149",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10149,
+     "seconds": 0.6112275,
+     "cycles": 1647128176
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-30/lib/libPOLARLAC-Light.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "10149",
+    "3"
+   ],
+   "wall_s": 0.6153349876403809,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-30",
+    "instance": "POLARLAC-Light",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1470464",
+    "pk_bytes": "530",
+    "sk_bytes": "1570",
+    "ct_bytes": "608",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1536000",
+    "measurement_count": "10149",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10149,
+     "seconds": 0.611074531,
+     "cycles": 1646639898
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-30/lib/libPOLARLAC-Light.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "10149",
+    "3"
+   ],
+   "wall_s": 0.6152622699737549,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 10149,
+   "seconds": 0.610722187,
+   "cycles": 1645951549
+  },
+  {
+   "measurements": 10149,
+   "seconds": 0.618442552,
+   "cycles": 1666507097
+  },
+  {
+   "measurements": 10149,
+   "seconds": 0.614026249,
+   "cycles": 1654769377
+  },
+  {
+   "measurements": 10149,
+   "seconds": 0.6112275,
+   "cycles": 1647128176
+  },
+  {
+   "measurements": 10149,
+   "seconds": 0.611074531,
+   "cycles": 1646639898
+  }
+ ],
+ "measurements": 50745,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 6.0409755030052216e-05,
+ "median_trial_seconds": 6.0225391664203376e-05,
+ "min_trial_seconds": 6.017560222682038e-05,
+ "max_trial_seconds": 6.093630426643019e-05,
+ "mean_cycles": 162794.2870627648,
+ "median_trial_cycles": 162294.62764804414,
+ "operations_per_second": 16553.61786358059,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 530,
+  "sk_bytes": 1570,
+  "ct_bytes": 608,
+  "ss_bytes": 16,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1482752,
+ "peak_rss_bytes": 1548288,
+ "timing_scope": "loop"
+}

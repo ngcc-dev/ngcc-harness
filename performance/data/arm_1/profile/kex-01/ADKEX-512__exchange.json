@@ -1,0 +1,119 @@
+{
+ "schema": 2,
+ "candidate": "kex-01",
+ "label": "ADKEX-512",
+ "operation": "exchange",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kex-01/libADKEX-512.so",
+  "exchange",
+  "0",
+  "259",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kex-01",
+  "instance": "ADKEX-512",
+  "operation": "exchange",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 259,
+  "ticks": 24901449
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 1024,
+   "calls": 518,
+   "ticks": 39920
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 259,
+   "ticks": 10596
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 1036,
+   "ticks": 89897
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 552,
+   "out_bits": 256,
+   "calls": 161616,
+   "ticks": 3120556
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1024,
+   "out_bits": 512,
+   "calls": 518,
+   "ticks": 54967
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1024,
+   "out_bits": 1024,
+   "calls": 1036,
+   "ticks": 117518
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1536,
+   "calls": 259,
+   "ticks": 20633
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 560,
+   "out_bits": 256,
+   "calls": 795648,
+   "ticks": 15635255
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 259,
+   "ticks": 15691
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1536,
+   "out_bits": 512,
+   "calls": 518,
+   "ticks": 38931
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 104576,
+   "out_bits": 512,
+   "calls": 518,
+   "ticks": 1928081
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.08531431243218016,
+  "drng": 0.0018842277009663174,
+  "pseudohash": 0.005817492789275034,
+  "sm3hash": 0.7532015907989933
+ },
+ "hash_share": 0.8443333960204484
+}

@@ -1,0 +1,119 @@
+{
+ "schema": 2,
+ "candidate": "kem-37",
+ "label": "TriQ-KEM-256",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-37/libTriQ-KEM-256.so",
+  "enc",
+  "0",
+  "127",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-37",
+  "instance": "TriQ-KEM-256",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 127,
+  "ticks": 24337609
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 50368,
+   "calls": 127,
+   "ticks": 249023
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 58560,
+   "calls": 127,
+   "ticks": 289626
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 50632,
+   "out_bits": 256,
+   "calls": 127,
+   "ticks": 114699
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 776,
+   "out_bits": 256,
+   "calls": 127,
+   "ticks": 2580
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 776,
+   "out_bits": 8448,
+   "calls": 127,
+   "ticks": 79340
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 254,
+   "ticks": 10263
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 776,
+   "out_bits": 1024,
+   "calls": 127,
+   "ticks": 30311
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 15936,
+   "calls": 127,
+   "ticks": 79630
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 24128,
+   "calls": 127,
+   "ticks": 120174
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 4224,
+   "calls": 127,
+   "ticks": 21571
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 12416,
+   "calls": 127,
+   "ticks": 62176
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.037149088885436526,
+  "sm3hash": 0.004712829432011994,
+  "drng": 0.0004216930266239383,
+  "pseudohash": 0.0012454386953130853
+ },
+ "hash_share": 0.0431073570127616
+}

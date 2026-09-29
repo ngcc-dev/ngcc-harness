@@ -1,0 +1,83 @@
+{
+ "schema": 2,
+ "candidate": "sign-01",
+ "label": "Aigis-sig2",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-01/libAigis-sig2.so",
+  "verify",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-01",
+  "instance": "Aigis-sig2",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 11909798
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 2816,
+   "calls": 64000,
+   "ticks": 8182194
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 14592,
+   "out_bits": 384,
+   "calls": 1000,
+   "ticks": 527266
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 59794
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 896,
+   "out_bits": 384,
+   "calls": 1000,
+   "ticks": 38880
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 6528,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 118834
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 15000,
+   "ticks": 453123
+  }
+ ],
+ "share": {
+  "drng": 0.7300804765958248,
+  "pseudoXOF": 0.04753615468541112,
+  "sm3hash": 0.009977835056480387
+ },
+ "hash_share": 0.05751398974189151
+}

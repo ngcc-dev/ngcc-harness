@@ -1,0 +1,16 @@
+library     = lib/libCS-512.so
+id          = sign-07
+type        = sig
+algorithm   = CS
+instance    = CS_512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CS-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 4288
+sk_len      = 7808
+sn_len      = 5975
+timing  keygen 0.768 ms  sign 10.541 ms  verify 0.958 ms (avg over 10)
+wrote  kat/KAT_SIG_CS_512.txt (365634 bytes)
+manifest c01d1cf5a2b84c745f2f958c24535d2fb7559689d3497c00b19bccd4f548c7b8 strict KAT_SIG_CS_512.txt
+RESULT sign-07 CS_512 PASS 

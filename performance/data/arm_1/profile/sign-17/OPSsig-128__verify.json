@@ -1,0 +1,76 @@
+{
+ "schema": 2,
+ "candidate": "sign-17",
+ "label": "OPSsig-128",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-17/libOPSsig-128.so",
+  "verify",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-17",
+  "instance": "OPSsig-128",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 14579464
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 560,
+   "out_bits": 16416,
+   "calls": 9000,
+   "ticks": 11277647
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 256,
+   "out_bits": 256,
+   "calls": 3000,
+   "ticks": 31527
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 7168,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 137449
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 20480,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 946328
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1552,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 275524
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.7756920281843008,
+  "sm3hash": 0.009427575663961308,
+  "pseudohash": 0.0838063731286692
+ },
+ "hash_share": 0.8689259769769313
+}

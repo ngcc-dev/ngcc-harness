@@ -1,0 +1,17 @@
+library     = lib/libCTL-257-512.so
+id          = kem-12
+type        = kem
+algorithm   = CTL
+instance    = CTL-257-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/KEM-CTL-x86-Reference_Implementation/crypto_kem/Implementations/CTL-257-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 521
+sk_len      = 2953
+ct_len      = 473
+ss_len      = 16
+timing  keygen 5.064 ms  enc 0.019 ms  dec 0.101 ms (avg over 10)
+wrote  kat/KAT_KEM_CTL-257-512.txt (81630 bytes)
+manifest 11d45228b258d514b2c68f931805f84a3e88b1ca3129b350fd51b4d89dcce6a1 strict KAT_KEM_CTL-257-512.txt
+RESULT kem-12 CTL-257-512 PASS 

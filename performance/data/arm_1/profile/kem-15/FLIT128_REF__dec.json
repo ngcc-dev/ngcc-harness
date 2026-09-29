@@ -1,0 +1,76 @@
+{
+ "schema": 2,
+ "candidate": "kem-15",
+ "label": "FLIT128_REF",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-15/libFLIT128_REF.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-15",
+  "instance": "FLIT128_REF",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 881216
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 2048,
+   "calls": 1000,
+   "ticks": 80340
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 4096,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 82712
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 88154
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 19828
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 1536,
+   "calls": 1000,
+   "ticks": 60170
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.18195084973491177,
+  "sm3hash": 0.09386120996441281,
+  "pseudohash": 0.10003676737598954
+ },
+ "hash_share": 0.37584882707531414
+}

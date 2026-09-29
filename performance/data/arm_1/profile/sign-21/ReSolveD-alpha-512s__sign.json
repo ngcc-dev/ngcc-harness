@@ -1,0 +1,110 @@
+{
+ "schema": 2,
+ "candidate": "sign-21",
+ "label": "ReSolveD-alpha-512s",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-21/libReSolveD-alpha-512s.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-21",
+  "instance": "ReSolveD-alpha-512s",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 74859341
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 174552,
+   "out_bits": 2624,
+   "calls": 3,
+   "ticks": 102173
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 150
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 8654440,
+   "calls": 6,
+   "ticks": 3906069
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 2664,
+   "out_bits": 512,
+   "calls": 38750,
+   "ticks": 4294951
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 3600,
+   "out_bits": 1536,
+   "calls": 3,
+   "ticks": 1373
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 2097152,
+   "out_bits": 1024,
+   "calls": 138,
+   "ticks": 20460855
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 2056,
+   "out_bits": 632,
+   "calls": 3,
+   "ticks": 414
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 276312,
+   "out_bits": 1600,
+   "calls": 3,
+   "ticks": 102479
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 48768,
+   "out_bits": 1024,
+   "calls": 3,
+   "ticks": 10385
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 2056,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 280
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.3857765592673331,
+  "drng": 2.0037579545350257e-06
+ },
+ "hash_share": 0.3857765592673331
+}

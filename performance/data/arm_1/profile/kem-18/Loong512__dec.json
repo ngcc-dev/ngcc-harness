@@ -1,0 +1,81 @@
+{
+ "schema": 2,
+ "candidate": "kem-18",
+ "label": "Loong512",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-18/libLoong512.so",
+  "dec",
+  "0",
+  "48",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-18",
+  "instance": "Loong512",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 48,
+  "ticks": 24773114
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 87424,
+   "out_bits": 512,
+   "calls": 48,
+   "ticks": 149068
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 8640,
+   "calls": 48,
+   "ticks": 31907
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 5990400,
+   "calls": 48,
+   "ticks": 21115371
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 2304,
+   "calls": 48,
+   "ticks": 8508
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 30720,
+   "calls": 48,
+   "ticks": 108402
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 832,
+   "out_bits": 2432,
+   "calls": 48,
+   "ticks": 9357
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.8647525296981236
+ },
+ "hash_share": 0.8647525296981236
+}

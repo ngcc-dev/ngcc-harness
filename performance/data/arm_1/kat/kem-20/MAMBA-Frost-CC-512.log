@@ -1,0 +1,17 @@
+library     = lib/libMAMBA-Frost-CC-512.so
+id          = kem-20
+type        = kem
+algorithm   = MAMBA-Frost
+instance    = MAMBA-Frost-CC-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-Frost-CC-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 72832
+sk_len      = 83328
+ct_len      = 36544
+ss_len      = 64
+timing  keygen 229.275 ms  enc 216.219 ms  dec 218.610 ms (avg over 10)
+wrote  kat/KAT_KEM_MAMBA-Frost-CC-512.txt (3857780 bytes)
+manifest b9ad70ddf5d424dd361546d79343b54daf93b99d5313ad8f0afc013d0040a22e strict KAT_KEM_MAMBA-Frost-CC-512.txt
+RESULT kem-20 MAMBA-Frost-CC-512 PASS 

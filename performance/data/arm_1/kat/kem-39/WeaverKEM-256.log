@@ -1,0 +1,17 @@
+library     = lib/libWeaverKEM-256.so
+id          = kem-39
+type        = kem
+algorithm   = Weaver
+instance    = WeaverKEM-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/WeaverKEM-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1312
+sk_len      = 3072
+ct_len      = 1536
+ss_len      = 32
+timing  keygen 0.249 ms  enc 0.271 ms  dec 0.272 ms (avg over 10)
+wrote  kat/KAT_KEM_WeaverKEM-256.txt (121430 bytes)
+manifest c3a6ea8b844842d9f9f8e5b48ac12f51a0eadb9f6ca6080d9afd2e23c9fc2b9a strict KAT_KEM_WeaverKEM-256.txt
+RESULT kem-39 WeaverKEM-256 PASS 

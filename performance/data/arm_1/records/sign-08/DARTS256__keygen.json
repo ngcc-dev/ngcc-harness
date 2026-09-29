@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-08",
+ "label": "DARTS256",
+ "instance": "DARTS256",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 1679,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5095324184283445,
+  "timeout_per_process_s": 301.505719451057
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-08/lib/libDARTS256.so",
+ "library_sha256": "41059546c7268d793bf9e8dd35a35bbc8e6b1ff9c784791d17e95de9895c5e64",
+ "kat_log": "kat/sign-08/DARTS256.log",
+ "kat_log_sha256": "303c94164bf10d95f16e8c234475f7be56c98ae8fc034d87fb7b5b82875cf0dc",
+ "started_utc": "2026-09-28T20:03:51.423088+00:00",
+ "ended_utc": "2026-09-28T20:03:54.773472+00:00",
+ "load_average_start": [
+  4.00146484375,
+  4.04345703125,
+  4.0
+ ],
+ "load_average_end": [
+  4.0009765625,
+  4.04248046875,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-08",
+    "instance": "DARTS256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1474560",
+    "pk_bytes": "2208",
+    "sk_bytes": "2880",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2489",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1593344",
+    "measurement_count": "1679",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1679,
+     "seconds": 0.665314219,
+     "cycles": 1792763718
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-08/lib/libDARTS256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1679",
+    "3"
+   ],
+   "wall_s": 0.6704020500183105,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-08",
+    "instance": "DARTS256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1482752",
+    "pk_bytes": "2208",
+    "sk_bytes": "2880",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2489",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1601536",
+    "measurement_count": "1679",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1679,
+     "seconds": 0.665007708,
+     "cycles": 1792136047
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-08/lib/libDARTS256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1679",
+    "3"
+   ],
+   "wall_s": 0.6697549819946289,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-08",
+    "instance": "DARTS256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1486848",
+    "pk_bytes": "2208",
+    "sk_bytes": "2880",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2489",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1605632",
+    "measurement_count": "1679",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1679,
+     "seconds": 0.665102916,
+     "cycles": 1792784927
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-08/lib/libDARTS256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1679",
+    "3"
+   ],
+   "wall_s": 0.6683707237243652,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-08",
+    "instance": "DARTS256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3563520",
+    "pk_bytes": "2208",
+    "sk_bytes": "2880",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2489",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "3678208",
+    "measurement_count": "1679",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1679,
+     "seconds": 0.665764739,
+     "cycles": 1794282633
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-08/lib/libDARTS256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1679",
+    "3"
+   ],
+   "wall_s": 0.670853853225708,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-08",
+    "instance": "DARTS256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1466368",
+    "pk_bytes": "2208",
+    "sk_bytes": "2880",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2489",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1585152",
+    "measurement_count": "1679",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1679,
+     "seconds": 0.665802291,
+     "cycles": 1794526675
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-08/lib/libDARTS256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "1679",
+    "3"
+   ],
+   "wall_s": 0.6709027290344238,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1679,
+   "seconds": 0.665314219,
+   "cycles": 1792763718
+  },
+  {
+   "measurements": 1679,
+   "seconds": 0.665007708,
+   "cycles": 1792136047
+  },
+  {
+   "measurements": 1679,
+   "seconds": 0.665102916,
+   "cycles": 1792784927
+  },
+  {
+   "measurements": 1679,
+   "seconds": 0.665764739,
+   "cycles": 1794282633
+  },
+  {
+   "measurements": 1679,
+   "seconds": 0.665802291,
+   "cycles": 1794526675
+  }
+ ],
+ "measurements": 8395,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00039630635771292436,
+ "median_trial_seconds": 0.00039625623525908277,
+ "min_trial_seconds": 0.0003960736795711733,
+ "max_trial_seconds": 0.000396546927337701,
+ "mean_cycles": 1068075.5211435377,
+ "median_trial_cycles": 1067769.462179869,
+ "operations_per_second": 2523.3004228621994,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 2208,
+  "sk_bytes": 2880,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 2489,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 3563520,
+ "peak_rss_bytes": 3678208,
+ "timing_scope": "loop"
+}

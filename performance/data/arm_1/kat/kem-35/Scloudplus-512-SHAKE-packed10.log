@@ -1,0 +1,17 @@
+library     = lib/libScloudplus-512-SHAKE-packed10.so
+id          = kem-35
+type        = kem
+algorithm   = Scloud+
+instance    = Scloudplus-512-SHAKE-packed10
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Scloudplus-512/kem
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 48016
+sk_len      = 57872
+ct_len      = 48320
+ss_len      = 64
+timing  keygen 24.807 ms  enc 22.147 ms  dec 22.278 ms (avg over 10)
+wrote  kat/KAT_KEM_Scloudplus-512-SHAKE-packed10.txt (3087860 bytes)
+manifest 7c657f31d3bb12a4ed008514866ada7fc8949903814cd082c856750ea08a4158 strict KAT_KEM_Scloudplus-512-SHAKE-packed10.txt
+RESULT kem-35 Scloudplus-512-SHAKE-packed10 PASS 

@@ -1,0 +1,89 @@
+{
+ "schema": 2,
+ "candidate": "kex-07",
+ "label": "NEV_AKE_512_1409",
+ "operation": "exchange",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kex-07/libNEV_AKE_512_1409.so",
+  "exchange",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kex-07",
+  "instance": "NEV_AKE_512_1409_ICCS",
+  "operation": "exchange",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199970",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 5919161
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 8000,
+   "ticks": 244281
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 128,
+   "calls": 4000,
+   "ticks": 41666
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 3072,
+   "calls": 12000,
+   "ticks": 1424857
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 27528,
+   "out_bits": 128,
+   "calls": 2000,
+   "ticks": 1006308
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 128,
+   "out_bits": 128,
+   "calls": 3000,
+   "ticks": 31138
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 136,
+   "out_bits": 2944,
+   "calls": 4000,
+   "ticks": 472583
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 22152,
+   "out_bits": 128,
+   "calls": 2000,
+   "ticks": 799834
+  }
+ ],
+ "share": {
+  "drng": 0.041269531273097654,
+  "pseudoXOF": 0.6379934588702689
+ },
+ "hash_share": 0.6379934588702689
+}

@@ -1,0 +1,18 @@
+library     = lib/libLLH-256.so
+id          = hash-16
+type        = hash
+algorithm   = LLH
+instance    = LLH-256
+variant     = Reference_Implementation
+source_dir  = LLH/Implementations and Test_Vectors/LLH_C/API_CryptHash/Implementations/Reference_Implementation/LLH-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 256
+digest_len  = 32
+timing  KAT_2_12 0.067 s
+wrote  kat/KAT_2_12_LLH-256.txt (2542614 bytes)
+manifest 2673552947ef755705a5742e3b8b64a8e903787185ae5f20f9d4e005536cc20b strict KAT_2_12_LLH-256.txt
+timing  KAT_2_23 0.033 s
+wrote  kat/KAT_2_23_LLH-256.txt (623 bytes)
+manifest 24c2ae7b90b5ddcfb8bab2e47f2dbbaf73802e798d286473edcbecd39a91052c strict KAT_2_23_LLH-256.txt
+RESULT hash-16 LLH-256 PASS 

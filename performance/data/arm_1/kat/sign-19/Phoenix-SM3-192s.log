@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SM3-192s.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SM3-192s
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SM3-192s
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 48
+sk_len      = 96
+sn_len      = 13332
+timing  keygen 293.747 ms  sign 3005.853 ms  verify 10.478 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SM3-192s.txt (271664 bytes)
+manifest 5f390c3cd8a61a91d3e5fb1c178c803e27f7beedd99e3eb7591e3fbede06901d strict KAT_SIG_Phoenix-SM3-192s.txt
+RESULT sign-19 Phoenix-SM3-192s MISMATCH KAT_SIG_Phoenix-SM3-192s.txt: sha256 bf25ca6175d410639249a9599a7e70771bc9065cc92b77d4bf64d2d80efec88b != manifest 5f390c3cd8a61a91d3e5fb1c178c803e27f7beedd99e3eb7591e3fbede06901d

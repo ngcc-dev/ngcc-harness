@@ -1,0 +1,17 @@
+library     = lib/libUVW-KEM-256.so
+id          = kem-38
+type        = kem
+algorithm   = UVW-KEM
+instance    = UVW_KEM_256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/UVW-KEM-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 911645
+sk_len      = 35
+ct_len      = 2199
+ss_len      = 64
+timing  keygen 1621.771 ms  enc 0.446 ms  dec 3035.339 ms (avg over 10)
+wrote  kat/KAT_KEM_UVW_KEM_256.txt (18281250 bytes)
+manifest 7061ac3bcce9277586b1ab94e76798c1dcaa6df53eab61fe8f2f616822d2cd7c strict KAT_KEM_UVW_KEM_256.txt
+RESULT kem-38 UVW_KEM_256 PASS 

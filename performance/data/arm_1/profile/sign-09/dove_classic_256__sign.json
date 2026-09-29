@@ -1,0 +1,60 @@
+{
+ "schema": 2,
+ "candidate": "sign-09",
+ "label": "dove_classic_256",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-09/libdove_classic_256.so",
+  "sign",
+  "0",
+  "155",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-09",
+  "instance": "dove_classic_256",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 155,
+  "ticks": 24295441
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1104,
+   "out_bits": 1280,
+   "calls": 155,
+   "ticks": 22061
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1088,
+   "out_bits": 320,
+   "calls": 155,
+   "ticks": 8937
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 768,
+   "calls": 155,
+   "ticks": 9263
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.0016571421774150962
+ },
+ "hash_share": 0.0016571421774150962
+}

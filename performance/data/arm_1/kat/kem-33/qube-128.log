@@ -1,0 +1,17 @@
+library     = lib/libqube-128.so
+id          = kem-33
+type        = kem
+algorithm   = QUBE
+instance    = qube_128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/qube-128
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 3294
+sk_len      = 3326
+ct_len      = 3287
+ss_len      = 16
+timing  keygen 0.162 ms  enc 0.179 ms  dec 0.301 ms (avg over 10)
+wrote  kat/KAT_KEM_qube_128.txt (200850 bytes)
+manifest 50f4b90c1fd0dce4d84d3cb86246d5e495c915d700b6af11a133a759738a82e4 strict KAT_KEM_qube_128.txt
+RESULT kem-33 qube_128 MISMATCH KAT_KEM_qube_128.txt: sha256 d20b25b8aa925c2b6204d70bb666cf48a12cd3b416c4d9f16bf93fd7eccf41a1 != manifest 50f4b90c1fd0dce4d84d3cb86246d5e495c915d700b6af11a133a759738a82e4

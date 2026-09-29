@@ -1,0 +1,60 @@
+{
+ "schema": 2,
+ "candidate": "sign-09",
+ "label": "dove_pkc_skc_512",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-09/libdove_pkc_skc_512.so",
+  "verify",
+  "0",
+  "5",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-09",
+  "instance": "dove_pkc_skc_512",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199960",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 5,
+  "ticks": 29327350
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 1728,
+   "calls": 5,
+   "ticks": 682
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 519840,
+   "calls": 75,
+   "ticks": 1496332
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 622080,
+   "calls": 1080,
+   "ticks": 25700268
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.9273692304282521
+ },
+ "hash_share": 0.9273692304282521
+}

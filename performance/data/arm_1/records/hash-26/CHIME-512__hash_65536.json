@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-26",
+ "label": "CHIME-512",
+ "instance": "CHIME-512",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 65536,
+ "plan": {
+  "iterations_per_trial": 851,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5141087485424807,
+  "timeout_per_process_s": 301.5084652491255
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-26/lib/libCHIME-512.so",
+ "library_sha256": "a13dd3f99c58a1631acf5e0d66057d3dea6bdeb9049351a41d3678c0382ed256",
+ "kat_log": "kat/hash-26/CHIME-512.log",
+ "kat_log_sha256": "9f5443bb43a1bce7ce05e8a5cb637d46d16a288d3d94af03655369053007ed40",
+ "started_utc": "2026-09-28T20:51:42.750136+00:00",
+ "ended_utc": "2026-09-28T20:51:45.872317+00:00",
+ "load_average_start": [
+  4.0,
+  4.029296875,
+  4.02099609375
+ ],
+ "load_average_end": [
+  4.0,
+  4.029296875,
+  4.02099609375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-26",
+    "instance": "CHIME-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1495040",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1626112",
+    "measurement_count": "851",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 851,
+     "seconds": 0.635809166,
+     "cycles": 1713226495
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-26/lib/libCHIME-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "851",
+    "3"
+   ],
+   "wall_s": 0.6419532299041748,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-26",
+    "instance": "CHIME-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1495040",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1626112",
+    "measurement_count": "851",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 851,
+     "seconds": 0.599100312,
+     "cycles": 1614412258
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-26/lib/libCHIME-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "851",
+    "3"
+   ],
+   "wall_s": 0.6051161289215088,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-26",
+    "instance": "CHIME-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1486848",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1617920",
+    "measurement_count": "851",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 851,
+     "seconds": 0.600081198,
+     "cycles": 1616940590
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-26/lib/libCHIME-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "851",
+    "3"
+   ],
+   "wall_s": 0.6061923503875732,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-26",
+    "instance": "CHIME-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1482752",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1613824",
+    "measurement_count": "851",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 851,
+     "seconds": 0.620492135,
+     "cycles": 1672013230
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-26/lib/libCHIME-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "851",
+    "3"
+   ],
+   "wall_s": 0.6264903545379639,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-26",
+    "instance": "CHIME-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1495040",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1626112",
+    "measurement_count": "851",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 851,
+     "seconds": 0.636071979,
+     "cycles": 1713837193
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-26/lib/libCHIME-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "851",
+    "3"
+   ],
+   "wall_s": 0.6422817707061768,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 851,
+   "seconds": 0.635809166,
+   "cycles": 1713226495
+  },
+  {
+   "measurements": 851,
+   "seconds": 0.599100312,
+   "cycles": 1614412258
+  },
+  {
+   "measurements": 851,
+   "seconds": 0.600081198,
+   "cycles": 1616940590
+  },
+  {
+   "measurements": 851,
+   "seconds": 0.620492135,
+   "cycles": 1672013230
+  },
+  {
+   "measurements": 851,
+   "seconds": 0.636071979,
+   "cycles": 1713837193
+  }
+ ],
+ "measurements": 4255,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0007265698683901293,
+ "median_trial_seconds": 0.0007291329435957697,
+ "min_trial_seconds": 0.0007039956662749706,
+ "max_trial_seconds": 0.0007474406333725029,
+ "mean_cycles": 1957797.8298472385,
+ "median_trial_cycles": 1964762.902467685,
+ "operations_per_second": 1376.3301280518467,
+ "throughput_MB_per_second": 90.19917127200583,
+ "sizes": {
+  "input_bytes": 65536,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 64
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1495040,
+ "peak_rss_bytes": 1626112,
+ "timing_scope": "loop"
+}

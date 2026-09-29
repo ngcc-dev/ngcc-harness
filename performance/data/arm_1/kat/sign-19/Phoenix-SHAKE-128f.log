@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SHAKE-128f.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SHAKE-128f
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SHAKE-128f
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 32
+sk_len      = 64
+sn_len      = 13670
+timing  keygen 2.939 ms  sign 55.631 ms  verify 1.542 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SHAKE-128f.txt (278592 bytes)
+manifest 39cf1e8ccbfa09899968c9bf39b214e296a109d056a1f4b9bdacf3ca68517977 strict KAT_SIG_Phoenix-SHAKE-128f.txt
+RESULT sign-19 Phoenix-SHAKE-128f PASS 

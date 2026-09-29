@@ -1,0 +1,16 @@
+library     = lib/libOctarine-256.so
+id          = sign-16
+type        = sig
+algorithm   = Octarine
+instance    = Octarine-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Octarine-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2368
+sk_len      = 4608
+sn_len      = 5449
+timing  keygen 0.390 ms  sign 0.887 ms  verify 0.446 ms (avg over 10)
+wrote  kat/KAT_SIG_Octarine-256.txt (252714 bytes)
+manifest 7eb6360feff8f3310842ad94d995e0f0a7bde05ca83d822b1b404fd44d480d73 nolen KAT_SIG_Octarine-256.txt
+RESULT sign-16 Octarine-256 PASS (1 blank _Len lines in reference: generated in template mode)

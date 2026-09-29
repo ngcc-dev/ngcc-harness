@@ -1,0 +1,16 @@
+library     = lib/libOrigami-256.so
+id          = sign-18
+type        = sig
+algorithm   = Origami
+instance    = Origami-256
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Origami-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 14968
+sk_len      = 32
+sn_len      = 516
+timing  keygen 25.223 ms  sign 379.721 ms  verify 365.517 ms (avg over 1)
+wrote  kat/KAT_SIG_Origami-256.txt (31379 bytes)
+manifest 689fc21f627354120178ba6df50b7f28e0d11c310c3cd5b89d7eadb8a2b9d3a6 strict:1 KAT_SIG_Origami-256.txt
+RESULT sign-18 Origami-256 PASS 

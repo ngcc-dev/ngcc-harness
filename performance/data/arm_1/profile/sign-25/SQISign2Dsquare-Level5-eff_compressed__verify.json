@@ -1,0 +1,53 @@
+{
+ "schema": 2,
+ "candidate": "sign-25",
+ "label": "SQISign2Dsquare-Level5-eff_compressed",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-25/libSQISign2Dsquare-Level5-eff_compressed.so",
+  "verify",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-25",
+  "instance": "SQISign2Dsquare-Level5-eff_compressed",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 25418225
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 4616,
+   "out_bits": 1024,
+   "calls": 6,
+   "ticks": 2336
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1024,
+   "out_bits": 1024,
+   "calls": 762,
+   "ticks": 194821
+  }
+ ],
+ "share": {
+  "pseudohash": 0.0077565211575552585
+ },
+ "hash_share": 0.0077565211575552585
+}

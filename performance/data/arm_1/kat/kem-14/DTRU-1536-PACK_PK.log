@@ -1,0 +1,17 @@
+library     = lib/libDTRU-1536-PACK_PK.so
+id          = kem-14
+type        = kem
+algorithm   = DTRU
+instance    = DTRU-1536-PACK_PK
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/DTRU-1536
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2259
+sk_len      = 3091
+ct_len      = 1920
+ss_len      = 64
+timing  keygen 0.104 ms  enc 0.096 ms  dec 0.176 ms (avg over 10)
+wrote  kat/KAT_KEM_DTRU-1536.txt (149070 bytes)
+manifest 5bb66ae88eee4c97c2da76d79493568488e279fa0815b2ce9f7020f9e273d2bb strict KAT_KEM_DTRU-1536.txt
+RESULT kem-14 DTRU-1536-PACK_PK PASS 

@@ -1,0 +1,18 @@
+library     = lib/libJuziHash-512.so
+id          = hash-13
+type        = hash
+algorithm   = JuziHash
+instance    = JuziHash-512
+variant     = Reference_Implementation
+source_dir  = Juzi/Implementations/Implementation/Reference_Implementation/JuziHash-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.308 s
+wrote  kat/KAT_2_12_JuziHash-512.txt (2804822 bytes)
+manifest 48d4e435639ff70e63efe942797cce81d89d6af89eb6d9c27ddd7a0197c0e6bc strict KAT_2_12_JuziHash-512.txt
+timing  KAT_2_23 0.335 s
+wrote  kat/KAT_2_23_JuziHash-512.txt (815 bytes)
+manifest 38109c3088f4e325842c6df27ced21b85f2812ebe3f2f459d2382349beec463a strict KAT_2_23_JuziHash-512.txt
+RESULT hash-13 JuziHash-512 PASS 

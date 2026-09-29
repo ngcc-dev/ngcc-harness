@@ -1,0 +1,16 @@
+library     = lib/libGreatWall256s.so
+id          = sign-13
+type        = sig
+algorithm   = GreatWall
+instance    = GreatWall256s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/GreatWall256s
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 66
+sk_len      = 66
+sn_len      = 12236
+timing  keygen 4.686 ms  sign 650.653 ms  verify 580.827 ms (avg over 10)
+wrote  kat/KAT_SIG_GreatWall256s.txt (251544 bytes)
+manifest e4b9910ae51b2b250de442a3b3de4af9fa61a3d36f02352e9a982e3e26d88c93 strict KAT_SIG_GreatWall256s.txt
+RESULT sign-13 GreatWall256s PASS 

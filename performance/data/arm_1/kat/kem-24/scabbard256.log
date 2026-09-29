@@ -1,0 +1,17 @@
+library     = lib/libscabbard256.so
+id          = kem-24
+type        = kem
+algorithm   = MORNING-Scabbard
+instance    = scabbard256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/scabbard256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1616
+sk_len      = 2256
+ct_len      = 1648
+ss_len      = 32
+timing  keygen 0.517 ms  enc 0.779 ms  dec 0.837 ms (avg over 10)
+wrote  kat/KAT_KEM_scabbard256.txt (113430 bytes)
+manifest 1280f35cf8ecbe82e2dea7f1c484af2e33cd18894ae5c33682a55400e48020da strict KAT_KEM_scabbard256.txt
+RESULT kem-24 scabbard256 PASS 

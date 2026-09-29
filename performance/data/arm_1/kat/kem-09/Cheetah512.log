@@ -1,0 +1,17 @@
+library     = lib/libCheetah512.so
+id          = kem-09
+type        = kem
+algorithm   = CheetahKEM
+instance    = Cheetah512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Cheetah512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3600
+sk_len      = 7872
+ct_len      = 4032
+ss_len      = 64
+timing  keygen 0.980 ms  enc 1.044 ms  dec 1.213 ms (avg over 10)
+wrote  kat/KAT_KEM_Cheetah512.txt (313750 bytes)
+manifest e40301a487e1b277ad728d97ffa99607bfddc6661aab70ba38ef024805f28ea9 strict KAT_KEM_Cheetah512.txt
+RESULT kem-09 Cheetah512 PASS 

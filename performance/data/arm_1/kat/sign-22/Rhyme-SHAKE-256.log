@@ -1,0 +1,16 @@
+library     = lib/libRhyme-SHAKE-256.so
+id          = sign-22
+type        = sig
+algorithm   = Rhyme
+instance    = Rhyme-SHAKE-256
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Rhyme-SHAKE/Rhyme-SHAKE-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1824
+sk_len      = 22336
+sn_len      = 10308
+timing  keygen 185.860 ms  sign 1.175 ms  verify 0.154 ms (avg over 10)
+wrote  kat/KAT_SIG_Rhyme-SHAKE-256.txt (552790 bytes)
+manifest dbf20c6e7bab445c7befbc303ffa7e2c4b9a8ac1d13ecfaa51b8cc882feee8f2 strict KAT_SIG_Rhyme-SHAKE-256.txt
+RESULT sign-22 Rhyme-SHAKE-256 PASS 

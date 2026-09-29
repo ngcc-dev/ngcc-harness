@@ -1,0 +1,16 @@
+library     = lib/libSHUTTLE-128.so
+id          = sign-23
+type        = sig
+algorithm   = Shuttle
+instance    = SHUTTLE-128
+variant     = Reference_Implementation
+source_dir  = Implementation codes and test vectors/Shuttle 算法实现源代码及测试向量/Implementations/Reference_Implementation/SHUTTLE-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1264
+sk_len      = 2288
+sn_len      = 1183
+timing  keygen 2.298 ms  sign 1.289 ms  verify 0.315 ms (avg over 10)
+wrote  kat/KAT_SIG_SHUTTLE-128.txt (98914 bytes)
+manifest b316014dc638e6de1cd7fd46987587eb9e11a390460791704899a56b212b8bc4 strict KAT_SIG_SHUTTLE-128.txt
+RESULT sign-23 SHUTTLE-128 PASS 

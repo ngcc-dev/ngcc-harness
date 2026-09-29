@@ -1,0 +1,16 @@
+library     = lib/libReSolveD-alpha-384s.so
+id          = sign-21
+type        = sig
+algorithm   = ReSolveD-alpha
+instance    = ReSolveD-alpha-384s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ReSolveD-alpha-384s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 288
+sk_len      = 96
+sn_len      = 31575
+timing  keygen 20.175 ms  sign 7999.240 ms  verify 7887.097 ms (avg over 10)
+wrote  kat/KAT_SIG_ReSolveD-alpha-384s.txt (643374 bytes)
+manifest 6d89b03fdb87c94f27feae451308cdee2d5ce0596dce3c55f3c4ce506f291619 strict KAT_SIG_ReSolveD-alpha-384s.txt
+RESULT sign-21 ReSolveD-alpha-384s PASS 

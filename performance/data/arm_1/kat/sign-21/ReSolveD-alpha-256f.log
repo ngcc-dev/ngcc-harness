@@ -1,0 +1,16 @@
+library     = lib/libReSolveD-alpha-256f.so
+id          = sign-21
+type        = sig
+algorithm   = ReSolveD-alpha
+instance    = ReSolveD-alpha-256f
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ReSolveD-alpha-256f
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 194
+sk_len      = 64
+sn_len      = 17932
+timing  keygen 8.216 ms  sign 322.998 ms  verify 307.970 ms (avg over 10)
+wrote  kat/KAT_SIG_ReSolveD-alpha-256f.txt (367994 bytes)
+manifest 421b39dd10f49630c905891f3aada3637036fa2eaedee8361f8c1eb4c62d4b9b strict KAT_SIG_ReSolveD-alpha-256f.txt
+RESULT sign-21 ReSolveD-alpha-256f PASS 

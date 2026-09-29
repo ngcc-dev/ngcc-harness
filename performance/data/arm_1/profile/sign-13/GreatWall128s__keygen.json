@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "sign-13",
+ "label": "GreatWall128s",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-13/libGreatWall128s.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-13",
+  "instance": "GreatWall128s",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 30721231
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 288,
+   "calls": 4120,
+   "ticks": 167280
+  }
+ ],
+ "share": {
+  "drng": 0.005445094306279589
+ },
+ "hash_share": 0
+}

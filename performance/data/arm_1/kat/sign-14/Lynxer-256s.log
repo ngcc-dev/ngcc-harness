@@ -1,0 +1,16 @@
+library     = lib/libLynxer-256s.so
+id          = sign-14
+type        = sig
+algorithm   = Lynxer
+instance    = Lynxer-256s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Lynxer-256s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 64
+sk_len      = 64
+sn_len      = 12191
+timing  keygen 53.148 ms  sign 2641.655 ms  verify 2511.336 ms (avg over 10)
+wrote  kat/KAT_SIG_Lynxer-256s.txt (250564 bytes)
+manifest c661785fc8ff6abe595819b231c8071b7255f2ef3ce2df42acb6ae1e4b843147 strict KAT_SIG_Lynxer-256s.txt
+RESULT sign-14 Lynxer-256s PASS 

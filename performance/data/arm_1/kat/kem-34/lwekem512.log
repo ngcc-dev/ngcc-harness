@@ -1,0 +1,17 @@
+library     = lib/liblwekem512.so
+id          = kem-34
+type        = kem
+algorithm   = Rudraksh2
+instance    = lwekem512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/lwekem512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3392
+sk_len      = 6848
+ct_len      = 3552
+ss_len      = 64
+timing  keygen 5.586 ms  enc 5.563 ms  dec 5.576 ms (avg over 10)
+wrote  kat/KAT_KEM_lwekem512.txt (279510 bytes)
+manifest e843ad73d39149b2305a3b5384c7f3fc8d12fa77a5399fd506435f22c2c5a8b9 strict KAT_KEM_lwekem512.txt
+RESULT kem-34 lwekem512 PASS 

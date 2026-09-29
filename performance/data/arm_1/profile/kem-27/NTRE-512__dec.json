@@ -1,0 +1,53 @@
+{
+ "schema": 2,
+ "candidate": "kem-27",
+ "label": "NTRE-512",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-27/libNTRE-512.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-27",
+  "instance": "NTRE-512",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 2330650
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1160,
+   "out_bits": 1152,
+   "calls": 1000,
+   "ticks": 140765
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1416,
+   "out_bits": 8576,
+   "calls": 1000,
+   "ticks": 952621
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.4691335035290584
+ },
+ "hash_share": 0.4691335035290584
+}

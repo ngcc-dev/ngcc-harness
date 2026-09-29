@@ -1,0 +1,18 @@
+library     = lib/libMoFang-256-XOF.so
+id          = hash-19
+type        = hash
+algorithm   = MoFang
+instance    = MoFang_256_XOF
+variant     = Reference_Implementation
+source_dir  = MoFang/Implementations/Reference_Implementation/MoFang-256-XOF
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 256
+digest_len  = 32
+timing  KAT_2_12 0.075 s
+wrote  kat/KAT_2_12_MoFang_256_XOF.txt (2542614 bytes)
+manifest 3d10fb1a39792a9e56c79b634e603e433745750def52e947d52026d003bb548b strict KAT_2_12_MoFang_256_XOF.txt
+timing  KAT_2_23 0.047 s
+wrote  kat/KAT_2_23_MoFang_256_XOF.txt (623 bytes)
+manifest 63312f047807cca9aa43899b1db1c4706c231e89bd69fc51fb671b8da6ebc334 strict KAT_2_23_MoFang_256_XOF.txt
+RESULT hash-19 MoFang_256_XOF PASS 

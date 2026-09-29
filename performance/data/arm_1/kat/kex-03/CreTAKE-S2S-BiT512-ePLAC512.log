@@ -1,0 +1,20 @@
+library     = lib/libCreTAKE-S2S-BiT512-ePLAC512.so
+id          = kex-03
+type        = kex
+algorithm   = CreTAKE
+instance    = CreTAKE-S2S-BiT512-ePLAC512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 5056
+sk_len      = 9024
+sta_len     = 64
+stb_len     = 128
+ss_len      = 128
+total_msg   = 18066
+timing  full exchange 14.346 ms (avg over 10)
+wrote  kat/KAT_KEX_CreTAKE-S2S-BiT512-ePLAC512.txt (935360 bytes)
+manifest f2ede44e95541609df65b8ba3cb21431c0ef834ef7998e30edaa8e76d2ad56e0 strict KAT_KEX_CreTAKE-S2S-BiT512-ePLAC512.txt
+RESULT kex-03 CreTAKE-S2S-BiT512-ePLAC512 PASS 

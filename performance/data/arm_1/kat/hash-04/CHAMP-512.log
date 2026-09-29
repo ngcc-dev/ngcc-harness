@@ -1,0 +1,18 @@
+library     = lib/libCHAMP-512.so
+id          = hash-04
+type        = hash
+algorithm   = CHAMP
+instance    = CHAMP-512
+variant     = Reference_Implementation
+source_dir  = CHAMP/Implementations and Test_Vectors/API_CryptHash/Implementations/Reference_Implementation/CHAMP-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.321 s
+wrote  kat/KAT_2_12_CHAMP-512.txt (2804822 bytes)
+manifest 0a1bba00eb3c43461a1bc191781a2ec86ad8b58ebad453477f497b8300c1de39 strict KAT_2_12_CHAMP-512.txt
+timing  KAT_2_23 0.500 s
+wrote  kat/KAT_2_23_CHAMP-512.txt (815 bytes)
+manifest cbd1d2331ed11b22a0867118838c5db9696abcc25a8b14cbf83bcd62da7072a7 strict KAT_2_23_CHAMP-512.txt
+RESULT hash-04 CHAMP-512 PASS 

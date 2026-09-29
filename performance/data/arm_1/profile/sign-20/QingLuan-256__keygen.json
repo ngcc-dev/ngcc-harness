@@ -1,0 +1,54 @@
+{
+ "schema": 2,
+ "candidate": "sign-20",
+ "label": "QingLuan-256",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-20/libQingLuan-256.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-20",
+  "instance": "QingLuan-256",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 11876193
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 40343
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 544,
+   "out_bits": 256,
+   "calls": 497020,
+   "ticks": 9591253
+  }
+ ],
+ "share": {
+  "drng": 0.00339696399342786,
+  "sm3hash": 0.8076033287771595
+ },
+ "hash_share": 0.8076033287771595
+}

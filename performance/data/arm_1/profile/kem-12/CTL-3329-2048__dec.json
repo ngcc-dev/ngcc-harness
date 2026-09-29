@@ -1,0 +1,67 @@
+{
+ "schema": 2,
+ "candidate": "kem-12",
+ "label": "CTL-3329-2048",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-12/libCTL-3329-2048.so",
+  "dec",
+  "0",
+  "36",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-12",
+  "instance": "CTL-3329-2048",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199920",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 36,
+  "ticks": 19367880
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 33472,
+   "out_bits": 384,
+   "calls": 36,
+   "ticks": 43505
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 384,
+   "calls": 36,
+   "ticks": 1398
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 2048,
+   "out_bits": 384,
+   "calls": 36,
+   "ticks": 3655
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 2048,
+   "calls": 36,
+   "ticks": 5521
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.0027922002821165765
+ },
+ "hash_share": 0.0027922002821165765
+}

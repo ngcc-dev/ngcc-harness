@@ -1,0 +1,69 @@
+{
+ "schema": 2,
+ "candidate": "kem-41",
+ "label": "ZEN_128",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-41/libZEN_128.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-41",
+  "instance": "ZEN_128",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 1042648
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 256,
+   "out_bits": 768,
+   "calls": 1000,
+   "ticks": 125277
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 3584,
+   "calls": 1000,
+   "ticks": 279013
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 2048,
+   "calls": 1000,
+   "ticks": 154876
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 4224,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 82753
+  }
+ ],
+ "share": {
+  "pseudohash": 0.12015272651940061,
+  "pseudoXOF": 0.4161414015084669,
+  "sm3hash": 0.07936810889197504
+ },
+ "hash_share": 0.6156622369198426
+}

@@ -1,0 +1,54 @@
+{
+ "schema": 2,
+ "candidate": "sign-21",
+ "label": "ReSolveD-alpha-160s",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-21/libReSolveD-alpha-160s.so",
+  "keygen",
+  "0",
+  "289",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-21",
+  "instance": "ReSolveD-alpha-160s",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 289,
+  "ticks": 23972837
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 160,
+   "calls": 578,
+   "ticks": 17796
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 168,
+   "out_bits": 849024,
+   "calls": 289,
+   "ticks": 9375667
+  }
+ ],
+ "share": {
+  "drng": 0.0007423401744232442,
+  "pseudoXOF": 0.39109543021545595
+ },
+ "hash_share": 0.39109543021545595
+}

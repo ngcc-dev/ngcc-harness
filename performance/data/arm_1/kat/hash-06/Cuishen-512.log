@@ -1,0 +1,18 @@
+library     = lib/libCuishen-512.so
+id          = hash-06
+type        = hash
+algorithm   = Cuishen
+instance    = Cuishen-512
+variant     = Reference_Implementation
+source_dir  = Cuishen/Implementations/Reference_Implementation/Cuishen-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.075 s
+wrote  kat/KAT_2_12_Cuishen-512.txt (2804822 bytes)
+manifest 700a0811005ff8560210702e8714aae7222e32d9bedcf087a56519b38c918db2 strict KAT_2_12_Cuishen-512.txt
+timing  KAT_2_23 0.023 s
+wrote  kat/KAT_2_23_Cuishen-512.txt (815 bytes)
+manifest 7ebcadb0127dac4ba6cb0aa60df363d5abc001df5b3f06c503b39d3646c94e8b strict KAT_2_23_Cuishen-512.txt
+RESULT hash-06 Cuishen-512 PASS 

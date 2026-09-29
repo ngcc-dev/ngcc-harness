@@ -1,0 +1,89 @@
+{
+ "schema": 2,
+ "candidate": "sign-11",
+ "label": "Flextree-384f",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-11/libFlextree-384f.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-11",
+  "instance": "Flextree-384f",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199950",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 255516717
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1280,
+   "out_bits": 384,
+   "calls": 3,
+   "ticks": 193
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1664,
+   "out_bits": 456,
+   "calls": 3,
+   "ticks": 225
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1408,
+   "out_bits": 384,
+   "calls": 216981,
+   "ticks": 12337586
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 800,
+   "out_bits": 1008,
+   "calls": 52,
+   "ticks": 4025
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 3,
+   "ticks": 164
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1024,
+   "out_bits": 384,
+   "calls": 4178734,
+   "ticks": 238863570
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 30208,
+   "out_bits": 384,
+   "calls": 1536,
+   "ticks": 1757394
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.9900056480453293,
+  "drng": 6.418366748192057e-07
+ },
+ "hash_share": 0.9900056480453293
+}

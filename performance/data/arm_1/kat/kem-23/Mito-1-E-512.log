@@ -1,0 +1,17 @@
+library     = lib/libMito-1-E-512.so
+id          = kem-23
+type        = kem
+algorithm   = Mito
+instance    = MITO_1_E_512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Mito-1-E-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 25674
+sk_len      = 25866
+ct_len      = 38442
+ss_len      = 64
+timing  keygen 42.041 ms  enc 72.927 ms  dec 100.646 ms (avg over 10)
+wrote  kat/KAT_KEM_MITO_1_E_512.txt (1803340 bytes)
+manifest 615328b0218b17d3f88738e2ea0247ff53b750d62cef4e7cec67054654b6dfc6 strict KAT_KEM_MITO_1_E_512.txt
+RESULT kem-23 MITO_1_E_512 PASS 

@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-11",
+ "label": "Garnet_512_Cap1024",
+ "instance": "Garnet_512_Cap1024",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 4096,
+ "plan": {
+  "iterations_per_trial": 17680,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.504203472374878,
+  "timeout_per_process_s": 301.50252208342494
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-11/lib/libGarnet_512_Cap1024.so",
+ "library_sha256": "e59e46603eecf606027181b0d6f032ba5c26214ac3d9ff3fcd19e73cfad4f798",
+ "kat_log": "kat/hash-11/Garnet_512_Cap1024.log",
+ "kat_log_sha256": "0638c27897f390bcbe0cdab0a1202b6bc5059bbf765307f1da1ff077f271f2d7",
+ "started_utc": "2026-09-28T19:37:04.029279+00:00",
+ "ended_utc": "2026-09-28T19:37:06.962869+00:00",
+ "load_average_start": [
+  3.87548828125,
+  3.22021484375,
+  3.57275390625
+ ],
+ "load_average_end": [
+  3.8857421875,
+  3.2333984375,
+  3.5751953125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-11",
+    "instance": "Garnet_512_Cap1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1527808",
+    "measurement_count": "17680",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 17680,
+     "seconds": 0.583163177,
+     "cycles": 1571739509
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-11/lib/libGarnet_512_Cap1024.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "17680",
+    "3"
+   ],
+   "wall_s": 0.5855884552001953,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-11",
+    "instance": "Garnet_512_Cap1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1462272",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1531904",
+    "measurement_count": "17680",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 17680,
+     "seconds": 0.583210313,
+     "cycles": 1572262904
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-11/lib/libGarnet_512_Cap1024.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "17680",
+    "3"
+   ],
+   "wall_s": 0.5874443054199219,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-11",
+    "instance": "Garnet_512_Cap1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1449984",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1519616",
+    "measurement_count": "17680",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 17680,
+     "seconds": 0.583543854,
+     "cycles": 1572991803
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-11/lib/libGarnet_512_Cap1024.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "17680",
+    "3"
+   ],
+   "wall_s": 0.5880074501037598,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-11",
+    "instance": "Garnet_512_Cap1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1527808",
+    "measurement_count": "17680",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 17680,
+     "seconds": 0.583338906,
+     "cycles": 1572258242
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-11/lib/libGarnet_512_Cap1024.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "17680",
+    "3"
+   ],
+   "wall_s": 0.5858538150787354,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-11",
+    "instance": "Garnet_512_Cap1024",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1527808",
+    "measurement_count": "17680",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 17680,
+     "seconds": 0.582882968,
+     "cycles": 1571413616
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-11/lib/libGarnet_512_Cap1024.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "17680",
+    "3"
+   ],
+   "wall_s": 0.5865089893341064,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 17680,
+   "seconds": 0.583163177,
+   "cycles": 1571739509
+  },
+  {
+   "measurements": 17680,
+   "seconds": 0.583210313,
+   "cycles": 1572262904
+  },
+  {
+   "measurements": 17680,
+   "seconds": 0.583543854,
+   "cycles": 1572991803
+  },
+  {
+   "measurements": 17680,
+   "seconds": 0.583338906,
+   "cycles": 1572258242
+  },
+  {
+   "measurements": 17680,
+   "seconds": 0.582882968,
+   "cycles": 1571413616
+  }
+ ],
+ "measurements": 88400,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 3.2988000203619914e-05,
+ "median_trial_seconds": 3.2987008653846155e-05,
+ "min_trial_seconds": 3.296849366515837e-05,
+ "max_trial_seconds": 3.300587409502262e-05,
+ "mean_cycles": 88921.56192307692,
+ "median_trial_cycles": 88928.63359728506,
+ "operations_per_second": 30314.053408131902,
+ "throughput_MB_per_second": 124.16636275970826,
+ "sizes": {
+  "input_bytes": 4096,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 64
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1462272,
+ "peak_rss_bytes": 1531904,
+ "timing_scope": "loop"
+}

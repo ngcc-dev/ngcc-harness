@@ -1,0 +1,16 @@
+library     = lib/libvdoo_256.so
+id          = sign-33
+type        = sig
+algorithm   = VDOO
+instance    = VDOO-256
+variant     = Reference_Implementation
+source_dir  = Implementation/Reference_Implementation/vdoo_256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 4289250
+sk_len      = 4388307
+sn_len      = 316
+timing  keygen 6698.618 ms  sign 76.006 ms  verify 0.673 ms (avg over 10)
+wrote  kat/KAT_SIG_VDOO-256.txt (173561724 bytes)
+manifest 085fb17744c63a80fc20dea83eab5dcd40d3995322d998298a22f06a34af94d1 strict KAT_SIG_VDOO-256.txt
+RESULT sign-33 VDOO-256 PASS 

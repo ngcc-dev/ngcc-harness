@@ -1,0 +1,117 @@
+{
+ "schema": 2,
+ "candidate": "kem-21",
+ "label": "MAMBA-Viper-192",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-21/libMAMBA-Viper-192.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-21",
+  "instance": "MAMBA-Viper-192",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 3621349
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 192,
+   "calls": 1000,
+   "ticks": 30766
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 8816,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 165374
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 304,
+   "out_bits": 192,
+   "calls": 1000,
+   "ticks": 10605
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 560,
+   "out_bits": 192,
+   "calls": 1000,
+   "ticks": 20043
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 400,
+   "out_bits": 3072,
+   "calls": 9000,
+   "ticks": 1074144
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 368,
+   "out_bits": 6144,
+   "calls": 1000,
+   "ticks": 236914
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 496,
+   "out_bits": 3840,
+   "calls": 1000,
+   "ticks": 289811
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 8048,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 146627
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 560,
+   "out_bits": 384,
+   "calls": 1000,
+   "ticks": 39112
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 400,
+   "out_bits": 512,
+   "calls": 3000,
+   "ticks": 61336
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 304,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10468
+  }
+ ],
+ "share": {
+  "drng": 0.008495729077755278,
+  "pseudoXOF": 0.5673117945826265
+ },
+ "hash_share": 0.5673117945826265
+}

@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "kem-03",
+ "label": "BAG-Loong-512",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-03/libBAG-Loong-512.so",
+  "keygen",
+  "0",
+  "8",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-03",
+  "instance": "BAG-Loong-512",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 8,
+  "ticks": 26700413
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 8,
+   "ticks": 330
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1272,
+   "out_bits": 1466752,
+   "calls": 8,
+   "ticks": 1279183
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 16,
+   "ticks": 1029
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1272,
+   "out_bits": 11454976,
+   "calls": 8,
+   "ticks": 10004934
+  }
+ ],
+ "share": {
+  "drng": 5.0898089104464414e-05,
+  "pseudoXOF": 0.4226195677197952
+ },
+ "hash_share": 0.4226195677197952
+}

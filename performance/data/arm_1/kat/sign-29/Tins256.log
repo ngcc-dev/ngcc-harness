@@ -1,0 +1,16 @@
+library     = lib/libTins256.so
+id          = sign-29
+type        = sig
+algorithm   = Tins
+instance    = Tins256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Tins256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 98
+sk_len      = 64
+sn_len      = 13012
+timing  keygen 2.411 ms  sign 1245.212 ms  verify 1219.971 ms (avg over 10)
+wrote  kat/KAT_SIG_Tins256.txt (265936 bytes)
+manifest da46d090d8b68c08c0c4caa11265451a6c6e365a58c1e8fe69e6d26ed7f71ee2 strict KAT_SIG_Tins256.txt
+RESULT sign-29 Tins256 PASS 

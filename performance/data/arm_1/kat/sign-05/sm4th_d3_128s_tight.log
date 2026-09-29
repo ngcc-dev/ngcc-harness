@@ -1,0 +1,16 @@
+library     = lib/libsm4th_d3_128s_tight.so
+id          = sign-05
+type        = sig
+algorithm   = Chinith
+instance    = sm4th_d3_128s_tight
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/sm4th_d3_128s_tight
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 32
+sk_len      = 32
+sn_len      = 9176
+timing  keygen 0.005 ms  sign 118.017 ms  verify 87.769 ms (avg over 10)
+wrote  kat/KAT_SIG_sm4th_d3_128s_tight.txt (188974 bytes)
+manifest 2e4b7130e7fe8e064eb2e7e6562f34506d2896fc09c0858f851bbbd433db6a58 strict KAT_SIG_sm4th_d3_128s_tight.txt
+RESULT sign-05 sm4th_d3_128s_tight PASS 

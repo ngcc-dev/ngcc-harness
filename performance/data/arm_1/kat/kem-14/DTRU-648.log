@@ -1,0 +1,17 @@
+library     = lib/libDTRU-648.so
+id          = kem-14
+type        = kem
+algorithm   = DTRU
+instance    = DTRU-648
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/DTRU-648
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 972
+sk_len      = 1328
+ct_len      = 729
+ss_len      = 32
+timing  keygen 0.073 ms  enc 0.038 ms  dec 0.075 ms (avg over 10)
+wrote  kat/KAT_KEM_DTRU-648.txt (63590 bytes)
+manifest e2aa0dbc2d828c223d7bfe46a5f3e66c04f333bfb4b107d0b509bc9c8280992e strict KAT_KEM_DTRU-648.txt
+RESULT kem-14 DTRU-648 PASS 

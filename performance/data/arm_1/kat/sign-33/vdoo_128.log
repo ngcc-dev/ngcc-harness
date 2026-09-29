@@ -1,0 +1,16 @@
+library     = lib/libvdoo_128.so
+id          = sign-33
+type        = sig
+algorithm   = VDOO
+instance    = VDOO-128
+variant     = Reference_Implementation
+source_dir  = Implementation/Reference_Implementation/vdoo_128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 330855
+sk_len      = 342790
+sn_len      = 85
+timing  keygen 294.505 ms  sign 53.531 ms  verify 0.556 ms (avg over 10)
+wrote  kat/KAT_SIG_VDOO-128.txt (13478834 bytes)
+manifest addb9358680b70a2bebed112fef6a60cfa58ef662eceecc955ad732f89f957c2 strict KAT_SIG_VDOO-128.txt
+RESULT sign-33 VDOO-128 PASS 

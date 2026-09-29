@@ -1,0 +1,16 @@
+library     = lib/libTRINE-512-ShortSig.so
+id          = sign-30
+type        = sig
+algorithm   = TRINE
+instance    = TRINE-512-ShortSig
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/TRINE-512-ShortSig
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3188776
+sk_len      = 128
+sn_len      = 23672
+timing  keygen 549.046 ms  sign 750632.853 ms  verify 296763.745 ms (avg over 1)
+wrote  kat/KAT_SIG_TRINE-512-ShortSig.txt (6425504 bytes)
+manifest 868d72827dabbd54e71f3ed96d231c351ac2aee93487f8a76b5e465f194ad460 strict:1 KAT_SIG_TRINE-512-ShortSig.txt
+RESULT sign-30 TRINE-512-ShortSig PASS 

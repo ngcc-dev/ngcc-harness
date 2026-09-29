@@ -1,0 +1,17 @@
+library     = lib/libCTL-3329-2048.so
+id          = kem-12
+type        = kem
+algorithm   = CTL
+instance    = CTL-3329-2048
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/KEM-CTL-x86-Reference_Implementation/crypto_kem/Implementations/CTL-3329-2048
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3009
+sk_len      = 15617
+ct_len      = 2353
+ss_len      = 48
+timing  keygen 1402.638 ms  enc 3.350 ms  dec 28.007 ms (avg over 10)
+wrote  kat/KAT_KEM_CTL-3329-2048.txt (422940 bytes)
+manifest 58ec146ae53154f0c1c2524fc9f081355a85d323fe9da5a3495b9c264221dd8c strict KAT_KEM_CTL-3329-2048.txt
+RESULT kem-12 CTL-3329-2048 PASS 

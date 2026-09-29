@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-05",
+ "label": "BIKE_v2_128",
+ "instance": "BIKE_v2_128",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 179,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 4.114888189748535,
+  "timeout_per_process_s": 302.46893291384913
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-05/lib/libBIKE_v2_128.so",
+ "library_sha256": "a4aac63c89b3b6d1b5c13bb6361c1f68dd78c026e9f3bbb9d09dba2f37a0fbf0",
+ "kat_log": "kat/kem-05/BIKE_v2_128.log",
+ "kat_log_sha256": "78d3649e557ea9daa921e2f073d78ac1aa2cd8094d1ad317619d3e77095f5526",
+ "started_utc": "2026-09-28T20:05:08.683948+00:00",
+ "ended_utc": "2026-09-28T20:05:13.770338+00:00",
+ "load_average_start": [
+  4.02294921875,
+  4.044921875,
+  4.0
+ ],
+ "load_average_end": [
+  4.02099609375,
+  4.0439453125,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-05",
+    "instance": "BIKE_v2_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "8314880",
+    "pk_bytes": "1541",
+    "sk_bytes": "3114",
+    "ct_bytes": "1573",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "8380416",
+    "measurement_count": "179",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 179,
+     "seconds": 0.634247604,
+     "cycles": 1709980131
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-05/lib/libBIKE_v2_128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "179",
+    "3"
+   ],
+   "wall_s": 1.043107509613037,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-05",
+    "instance": "BIKE_v2_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "6270976",
+    "pk_bytes": "1541",
+    "sk_bytes": "3114",
+    "ct_bytes": "1573",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "6336512",
+    "measurement_count": "179",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 179,
+     "seconds": 0.635238593,
+     "cycles": 1712545736
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-05/lib/libBIKE_v2_128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "179",
+    "3"
+   ],
+   "wall_s": 1.0426406860351562,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-05",
+    "instance": "BIKE_v2_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "8069120",
+    "pk_bytes": "1541",
+    "sk_bytes": "3114",
+    "ct_bytes": "1573",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "8134656",
+    "measurement_count": "179",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 179,
+     "seconds": 0.565019218,
+     "cycles": 1523195309
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-05/lib/libBIKE_v2_128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "179",
+    "3"
+   ],
+   "wall_s": 0.9741404056549072,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-05",
+    "instance": "BIKE_v2_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "6266880",
+    "pk_bytes": "1541",
+    "sk_bytes": "3114",
+    "ct_bytes": "1573",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "6332416",
+    "measurement_count": "179",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 179,
+     "seconds": 0.586910781,
+     "cycles": 1582298046
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-05/lib/libBIKE_v2_128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "179",
+    "3"
+   ],
+   "wall_s": 0.9961998462677002,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-05",
+    "instance": "BIKE_v2_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "6266880",
+    "pk_bytes": "1541",
+    "sk_bytes": "3114",
+    "ct_bytes": "1573",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "6332416",
+    "measurement_count": "179",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 179,
+     "seconds": 0.621772865,
+     "cycles": 1676128490
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-05/lib/libBIKE_v2_128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "179",
+    "3"
+   ],
+   "wall_s": 1.0301446914672852,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 179,
+   "seconds": 0.634247604,
+   "cycles": 1709980131
+  },
+  {
+   "measurements": 179,
+   "seconds": 0.635238593,
+   "cycles": 1712545736
+  },
+  {
+   "measurements": 179,
+   "seconds": 0.565019218,
+   "cycles": 1523195309
+  },
+  {
+   "measurements": 179,
+   "seconds": 0.586910781,
+   "cycles": 1582298046
+  },
+  {
+   "measurements": 179,
+   "seconds": 0.621772865,
+   "cycles": 1676128490
+  }
+ ],
+ "measurements": 895,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.003400211241340782,
+ "median_trial_seconds": 0.003473591424581005,
+ "min_trial_seconds": 0.003156531944134078,
+ "max_trial_seconds": 0.0035488189553072626,
+ "mean_cycles": 9166645.488268156,
+ "median_trial_cycles": 9363846.312849162,
+ "operations_per_second": 294.0993747216943,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1541,
+  "sk_bytes": 3114,
+  "ct_bytes": 1573,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 8314880,
+ "peak_rss_bytes": 8380416,
+ "timing_scope": "loop"
+}

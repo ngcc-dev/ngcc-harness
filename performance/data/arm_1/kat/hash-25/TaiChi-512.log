@@ -1,0 +1,18 @@
+library     = lib/libTaiChi-512.so
+id          = hash-25
+type        = hash
+algorithm   = TaiChi
+instance    = TaiChi-512
+variant     = Reference_Implementation
+source_dir  = TaiChi/Implementations/Reference_Implementation/TaiChi-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.129 s
+wrote  kat/KAT_2_12_TaiChi-512.txt (2804822 bytes)
+manifest 8b56d361b299add97f4be4b56d707ce38a97d724accab8826c78644863abd013 strict KAT_2_12_TaiChi-512.txt
+timing  KAT_2_23 0.137 s
+wrote  kat/KAT_2_23_TaiChi-512.txt (815 bytes)
+manifest 47ae3b04f04311fe3df151592cb9ef225223805ec57057f8f9a3cec23fee8618 strict KAT_2_23_TaiChi-512.txt
+RESULT hash-25 TaiChi-512 PASS 

@@ -1,0 +1,95 @@
+{
+ "schema": 2,
+ "candidate": "sign-20",
+ "label": "QingLuan-256",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-20/libQingLuan-256.so",
+  "verify",
+  "0",
+  "79",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-20",
+  "instance": "QingLuan-256",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 79,
+  "ticks": 24853298
+ },
+ "calls": [
+  {
+   "fn": "sm3hash",
+   "in_bits": 1552,
+   "out_bits": 256,
+   "calls": 316,
+   "ticks": 11793
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 2016,
+   "out_bits": 256,
+   "calls": 13904,
+   "ticks": 653308
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 262160,
+   "out_bits": 256,
+   "calls": 316,
+   "ticks": 1461837
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 1040,
+   "out_bits": 256,
+   "calls": 158,
+   "ticks": 4469
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 800,
+   "out_bits": 256,
+   "calls": 133984,
+   "ticks": 2593967
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 1232,
+   "out_bits": 256,
+   "calls": 158,
+   "ticks": 4574
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 544,
+   "out_bits": 256,
+   "calls": 619992,
+   "ticks": 11965442
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 901648,
+   "out_bits": 256,
+   "calls": 158,
+   "ticks": 2510201
+  }
+ ],
+ "share": {
+  "sm3hash": 0.7727582472153193
+ },
+ "hash_share": 0.7727582472153193
+}

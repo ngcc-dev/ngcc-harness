@@ -1,0 +1,17 @@
+library     = lib/libScloudplus-384-AES-packed10.so
+id          = kem-35
+type        = kem
+algorithm   = Scloud+
+instance    = Scloudplus-384-AES-packed10
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Scloudplus-384/kem
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 33296
+sk_len      = 40144
+ct_len      = 33600
+ss_len      = 48
+timing  keygen 55.072 ms  enc 53.976 ms  dec 54.159 ms (avg over 10)
+wrote  kat/KAT_KEM_Scloudplus-384-AES-packed10.txt (2144180 bytes)
+manifest 188d24276c9a6dd071eb07551c8c7afb02ef93881cf25a93714722b11c1a08f9 strict KAT_KEM_Scloudplus-384-AES-packed10.txt
+RESULT kem-35 Scloudplus-384-AES-packed10 PASS 

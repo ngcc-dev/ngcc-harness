@@ -1,0 +1,17 @@
+library     = lib/libMAMBA-Frost-256.so
+id          = kem-20
+type        = kem
+algorithm   = MAMBA-Frost
+instance    = MAMBA-Frost-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-Frost-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 16776
+sk_len      = 19416
+ct_len      = 15552
+ss_len      = 32
+timing  keygen 54.049 ms  enc 57.852 ms  dec 58.002 ms (avg over 10)
+wrote  kat/KAT_KEM_MAMBA-Frost-256.txt (1037940 bytes)
+manifest 24a530259ba3c4206a57cdec091e829998c2e74de0826a93523398cc6809fb45 strict KAT_KEM_MAMBA-Frost-256.txt
+RESULT kem-20 MAMBA-Frost-256 PASS 

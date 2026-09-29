@@ -1,0 +1,18 @@
+library     = lib/libQSH-512.so
+id          = hash-24
+type        = hash
+algorithm   = QSH
+instance    = QSH-512
+variant     = Reference_Implementation
+source_dir  = QSH/Implementations/03_Implementations/1_Reference_Implementation/QSH-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.187 s
+wrote  kat/KAT_2_12_QSH-512.txt (2804822 bytes)
+manifest a912344b33996ca2feb71f3944e1c76bc3d3878ddff659d0d19cf95ec6efb83e strict KAT_2_12_QSH-512.txt
+timing  KAT_2_23 0.197 s
+wrote  kat/KAT_2_23_QSH-512.txt (815 bytes)
+manifest a03ee156e5f0639a08d0b7b7ea40373f41e16579e9b783bbba76b9990b74f506 strict KAT_2_23_QSH-512.txt
+RESULT hash-24 QSH-512 PASS 

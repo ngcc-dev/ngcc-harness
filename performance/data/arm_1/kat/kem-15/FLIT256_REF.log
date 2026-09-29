@@ -1,0 +1,17 @@
+library     = lib/libFLIT256_REF.so
+id          = kem-15
+type        = kem
+algorithm   = FLIT
+instance    = FLIT256_REF
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/FLIT256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1229
+sk_len      = 2605
+ct_len      = 1024
+ss_len      = 32
+timing  keygen 0.085 ms  enc 0.061 ms  dec 0.081 ms (avg over 10)
+wrote  kat/KAT_KEM_FLIT256_REF.txt (100190 bytes)
+manifest deb2db63855d50286a2d08a907e86c95ff154db85af1d9979d2b194460183ce1 strict KAT_KEM_FLIT256_REF.txt
+RESULT kem-15 FLIT256_REF PASS 

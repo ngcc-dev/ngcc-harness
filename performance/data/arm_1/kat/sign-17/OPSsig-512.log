@@ -1,0 +1,16 @@
+library     = lib/libOPSsig-512.so
+id          = sign-17
+type        = sig
+algorithm   = OPS Digital Signature Algorithm
+instance    = OPSsig-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/OPSsig-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 6720
+sk_len      = 9920
+sn_len      = 12021
+timing  keygen 2.137 ms  sign 3.518 ms  verify 2.034 ms (avg over 10)
+wrote  kat/KAT_SIG_OPSsig-512-reference.txt (577444 bytes)
+manifest 4ea56222477e584c80d8019bec5d58a459bf8b3a1fccaeb9cf46705841e03099 strict KAT_SIG_OPSsig-512-reference.txt
+RESULT sign-17 OPSsig-512 PASS 

@@ -142,6 +142,30 @@ def system_id(explicit: str | None) -> str | None:
     return next((r["ID"] for r in rows if r["Hostname"] == host and r["Arch"] == arch), None)
 
 
+def clock_probe(cpu: int) -> dict | None:
+    """Measured core clock of CPU cpu (performance/clockprobe.c): median, lowest
+    and highest cycles per second over short busy windows, and the interquartile
+    spread. None if the cycle counter is unavailable."""
+    probe = PERF / "clockprobe"
+    if not probe.is_file():
+        subprocess.run(["make", "-s", "-C", str(PERF), "clockprobe"], capture_output=True)
+    try:
+        p = subprocess.run(["taskset", "-c", str(cpu), str(probe), "21", "50"],
+                           capture_output=True, text=True, timeout=120)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    out = dict(l.split("\t", 1) for l in p.stdout.splitlines() if "\t" in l)
+    if p.returncode != 0 or not out.get("clock_hz"):
+        return None
+    return {k: int(float(v)) for k, v in out.items()}
+
+
+def fixed_clock(env: dict) -> float:
+    """The run's fixed core clock in Hz: the cpufreq limit where cpufreq exists,
+    otherwise the measured clock (a firmware-controlled clock, e.g. on AArch64)."""
+    return float(env.get("cpufreq_max_khz") or 0) * 1e3 or float(env.get("core_clock_hz") or 0)
+
+
 def host_problems(cpu: int) -> list[str]:
     problems = []
     arch = platform.machine()
@@ -154,14 +178,38 @@ def host_problems(cpu: int) -> list[str]:
     gov = sysfs(f"/sys/devices/system/cpu/cpu{cpu}/cpufreq/scaling_governor")
     if gov not in (None, "performance"):
         problems.append(f"CPU {cpu} governor is {gov}, not performance")
+    if gov and arch == "aarch64":
+        # no turbo switch to rely on: the clock is fixed by pinning min = max
+        lo = sysfs(f"/sys/devices/system/cpu/cpu{cpu}/cpufreq/scaling_min_freq")
+        hi = sysfs(f"/sys/devices/system/cpu/cpu{cpu}/cpufreq/scaling_max_freq")
+        if lo != hi:
+            problems.append(f"CPU {cpu} clock not pinned (scaling_min_freq {lo} != scaling_max_freq {hi})")
     siblings = sysfs(f"/sys/devices/system/cpu/cpu{cpu}/topology/thread_siblings_list")
     if siblings and siblings != str(cpu):
         problems.append(f"CPU {cpu} shares its core with CPUs {siblings} (SMT on)")
     core = sysfs("/sys/devices/cpu_core/cpus")
     if core and cpu not in expand_cpus(core):
         problems.append(f"CPU {cpu} is not a performance core (cpu_core: {core})")
-    if cpu not in os.sched_getaffinity(0):
-        problems.append(f"CPU {cpu} is not in this process's affinity set")
+    # the orchestrator itself may be kept off the benchmark cores
+    # (campaign_parallel.sh); what matters is that taskset can pin there
+    if subprocess.run(["taskset", "-c", str(cpu), "true"], capture_output=True).returncode != 0:
+        problems.append(f"CPU {cpu} cannot be used by this process (cpuset)")
+    elif gov is None and not problems:
+        # no cpufreq: the clock is set by firmware and cannot be pinned here, so it
+        # must be shown to be steady (the measuring phases then use it as the
+        # reference clock for disturbed trials)
+        # a busy moment elsewhere on the machine can steal part of a probe
+        # window, so a verdict of "not steady" needs three probes in a row
+        for attempt in range(3):
+            clk = clock_probe(cpu)
+            if clk is None or clk["clock_iqr_hz"] <= 0.005 * clk["clock_hz"]:
+                break
+            time.sleep(5)
+        if clk is None:
+            problems.append(f"CPU {cpu}: no cpufreq and no cycle counter to measure the clock")
+        elif clk["clock_iqr_hz"] > 0.005 * clk["clock_hz"]:
+            problems.append(f"CPU {cpu} clock is not steady without cpufreq control "
+                            f"({clk['clock_min_hz'] / 1e9:.3f}-{clk['clock_max_hz'] / 1e9:.3f} GHz)")
     return problems
 
 
@@ -176,7 +224,18 @@ def expand_cpus(spec: str) -> set[int]:
 def environment(cpu: int) -> dict:
     cpuinfo = Path("/proc/cpuinfo").read_text(encoding="utf-8")
     model = next((l.split(":", 1)[1].strip() for l in cpuinfo.splitlines()
-                  if l.startswith(("model name", "Hardware", "CPU part"))), "unknown")
+                  if l.startswith("model name")), None)
+    if model is None:
+        # arm64 /proc/cpuinfo has no model name; lscpu decodes implementer and part
+        try:
+            ls = dict(l.split(":", 1) for l in subprocess.check_output(
+                ["lscpu"], text=True, env={**os.environ, "LC_ALL": "C"}).splitlines() if ":" in l)
+            model = " ".join(ls[k].strip() for k in ("Vendor ID", "Model name") if k in ls) or None
+        except (OSError, subprocess.CalledProcessError):
+            pass
+    if model is None:
+        model = next((l.split(":", 1)[1].strip() for l in cpuinfo.splitlines()
+                      if l.startswith(("Hardware", "CPU part"))), "unknown")
     meminfo = Path("/proc/meminfo").read_text(encoding="utf-8")
     os_release = Path("/etc/os-release").read_text(encoding="utf-8")
 
@@ -185,8 +244,11 @@ def environment(cpu: int) -> dict:
             return subprocess.check_output(cmd, text=True, stderr=subprocess.DEVNULL).splitlines()[0]
         except (OSError, subprocess.CalledProcessError, IndexError):
             return None
+    clk = clock_probe(cpu) or {}
+    machine = sysfs("/sys/firmware/devicetree/base/model") or sysfs("/sys/class/dmi/id/product_name")
     return {
         "hostname": socket.gethostname(), "architecture": platform.machine(), "cpu_model": model,
+        "machine": machine.rstrip("\x00 ") if machine else None,
         "cpu_number": cpu, "logical_cpus_online": sysfs("/sys/devices/system/cpu/online"),
         "virtualized": "hypervisor" in cpuinfo,
         "memory_total_kib": next((int(l.split()[1]) for l in meminfo.splitlines() if l.startswith("MemTotal:")), None),
@@ -198,9 +260,16 @@ def environment(cpu: int) -> dict:
         "cpufreq_driver": sysfs(f"/sys/devices/system/cpu/cpu{cpu}/cpufreq/scaling_driver"),
         "cpufreq_min_khz": sysfs(f"/sys/devices/system/cpu/cpu{cpu}/cpufreq/scaling_min_freq"),
         "cpufreq_max_khz": sysfs(f"/sys/devices/system/cpu/cpu{cpu}/cpufreq/scaling_max_freq"),
+        # hardware-measured average clock where the kernel provides it (arm64 AMU)
+        "cpufreq_avg_khz": sysfs(f"/sys/devices/system/cpu/cpu{cpu}/cpufreq/cpuinfo_avg_freq"),
         "intel_pstate_no_turbo": sysfs("/sys/devices/system/cpu/intel_pstate/no_turbo"),
         "cpufreq_boost": sysfs("/sys/devices/system/cpu/cpufreq/boost"),
         "smt_control": sysfs("/sys/devices/system/cpu/smt/control"),
+        # measured clock (performance/clockprobe.c); where cpufreq is absent this is
+        # the run's reference clock, and core_clock_mhz (to 50 MHz) must not change
+        "core_clock_hz": clk.get("clock_hz"),
+        "core_clock_min_hz": clk.get("clock_min_hz"), "core_clock_max_hz": clk.get("clock_max_hz"),
+        "core_clock_mhz": 50 * round(clk["clock_hz"] / 50e6) if clk.get("clock_hz") else None,
     }
 
 
@@ -275,7 +344,7 @@ def build_candidate(run: Path, args, cand: str, jobs: int) -> dict:
         entry = {"candidate": cand, "label": label, "instance": inst, "variant": "reference",
                  "flags": flags, "kat": status, **extra}
         lib = ROOT / cand / "lib" / f"lib{label}.so"
-        if status == "PASS" and lib.is_file():
+        if status in ("PASS", *TIMED_WITHOUT_PASS) and lib.is_file():
             kat_log = ROOT / cand / "results" / f"{label}.log"
             dst = run / "kat" / cand / f"{label}.log"
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -296,7 +365,7 @@ def phase_build(run: Path, args) -> None:
     state = load(run / "build.json", {"instances": {}})
     lock = threading.Lock()
     todo = [c for c in candidates(args.only)
-            if not (instances(c) and all(f"{c}/{l}" in state["instances"] for l in instances(c)))]
+            if args.rebuild or not (instances(c) and all(f"{c}/{l}" in state["instances"] for l in instances(c)))]
     workers = max(1, args.build_workers)
     jobs = max(1, args.jobs // workers)
 
@@ -400,6 +469,41 @@ def kat_issues() -> list[dict]:
 DEFER_DEFAULT = r"^(sign-30/TRINE-512-|sign-32/UVW-512$)"
 
 
+def prior_costs() -> dict[str, float]:
+    """Wall seconds per instance (cand/label) in the published datasets: a
+    machine-independent ordering of the work, used to balance shards."""
+    cost: dict[str, float] = {}
+    for f in (PERF / "data").glob("*/records/*/*.json"):
+        r = load(f) or {}
+        key = f"{r.get('candidate')}/{r.get('label')}"
+        cost[key] = cost.get(key, 0.0) + sum(p.get("wall_s", 0.0) for p in r.get("processes", []))
+    return cost
+
+
+SHARDS: dict[str, int] = {}
+
+
+def shard_of(key: str, n: int, defer: str | None = None) -> int:
+    """Shard (0-based) of instance key among n: greedy longest-first over the
+    prior costs of all instances this run built (deferred ones excluded), so the
+    assignment is the same in every shard process and every phase; unknown
+    instances count as 60 s."""
+    if SHARDS.get("__n__") != (n, defer):
+        SHARDS.clear()
+        prior = prior_costs()
+        keys = {k for k in set(prior) | set(SHARDS_BUILT) if not (defer and re.search(defer, k))}
+        loads = [0.0] * n
+        for k in sorted(keys, key=lambda k: (-prior.get(k, 60.0), k)):
+            i = loads.index(min(loads))
+            SHARDS[k] = i
+            loads[i] += prior.get(k, 60.0)
+        SHARDS["__n__"] = (n, defer)
+    return SHARDS.get(key, int(hashlib.sha256(key.encode()).hexdigest(), 16) % n)
+
+
+SHARDS_BUILT: list[str] = []
+
+
 def selected(entry: dict, args) -> bool:
     key = f"{entry['candidate']}/{entry['label']}"
     if getattr(args, "only", None) and not re.search(args.only, entry["candidate"]):
@@ -407,7 +511,15 @@ def selected(entry: dict, args) -> bool:
     deferred = bool(getattr(args, "defer", None)) and bool(re.search(args.defer, key))
     if getattr(args, "deferred_only", False):
         return bool(re.search(args.defer or DEFER_DEFAULT, key))
-    return not deferred
+    if deferred:
+        return False
+    if getattr(args, "shard", None):
+        return shard_of(key, args.shard[1], getattr(args, "defer", None)) == args.shard[0] - 1
+    return True
+
+
+# KAT outcomes whose library is still timed (flagged in every record and report)
+TIMED_WITHOUT_PASS = ("MISMATCH", "NOKAT", "PARTIAL", "CRYPTOFAIL", "TIMEOUT", "OVERFLOW")
 
 
 def measurable(run: Path) -> list[dict]:
@@ -425,7 +537,9 @@ def measurable(run: Path) -> list[dict]:
             out.append(e)
             continue
         lib = ROOT / e["candidate"] / "lib" / f"lib{e['label']}.so"
-        if e.get("kat") in ("MISMATCH", "NOKAT", "PARTIAL", "CRYPTOFAIL", "TIMEOUT", "OVERFLOW") and lib.is_file():
+        if e.get("kat") in TIMED_WITHOUT_PASS and e.get("library"):
+            out.append({**e, "kat_not_passed": True})
+        elif e.get("kat") in TIMED_WITHOUT_PASS and lib.is_file():
             out.append({**e, "library": lib.relative_to(ROOT).as_posix(), "library_sha256": sha256(lib),
                         "elf_load_bytes": elf_load_bytes(lib), "kat_log": None, "kat_log_sha256": None,
                         "kat_not_passed": True})
@@ -519,7 +633,7 @@ def phase_measure(run: Path, args) -> None:
         start = dt.datetime.now(dt.UTC).isoformat()
         load_start = os.getloadavg()
         runs, retried = [], 0
-        max_hz = float(env.get("cpufreq_max_khz") or 0) * 1e3
+        max_hz = fixed_clock(env)
         cal = load(run / "calibrate" / cand / f"{label}__{op_key(op, size)}.json") or {}
         reuse = (p["trials"] == 1 and p["iterations_per_trial"] == 1 and p["warmups"] == 0
                  and cal.get("status") == "complete" and cal.get("trials"))
@@ -603,16 +717,22 @@ BASELINE = "iccs"
 BASELINE_DIR = "performance/iccs"
 # host settings that every record of one run must share
 FIXED_ENV = ("hostname", "cpu_model", "cpu_number", "cpufreq_governor", "cpufreq_max_khz",
-             "intel_pstate_no_turbo", "cpufreq_boost", "smt_control", "perf_event_paranoid")
+             "intel_pstate_no_turbo", "cpufreq_boost", "smt_control", "perf_event_paranoid",
+             "core_clock_mhz")
 
 
 def phase_baseline(run: Path, args) -> None:
+    if args.shard:
+        log(run, "baseline: not sharded; run it without --shard")
+        raise SystemExit(2)
     env = environment(args.cpu)
     ref = next((r["environment"] for f in sorted((run / "records").rglob("*.json"))
                 if not f.parent.name == BASELINE and (r := load(f)) and r.get("status") == "complete"
                 and r.get("environment", {}).get("cpu_number") == args.cpu), None)
     if ref:
-        diff = [f"{k}: run {ref.get(k)!r}, now {env.get(k)!r}" for k in FIXED_ENV if ref.get(k) != env.get(k)]
+        # a key that the run's records predate is not compared
+        diff = [f"{k}: run {ref.get(k)!r}, now {env.get(k)!r}" for k in FIXED_ENV
+                if k in ref and ref.get(k) != env.get(k)]
         if diff:
             log(run, "baseline: host state differs from the run's records; not measuring: " + "; ".join(diff))
             raise SystemExit(2)
@@ -781,9 +901,47 @@ def phase_hashcost(run: Path, args) -> None:
         log(run, f"hashcost {e['candidate']} {e['label']} ({digest_bits}-bit): {len(missing)} lengths, rc={p.returncode}")
 
 
+# ---------------------------------------------------------------- phase: evidence
+
+def phase_evidence(run: Path) -> int:
+    """Attach the library and KAT log of every instance that was timed although its
+    KATs do not pass to build.json and to its timing records, as the build phase
+    now does itself (runs built before that stored neither). A library is only
+    linked when its SHA-256 equals the one each record measured. Idempotent."""
+    state = load(run / "build.json", {"instances": {}})
+    linked = problems = 0
+    for key, e in state["instances"].items():
+        if e.get("kat") not in TIMED_WITHOUT_PASS or e.get("kat_log"):
+            continue
+        cand, label = e["candidate"], e["label"]
+        recs = sorted((run / "records" / cand).glob(f"{label}__*.json"))
+        lib, logf = ROOT / cand / "lib" / f"lib{label}.so", ROOT / cand / "results" / f"{label}.log"
+        if not recs or not lib.is_file() or not logf.is_file():
+            continue
+        digest = sha256(lib)
+        if any((load(f) or {}).get("library_sha256") != digest for f in recs):
+            print(f"evidence {key}: library changed since it was timed; not linked", file=sys.stderr)
+            problems += 1
+            continue
+        dst = run / "kat" / cand / f"{label}.log"
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_bytes(logf.read_bytes())
+        e.update(library=lib.relative_to(ROOT).as_posix(), library_sha256=digest,
+                 elf_load_bytes=elf_load_bytes(lib), kat_log=dst.relative_to(run).as_posix(),
+                 kat_log_sha256=sha256(dst))
+        for f in recs:
+            r = load(f)
+            r.update(kat_log=e["kat_log"], kat_log_sha256=e["kat_log_sha256"])
+            save(f, r)
+        linked += 1
+    save(run / "build.json", state)
+    print(f"evidence: {linked} instance(s) linked, {problems} problem(s)")
+    return 1 if problems else 0
+
+
 # ---------------------------------------------------------------- phase: publish
 
-def phase_publish(run: Path) -> int:
+def phase_publish(run: Path, exclude: str | None = None) -> int:
     """Copy the evidence that the reports cite into performance/data/<system>/.
 
     Published: campaign.json, build.json, records/, profile/ (the timing and
@@ -791,6 +949,9 @@ def phase_publish(run: Path) -> int:
     katcheck/ logs. Not published: calibration runs, build logs, hash-cost
     tables and generated KAT text. Paths under the repository are rewritten to
     repository-relative form; any other absolute path aborts the publication.
+    With exclude (a regex over cand/label, --defer), the timing records and
+    profiles of matching instances are left out, e.g. for a preliminary release
+    while they are still running; their build and KAT evidence stays.
     """
     import shutil
     meta = load(run / "campaign.json") or {}
@@ -800,8 +961,10 @@ def phase_publish(run: Path) -> int:
         return 2
     dest = PERF / "data" / sid
     files = [run / "campaign.json", run / "build.json"]
-    files += sorted((run / "records").rglob("*.json"))
-    files += sorted(f for f in (run / "profile").rglob("*__*.json") if "RELINK" not in f.name)
+    def kept(f: Path) -> bool:
+        return not exclude or not re.search(exclude, f"{f.parent.name}/{f.name.split('__')[0]}")
+    files += sorted(f for f in (run / "records").rglob("*.json") if kept(f))
+    files += sorted(f for f in (run / "profile").rglob("*__*.json") if "RELINK" not in f.name and kept(f))
     files += sorted((run / "kat").rglob("*.log")) + sorted((run / "katcheck").glob("*.log"))
     prefix = str(ROOT) + "/"
     staged = {}
@@ -824,32 +987,66 @@ def phase_publish(run: Path) -> int:
 
 # ---------------------------------------------------------------- main
 
+def parse_shard(text: str) -> tuple[int, int]:
+    k, _, n = text.partition("/")
+    if not (k.isdigit() and n.isdigit() and 1 <= int(k) <= int(n)):
+        raise argparse.ArgumentTypeError("expected K/N with 1 <= K <= N")
+    return int(k), int(n)
+
+
+def update_campaign(run: Path, fn) -> dict:
+    """Read-modify-write campaign.json under a lock (shard processes share it)."""
+    import fcntl
+    with open(run / ".campaign.lock", "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        meta = load(run / "campaign.json", {})
+        fn(meta)
+        save(run / "campaign.json", meta)
+    return meta
+
+
 def main() -> int:
+    global TRIAL_TARGET_S, OP_BUDGET_S
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("phase", choices=["check", "build", "baseline", "calibrate", "measure", "profile", "hashcost", "all",
-                                      "plan", "publish"])
+                                      "plan", "publish", "evidence"])
     ap.add_argument("--cpu", type=int, default=2)
     ap.add_argument("--run-dir", type=Path, help="existing or new run directory (default: new)")
     ap.add_argument("--only", help="regex over candidate ids (e.g. '^kem-2')")
     ap.add_argument("--jobs", type=int, default=8, help="parallel build jobs (build phase only)")
+    ap.add_argument("--rebuild", action="store_true",
+                    help="build phase: rebuild and re-test the --only candidates even if already recorded")
     ap.add_argument("--build-workers", type=int, default=3, help="candidates built/KAT-tested at once")
     ap.add_argument("--defer", nargs="?", const=DEFER_DEFAULT, default=None,
                     help=f"skip very slow instances (regex over cand/label, default {DEFER_DEFAULT!r})")
     ap.add_argument("--deferred-only", action="store_true", help="process only the deferred instances")
     ap.add_argument("--system", help="system ID from performance/systems.csv (default: by hostname)")
+    ap.add_argument("--shard", type=parse_shard, metavar="K/N",
+                    help="calibrate/measure/profile only shard K of N (1-based); instances are divided "
+                         "by prior run time, all operations of an instance in one shard; run one process "
+                         "per shard, each on its own --cpu, with the same run directory")
+    ap.add_argument("--trial-target", type=float, default=TRIAL_TARGET_S,
+                    help=f"seconds of timed work per trial (default {TRIAL_TARGET_S}); fixed per run")
+    ap.add_argument("--op-budget", type=float, default=OP_BUDGET_S,
+                    help=f"seconds per operation above which fewer calls are timed (default {OP_BUDGET_S:.0f}); "
+                         "fixed per run")
     ap.add_argument("--allow-unfixed-host", action="store_true",
                     help="run even if turbo/governor/SMT/counter settings are not fixed (records say so)")
     args = ap.parse_args()
+    if args.rebuild and not args.only:
+        ap.error("--rebuild needs --only")
+    TRIAL_TARGET_S, OP_BUDGET_S = args.trial_target, args.op_budget
     problems = host_problems(args.cpu)
     if args.phase == "check":
         for p in problems:
             print("HOST:", p)
         print("host ready" if not problems else f"{len(problems)} problem(s)")
         return 1 if problems else 0
-    if args.phase == "publish":
+    if args.phase in ("publish", "evidence"):
         if not args.run_dir:
-            ap.error("publish needs --run-dir")
-        return phase_publish(args.run_dir if args.run_dir.is_absolute() else ROOT / args.run_dir)
+            ap.error(f"{args.phase} needs --run-dir")
+        run_dir = args.run_dir if args.run_dir.is_absolute() else ROOT / args.run_dir
+        return phase_publish(run_dir, args.defer) if args.phase == "publish" else phase_evidence(run_dir)
     if problems and args.phase in ("baseline", "calibrate", "measure", "profile", "hashcost", "all") and not args.allow_unfixed_host:
         for p in problems:
             print("HOST:", p, file=sys.stderr)
@@ -861,6 +1058,14 @@ def main() -> int:
     run = args.run_dir if args.run_dir.is_absolute() else ROOT / args.run_dir
     run.mkdir(parents=True, exist_ok=True)
     meta = load(run / "campaign.json", {})
+    planning = {"trials": TRIALS, "trial_target_s": TRIAL_TARGET_S, "min_total": MIN_TOTAL,
+                "max_iters_per_trial": MAX_ITERS, "op_budget_s": OP_BUDGET_S,
+                "separate_process_setup_s": SEPARATE_PROCESS_SETUP_S}
+    if args.phase != "build" and meta.get("planning") not in (None, planning) \
+            and any((run / "records").rglob("*.json")):
+        print(f"run directory was measured with planning {meta['planning']}, not {planning}; "
+              "pass the same --trial-target/--op-budget", file=sys.stderr)
+        return 2
     sid = system_id(args.system)
     if not sid and args.phase != "build":
         print("this machine is not in performance/systems.csv; add it (ID;Arch;Hostname;Description) "
@@ -869,22 +1074,29 @@ def main() -> int:
     if meta.get("system_id") and sid and meta["system_id"] != sid:
         print(f"run directory belongs to system {meta['system_id']}, not {sid}", file=sys.stderr)
         return 2
-    if sid:
-        meta["system_id"] = sid
-    meta.setdefault("started_utc", dt.datetime.now(dt.UTC).isoformat())
-    meta.setdefault("environment_at_start", environment(args.cpu))
     measuring = args.phase in ("baseline", "calibrate", "measure", "profile", "hashcost", "all")
-    meta.setdefault("host_checks", []).append({"phase": args.phase, "cpu": args.cpu,
-                                               "utc": dt.datetime.now(dt.UTC).isoformat(),
-                                               "problems": problems})
-    if measuring:
-        meta["host_problems"] = sorted(set(meta.get("host_problems", [])) | set(problems))
-    meta["arch_config"] = ARCH.get(platform.machine())
-    meta["harness_additions"] = HARNESS_ADDITIONS
-    meta["planning"] = {"trials": TRIALS, "trial_target_s": TRIAL_TARGET_S, "min_total": MIN_TOTAL,
-                        "max_iters_per_trial": MAX_ITERS, "op_budget_s": OP_BUDGET_S,
-                        "separate_process_setup_s": SEPARATE_PROCESS_SETUP_S}
-    save(run / "campaign.json", meta)
+    env_start = None if "environment_at_start" in meta else environment(args.cpu)
+
+    def start(meta):
+        if sid:
+            meta["system_id"] = sid
+        meta.setdefault("started_utc", dt.datetime.now(dt.UTC).isoformat())
+        if env_start:
+            meta.setdefault("environment_at_start", env_start)
+        meta.setdefault("host_checks", []).append({"phase": args.phase, "cpu": args.cpu,
+                                                   "utc": dt.datetime.now(dt.UTC).isoformat(),
+                                                   "problems": problems,
+                                                   **({"shard": "%d/%d" % args.shard} if args.shard else {})})
+        if measuring:
+            meta["host_problems"] = sorted(set(meta.get("host_problems", [])) | set(problems))
+        if args.shard:
+            meta["shards"] = max(meta.get("shards", 1), args.shard[1])
+            meta.setdefault("shard_cpus", {})["%d/%d" % args.shard] = args.cpu
+        meta["arch_config"] = ARCH.get(platform.machine())
+        meta["harness_additions"] = HARNESS_ADDITIONS
+        meta["planning"] = planning
+    update_campaign(run, start)
+    SHARDS_BUILT[:] = list((load(run / "build.json") or {}).get("instances", {}))
     subprocess.run(["make", "-s", "-C", "performance"], cwd=ROOT, check=True)
     subprocess.run(["make", "-s", "-C", "api", "harness"], cwd=ROOT, check=True)
     shown = run.relative_to(ROOT) if run.is_relative_to(ROOT) else run
@@ -897,8 +1109,9 @@ def main() -> int:
         fcntl.flock(lock, fcntl.LOCK_EX)
         args._lock = lock
         if args.phase in ("profile", "hashcost"):
-            # one worker per phase, whatever the CPU; a second one waits, then resumes
-            plock = open(PERF / "runs" / f".{args.phase}.lock", "w")
+            # one worker per phase (per shard), whatever the CPU; a second one waits, then resumes
+            tag = f"-{args.shard[0]}of{args.shard[1]}" if args.shard and args.phase == "profile" else ""
+            plock = open(PERF / "runs" / f".{args.phase}{tag}.lock", "w")
             fcntl.flock(plock, fcntl.LOCK_EX)
             args._plock = plock
         if args.deferred_only:
@@ -916,10 +1129,12 @@ def main() -> int:
         return 0
     for name in (["build", "baseline", "calibrate", "measure", "profile", "hashcost"] if args.phase == "all" else [args.phase]):
         phases[name](run, args)
-    meta = load(run / "campaign.json", {})
-    meta["ended_utc"] = dt.datetime.now(dt.UTC).isoformat()
-    meta["environment_at_end"] = environment(args.cpu)
-    save(run / "campaign.json", meta)
+    env_end = environment(args.cpu)
+
+    def end(meta):
+        meta["ended_utc"] = dt.datetime.now(dt.UTC).isoformat()
+        meta["environment_at_end"] = env_end
+    update_campaign(run, end)
     log(run, f"phase {args.phase} finished")
     return 0
 

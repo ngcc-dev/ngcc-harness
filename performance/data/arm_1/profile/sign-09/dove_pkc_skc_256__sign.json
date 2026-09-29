@@ -1,0 +1,81 @@
+{
+ "schema": 2,
+ "candidate": "sign-09",
+ "label": "dove_pkc_skc_256",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-09/libdove_pkc_skc_256.so",
+  "sign",
+  "0",
+  "10",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-09",
+  "instance": "dove_pkc_skc_256",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 10,
+  "ticks": 25265823
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 122880,
+   "calls": 960,
+   "ticks": 4502356
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1104,
+   "out_bits": 1280,
+   "calls": 10,
+   "ticks": 1412
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1088,
+   "out_bits": 320,
+   "calls": 10,
+   "ticks": 565
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 320,
+   "out_bits": 123008,
+   "calls": 10,
+   "ticks": 47455
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 768,
+   "calls": 10,
+   "ticks": 573
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 103040,
+   "calls": 100,
+   "ticks": 393793
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.19576461055711505
+ },
+ "hash_share": 0.19576461055711505
+}

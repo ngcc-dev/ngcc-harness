@@ -1,0 +1,16 @@
+library     = lib/libQingLuan-256.so
+id          = sign-20
+type        = sig
+algorithm   = Qing Luan
+instance    = QingLuan-256
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/QingLuan-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 153
+sk_len      = 64
+sn_len      = 74248
+timing  keygen 0.477 ms  sign 27.492 ms  verify 12.881 ms (avg over 10)
+wrote  kat/KAT_SIG_QingLuan-256.txt (1493494 bytes)
+manifest 79f6db2db6142f464f5872d21d2429e35813259fe3f161bffa4d19d256fd29bd strict KAT_SIG_QingLuan-256.txt
+RESULT sign-20 QingLuan-256 PASS 

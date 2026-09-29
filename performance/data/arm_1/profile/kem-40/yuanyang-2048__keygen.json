@@ -1,0 +1,54 @@
+{
+ "schema": 2,
+ "candidate": "kem-40",
+ "label": "yuanyang-2048",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-40/libyuanyang-2048.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-40",
+  "instance": "YuanYang-KEM",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 11732211
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8192,
+   "calls": 6884,
+   "ticks": 2295451
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 26624,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 1011415
+  }
+ ],
+ "share": {
+  "drng": 0.19565374335664437,
+  "pseudohash": 0.08620838817167539
+ },
+ "hash_share": 0.08620838817167539
+}

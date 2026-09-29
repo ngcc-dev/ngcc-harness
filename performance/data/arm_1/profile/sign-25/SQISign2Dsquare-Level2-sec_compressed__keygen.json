@@ -1,0 +1,53 @@
+{
+ "schema": 2,
+ "candidate": "sign-25",
+ "label": "SQISign2Dsquare-Level2-sec_compressed",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-25/libSQISign2Dsquare-Level2-sec_compressed.so",
+  "keygen",
+  "0",
+  "32",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-25",
+  "instance": "SQISign2Dsquare-Level2-sec_compressed",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 32,
+  "ticks": 23714568
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 40,
+   "calls": 8238,
+   "ticks": 253555
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 88,
+   "calls": 3456,
+   "ticks": 105147
+  }
+ ],
+ "share": {
+  "drng": 0.015125807900021623
+ },
+ "hash_share": 0
+}

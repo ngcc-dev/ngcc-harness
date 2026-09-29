@@ -10,7 +10,7 @@ ZCDMC_LEVELS := 1280-512 1280-768 1280-1024 1536-512 1536-768 1536-1024
         build-zcdmc-ref build-zcdmc-avx2 build-bit-ref build-bit-avx2 \
         smoke-x86 smoke-mithril-avx2 smoke-scloud-avx2 smoke-zcdmc-avx2 \
         smoke-bit-avx2 check
-all: ngcc_perf hashprof/hashprof hashprof/hashcost
+all: ngcc_perf clockprobe hashprof/hashprof hashprof/hashcost
 
 build-mithril-ref:
 	$(MAKE) -C ../api harness
@@ -94,6 +94,9 @@ check:
 ngcc_perf: ngcc_perf.c ../api/link_common.h ../api/link_kem.h ../api/link_sig.h ../api/link_hash.h ../api/link_kex.h
 	$(CC) $(CFLAGS) -o $@ ngcc_perf.c -ldl
 
+clockprobe: clockprobe.c
+	$(CC) $(CFLAGS) -o $@ clockprobe.c
+
 # Hash/XOF instrumentation (performance/hashprof/README.md)
 hashprof/hashprof: hashprof/hashprof.c ngcc_perf.c ../api/link_common.h ../api/link_kem.h ../api/link_sig.h ../api/link_hash.h ../api/link_kex.h
 	$(CC) -O2 -std=gnu11 -Wall -Wextra -Wno-unused-function -o $@ hashprof/hashprof.c -ldl
@@ -102,5 +105,5 @@ hashprof/hashcost: hashprof/hashcost.c ../api/auxfunc.c ../api/drng.c ../api/aux
 	$(CC) -O2 -std=gnu11 -Wall -Wextra -I../api -o $@ hashprof/hashcost.c ../api/auxfunc.c ../api/drng.c -ldl
 
 clean:
-	rm -f ngcc_perf hashprof/hashprof hashprof/hashcost
+	rm -f ngcc_perf clockprobe hashprof/hashprof hashprof/hashcost
 	rm -rf hashprof/lib hashprof/build

@@ -1,0 +1,17 @@
+library     = lib/libUVW-128.so
+id          = sign-32
+type        = sig
+algorithm   = UVW signature
+instance    = UVW-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/UVW-128
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 5897612
+sk_len      = 40
+sn_len      = 1244
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4313 e_hw=4320 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4320 ertw=4313 sum=8633 w=8633 match=1
+DBG_VFY: ew=4320 ertw=3277 sum=7597 w=8633 match=0
+RESULT sign-32 UVW-128 CRYPTOFAIL sig_verify accepted a modified message at count 0

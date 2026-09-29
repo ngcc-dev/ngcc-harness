@@ -1,0 +1,124 @@
+{
+ "schema": 2,
+ "candidate": "sign-07",
+ "label": "CS-512",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-07/libCS-512.so",
+  "sign",
+  "0",
+  "84",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-07",
+  "instance": "CS_512",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 84,
+  "ticks": 26448188
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 528,
+   "out_bits": 36864,
+   "calls": 189,
+   "ticks": 526057
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 528,
+   "out_bits": 135168,
+   "calls": 945,
+   "ticks": 9635886
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 16896,
+   "out_bits": 1024,
+   "calls": 189,
+   "ticks": 235192
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1536,
+   "out_bits": 1024,
+   "calls": 84,
+   "ticks": 12780
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 2560,
+   "out_bits": 1024,
+   "calls": 84,
+   "ticks": 18758
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 64,
+   "calls": 3727,
+   "ticks": 116089
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 528,
+   "out_bits": 90112,
+   "calls": 1134,
+   "ticks": 7707855
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 120,
+   "calls": 189,
+   "ticks": 6099
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 9,
+   "calls": 25301,
+   "ticks": 767965
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 84,
+   "ticks": 5185
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8,
+   "calls": 2619,
+   "ticks": 79420
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8448,
+   "calls": 2520,
+   "ticks": 865284
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.6857380172887458,
+  "drng": 0.06957157140595038
+ },
+ "hash_share": 0.6857380172887458
+}

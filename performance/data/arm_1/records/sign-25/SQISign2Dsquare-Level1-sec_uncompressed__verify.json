@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-25",
+ "label": "SQISign2Dsquare-Level1-sec_uncompressed",
+ "instance": "SQISign2Dsquare-Level1-sec_uncompressed",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "verify",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 41,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 3.0307839249060056,
+  "timeout_per_process_s": 301.8184703549436
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-25/lib/libSQISign2Dsquare-Level1-sec_uncompressed.so",
+ "library_sha256": "6b73cd5c3fe8cc4647cb66441d126c21c2ee43bca0f7b4dc90ba39c9b0a947ca",
+ "kat_log": "kat/sign-25/SQISign2Dsquare-Level1-sec_uncompressed.log",
+ "kat_log_sha256": "f3eeb0dfa059b3efa416a297e6d9fee1f3f8d3ba177baf191b5c72c2d0c69788",
+ "started_utc": "2026-09-28T21:06:05.867418+00:00",
+ "ended_utc": "2026-09-28T21:06:09.711554+00:00",
+ "load_average_start": [
+  4.05615234375,
+  4.04345703125,
+  4.005859375
+ ],
+ "load_average_end": [
+  4.05126953125,
+  4.04248046875,
+  4.00537109375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-25",
+    "instance": "SQISign2Dsquare-Level1-sec_uncompressed",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "5468160",
+    "pk_bytes": "68",
+    "sk_bytes": "521",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "212",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "30875648",
+    "measurement_count": "41",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 41,
+     "seconds": 0.633043906,
+     "cycles": 1702018283
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-25/lib/libSQISign2Dsquare-Level1-sec_uncompressed.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "41",
+    "3"
+   ],
+   "wall_s": 0.7683472633361816,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-25",
+    "instance": "SQISign2Dsquare-Level1-sec_uncompressed",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "5476352",
+    "pk_bytes": "68",
+    "sk_bytes": "521",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "212",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "30883840",
+    "measurement_count": "41",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 41,
+     "seconds": 0.632374844,
+     "cycles": 1700393117
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-25/lib/libSQISign2Dsquare-Level1-sec_uncompressed.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "41",
+    "3"
+   ],
+   "wall_s": 0.7676641941070557,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-25",
+    "instance": "SQISign2Dsquare-Level1-sec_uncompressed",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "4980736",
+    "pk_bytes": "68",
+    "sk_bytes": "521",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "212",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "32485376",
+    "measurement_count": "41",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 41,
+     "seconds": 0.633367968,
+     "cycles": 1702838848
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-25/lib/libSQISign2Dsquare-Level1-sec_uncompressed.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "41",
+    "3"
+   ],
+   "wall_s": 0.7685983180999756,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-25",
+    "instance": "SQISign2Dsquare-Level1-sec_uncompressed",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3428352",
+    "pk_bytes": "68",
+    "sk_bytes": "521",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "212",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "30937088",
+    "measurement_count": "41",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 41,
+     "seconds": 0.632522812,
+     "cycles": 1700799608
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-25/lib/libSQISign2Dsquare-Level1-sec_uncompressed.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "41",
+    "3"
+   ],
+   "wall_s": 0.7681128978729248,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-25",
+    "instance": "SQISign2Dsquare-Level1-sec_uncompressed",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3407872",
+    "pk_bytes": "68",
+    "sk_bytes": "521",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "212",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "31748096",
+    "measurement_count": "41",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 41,
+     "seconds": 0.635204219,
+     "cycles": 1707515057
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-25/lib/libSQISign2Dsquare-Level1-sec_uncompressed.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "41",
+    "3"
+   ],
+   "wall_s": 0.771259069442749,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 41,
+   "seconds": 0.633043906,
+   "cycles": 1702018283
+  },
+  {
+   "measurements": 41,
+   "seconds": 0.632374844,
+   "cycles": 1700393117
+  },
+  {
+   "measurements": 41,
+   "seconds": 0.633367968,
+   "cycles": 1702838848
+  },
+  {
+   "measurements": 41,
+   "seconds": 0.632522812,
+   "cycles": 1700799608
+  },
+  {
+   "measurements": 41,
+   "seconds": 0.635204219,
+   "cycles": 1707515057
+  }
+ ],
+ "measurements": 205,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.015446408531707317,
+ "median_trial_seconds": 0.015440095268292684,
+ "min_trial_seconds": 0.01542377668292683,
+ "max_trial_seconds": 0.015492785829268293,
+ "mean_cycles": 41529584.94146342,
+ "median_trial_cycles": 41512641.048780486,
+ "operations_per_second": 64.73996838470698,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 68,
+  "sk_bytes": 521,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 212,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 5476352,
+ "peak_rss_bytes": 32485376,
+ "timing_scope": "loop"
+}

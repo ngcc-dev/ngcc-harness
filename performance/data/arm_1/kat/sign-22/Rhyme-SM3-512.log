@@ -1,0 +1,16 @@
+library     = lib/libRhyme-SM3-512.so
+id          = sign-22
+type        = sig
+algorithm   = Rhyme
+instance    = Rhyme-SM3-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Rhyme-SM3/Rhyme-SM3-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3872
+sk_len      = 44864
+sn_len      = 20612
+timing  keygen 809.804 ms  sign 14.162 ms  verify 0.650 ms (avg over 10)
+wrote  kat/KAT_SIG_Rhyme-SM3-512.txt (1119020 bytes)
+manifest 31ac5bc82736f916df9ebe2abfcf7ae82c47c6e55e689f18aa5df03e6d14a2f2 strict KAT_SIG_Rhyme-SM3-512.txt
+RESULT sign-22 Rhyme-SM3-512 PASS 

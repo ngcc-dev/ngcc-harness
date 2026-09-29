@@ -1,0 +1,17 @@
+library     = lib/libBAG-Loong-256.so
+id          = kem-03
+type        = kem
+algorithm   = BAG-Loong
+instance    = BAG-Loong-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Loong-Block-ms-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 6597
+sk_len      = 13258
+ct_len      = 8400
+ss_len      = 32
+timing  keygen 37.267 ms  enc 33.193 ms  dec 63.733 ms (avg over 10)
+wrote  kat/KAT_KEM_BAG-Loong-256.txt (568140 bytes)
+manifest 3638b5b7e789b410bdc8a50924970b1fe42bee48a1c112dad27c01f753b8d566 strict KAT_KEM_BAG-Loong-256.txt
+RESULT kem-03 BAG-Loong-256 PASS 

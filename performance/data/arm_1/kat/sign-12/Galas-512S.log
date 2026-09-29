@@ -1,0 +1,16 @@
+library     = lib/libGalas-512S.so
+id          = sign-12
+type        = sig
+algorithm   = Galas
+instance    = Galas-512S
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Galas-512S
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 128
+sk_len      = 128
+sn_len      = 49516
+timing  keygen 68.002 ms  sign 26354.952 ms  verify 17349.872 ms (avg over 10)
+wrote  kat/KAT_SIG_Galas-512S.txt (999644 bytes)
+manifest 777aac74adc4643d686c6bd7ae61311a2e08eb6441f3b24ad4042ed1d8f6f2bd strict KAT_SIG_Galas-512S.txt
+RESULT sign-12 Galas-512S MISMATCH KAT_SIG_Galas-512S.txt: sha256 53dad1a1cd613d089023b28c06b9177642cc841ea72c600def845ff6668016fb != manifest 777aac74adc4643d686c6bd7ae61311a2e08eb6441f3b24ad4042ed1d8f6f2bd

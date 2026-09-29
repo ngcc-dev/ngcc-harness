@@ -1,0 +1,125 @@
+{
+ "schema": 2,
+ "candidate": "sign-29",
+ "label": "Tins256",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-29/libTins256.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-29",
+  "instance": "Tins256",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 94066901
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 129
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 27672,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 3261
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 292,
+   "calls": 28388,
+   "ticks": 1138681
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 544,
+   "calls": 294912,
+   "ticks": 14898144
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 140976,
+   "calls": 3,
+   "ticks": 16233
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 266,
+   "calls": 6,
+   "ticks": 243
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 13800,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 1693
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 256,
+   "out_bits": 256,
+   "calls": 589818,
+   "ticks": 6302651
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 808,
+   "out_bits": 512,
+   "calls": 294912,
+   "ticks": 25357794
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 50331656,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 5382894
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 141504,
+   "calls": 3,
+   "ticks": 16296
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 90
+  }
+ ],
+ "share": {
+  "drng": 0.17083390469087528,
+  "pseudohash": 0.3268486754974526,
+  "pseudoXOF": 0.06700179269220317
+ },
+ "hash_share": 0.3938504681896558
+}

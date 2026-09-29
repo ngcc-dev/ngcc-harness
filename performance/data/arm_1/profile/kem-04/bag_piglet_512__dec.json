@@ -1,0 +1,74 @@
+{
+ "schema": 2,
+ "candidate": "kem-04",
+ "label": "bag_piglet_512",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-04/libbag_piglet_512.so",
+  "dec",
+  "0",
+  "5",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-04",
+  "instance": "bag_piglet_512",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 5,
+  "ticks": 24670285
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 66024,
+   "out_bits": 512,
+   "calls": 5,
+   "ticks": 11867
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 1572864,
+   "calls": 30,
+   "ticks": 3536696
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 33272,
+   "out_bits": 512,
+   "calls": 5,
+   "ticks": 6098
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 1024,
+   "calls": 5,
+   "ticks": 420
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1176,
+   "out_bits": 1024,
+   "calls": 5,
+   "ticks": 578
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.14412719593632584
+ },
+ "hash_share": 0.14412719593632584
+}

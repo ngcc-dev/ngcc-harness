@@ -1,0 +1,17 @@
+library     = lib/libLoong256.so
+id          = kem-18
+type        = kem
+algorithm   = LoongKEM
+instance    = Loong256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Loong256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3248
+sk_len      = 3888
+ct_len      = 3520
+ss_len      = 32
+timing  keygen 4.148 ms  enc 4.203 ms  dec 4.180 ms (avg over 10)
+wrote  kat/KAT_KEM_Loong256.txt (216150 bytes)
+manifest a4b671a86130db1bfe25354cac2a9363262ae7894b46ffc9a57bbe349c536f01 strict KAT_KEM_Loong256.txt
+RESULT kem-18 Loong256 PASS 

@@ -1,0 +1,16 @@
+library     = lib/libRhyme-SHAKE-512.so
+id          = sign-22
+type        = sig
+algorithm   = Rhyme
+instance    = Rhyme-SHAKE-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Rhyme-SHAKE/Rhyme-SHAKE-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3872
+sk_len      = 44864
+sn_len      = 20612
+timing  keygen 819.283 ms  sign 2.573 ms  verify 0.327 ms (avg over 10)
+wrote  kat/KAT_SIG_Rhyme-SHAKE-512.txt (1119222 bytes)
+manifest 4736c133dd5992edc2d3c6a83cdc8efcc6a858eca8bbf618b1af729d6e5d9eac strict KAT_SIG_Rhyme-SHAKE-512.txt
+RESULT sign-22 Rhyme-SHAKE-512 PASS 

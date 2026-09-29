@@ -1,0 +1,17 @@
+library     = lib/libHQC-256.so
+id          = kem-26
+type        = kem
+algorithm   = NSS-HQC
+instance    = HQC-256
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/HQC-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 6844
+sk_len      = 6908
+ct_len      = 9084
+ss_len      = 32
+timing  keygen 22.883 ms  enc 41.863 ms  dec 73.745 ms (avg over 10)
+wrote  kat/KAT_KEM_HQC-256.txt (459750 bytes)
+manifest 2dd117d616c932e59950b894413209c321747f182d5767f0a7c06b01ec34802a strict KAT_KEM_HQC-256.txt
+RESULT kem-26 HQC-256 PASS 

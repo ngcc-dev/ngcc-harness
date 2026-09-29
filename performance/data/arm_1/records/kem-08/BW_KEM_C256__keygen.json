@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-08",
+ "label": "BW_KEM_C256",
+ "instance": "BW_KEM_C256",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 2746,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.509755406668091,
+  "timeout_per_process_s": 301.50585324400083
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-08/lib/libBW_KEM_C256.so",
+ "library_sha256": "ad26ad5cee3c17bbc0e5ae5f1dc0f05698437babefe80572104b53b95d874df4",
+ "kat_log": "kat/kem-08/BW_KEM_C256.log",
+ "kat_log_sha256": "560e3227b48fc50a3ba0aec60e251e38bd4c678aadf21c85436f585fff95566e",
+ "started_utc": "2026-09-28T20:49:38.958989+00:00",
+ "ended_utc": "2026-09-28T20:49:41.828826+00:00",
+ "load_average_start": [
+  4.0029296875,
+  4.0537109375,
+  4.033203125
+ ],
+ "load_average_end": [
+  4.0029296875,
+  4.0537109375,
+  4.033203125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-08",
+    "instance": "BW_KEM_C256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1454080",
+    "pk_bytes": "1568",
+    "sk_bytes": "3169",
+    "ct_bytes": "1440",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1531904",
+    "measurement_count": "2746",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2746,
+     "seconds": 0.570118438,
+     "cycles": 1536367048
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-08/lib/libBW_KEM_C256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2746",
+    "3"
+   ],
+   "wall_s": 0.5744552612304688,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-08",
+    "instance": "BW_KEM_C256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1462272",
+    "pk_bytes": "1568",
+    "sk_bytes": "3169",
+    "ct_bytes": "1440",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1540096",
+    "measurement_count": "2746",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2746,
+     "seconds": 0.570739844,
+     "cycles": 1538213526
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-08/lib/libBW_KEM_C256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2746",
+    "3"
+   ],
+   "wall_s": 0.5732119083404541,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-08",
+    "instance": "BW_KEM_C256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "1568",
+    "sk_bytes": "3169",
+    "ct_bytes": "1440",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1540096",
+    "measurement_count": "2746",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2746,
+     "seconds": 0.570307083,
+     "cycles": 1537135631
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-08/lib/libBW_KEM_C256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2746",
+    "3"
+   ],
+   "wall_s": 0.5741121768951416,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-08",
+    "instance": "BW_KEM_C256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1454080",
+    "pk_bytes": "1568",
+    "sk_bytes": "3169",
+    "ct_bytes": "1440",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1531904",
+    "measurement_count": "2746",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2746,
+     "seconds": 0.570275624,
+     "cycles": 1536940509
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-08/lib/libBW_KEM_C256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2746",
+    "3"
+   ],
+   "wall_s": 0.5746171474456787,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-08",
+    "instance": "BW_KEM_C256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1462272",
+    "pk_bytes": "1568",
+    "sk_bytes": "3169",
+    "ct_bytes": "1440",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1540096",
+    "measurement_count": "2746",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2746,
+     "seconds": 0.57072,
+     "cycles": 1538281528
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-08/lib/libBW_KEM_C256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2746",
+    "3"
+   ],
+   "wall_s": 0.5732913017272949,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 2746,
+   "seconds": 0.570118438,
+   "cycles": 1536367048
+  },
+  {
+   "measurements": 2746,
+   "seconds": 0.570739844,
+   "cycles": 1538213526
+  },
+  {
+   "measurements": 2746,
+   "seconds": 0.570307083,
+   "cycles": 1537135631
+  },
+  {
+   "measurements": 2746,
+   "seconds": 0.570275624,
+   "cycles": 1536940509
+  },
+  {
+   "measurements": 2746,
+   "seconds": 0.57072,
+   "cycles": 1538281528
+  }
+ ],
+ "measurements": 13730,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00020773204581209028,
+ "median_trial_seconds": 0.00020768648324836125,
+ "min_trial_seconds": 0.00020761778514202475,
+ "max_trial_seconds": 0.00020784408011653314,
+ "mean_cycles": 559864.4021849964,
+ "median_trial_cycles": 559772.6260014566,
+ "operations_per_second": 4813.893764395781,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1568,
+  "sk_bytes": 3169,
+  "ct_bytes": 1440,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+ "baseline_rss_bytes": 1462272,
+ "peak_rss_bytes": 1540096,
+ "timing_scope": "loop"
+}

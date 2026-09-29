@@ -1,0 +1,16 @@
+library     = lib/libdove_classic_512.so
+id          = sign-09
+type        = sig
+algorithm   = DOVE
+instance    = dove_classic_512
+variant     = Reference_Implementation
+source_dir  = Implementations/Digital_Signature-DOVE-x86-reference_implementation/API_PKC/Implementations/Reference_Implementation/DOVE_classic_ref
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 22833052
+sk_len      = 20181508
+sn_len      = 648
+timing  keygen 13367.424 ms  sign 72.019 ms  verify 17.658 ms (avg over 10)
+wrote  kat/KAT_SIG_dove_classic_512.txt (860308444 bytes)
+manifest a284be72871771ee4a1aa8abc270d8bf252a0eb903c579fdef0a2d423ef15ff8 strict KAT_SIG_dove_classic_512.txt
+RESULT sign-09 dove_classic_512 PASS 

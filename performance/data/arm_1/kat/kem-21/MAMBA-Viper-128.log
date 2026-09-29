@@ -1,0 +1,17 @@
+library     = lib/libMAMBA-Viper-128.so
+id          = kem-21
+type        = kem
+algorithm   = MAMBA-Viper
+instance    = MAMBA-Viper-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-Viper-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 608
+sk_len      = 1424
+ct_len      = 736
+ss_len      = 16
+timing  keygen 0.052 ms  enc 0.082 ms  dec 0.095 ms (avg over 10)
+wrote  kat/KAT_KEM_MAMBA-Viper-128.txt (58050 bytes)
+manifest e982c77390a3ad269be4d664f816373a92821086884e1c4d992e571df518d71d strict KAT_KEM_MAMBA-Viper-128.txt
+RESULT kem-21 MAMBA-Viper-128 PASS 

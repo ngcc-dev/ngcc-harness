@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-25",
+ "label": "TaiChi-768",
+ "instance": "TaiChi-768",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 4096,
+ "plan": {
+  "iterations_per_trial": 2446,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5074458962487793,
+  "timeout_per_process_s": 301.5044675377493
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-25/lib/libTaiChi-768.so",
+ "library_sha256": "58fde2cf55721d95f8ad1e393ded968dc845a05d1151d3c1180af9cf3eaf25ad",
+ "kat_log": "kat/hash-25/TaiChi-768.log",
+ "kat_log_sha256": "cbb02706e49c8446c634ae81cfc49d33f2d13481133fbd5f93d35800873cdea8",
+ "started_utc": "2026-09-28T20:47:49.915708+00:00",
+ "ended_utc": "2026-09-28T20:47:53.037840+00:00",
+ "load_average_start": [
+  4.0322265625,
+  4.08349609375,
+  4.0439453125
+ ],
+ "load_average_end": [
+  4.029296875,
+  4.08203125,
+  4.04345703125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-25",
+    "instance": "TaiChi-768",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1429504",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "96",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1499136",
+    "measurement_count": "2446",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2446,
+     "seconds": 0.625110781,
+     "cycles": 1684750567
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-25/lib/libTaiChi-768.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "2446",
+    "3"
+   ],
+   "wall_s": 0.6295409202575684,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-25",
+    "instance": "TaiChi-768",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1433600",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "96",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1503232",
+    "measurement_count": "2446",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2446,
+     "seconds": 0.620629531,
+     "cycles": 1672604423
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-25/lib/libTaiChi-768.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "2446",
+    "3"
+   ],
+   "wall_s": 0.6233999729156494,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-25",
+    "instance": "TaiChi-768",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1429504",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "96",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1499136",
+    "measurement_count": "2446",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2446,
+     "seconds": 0.617202656,
+     "cycles": 1663613520
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-25/lib/libTaiChi-768.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "2446",
+    "3"
+   ],
+   "wall_s": 0.6217994689941406,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-25",
+    "instance": "TaiChi-768",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1429504",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "96",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1499136",
+    "measurement_count": "2446",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2446,
+     "seconds": 0.619831666,
+     "cycles": 1670526758
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-25/lib/libTaiChi-768.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "2446",
+    "3"
+   ],
+   "wall_s": 0.6244041919708252,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-25",
+    "instance": "TaiChi-768",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1433600",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "96",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1503232",
+    "measurement_count": "2446",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2446,
+     "seconds": 0.618175104,
+     "cycles": 1665972791
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-25/lib/libTaiChi-768.so",
+    "hash",
+    "4096",
+    "1",
+    "1",
+    "2446",
+    "3"
+   ],
+   "wall_s": 0.6228344440460205,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 2446,
+   "seconds": 0.625110781,
+   "cycles": 1684750567
+  },
+  {
+   "measurements": 2446,
+   "seconds": 0.620629531,
+   "cycles": 1672604423
+  },
+  {
+   "measurements": 2446,
+   "seconds": 0.617202656,
+   "cycles": 1663613520
+  },
+  {
+   "measurements": 2446,
+   "seconds": 0.619831666,
+   "cycles": 1670526758
+  },
+  {
+   "measurements": 2446,
+   "seconds": 0.618175104,
+   "cycles": 1665972791
+  }
+ ],
+ "measurements": 12230,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00025355271774325425,
+ "median_trial_seconds": 0.00025340624121013896,
+ "min_trial_seconds": 0.00025233142109566643,
+ "max_trial_seconds": 0.0002555645057236304,
+ "mean_cycles": 683357.9770237121,
+ "median_trial_cycles": 682962.6974652493,
+ "operations_per_second": 3943.952992894334,
+ "throughput_MB_per_second": 16.154431458895193,
+ "sizes": {
+  "input_bytes": 4096,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 96
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1433600,
+ "peak_rss_bytes": 1503232,
+ "timing_scope": "loop"
+}

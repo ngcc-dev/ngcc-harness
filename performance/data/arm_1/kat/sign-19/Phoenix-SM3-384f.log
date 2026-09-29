@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SM3-384f.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SM3-384f
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SM3-384f
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 96
+sk_len      = 192
+sn_len      = 88442
+timing  keygen 33.162 ms  sign 953.163 ms  verify 17.974 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SM3-384f.txt (1758730 bytes)
+manifest 95d555b37990bfca7e702c6a8aad94bfd0df88b55300ae50c4978b538a7743de strict KAT_SIG_Phoenix-SM3-384f.txt
+RESULT sign-19 Phoenix-SM3-384f MISMATCH KAT_SIG_Phoenix-SM3-384f.txt: sha256 92199af51367d756ffd76e2047f2f96166cf057bffb822f33d648469f7f1f7ea != manifest 95d555b37990bfca7e702c6a8aad94bfd0df88b55300ae50c4978b538a7743de

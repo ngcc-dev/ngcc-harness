@@ -1,0 +1,16 @@
+library     = lib/libAigis-sig2.so
+id          = sign-01
+type        = sig
+algorithm   = Aigis-Sig+
+instance    = Aigis-sig2
+variant     = Reference_Implementation
+source_dir  = Implementations/Implementations/Reference_Implementation/Aigis-Sig+-II
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1824
+sk_len      = 4976
+sn_len      = 4533
+timing  keygen 0.552 ms  sign 1.455 ms  verify 0.533 ms (avg over 10)
+wrote  kat/KAT_SIG_Aigis-sig2.txt (230406 bytes)
+manifest f8de042b1e324ebef5b5cb0846ee23b01707885233ea65577bb18d0a86146edf strict KAT_SIG_Aigis-sig2.txt
+RESULT sign-01 Aigis-sig2 PASS 

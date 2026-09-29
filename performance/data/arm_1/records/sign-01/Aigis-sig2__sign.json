@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-01",
+ "label": "Aigis-sig2",
+ "instance": "Aigis-sig2",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "sign",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 224,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.549567555492554,
+  "timeout_per_process_s": 301.5297405332955
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-01/lib/libAigis-sig2.so",
+ "library_sha256": "af2bcaab26e8e7d3db3287b262afc50b7574af9ff85185607cff8524d757ab4d",
+ "kat_log": "kat/sign-01/Aigis-sig2.log",
+ "kat_log_sha256": "f20e1494288c8aa3b710842d000239bee8163f2f8157e1f46e54026337a96e53",
+ "started_utc": "2026-09-28T20:11:31.407664+00:00",
+ "ended_utc": "2026-09-28T20:11:34.589538+00:00",
+ "load_average_start": [
+  4.13427734375,
+  4.07177734375,
+  4.01220703125
+ ],
+ "load_average_end": [
+  4.123046875,
+  4.0703125,
+  4.01171875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-01",
+    "instance": "Aigis-sig2",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1556480",
+    "pk_bytes": "1824",
+    "sk_bytes": "4976",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4533",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1695744",
+    "measurement_count": "224",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 224,
+     "seconds": 0.626771198,
+     "cycles": 1689709204
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-01/lib/libAigis-sig2.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "224",
+    "3"
+   ],
+   "wall_s": 0.6396543979644775,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-01",
+    "instance": "Aigis-sig2",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1544192",
+    "pk_bytes": "1824",
+    "sk_bytes": "4976",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4533",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1683456",
+    "measurement_count": "224",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 224,
+     "seconds": 0.624368542,
+     "cycles": 1682864491
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-01/lib/libAigis-sig2.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "224",
+    "3"
+   ],
+   "wall_s": 0.6372523307800293,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-01",
+    "instance": "Aigis-sig2",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1552384",
+    "pk_bytes": "1824",
+    "sk_bytes": "4976",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4533",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1691648",
+    "measurement_count": "224",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 224,
+     "seconds": 0.620373698,
+     "cycles": 1672512735
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-01/lib/libAigis-sig2.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "224",
+    "3"
+   ],
+   "wall_s": 0.6331443786621094,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-01",
+    "instance": "Aigis-sig2",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1556480",
+    "pk_bytes": "1824",
+    "sk_bytes": "4976",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4533",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1695744",
+    "measurement_count": "224",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 224,
+     "seconds": 0.625250156,
+     "cycles": 1685352706
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-01/lib/libAigis-sig2.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "224",
+    "3"
+   ],
+   "wall_s": 0.6381049156188965,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-01",
+    "instance": "Aigis-sig2",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1556480",
+    "pk_bytes": "1824",
+    "sk_bytes": "4976",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4533",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1695744",
+    "measurement_count": "224",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 224,
+     "seconds": 0.620805781,
+     "cycles": 1673357829
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-01/lib/libAigis-sig2.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "224",
+    "3"
+   ],
+   "wall_s": 0.6336145401000977,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 224,
+   "seconds": 0.626771198,
+   "cycles": 1689709204
+  },
+  {
+   "measurements": 224,
+   "seconds": 0.624368542,
+   "cycles": 1682864491
+  },
+  {
+   "measurements": 224,
+   "seconds": 0.620373698,
+   "cycles": 1672512735
+  },
+  {
+   "measurements": 224,
+   "seconds": 0.625250156,
+   "cycles": 1685352706
+  },
+  {
+   "measurements": 224,
+   "seconds": 0.620805781,
+   "cycles": 1673357829
+  }
+ ],
+ "measurements": 1120,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0027835440848214287,
+ "median_trial_seconds": 0.0027873595625000002,
+ "min_trial_seconds": 0.0027695254375,
+ "max_trial_seconds": 0.002798085705357143,
+ "mean_cycles": 7503390.147321428,
+ "median_trial_cycles": 7512787.90625,
+ "operations_per_second": 359.2542347193156,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1824,
+  "sk_bytes": 4976,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 4533,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1556480,
+ "peak_rss_bytes": 1695744,
+ "timing_scope": "loop"
+}

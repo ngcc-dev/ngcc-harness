@@ -1,0 +1,17 @@
+library     = lib/libHQC-512.so
+id          = kem-26
+type        = kem
+algorithm   = NSS-HQC
+instance    = HQC-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/HQC-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 27302
+sk_len      = 27430
+ct_len      = 31462
+ss_len      = 64
+timing  keygen 181.816 ms  enc 332.703 ms  dec 532.597 ms (avg over 10)
+wrote  kat/KAT_KEM_HQC-512.txt (1727580 bytes)
+manifest ff3342b3602b12d721867c040d859af67ddef0dd3be4c109b288583e9752d499 strict KAT_KEM_HQC-512.txt
+RESULT kem-26 HQC-512 PASS 

@@ -1,0 +1,146 @@
+{
+ "schema": 2,
+ "candidate": "kem-37",
+ "label": "TriQ-KEM-512",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-37/libTriQ-KEM-512.so",
+  "enc",
+  "0",
+  "22",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-37",
+  "instance": "TriQ-KEM-512",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 22,
+  "ticks": 24679939
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 1288,
+   "out_bits": 1024,
+   "calls": 22,
+   "ticks": 5631
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 31872,
+   "calls": 22,
+   "ticks": 52869
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 40064,
+   "calls": 22,
+   "ticks": 66499
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 776,
+   "out_bits": 512,
+   "calls": 22,
+   "ticks": 880
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 776,
+   "out_bits": 8704,
+   "calls": 22,
+   "ticks": 14088
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 158152,
+   "out_bits": 512,
+   "calls": 22,
+   "ticks": 123573
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 44,
+   "ticks": 1777
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 8320,
+   "calls": 22,
+   "ticks": 14014
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 16512,
+   "calls": 22,
+   "ticks": 27654
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 23552,
+   "calls": 22,
+   "ticks": 41137
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 31744,
+   "calls": 22,
+   "ticks": 54537
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 40192,
+   "calls": 1,
+   "ticks": 3009
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 48384,
+   "calls": 1,
+   "ticks": 3813
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 157632,
+   "calls": 22,
+   "ticks": 260971
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 165824,
+   "calls": 22,
+   "ticks": 274373
+  }
+ ],
+ "share": {
+  "pseudohash": 0.00022816101773995471,
+  "pseudoXOF": 0.037982954495957226,
+  "drng": 7.200179870784932e-05
+ },
+ "hash_share": 0.03821111551369718
+}

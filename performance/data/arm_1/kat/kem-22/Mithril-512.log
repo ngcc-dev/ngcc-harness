@@ -1,0 +1,17 @@
+library     = lib/libMithril-512.so
+id          = kem-22
+type        = kem
+algorithm   = Mithril
+instance    = Mithril-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Mithril-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3056
+sk_len      = 3728
+ct_len      = 3504
+ss_len      = 64
+timing  keygen 0.572 ms  enc 0.691 ms  dec 0.786 ms (avg over 10)
+wrote  kat/KAT_KEM_Mithril-512.txt (209430 bytes)
+manifest 0c084e82338847ff6ffb81ba570884f0de1a54978a5890f7e6b1ada1577031a7 strict KAT_KEM_Mithril-512.txt
+RESULT kem-22 Mithril-512 PASS 

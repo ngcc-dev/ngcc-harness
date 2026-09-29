@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-37",
+ "label": "TriQ-KEM-128",
+ "instance": "TriQ-KEM-128",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 370,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.540108866982422,
+  "timeout_per_process_s": 301.52406532018944
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-37/lib/libTriQ-KEM-128.so",
+ "library_sha256": "9e7bdcfa4d7bff601bfaf3e55503d4a446ef76afb20b8d1173c43b74c26fb991",
+ "kat_log": "kat/kem-37/TriQ-KEM-128.log",
+ "kat_log_sha256": "71a372f47b434569a6440e50ae22d9915933009173a3443d406ea2da4fee2aa6",
+ "started_utc": "2026-09-28T20:58:02.597060+00:00",
+ "ended_utc": "2026-09-28T20:58:05.807330+00:00",
+ "load_average_start": [
+  4.02197265625,
+  4.02734375,
+  4.001953125
+ ],
+ "load_average_end": [
+  4.02001953125,
+  4.02685546875,
+  4.00146484375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-37",
+    "instance": "TriQ-KEM-128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "2054",
+    "sk_bytes": "2102",
+    "ct_bytes": "4086",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1589248",
+    "measurement_count": "370",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 370,
+     "seconds": 0.630615208,
+     "cycles": 1699390511
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-37/lib/libTriQ-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "370",
+    "3"
+   ],
+   "wall_s": 0.6420953273773193,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-37",
+    "instance": "TriQ-KEM-128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1519616",
+    "pk_bytes": "2054",
+    "sk_bytes": "2102",
+    "ct_bytes": "4086",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1585152",
+    "measurement_count": "370",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 370,
+     "seconds": 0.63068276,
+     "cycles": 1699536526
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-37/lib/libTriQ-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "370",
+    "3"
+   ],
+   "wall_s": 0.6423888206481934,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-37",
+    "instance": "TriQ-KEM-128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1527808",
+    "pk_bytes": "2054",
+    "sk_bytes": "2102",
+    "ct_bytes": "4086",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1593344",
+    "measurement_count": "370",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 370,
+     "seconds": 0.63047724,
+     "cycles": 1699197802
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-37/lib/libTriQ-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "370",
+    "3"
+   ],
+   "wall_s": 0.6421144008636475,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-37",
+    "instance": "TriQ-KEM-128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "2054",
+    "sk_bytes": "2102",
+    "ct_bytes": "4086",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1589248",
+    "measurement_count": "370",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 370,
+     "seconds": 0.630521197,
+     "cycles": 1699332051
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-37/lib/libTriQ-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "370",
+    "3"
+   ],
+   "wall_s": 0.6421470642089844,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-37",
+    "instance": "TriQ-KEM-128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "2054",
+    "sk_bytes": "2102",
+    "ct_bytes": "4086",
+    "ss_bytes": "16",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1589248",
+    "measurement_count": "370",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 370,
+     "seconds": 0.631437968,
+     "cycles": 1701797338
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-37/lib/libTriQ-KEM-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "370",
+    "3"
+   ],
+   "wall_s": 0.6413705348968506,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 370,
+   "seconds": 0.630615208,
+   "cycles": 1699390511
+  },
+  {
+   "measurements": 370,
+   "seconds": 0.63068276,
+   "cycles": 1699536526
+  },
+  {
+   "measurements": 370,
+   "seconds": 0.63047724,
+   "cycles": 1699197802
+  },
+  {
+   "measurements": 370,
+   "seconds": 0.630521197,
+   "cycles": 1699332051
+  },
+  {
+   "measurements": 370,
+   "seconds": 0.631437968,
+   "cycles": 1701797338
+  }
+ ],
+ "measurements": 1850,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0017047212827027026,
+ "median_trial_seconds": 0.001704365427027027,
+ "min_trial_seconds": 0.0017039925405405406,
+ "max_trial_seconds": 0.0017065891027027026,
+ "mean_cycles": 4594191.474594595,
+ "median_trial_cycles": 4592947.327027027,
+ "operations_per_second": 586.6061567639831,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 2054,
+  "sk_bytes": 2102,
+  "ct_bytes": 4086,
+  "ss_bytes": 16,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1527808,
+ "peak_rss_bytes": 1593344,
+ "timing_scope": "loop"
+}

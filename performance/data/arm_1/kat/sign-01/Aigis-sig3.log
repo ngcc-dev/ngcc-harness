@@ -1,0 +1,16 @@
+library     = lib/libAigis-sig3.so
+id          = sign-01
+type        = sig
+algorithm   = Aigis-Sig+
+instance    = Aigis-sig3
+variant     = Reference_Implementation
+source_dir  = Implementations/Implementations/Reference_Implementation/Aigis-Sig+-III
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 4672
+sk_len      = 8800
+sn_len      = 9134
+timing  keygen 1.939 ms  sign 3.591 ms  verify 1.917 ms (avg over 10)
+wrote  kat/KAT_SIG_Aigis-sig3.txt (456010 bytes)
+manifest c4ce128116a2501c0bb92adead7f30db9fdc6a4e83ceed8df17eabbf30b86986 strict KAT_SIG_Aigis-sig3.txt
+RESULT sign-01 Aigis-sig3 PASS 

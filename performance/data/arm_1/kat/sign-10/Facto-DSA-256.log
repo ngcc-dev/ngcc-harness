@@ -1,0 +1,16 @@
+library     = lib/libFacto-DSA-256.so
+id          = sign-10
+type        = sig
+algorithm   = Facto-DSA
+instance    = Facto-DSA-256
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Facto-DSA-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 456960
+sk_len      = 11662
+sn_len      = 68
+timing  keygen 33.358 ms  sign 1.875 ms  verify 2.998 ms (avg over 10)
+wrote  kat/KAT_SIG_Facto-DSA-256.txt (9378024 bytes)
+manifest 066acd4b036c7e2973b53171ff579897724e9818149e1b8909c49b1c3869ce94 strict KAT_SIG_Facto-DSA-256.txt
+RESULT sign-10 Facto-DSA-256 PASS 

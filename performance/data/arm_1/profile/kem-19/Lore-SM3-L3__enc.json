@@ -1,0 +1,118 @@
+{
+ "schema": 2,
+ "candidate": "kem-19",
+ "label": "Lore-SM3-L3",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-19/libLore-SM3-L3.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-19",
+  "instance": "Lore-SM3-L3",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 15905077
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 11584,
+   "calls": 1000,
+   "ticks": 454757
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 280,
+   "out_bits": 9408,
+   "calls": 9000,
+   "ticks": 3305860
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 15632,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 280880
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 19909
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 280,
+   "out_bits": 6720,
+   "calls": 9000,
+   "ticks": 2410776
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 384,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10034
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 272,
+   "out_bits": 8192,
+   "calls": 1000,
+   "ticks": 316714
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 1000,
+   "ticks": 40546
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 280,
+   "out_bits": 8064,
+   "calls": 9000,
+   "ticks": 2859637
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 38849
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 16912,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 308015
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.5914150557083125,
+  "sm3hash": 0.037656466548385774,
+  "drng": 0.0025492488970660122
+ },
+ "hash_share": 0.6290715222566983
+}

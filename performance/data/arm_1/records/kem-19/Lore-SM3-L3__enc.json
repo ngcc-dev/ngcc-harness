@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-19",
+ "label": "Lore-SM3-L3",
+ "instance": "Lore-SM3-L3",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 748,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.525119262924194,
+  "timeout_per_process_s": 301.51507155775454
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-19/lib/libLore-SM3-L3.so",
+ "library_sha256": "ed420d0bb52a0069d8e082bc0b261957836102d9a3e159a197acad1043645524",
+ "kat_log": "kat/kem-19/Lore-SM3-L3.log",
+ "kat_log_sha256": "10a78fd610b333a3b23ddac67dda3c61a59c7490b44b914bdcc4e24788170554",
+ "started_utc": "2026-09-28T20:08:55.802027+00:00",
+ "ended_utc": "2026-09-28T20:08:58.943621+00:00",
+ "load_average_start": [
+  4.03515625,
+  4.037109375,
+  4.0
+ ],
+ "load_average_end": [
+  4.0322265625,
+  4.0361328125,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-19",
+    "instance": "Lore-SM3-L3",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1617920",
+    "pk_bytes": "1954",
+    "sk_bytes": "7736",
+    "ct_bytes": "2114",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1687552",
+    "measurement_count": "748",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 748,
+     "seconds": 0.620250938,
+     "cycles": 1671710875
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-19/lib/libLore-SM3-L3.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "748",
+    "3"
+   ],
+   "wall_s": 0.6274771690368652,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-19",
+    "instance": "Lore-SM3-L3",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1622016",
+    "pk_bytes": "1954",
+    "sk_bytes": "7736",
+    "ct_bytes": "2114",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1691648",
+    "measurement_count": "748",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 748,
+     "seconds": 0.620696771,
+     "cycles": 1672915099
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-19/lib/libLore-SM3-L3.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "748",
+    "3"
+   ],
+   "wall_s": 0.6297695636749268,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-19",
+    "instance": "Lore-SM3-L3",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1622016",
+    "pk_bytes": "1954",
+    "sk_bytes": "7736",
+    "ct_bytes": "2114",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1691648",
+    "measurement_count": "748",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 748,
+     "seconds": 0.619839791,
+     "cycles": 1670965670
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-19/lib/libLore-SM3-L3.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "748",
+    "3"
+   ],
+   "wall_s": 0.6268565654754639,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-19",
+    "instance": "Lore-SM3-L3",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1622016",
+    "pk_bytes": "1954",
+    "sk_bytes": "7736",
+    "ct_bytes": "2114",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1691648",
+    "measurement_count": "748",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 748,
+     "seconds": 0.619601094,
+     "cycles": 1670166735
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-19/lib/libLore-SM3-L3.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "748",
+    "3"
+   ],
+   "wall_s": 0.6285991668701172,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-19",
+    "instance": "Lore-SM3-L3",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1601536",
+    "pk_bytes": "1954",
+    "sk_bytes": "7736",
+    "ct_bytes": "2114",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1671168",
+    "measurement_count": "748",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 748,
+     "seconds": 0.619864531,
+     "cycles": 1671142272
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-19/lib/libLore-SM3-L3.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "748",
+    "3"
+   ],
+   "wall_s": 0.6287984848022461,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 748,
+   "seconds": 0.620250938,
+   "cycles": 1671710875
+  },
+  {
+   "measurements": 748,
+   "seconds": 0.620696771,
+   "cycles": 1672915099
+  },
+  {
+   "measurements": 748,
+   "seconds": 0.619839791,
+   "cycles": 1670965670
+  },
+  {
+   "measurements": 748,
+   "seconds": 0.619601094,
+   "cycles": 1670166735
+  },
+  {
+   "measurements": 748,
+   "seconds": 0.619864531,
+   "cycles": 1671142272
+  }
+ ],
+ "measurements": 3740,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0008289446858288771,
+ "median_trial_seconds": 0.0008286958970588236,
+ "min_trial_seconds": 0.0008283437085561497,
+ "max_trial_seconds": 0.0008298085173796792,
+ "mean_cycles": 2234465.4147058823,
+ "median_trial_cycles": 2234147.422459893,
+ "operations_per_second": 1206.3531102803097,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1954,
+  "sk_bytes": 7736,
+  "ct_bytes": 2114,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1622016,
+ "peak_rss_bytes": 1691648,
+ "timing_scope": "loop"
+}

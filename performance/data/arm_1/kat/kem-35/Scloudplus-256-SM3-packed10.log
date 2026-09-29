@@ -1,0 +1,17 @@
+library     = lib/libScloudplus-256-SM3-packed10.so
+id          = kem-35
+type        = kem
+algorithm   = Scloud+
+instance    = Scloudplus-256-SM3-packed10
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Scloudplus-256/kem
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 16296
+sk_len      = 19680
+ct_len      = 17925
+ss_len      = 32
+timing  keygen 26.187 ms  enc 24.859 ms  dec 24.756 ms (avg over 10)
+wrote  kat/KAT_KEM_Scloudplus-256-SM3-packed10.txt (1081080 bytes)
+manifest 6a20f8c9668e5a6782af4a9ff7702dea04d8ea130eeab87eacea9157c96d7264 strict KAT_KEM_Scloudplus-256-SM3-packed10.txt
+RESULT kem-35 Scloudplus-256-SM3-packed10 PASS 

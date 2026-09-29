@@ -1,0 +1,17 @@
+library     = lib/libWeaverKEM-512.so
+id          = kem-39
+type        = kem
+algorithm   = Weaver
+instance    = WeaverKEM-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/WeaverKEM-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2880
+sk_len      = 6400
+ct_len      = 3392
+ss_len      = 64
+timing  keygen 0.780 ms  enc 0.905 ms  dec 0.930 ms (avg over 10)
+wrote  kat/KAT_KEM_WeaverKEM-512.txt (257110 bytes)
+manifest 35c0353120f2bd37aa0ff761e2508a94263a29307248a13996eaf5640c26336c strict KAT_KEM_WeaverKEM-512.txt
+RESULT kem-39 WeaverKEM-512 PASS 

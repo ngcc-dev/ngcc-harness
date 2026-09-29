@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-23",
+ "label": "SHUTTLE-512",
+ "instance": "SHUTTLE-512",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "verify",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 634,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5526778573809814,
+  "timeout_per_process_s": 301.53160671442856
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-23/lib/libSHUTTLE-512.so",
+ "library_sha256": "9f936e618a028be71bf147a178083877824b88c4d9c6896a55b1a1f374eff7f7",
+ "kat_log": "kat/sign-23/SHUTTLE-512.log",
+ "kat_log_sha256": "175a53a5d59b424d1f50bbba56579ea2bc851902a4ef4114214654aab246bdc2",
+ "started_utc": "2026-09-28T20:58:53.343277+00:00",
+ "ended_utc": "2026-09-28T20:58:56.473455+00:00",
+ "load_average_start": [
+  4.30810546875,
+  4.11279296875,
+  4.0302734375
+ ],
+ "load_average_end": [
+  4.30810546875,
+  4.11279296875,
+  4.0302734375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-23",
+    "instance": "SHUTTLE-512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1835008",
+    "pk_bytes": "3648",
+    "sk_bytes": "7104",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "5001",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1925120",
+    "measurement_count": "634",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 634,
+     "seconds": 0.61086052,
+     "cycles": 1645968164
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-23/lib/libSHUTTLE-512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "634",
+    "3"
+   ],
+   "wall_s": 0.6260967254638672,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-23",
+    "instance": "SHUTTLE-512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1822720",
+    "pk_bytes": "3648",
+    "sk_bytes": "7104",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "5001",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1912832",
+    "measurement_count": "634",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 634,
+     "seconds": 0.610560051,
+     "cycles": 1645431326
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-23/lib/libSHUTTLE-512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "634",
+    "3"
+   ],
+   "wall_s": 0.6258382797241211,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-23",
+    "instance": "SHUTTLE-512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1839104",
+    "pk_bytes": "3648",
+    "sk_bytes": "7104",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "5001",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1929216",
+    "measurement_count": "634",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 634,
+     "seconds": 0.613339062,
+     "cycles": 1652860376
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-23/lib/libSHUTTLE-512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "634",
+    "3"
+   ],
+   "wall_s": 0.6285290718078613,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-23",
+    "instance": "SHUTTLE-512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1839104",
+    "pk_bytes": "3648",
+    "sk_bytes": "7104",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "5001",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1929216",
+    "measurement_count": "634",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 634,
+     "seconds": 0.611082292,
+     "cycles": 1646707972
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-23/lib/libSHUTTLE-512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "634",
+    "3"
+   ],
+   "wall_s": 0.6242952346801758,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-23",
+    "instance": "SHUTTLE-512",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1839104",
+    "pk_bytes": "3648",
+    "sk_bytes": "7104",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "5001",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1929216",
+    "measurement_count": "634",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 634,
+     "seconds": 0.610628125,
+     "cycles": 1645536024
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "sign-23/lib/libSHUTTLE-512.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "634",
+    "3"
+   ],
+   "wall_s": 0.6252667903900146,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 634,
+   "seconds": 0.61086052,
+   "cycles": 1645968164
+  },
+  {
+   "measurements": 634,
+   "seconds": 0.610560051,
+   "cycles": 1645431326
+  },
+  {
+   "measurements": 634,
+   "seconds": 0.613339062,
+   "cycles": 1652860376
+  },
+  {
+   "measurements": 634,
+   "seconds": 0.611082292,
+   "cycles": 1646707972
+  },
+  {
+   "measurements": 634,
+   "seconds": 0.610628125,
+   "cycles": 1645536024
+  }
+ ],
+ "measurements": 3170,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0009641861356466876,
+ "median_trial_seconds": 0.0009635023974763408,
+ "min_trial_seconds": 0.0009630284716088328,
+ "max_trial_seconds": 0.0009674117697160883,
+ "mean_cycles": 2598266.2025236594,
+ "median_trial_cycles": 2596164.2965299683,
+ "operations_per_second": 1037.1441395278846,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 3648,
+  "sk_bytes": 7104,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 5001,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1839104,
+ "peak_rss_bytes": 1929216,
+ "timing_scope": "loop"
+}

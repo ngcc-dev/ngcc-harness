@@ -1,0 +1,16 @@
+library     = lib/libReSolveD-alpha-512s.so
+id          = sign-21
+type        = sig
+algorithm   = ReSolveD-alpha
+instance    = ReSolveD-alpha-512s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/ReSolveD-alpha-512s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 385
+sk_len      = 128
+sn_len      = 56239
+timing  keygen 35.628 ms  sign 1068.078 ms  verify 947.787 ms (avg over 10)
+wrote  kat/KAT_SIG_ReSolveD-alpha-512s.txt (1139244 bytes)
+manifest 4bbb071440440bc031dca7019bbb053227173a410e8de77e5567d601e0a20d83 strict KAT_SIG_ReSolveD-alpha-512s.txt
+RESULT sign-21 ReSolveD-alpha-512s PASS 

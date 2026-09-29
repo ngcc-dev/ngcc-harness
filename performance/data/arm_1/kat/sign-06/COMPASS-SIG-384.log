@@ -1,0 +1,16 @@
+library     = lib/libCOMPASS-SIG-384.so
+id          = sign-06
+type        = sig
+algorithm   = COMPASS-SIG
+instance    = COMPASS-SIG-384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/COMPASS-SIG-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 5792
+sk_len      = 3136
+sn_len      = 7344
+timing  keygen 1.068 ms  sign 1.784 ms  verify 0.954 ms (avg over 10)
+wrote  kat/KAT_SIG_COMPASS-SIG-384.txt (329654 bytes)
+manifest b3d3d5beabb0d1b823e1824be715522ab379301516c7512e4606bfa972ef0be1 strict KAT_SIG_COMPASS-SIG-384.txt
+RESULT sign-06 COMPASS-SIG-384 PASS 

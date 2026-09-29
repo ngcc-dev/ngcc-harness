@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "sign-09",
+ "label": "dove_pkc_skc_512",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-09/libdove_pkc_skc_512.so",
+  "keygen",
+  "0",
+  "3",
+  "0"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-09",
+  "instance": "dove_pkc_skc_512",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "0",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 940172188
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 576,
+   "out_bits": 622208,
+   "calls": 3,
+   "ticks": 139134
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 576,
+   "calls": 3,
+   "ticks": 221
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 519840,
+   "calls": 45,
+   "ticks": 897686
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 622080,
+   "calls": 648,
+   "ticks": 15400472
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.017483278286466394,
+  "drng": 2.350633243790445e-07
+ },
+ "hash_share": 0.017483278286466394
+}

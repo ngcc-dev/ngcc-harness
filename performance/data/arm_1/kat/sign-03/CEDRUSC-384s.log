@@ -1,0 +1,16 @@
+library     = lib/libCEDRUSC-384s.so
+id          = sign-03
+type        = sig
+algorithm   = CEDRUS+C
+instance    = CEDRUSC-384s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CEDRUSC-384s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 96
+sk_len      = 192
+sn_len      = 61572
+timing  keygen 915.018 ms  sign 13454.736 ms  verify 14.916 ms (avg over 10)
+wrote  kat/KAT_SIG_CEDRUSC-384s.txt (1241394 bytes)
+manifest 623c013c8af92a85b1d7449843fd986adefa87c989865a257bb4e6137a0e50fc strict KAT_SIG_CEDRUSC-384s.txt
+RESULT sign-03 CEDRUSC-384s PASS 

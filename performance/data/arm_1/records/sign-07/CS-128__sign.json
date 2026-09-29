@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-07",
+ "label": "CS-128",
+ "instance": "CS_128",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "sign",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 627,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5197633388201903,
+  "timeout_per_process_s": 301.5118580032921
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-07/lib/libCS-128.so",
+ "library_sha256": "3ceb031de83846bc06b596322e346877a84ba61f8d11305d7901b87cf1993811",
+ "kat_log": "kat/sign-07/CS-128.log",
+ "kat_log_sha256": "9934c932cc4177eb2b0ccaa541e3b76f8bcf32df3e50bb68f2e3f966422384ab",
+ "started_utc": "2026-09-28T19:50:34.576811+00:00",
+ "ended_utc": "2026-09-28T19:50:38.931170+00:00",
+ "load_average_start": [
+  4.12353515625,
+  4.08984375,
+  3.921875
+ ],
+ "load_average_end": [
+  4.11328125,
+  4.087890625,
+  3.92236328125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-07",
+    "instance": "CS_128",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon -w",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "976",
+    "sk_bytes": "1888",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "1548",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1646592",
+    "measurement_count": "627",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 627,
+     "seconds": 0.889808125,
+     "cycles": 2396925390
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-07/lib/libCS-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "627",
+    "3"
+   ],
+   "wall_s": 0.8938820362091064,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-07",
+    "instance": "CS_128",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon -w",
+    "baseline_rss_bytes": "1519616",
+    "pk_bytes": "976",
+    "sk_bytes": "1888",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "1548",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1646592",
+    "measurement_count": "627",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 627,
+     "seconds": 0.860761718,
+     "cycles": 2319013717
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-07/lib/libCS-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "627",
+    "3"
+   ],
+   "wall_s": 0.864694356918335,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-07",
+    "instance": "CS_128",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon -w",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "976",
+    "sk_bytes": "1888",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "1548",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1646592",
+    "measurement_count": "627",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 627,
+     "seconds": 0.860126719,
+     "cycles": 2317324706
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-07/lib/libCS-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "627",
+    "3"
+   ],
+   "wall_s": 0.8661642074584961,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-07",
+    "instance": "CS_128",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon -w",
+    "baseline_rss_bytes": "1519616",
+    "pk_bytes": "976",
+    "sk_bytes": "1888",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "1548",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1646592",
+    "measurement_count": "627",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 627,
+     "seconds": 0.860592031,
+     "cycles": 2318513611
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-07/lib/libCS-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "627",
+    "3"
+   ],
+   "wall_s": 0.865187406539917,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-07",
+    "instance": "CS_128",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon -w",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "976",
+    "sk_bytes": "1888",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "1548",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1646592",
+    "measurement_count": "627",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 627,
+     "seconds": 0.8603825,
+     "cycles": 2317960206
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-07/lib/libCS-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "627",
+    "3"
+   ],
+   "wall_s": 0.8643066883087158,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 627,
+   "seconds": 0.889808125,
+   "cycles": 2396925390
+  },
+  {
+   "measurements": 627,
+   "seconds": 0.860761718,
+   "cycles": 2319013717
+  },
+  {
+   "measurements": 627,
+   "seconds": 0.860126719,
+   "cycles": 2317324706
+  },
+  {
+   "measurements": 627,
+   "seconds": 0.860592031,
+   "cycles": 2318513611
+  },
+  {
+   "measurements": 627,
+   "seconds": 0.8603825,
+   "cycles": 2317960206
+  }
+ ],
+ "measurements": 3135,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0013817132673046252,
+ "median_trial_seconds": 0.0013725550733652313,
+ "min_trial_seconds": 0.0013718129489633175,
+ "max_trial_seconds": 0.0014191517145135566,
+ "mean_cycles": 3722404.3476874004,
+ "median_trial_cycles": 3697788.8532695374,
+ "operations_per_second": 723.7391604053628,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 976,
+  "sk_bytes": 1888,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 1548,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -fcommon -w",
+ "baseline_rss_bytes": 1523712,
+ "peak_rss_bytes": 1646592,
+ "timing_scope": "loop"
+}

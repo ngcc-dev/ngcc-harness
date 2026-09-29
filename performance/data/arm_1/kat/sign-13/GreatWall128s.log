@@ -1,0 +1,16 @@
+library     = lib/libGreatWall128s.so
+id          = sign-13
+type        = sig
+algorithm   = GreatWall
+instance    = GreatWall128s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/GreatWall128s
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 36
+sk_len      = 36
+sn_len      = 2758
+timing  keygen 1.269 ms  sign 126.594 ms  verify 104.213 ms (avg over 10)
+wrote  kat/KAT_SIG_GreatWall128s.txt (60774 bytes)
+manifest 7b8093dfc9a992ca7d66bd9d1b63a30850965e6e7d7c9d369ab510b268af3a92 strict KAT_SIG_GreatWall128s.txt
+RESULT sign-13 GreatWall128s PASS 

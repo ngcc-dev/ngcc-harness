@@ -1,0 +1,18 @@
+library     = lib/liblitchi_xof.so
+id          = hash-15
+type        = hash
+algorithm   = Litchi
+instance    = litchi_xof
+variant     = Reference_Implementation
+source_dir  = Litchi/Implementations/Reference_Implementation/Litchi-XOF
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 1024
+digest_len  = 128
+timing  KAT_2_12 0.086 s
+wrote  kat/KAT_2_12_litchi_xof.txt (3333335 bytes)
+manifest 396911f293e00fded4111fa145e825329b6ee09e5425d45dfffb0330a73c5ecb strict KAT_2_12_litchi_xof.txt
+timing  KAT_2_23 0.052 s
+wrote  kat/KAT_2_23_litchi_xof.txt (1202 bytes)
+manifest 9184039fe7cda61b3af3b8a0f84e252939b5c023bc6eb15cb03d806899d63295 strict KAT_2_23_litchi_xof.txt
+RESULT hash-15 litchi_xof PASS 

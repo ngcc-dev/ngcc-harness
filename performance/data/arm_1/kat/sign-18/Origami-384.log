@@ -1,0 +1,16 @@
+library     = lib/libOrigami-384.so
+id          = sign-18
+type        = sig
+algorithm   = Origami
+instance    = Origami-384
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Origami-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 27940
+sk_len      = 48
+sn_len      = 948
+timing  keygen 84.883 ms  sign 1904.050 ms  verify 1738.481 ms (avg over 1)
+wrote  kat/KAT_SIG_Origami-384.txt (58219 bytes)
+manifest 9488ef6efb6e801d14ee850dc96d687d959a03bf4a50b8b77b74baf88c578289 strict:1 KAT_SIG_Origami-384.txt
+RESULT sign-18 Origami-384 PASS 

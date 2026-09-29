@@ -1,0 +1,16 @@
+library     = lib/libSHUTTLE-256.so
+id          = sign-23
+type        = sig
+algorithm   = Shuttle
+instance    = SHUTTLE-256
+variant     = Reference_Implementation
+source_dir  = Implementation codes and test vectors/Shuttle 算法实现源代码及测试向量/Implementations/Reference_Implementation/SHUTTLE-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1952
+sk_len      = 3680
+sn_len      = 2417
+timing  keygen 3.161 ms  sign 2.030 ms  verify 0.433 ms (avg over 10)
+wrote  kat/KAT_SIG_SHUTTLE-256.txt (165194 bytes)
+manifest 40f7ca87972fcd3d62dccd100f11e56cf8adb0f59621caf4f49ea3c1446ffcf3 strict KAT_SIG_SHUTTLE-256.txt
+RESULT sign-23 SHUTTLE-256 PASS 

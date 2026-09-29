@@ -1,0 +1,18 @@
+library     = lib/libLLH-1024.so
+id          = hash-16
+type        = hash
+algorithm   = LLH
+instance    = LLH-1024
+variant     = Reference_Implementation
+source_dir  = LLH/Implementations and Test_Vectors/LLH_C/API_CryptHash/Implementations/Reference_Implementation/LLH-1024
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 1024
+digest_len  = 128
+timing  KAT_2_12 0.086 s
+wrote  kat/KAT_2_12_LLH-1024.txt (3333335 bytes)
+manifest 0f08b00ecbee349acd1dbd26782180b5f0d699a98e1a4b0d9e83216a344f31b4 strict KAT_2_12_LLH-1024.txt
+timing  KAT_2_23 0.038 s
+wrote  kat/KAT_2_23_LLH-1024.txt (1202 bytes)
+manifest efd397e42b7aaae11c68449198dc2b32a3958c6852df0c2d48117e1195ae8864 strict KAT_2_23_LLH-1024.txt
+RESULT hash-16 LLH-1024 PASS 

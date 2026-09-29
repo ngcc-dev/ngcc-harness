@@ -1,0 +1,20 @@
+library     = lib/libMAMBA-NIKE-128.so
+id          = kex-06
+type        = kex
+algorithm   = MAMBA-NIKE
+instance    = MAMBA-NIKE-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-NIKE-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 1
+pk_len      = 1184
+sk_len      = 3232
+sta_len     = 32
+stb_len     = 0
+ss_len      = 32
+total_msg   = 1568
+timing  full exchange 2.912 ms (avg over 10)
+wrote  kat/KAT_KEX_MAMBA-NIKE-128.txt (213180 bytes)
+manifest 8ae48f1f8c8256fa697aa19f47c040bad7af880c26f640438511613a7959f338 strict KAT_KEX_MAMBA-NIKE-128.txt
+RESULT kex-06 MAMBA-NIKE-128 PASS 

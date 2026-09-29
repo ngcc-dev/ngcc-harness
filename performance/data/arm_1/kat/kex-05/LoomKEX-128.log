@@ -1,0 +1,20 @@
+library     = lib/libLoomKEX-128.so
+id          = kex-05
+type        = kex
+algorithm   = Loom
+instance    = LoomKEX-128
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/LoomKEX-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 4
+pk_len      = 1264
+sk_len      = 2288
+sta_len     = 2657
+stb_len     = 2657
+ss_len      = 16
+total_msg   = 4038
+timing  full exchange 11.702 ms (avg over 10)
+wrote  kat/KAT_KEX_LoomKEX-128.txt (547580 bytes)
+manifest 7729e1e7621350be6679b8aa3c8964063919528ba65c0bd4aa4ac8ba0f409eb6 strict KAT_KEX_LoomKEX-128.txt
+RESULT kex-05 LoomKEX-128 PASS 

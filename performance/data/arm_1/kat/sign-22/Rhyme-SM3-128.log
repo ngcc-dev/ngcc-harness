@@ -1,0 +1,16 @@
+library     = lib/libRhyme-SM3-128.so
+id          = sign-22
+type        = sig
+algorithm   = Rhyme
+instance    = Rhyme-SM3-128
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Rhyme-SM3/Rhyme-SM3-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 800
+sk_len      = 11072
+sn_len      = 5156
+timing  keygen 72.203 ms  sign 3.411 ms  verify 0.109 ms (avg over 10)
+wrote  kat/KAT_SIG_Rhyme-SM3-128.txt (271306 bytes)
+manifest 5b1ff50ac1da92e9b4bbdee778de75e0bb03889c4499e90fa72129c34837eb0b strict KAT_SIG_Rhyme-SM3-128.txt
+RESULT sign-22 Rhyme-SM3-128 PASS 

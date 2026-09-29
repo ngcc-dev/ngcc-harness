@@ -1,0 +1,17 @@
+library     = lib/libNTRE-128.so
+id          = kem-27
+type        = kem
+algorithm   = NTRE
+instance    = NTRE-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/NTRE-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 972
+sk_len      = 1976
+ct_len      = 972
+ss_len      = 64
+timing  keygen 0.032 ms  enc 0.026 ms  dec 0.022 ms (avg over 10)
+wrote  kat/KAT_KEM_NTRE-128.txt (82050 bytes)
+manifest 4f87f8063044895ba521805c223c484c151603e294e917df8a666102291e482f strict KAT_KEM_NTRE-128.txt
+RESULT kem-27 NTRE-128 PASS 

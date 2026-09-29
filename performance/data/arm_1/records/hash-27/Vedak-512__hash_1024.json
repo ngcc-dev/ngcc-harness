@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-27",
+ "label": "Vedak-512",
+ "instance": "Vedak-512",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 1024,
+ "plan": {
+  "iterations_per_trial": 10632,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.504115604976196,
+  "timeout_per_process_s": 301.5024693629857
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-27/lib/libVedak-512.so",
+ "library_sha256": "ca2b96702105c0e65ce432dfa3ae05280d4eef00e6a6be5e052f0243e4bdad0e",
+ "kat_log": "kat/hash-27/Vedak-512.log",
+ "kat_log_sha256": "4b66af292f3726a7bfb42dce6682833dd60cfeb3a13507d249793e3acd599119",
+ "started_utc": "2026-09-28T20:40:36.841607+00:00",
+ "ended_utc": "2026-09-28T20:40:39.908036+00:00",
+ "load_average_start": [
+  3.98779296875,
+  4.03759765625,
+  4.02294921875
+ ],
+ "load_average_end": [
+  3.9892578125,
+  4.03662109375,
+  4.0224609375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-27",
+    "instance": "Vedak-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "1024",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1437696",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1503232",
+    "measurement_count": "10632",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10632,
+     "seconds": 0.610214011,
+     "cycles": 1644612877
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-27/lib/libVedak-512.so",
+    "hash",
+    "1024",
+    "1",
+    "1",
+    "10632",
+    "3"
+   ],
+   "wall_s": 0.6120419502258301,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-27",
+    "instance": "Vedak-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "1024",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1433600",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1499136",
+    "measurement_count": "10632",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10632,
+     "seconds": 0.610485625,
+     "cycles": 1645412359
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-27/lib/libVedak-512.so",
+    "hash",
+    "1024",
+    "1",
+    "1",
+    "10632",
+    "3"
+   ],
+   "wall_s": 0.6137497425079346,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-27",
+    "instance": "Vedak-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "1024",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1425408",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1490944",
+    "measurement_count": "10632",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10632,
+     "seconds": 0.610602448,
+     "cycles": 1645610237
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-27/lib/libVedak-512.so",
+    "hash",
+    "1024",
+    "1",
+    "1",
+    "10632",
+    "3"
+   ],
+   "wall_s": 0.6128580570220947,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-27",
+    "instance": "Vedak-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "1024",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1437696",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1503232",
+    "measurement_count": "10632",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10632,
+     "seconds": 0.609824999,
+     "cycles": 1643697837
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-27/lib/libVedak-512.so",
+    "hash",
+    "1024",
+    "1",
+    "1",
+    "10632",
+    "3"
+   ],
+   "wall_s": 0.6138575077056885,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-27",
+    "instance": "Vedak-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "1024",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1433600",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1499136",
+    "measurement_count": "10632",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10632,
+     "seconds": 0.609746875,
+     "cycles": 1643273699
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-27/lib/libVedak-512.so",
+    "hash",
+    "1024",
+    "1",
+    "1",
+    "10632",
+    "3"
+   ],
+   "wall_s": 0.6137678623199463,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 10632,
+   "seconds": 0.610214011,
+   "cycles": 1644612877
+  },
+  {
+   "measurements": 10632,
+   "seconds": 0.610485625,
+   "cycles": 1645412359
+  },
+  {
+   "measurements": 10632,
+   "seconds": 0.610602448,
+   "cycles": 1645610237
+  },
+  {
+   "measurements": 10632,
+   "seconds": 0.609824999,
+   "cycles": 1643697837
+  },
+  {
+   "measurements": 10632,
+   "seconds": 0.609746875,
+   "cycles": 1643273699
+  }
+ ],
+ "measurements": 53160,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 5.739040553047404e-05,
+ "median_trial_seconds": 5.7394094337848e-05,
+ "min_trial_seconds": 5.7350157543265615e-05,
+ "max_trial_seconds": 5.7430629044394275e-05,
+ "mean_cycles": 154676.5803047404,
+ "median_trial_cycles": 154685.18406696763,
+ "operations_per_second": 17424.515313260938,
+ "throughput_MB_per_second": 17.8427036807792,
+ "sizes": {
+  "input_bytes": 1024,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 64
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1437696,
+ "peak_rss_bytes": 1503232,
+ "timing_scope": "loop"
+}

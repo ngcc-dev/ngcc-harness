@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SHAKE-384s.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SHAKE-384s
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SHAKE-384s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 96
+sk_len      = 192
+sn_len      = 54726
+timing  keygen 206.205 ms  sign 2836.485 ms  verify 18.208 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SHAKE-384s.txt (1102762 bytes)
+manifest a50e9e904fdfff50504ee9527c6df54f17cd31a91c18b0b617b2178b350043a9 strict KAT_SIG_Phoenix-SHAKE-384s.txt
+RESULT sign-19 Phoenix-SHAKE-384s PASS 

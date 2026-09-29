@@ -1,0 +1,69 @@
+{
+ "schema": 2,
+ "candidate": "sign-02",
+ "label": "BiT-512",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-02/libBiT-512.so",
+  "keygen",
+  "0",
+  "991",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-02",
+  "instance": "BiT-512",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199970",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 991,
+  "ticks": 23564218
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 1982,
+   "ticks": 80110
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 560,
+   "out_bits": 4096,
+   "calls": 5946,
+   "ticks": 1837773
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 40448,
+   "out_bits": 512,
+   "calls": 991,
+   "ticks": 1488018
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 576,
+   "out_bits": 5376,
+   "calls": 44595,
+   "ticks": 17716897
+  }
+ ],
+ "share": {
+  "drng": 0.0033996460226263397,
+  "pseudoXOF": 0.8298459129855275,
+  "pseudohash": 0.06314735333037574
+ },
+ "hash_share": 0.8929932663159033
+}

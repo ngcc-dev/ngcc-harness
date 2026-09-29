@@ -1,0 +1,20 @@
+library     = lib/libDKEX-256.so
+id          = kex-04
+type        = kex
+algorithm   = DKEX
+instance    = DKEX-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/DKEX-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 3
+pk_len      = 2592
+sk_len      = 4896
+sta_len     = 5696
+stb_len     = 2592
+ss_len      = 32
+total_msg   = 12390
+timing  full exchange 4.489 ms (avg over 10)
+wrote  kat/KAT_KEX_DKEX-256.txt (773140 bytes)
+manifest f16611539514e5f0e25a78daf8a25e4f9b045dae16a81f8070b7d4ca8abbef1b strict KAT_KEX_DKEX-256.txt
+RESULT kex-04 DKEX-256 PASS 

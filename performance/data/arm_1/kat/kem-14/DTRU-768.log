@@ -1,0 +1,17 @@
+library     = lib/libDTRU-768.so
+id          = kem-14
+type        = kem
+algorithm   = DTRU
+instance    = DTRU-768
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/DTRU-768
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1152
+sk_len      = 1568
+ct_len      = 960
+ss_len      = 32
+timing  keygen 0.062 ms  enc 0.047 ms  dec 0.083 ms (avg over 10)
+wrote  kat/KAT_KEM_DTRU-768.txt (76620 bytes)
+manifest e80b72e2082bfc7b14ef495c79de614cba58bf5a8bc0df757718cc23af8c5270 strict KAT_KEM_DTRU-768.txt
+RESULT kem-14 DTRU-768 PASS 

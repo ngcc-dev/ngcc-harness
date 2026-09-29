@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-14",
+ "label": "DTRU-1536",
+ "instance": "DTRU-1536",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 4716,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.506115821134033,
+  "timeout_per_process_s": 301.50366949268044
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-14/lib/libDTRU-1536.so",
+ "library_sha256": "26d1fd10cfa5063d8f4c7d014abdee0d3cb56dc63e61fb909c18918be10378d7",
+ "kat_log": "kat/kem-14/DTRU-1536.log",
+ "kat_log_sha256": "30f3d16cfee917dadaafe79c77e9d52084c4e5d16f413e9fdf8e0c29d92e60c1",
+ "started_utc": "2026-09-28T19:42:05.746200+00:00",
+ "ended_utc": "2026-09-28T19:42:08.756040+00:00",
+ "load_average_start": [
+  4.01513671875,
+  3.74267578125,
+  3.71240234375
+ ],
+ "load_average_end": [
+  4.013671875,
+  3.7470703125,
+  3.71435546875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-14",
+    "instance": "DTRU-1536",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1454080",
+    "pk_bytes": "2304",
+    "sk_bytes": "3136",
+    "ct_bytes": "1920",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1536000",
+    "measurement_count": "4716",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 4716,
+     "seconds": 0.596234583,
+     "cycles": 1606191940
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-14/lib/libDTRU-1536.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "4716",
+    "3"
+   ],
+   "wall_s": 0.5992698669433594,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-14",
+    "instance": "DTRU-1536",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "2304",
+    "sk_bytes": "3136",
+    "ct_bytes": "1920",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1536000",
+    "measurement_count": "4716",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 4716,
+     "seconds": 0.59610474,
+     "cycles": 1606204310
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-14/lib/libDTRU-1536.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "4716",
+    "3"
+   ],
+   "wall_s": 0.6010172367095947,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-14",
+    "instance": "DTRU-1536",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1437696",
+    "pk_bytes": "2304",
+    "sk_bytes": "3136",
+    "ct_bytes": "1920",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1515520",
+    "measurement_count": "4716",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 4716,
+     "seconds": 0.595875625,
+     "cycles": 1605970491
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-14/lib/libDTRU-1536.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "4716",
+    "3"
+   ],
+   "wall_s": 0.6008079051971436,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-14",
+    "instance": "DTRU-1536",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "2304",
+    "sk_bytes": "3136",
+    "ct_bytes": "1920",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1536000",
+    "measurement_count": "4716",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 4716,
+     "seconds": 0.604309687,
+     "cycles": 1628524169
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-14/lib/libDTRU-1536.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "4716",
+    "3"
+   ],
+   "wall_s": 0.6096162796020508,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-14",
+    "instance": "DTRU-1536",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1445888",
+    "pk_bytes": "2304",
+    "sk_bytes": "3136",
+    "ct_bytes": "1920",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1523712",
+    "measurement_count": "4716",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 4716,
+     "seconds": 0.595922968,
+     "cycles": 1605866488
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-14/lib/libDTRU-1536.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "4716",
+    "3"
+   ],
+   "wall_s": 0.5989806652069092,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 4716,
+   "seconds": 0.596234583,
+   "cycles": 1606191940
+  },
+  {
+   "measurements": 4716,
+   "seconds": 0.59610474,
+   "cycles": 1606204310
+  },
+  {
+   "measurements": 4716,
+   "seconds": 0.595875625,
+   "cycles": 1605970491
+  },
+  {
+   "measurements": 4716,
+   "seconds": 0.604309687,
+   "cycles": 1628524169
+  },
+  {
+   "measurements": 4716,
+   "seconds": 0.595922968,
+   "cycles": 1605866488
+  }
+ ],
+ "measurements": 23580,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00012673653956743003,
+ "median_trial_seconds": 0.0001264004961832061,
+ "min_trial_seconds": 0.0001263519136980492,
+ "max_trial_seconds": 0.00012814030682782018,
+ "mean_cycles": 341507.9473282443,
+ "median_trial_cycles": 340583.5326547922,
+ "operations_per_second": 7890.384283910097,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 2304,
+  "sk_bytes": 3136,
+  "ct_bytes": 1920,
+  "ss_bytes": 64,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1458176,
+ "peak_rss_bytes": 1536000,
+ "timing_scope": "loop"
+}

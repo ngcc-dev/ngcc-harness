@@ -1,0 +1,17 @@
+library     = lib/libqube-256.so
+id          = kem-33
+type        = kem
+algorithm   = QUBE
+instance    = qube_256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/qube-256
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 10446
+sk_len      = 10510
+ct_len      = 10423
+ss_len      = 32
+timing  keygen 0.764 ms  enc 0.770 ms  dec 1.416 ms (avg over 10)
+wrote  kat/KAT_KEM_qube_256.txt (630640 bytes)
+manifest 66bbe7a27cb2aad21690d0a8c6814352c4c45eaf4fcbaececfd1480456036994 strict KAT_KEM_qube_256.txt
+RESULT kem-33 qube_256 MISMATCH KAT_KEM_qube_256.txt: sha256 045d07249b7c0065c0e0bc7f46943f19727545be1ca2c4811eac23c710f2e892 != manifest 66bbe7a27cb2aad21690d0a8c6814352c4c45eaf4fcbaececfd1480456036994

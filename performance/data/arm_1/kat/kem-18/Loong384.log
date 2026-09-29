@@ -1,0 +1,17 @@
+library     = lib/libLoong384.so
+id          = kem-18
+type        = kem
+algorithm   = LoongKEM
+instance    = Loong384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Loong384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 6444
+sk_len      = 7340
+ct_len      = 6680
+ss_len      = 48
+timing  keygen 12.737 ms  enc 12.754 ms  dec 12.879 ms (avg over 10)
+wrote  kat/KAT_KEM_Loong384.txt (412630 bytes)
+manifest b388d40e5405a452cee006bff937ea9140d703161283b1e168a6e33b010f53c7 strict KAT_KEM_Loong384.txt
+RESULT kem-18 Loong384 PASS 

@@ -1,0 +1,17 @@
+library     = lib/libUVW-512.so
+id          = sign-32
+type        = sig
+algorithm   = UVW signature
+instance    = UVW-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/UVW-512
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 95160012
+sk_len      = 72
+sn_len      = 4956
+DBG_SIGN: e1e1e2_hw=34710 fe_hw=34710 diff=0
+DBG_SIGN: e1e1e2_hw=34710 f_hw=17368 e_hw=17342 sum=34710 w=34710 d_zeros=0 p_dups=0
+DBG_VFY: ew=17342 ertw=17368 sum=34710 w=34710 match=1
+DBG_VFY: ew=17342 ertw=13063 sum=30405 w=34710 match=0
+RESULT sign-32 UVW-512 CRYPTOFAIL sig_verify accepted a modified message at count 0

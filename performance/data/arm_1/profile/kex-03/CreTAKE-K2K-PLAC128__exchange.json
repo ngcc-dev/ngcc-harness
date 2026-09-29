@@ -1,0 +1,118 @@
+{
+ "schema": 2,
+ "candidate": "kex-03",
+ "label": "CreTAKE-K2K-PLAC128",
+ "operation": "exchange",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kex-03/libCreTAKE-K2K-PLAC128.so",
+  "exchange",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kex-03",
+  "instance": "CreTAKE-K2K-PLAC128",
+  "operation": "exchange",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 12060050
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 4000,
+   "ticks": 121708
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 4000,
+   "ticks": 160670
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 640,
+   "calls": 4000,
+   "ticks": 234137
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 552,
+   "out_bits": 1024,
+   "calls": 41412,
+   "ticks": 3216064
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 4496,
+   "out_bits": 128,
+   "calls": 2000,
+   "ticks": 166463
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1634,
+   "out_bits": 512,
+   "calls": 2000,
+   "ticks": 247197
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 4368,
+   "out_bits": 640,
+   "calls": 4000,
+   "ticks": 996781
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 184,
+   "out_bits": 2048,
+   "calls": 36000,
+   "ticks": 2839482
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 5248,
+   "out_bits": 128,
+   "calls": 2000,
+   "ticks": 202128
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 64,
+   "out_bits": 640,
+   "calls": 1000,
+   "ticks": 29935
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 28336,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 1015973
+  }
+ ],
+ "share": {
+  "drng": 0.02341433078635661,
+  "pseudoXOF": 0.7214698944034229,
+  "pseudohash": 0.02049717870158084
+ },
+ "hash_share": 0.7419670731050038
+}

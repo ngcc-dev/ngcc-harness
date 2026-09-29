@@ -1,0 +1,17 @@
+library     = lib/libLoong512.so
+id          = kem-18
+type        = kem
+algorithm   = LoongKEM
+instance    = Loong512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Loong512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 10640
+sk_len      = 11832
+ct_len      = 10848
+ss_len      = 64
+timing  keygen 21.059 ms  enc 21.596 ms  dec 21.332 ms (avg over 10)
+wrote  kat/KAT_KEM_Loong512.txt (670100 bytes)
+manifest 58c21ffa91729ad4d74b0d5ea006a37ea8e9cfa61a02f5da2d871894df5558a4 strict KAT_KEM_Loong512.txt
+RESULT kem-18 Loong512 PASS 

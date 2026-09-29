@@ -1,0 +1,17 @@
+library     = lib/libCOMPASS-KEM-384.so
+id          = kem-11
+type        = kem
+algorithm   = COMPASS-KEM
+instance    = COMPASS-KEM-384
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/COMPASS-KEM-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2144
+sk_len      = 4704
+ct_len      = 2432
+ss_len      = 32
+timing  keygen 1.079 ms  enc 1.104 ms  dec 1.121 ms (avg over 10)
+wrote  kat/KAT_KEM_COMPASS-KEM-384.txt (188630 bytes)
+manifest bd21ea66686fc17314c7a9d9fa52507aed88dbb4e207b2cb0d026c984c25e1f6 strict KAT_KEM_COMPASS-KEM-384.txt
+RESULT kem-11 COMPASS-KEM-384 PASS 

@@ -1,0 +1,16 @@
+library     = lib/libDARTS512.so
+id          = sign-08
+type        = sig
+algorithm   = DARTS
+instance    = DARTS512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/DARTS512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 4672
+sk_len      = 6016
+sn_len      = 5851
+timing  keygen 0.540 ms  sign 9.023 ms  verify 0.456 ms (avg over 10)
+wrote  kat/KAT_SIG_DARTS512.txt (334994 bytes)
+manifest ab6e32f6e0e4279f4f7ab56bb4c350a2ba87d8f249816756b65571538d5fe5a7 strict KAT_SIG_DARTS512.txt
+RESULT sign-08 DARTS512 PASS 

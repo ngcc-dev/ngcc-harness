@@ -1,0 +1,20 @@
+library     = lib/libDKEX-128.so
+id          = kex-04
+type        = kex
+algorithm   = DKEX
+instance    = DKEX-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/DKEX-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 3
+pk_len      = 1312
+sk_len      = 2560
+sta_len     = 2880
+stb_len     = 1312
+ss_len      = 32
+total_msg   = 6408
+timing  full exchange 1.848 ms (avg over 10)
+wrote  kat/KAT_KEX_DKEX-128.txt (401330 bytes)
+manifest 8f66ea4ed48d7389bc03ba47882140c86525dc3aafce3e6b533d8008e8ccc6e7 strict KAT_KEX_DKEX-128.txt
+RESULT kex-04 DKEX-128 PASS 

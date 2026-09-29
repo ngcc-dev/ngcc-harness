@@ -1,0 +1,17 @@
+library     = lib/libAmoeba192.so
+id          = kem-02
+type        = kem
+algorithm   = Amoeba
+instance    = Amoeba192
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Amoeba-864/src
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1144
+sk_len      = 2504
+ct_len      = 1581
+ss_len      = 64
+timing  keygen 0.136 ms  enc 0.192 ms  dec 0.217 ms (avg over 10)
+wrote  kat/KAT_KEM_Amoeba192.txt (108250 bytes)
+manifest 77702dda17041e01f318460f3e218a56e4366ffa0d27d5a5281e3eee1c083e29 strict KAT_KEM_Amoeba192.txt
+RESULT kem-02 Amoeba192 PASS 

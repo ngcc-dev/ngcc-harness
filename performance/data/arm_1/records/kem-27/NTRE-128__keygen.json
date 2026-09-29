@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-27",
+ "label": "NTRE-128",
+ "instance": "NTRE-128",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 12533,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5061990775268557,
+  "timeout_per_process_s": 301.50371944651613
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-27/lib/libNTRE-128.so",
+ "library_sha256": "6b7729dbf35ee0690b9e4e01a133eda23f2c2f40168cab99b04039b597e7af64",
+ "kat_log": "kat/kem-27/NTRE-128.log",
+ "kat_log_sha256": "5c01aec457cb0a2b0159f9fbe3472351fd3d6861d34db3abcae17dba344cb915",
+ "started_utc": "2026-09-28T20:46:03.039659+00:00",
+ "ended_utc": "2026-09-28T20:46:05.602287+00:00",
+ "load_average_start": [
+  4.09521484375,
+  4.1064453125,
+  4.04833984375
+ ],
+ "load_average_end": [
+  4.09521484375,
+  4.1064453125,
+  4.04833984375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-27",
+    "instance": "NTRE-128",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1445888",
+    "pk_bytes": "972",
+    "sk_bytes": "1976",
+    "ct_bytes": "972",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1515520",
+    "measurement_count": "12533",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 12533,
+     "seconds": 0.508702656,
+     "cycles": 1370710037
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-27/lib/libNTRE-128.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "12533",
+    "3"
+   ],
+   "wall_s": 0.5125477313995361,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-27",
+    "instance": "NTRE-128",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1425408",
+    "pk_bytes": "972",
+    "sk_bytes": "1976",
+    "ct_bytes": "972",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1495040",
+    "measurement_count": "12533",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 12533,
+     "seconds": 0.508837344,
+     "cycles": 1371038793
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-27/lib/libNTRE-128.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "12533",
+    "3"
+   ],
+   "wall_s": 0.5121755599975586,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-27",
+    "instance": "NTRE-128",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1449984",
+    "pk_bytes": "972",
+    "sk_bytes": "1976",
+    "ct_bytes": "972",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1515520",
+    "measurement_count": "12533",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 12533,
+     "seconds": 0.508654687,
+     "cycles": 1370696986
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-27/lib/libNTRE-128.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "12533",
+    "3"
+   ],
+   "wall_s": 0.5126316547393799,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-27",
+    "instance": "NTRE-128",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1445888",
+    "pk_bytes": "972",
+    "sk_bytes": "1976",
+    "ct_bytes": "972",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1515520",
+    "measurement_count": "12533",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 12533,
+     "seconds": 0.508680364,
+     "cycles": 1370941709
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-27/lib/libNTRE-128.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "12533",
+    "3"
+   ],
+   "wall_s": 0.5125534534454346,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-27",
+    "instance": "NTRE-128",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1437696",
+    "pk_bytes": "972",
+    "sk_bytes": "1976",
+    "ct_bytes": "972",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1503232",
+    "measurement_count": "12533",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 12533,
+     "seconds": 0.508567812,
+     "cycles": 1370691728
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "kem-27/lib/libNTRE-128.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "12533",
+    "3"
+   ],
+   "wall_s": 0.512566089630127,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 12533,
+   "seconds": 0.508702656,
+   "cycles": 1370710037
+  },
+  {
+   "measurements": 12533,
+   "seconds": 0.508837344,
+   "cycles": 1371038793
+  },
+  {
+   "measurements": 12533,
+   "seconds": 0.508654687,
+   "cycles": 1370696986
+  },
+  {
+   "measurements": 12533,
+   "seconds": 0.508680364,
+   "cycles": 1370941709
+  },
+  {
+   "measurements": 12533,
+   "seconds": 0.508567812,
+   "cycles": 1370691728
+  }
+ ],
+ "measurements": 62665,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 4.058793366312934e-05,
+ "median_trial_seconds": 4.058727870422086e-05,
+ "min_trial_seconds": 4.05782982526131e-05,
+ "max_trial_seconds": 4.059980403734142e-05,
+ "mean_cycles": 109376.51405090561,
+ "median_trial_cycles": 109368.071251895,
+ "operations_per_second": 24637.86425541575,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 972,
+  "sk_bytes": 1976,
+  "ct_bytes": 972,
+  "ss_bytes": 64,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1449984,
+ "peak_rss_bytes": 1515520,
+ "timing_scope": "loop"
+}

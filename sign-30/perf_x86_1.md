@@ -35,7 +35,7 @@ Each library was checked against the submitted KAT vectors (SHA-256 manifest `si
 | `TRINE-512-Balanced` | harness-default | TIMEOUT [1] |
 | `TRINE-512-ShortSig` | harness-default | TIMEOUT [1] |
 
-[1] KAT TIMEOUT only: the ICCS build buffers the whole signing transcript and hashes it at the end (hundreds of MB per signature at level 512, sign-30/pseudocode.md), so even the reduced KAT runs exceed their time limits on a loaded machine These instances are timed anyway; their output is not validated.
+[1] KAT TIMEOUT only: the ICCS build buffers the whole signing transcript and hashes it at the end (hundreds of MB per signature at level 512, sign-30/pseudocode.md), so even the reduced KAT runs exceed their time limits on a loaded machine; the other three TRINE instances pass. One-record checks with a 4-hour limit reproduced the first submitted KAT record of all three (PASS; logs in performance/data/x86_1/katcheck/). On arm_1 only TRINE-512-Balanced exceeds its limit; the same one-record check passes there too (performance/data/arm_1/katcheck/). These instances are timed anyway; their output is not validated.
 
 ## 4. Performance
 

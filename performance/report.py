@@ -127,6 +127,10 @@ class Run:
         self.kat_issues = []
         with (ROOT / "performance/kat_issues.csv").open(encoding="utf-8") as f:
             self.kat_issues = list(csv.DictReader((l for l in f if not l.startswith("#")), delimiter=";"))
+        for row in self.kat_issues:
+            # Cause is the last column and may itself contain ";"
+            if None in row:
+                row["Cause"] = ";".join([row["Cause"], *row.pop(None)])
         self.summary_notes = []
         with (ROOT / "performance/summary_notes.csv").open(encoding="utf-8") as f:
             self.summary_notes = list(csv.DictReader((l for l in f if not l.startswith("#")), delimiter=";"))
@@ -201,6 +205,9 @@ def record_host_state(run) -> tuple[int, dict]:
                 issues[f"SMT {e.get('smt_control')}"] += 1
             if not r.get("mean_cycles"):
                 issues["no hardware cycle count"] += 1
+            if run.env.get("core_clock_mhz") and not e.get("cpufreq_governor") \
+                    and e.get("core_clock_mhz") != run.env.get("core_clock_mhz"):
+                issues[f"clock {e.get('core_clock_mhz')} MHz"] += 1
     return n, dict(issues)
 
 
@@ -227,10 +234,21 @@ def value(rec, unit="cycles"):
     return rec.get("mean_cycles") if unit == "cycles" else rec.get("mean_seconds")
 
 
+def smt_text(env: dict) -> str:
+    return {"notsupported": "none", "notimplemented": "none"}.get(env.get("smt_control"), env.get("smt_control"))
+
+
 def clock_text(env: dict) -> str:
+    if not env.get("cpufreq_driver") and env.get("core_clock_hz"):
+        # no cpufreq: the clock is set by firmware; campaign.py checked it was steady
+        return (f"measured {int(env.get('core_clock_mhz') or 0) / 1000:.2f} GHz, set by firmware (no OS frequency "
+                f"scaling or boost), SMT {smt_text(env)}")
     turbo = {"1": "off", "0": "on"}.get(env.get("intel_pstate_no_turbo") or "",
                                          {"0": "off", "1": "on"}.get(env.get("cpufreq_boost") or "", "unknown"))
     mhz = int(env.get("cpufreq_max_khz") or 0) / 1e6
+    if env.get("architecture") == "aarch64" and env.get("cpufreq_min_khz") == env.get("cpufreq_max_khz"):
+        return (f"fixed {mhz:.2f} GHz (governor {env.get('cpufreq_governor')}, minimum = maximum), "
+                f"boost {turbo}, SMT {smt_text(env)}")
     return f"max {mhz:.2f} GHz, governor {env.get('cpufreq_governor')}, turbo {turbo}, SMT {env.get('smt_control')}"
 
 
@@ -424,6 +442,10 @@ def summary(run: Run, out: Path, arch: str):
     emit(summary_page(out), "\n".join(lines) + "\n")
 
 
+def guide_name(arch: str) -> str:
+    return {"x86-64": "x86", "AArch64": "ARM"}.get(arch, arch)
+
+
 def candidate_page(run: Run, cand: str, out: Path, arch: str):
     cat = cand.split("-")[0]
     name = run.names.get(cand, "")
@@ -432,7 +454,7 @@ def candidate_page(run: Run, cand: str, out: Path, arch: str):
     L = [f"# {cand} {name} — performance on {arch} (system {SYSTEM})", "",
          f"[Performance {SYSTEM}]({link(cand_page(cand), summary_page(out))}) › `{cand}` · "
          f"[method]({link(cand_page(cand), method_page_path(out))}) · [NICCS page]({run.pages.get(cand, '')})", "",
-         "Independent measurement following the structure of the NICCS x86 self-assessment "
+         f"Independent measurement following the structure of the NICCS {guide_name(arch)} self-assessment "
          "guide, §3.5 (1)–(7). Not a submitter self-assessment.", ""]
     # (1)
     fn = {"kem": "key encapsulation", "sign": "digital signature", "kex": "key exchange", "hash": "hash"}[cat]
@@ -446,6 +468,7 @@ def candidate_page(run: Run, cand: str, out: Path, arch: str):
     L += ["## 2. Assessment environment", "",
           "| item | value |", "|---|---|",
           f"| processor | {env.get('cpu_model')} (CPU {env.get('cpu_number')}, one core) |",
+          *([f"| machine | {env['machine']} |"] if env.get("machine") else []),
           f"| clock | {clock_text(env)} |",
           f"| memory | {int(env.get('memory_total_kib') or 0) // 1024} MiB |",
           f"| OS / kernel | {env.get('os')} / {env.get('kernel')} |",
@@ -459,7 +482,10 @@ def candidate_page(run: Run, cand: str, out: Path, arch: str):
     notes = []
     for l in labels:
         e = run.build.get(f"{cand}/{l}", {})
-        issue = next((i for i in run.kat_issues if i["ID"] == cand and re.search(i["Label"], l)), None)
+        # the issue list is shared by all systems: a KAT timeout on a slower machine
+        # is no issue where the same KATs pass within the limit
+        issue = next((i for i in run.kat_issues if i["ID"] == cand and re.search(i["Label"], l)
+                      and not (e.get("kat") == "PASS" and i["Cause"].startswith("KAT TIMEOUT"))), None)
         mark = ""
         if issue:
             if issue not in notes:
@@ -611,6 +637,18 @@ def survey_page(run: Run, out: Path):
 
 def host_state_text(run) -> str:
     n, issues = record_host_state(run)
+    if not issues and not run.env.get("cpufreq_driver") and run.env.get("core_clock_hz"):
+        return (f"All {n} timing records were taken in this state (no cpufreq driver; the firmware-set "
+                f"clock, measured on the timing core with the cycle counter before each phase, was steady at "
+                f"{int(run.env['core_clock_mhz']) / 1000:.2f} GHz; SMT {smt_text(run.env)}; hardware cycle "
+                "counter available), as stored in each record. A trial that ran below 95% of that clock "
+                "was repeated, up to twice.")
+    if not issues and run.env.get("architecture") == "aarch64" and run.env.get("cpufreq_driver"):
+        return (f"All {n} timing records were taken in this state (clock pinned at "
+                f"{int(run.env.get('cpufreq_max_khz') or 0) / 1e6:.2f} GHz on the clusters of the timing cores: `performance` "
+                "governor with minimum = maximum frequency, below the level at which the firmware's thermal "
+                "limiter intervenes; boost off; no SMT; hardware cycle counter available), as stored in each "
+                "record. A trial that ran below 95% of that clock was repeated, up to twice.")
     if not issues:
         return (f"All {n} timing records were taken in this state (turbo off, `performance` governor, "
                 "SMT off, hardware cycle counter available), as stored in each record.")
@@ -623,12 +661,37 @@ def secondary_core_text(run) -> str:
     other = sorted({(c, l) for (c, l), recs in run.records.items() for r in recs.values()
                     if r.get("status") == "complete" and (r.get("environment") or {}).get("cpu_number") != main})
     cores = ", ".join(str(c) for c in run.cpus)
+    if run.campaign.get("shards", 1) > 1 and len(run.cpus) > 1:
+        shard_cpus = set((run.campaign.get("shard_cpus") or {}).values())
+        slow = sorted({(c, l) for (c, l), recs in run.records.items() for r in recs.values()
+                       if r.get("status") == "complete" and shard_cpus
+                       and (r.get("environment") or {}).get("cpu_number") not in shard_cpus})
+        return (f"- Timing ran in parallel on cores {cores}. The instances were divided among cores "
+                f"{', '.join(str(c) for c in sorted(shard_cpus)) or cores} by expected run time"
+                + (f"; the slowest instances ({', '.join(f'{c} {l}' for c, l in slow)}) ran on a further core"
+                   if slow else "")
+                + ". All operations of one instance ran on the same core, and each record states its CPU. "
+                "Cycle counts are comparable across these identical cores.")
     if not other:
         return f"- All timing ran on CPU {main}."
     names = ", ".join(f"{c} {l}" for c, l in other)
-    return (f"- Timing ran on performance core(s) {cores}. The slowest instances ({names}) were timed on a "
-            f"second performance core in parallel with the main run on CPU {main}, as was the hash "
+    kind = "performance " if run.env.get("architecture") == "x86_64" else ""
+    return (f"- Timing ran on {kind}core(s) {cores}. The slowest instances ({names}) were timed on a "
+            f"second {kind}core in parallel with the main run on CPU {main}, as was the hash "
             "profiling; each record states its CPU. Cycle counts are comparable across these identical cores.")
+
+
+def tick_text(run) -> str:
+    """The profile tick source, where it is coarser than the core clock."""
+    metas = [p.get("meta", {}) for profs in run.profiles.values() for p in profs.values()]
+    src = {m.get("tick_source") for m in metas} - {None, "rdtsc"}
+    hz = [float(m["tick_hz"]) for m in metas if m.get("tick_hz")]
+    if not src or not hz:
+        return ""
+    return (f" On this system the tick counter is `{'`, `'.join(sorted(src))}` at "
+            f"{statistics.median(hz) / 1e6:.1f} MHz, so a single short call is resolved only to about "
+            f"{1e9 / statistics.median(hz):.0f} ns; the rounding is unbiased and averages out over the many "
+            "calls that make up a share.")
 
 
 def method_page(run: Run, out: Path, arch: str):
@@ -669,7 +732,7 @@ def method_page(run: Run, out: Path, arch: str):
          "input and output length; nested calls are not counted twice. The reported share is the "
          "time inside these functions divided by the time of the whole operation, measured in the "
          "same process on the same inputs as the benchmark. The wrappers cost a few tens of cycles "
-         "per call.", "",
+         "per call." + tick_text(run), "",
          (f"The ICCS helpers `sm3hash`, `pseudohash` and `pseudoXOF` are also timed directly, as hash "
           f"instances of `api/auxfunc.c` (`performance/iccs`, records under `{BASELINE}/`): same reference "
           "flags, driver, message lengths and planning as the hash candidates. Before timing, each is checked "
@@ -726,15 +789,18 @@ def main():
     for cand in cands:
         candidate_page(run, cand, out, arch)
     summary(run, out, arch)
-    survey_page(run, out)
+    survey = SYSTEM == next(iter(systems))
+    if survey:
+        survey_page(run, out)
     method_page(run, out, arch)
     if CHECK:
         for path in DIFFERENT:
             print(f"differs from regenerated output: {path}")
-        print(f"report check: system {SYSTEM}: {len(cands) + 3} pages, {len(DIFFERENT)} differ")
+        print(f"report check: system {SYSTEM}: {len(cands) + 2 + survey} pages, {len(DIFFERENT)} differ")
         return 1 if DIFFERENT else 0
     print(f"report: system {SYSTEM}: {len(cands)} candidate reports (<id>/perf_{SYSTEM}.md), "
-          f"{summary_page(out).name}, {method_page_path(out).name}, symmetric-survey.md in {out}")
+          f"{summary_page(out).name}, {method_page_path(out).name}"
+          f"{', symmetric-survey.md' if survey else ''} in {out}")
     return 0
 
 

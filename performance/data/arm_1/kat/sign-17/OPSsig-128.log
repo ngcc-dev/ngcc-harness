@@ -1,0 +1,16 @@
+library     = lib/libOPSsig-128.so
+id          = sign-17
+type        = sig
+algorithm   = OPS Digital Signature Algorithm
+instance    = OPSsig-128
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/OPSsig-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2560
+sk_len      = 3840
+sn_len      = 4349
+timing  keygen 0.649 ms  sign 0.753 ms  verify 0.600 ms (avg over 10)
+wrote  kat/KAT_SIG_OPSsig-128-reference.txt (219194 bytes)
+manifest 23aaec0dae117c82214f9c3b393a374b88e15a80908232db187346dca3624077 strict KAT_SIG_OPSsig-128-reference.txt
+RESULT sign-17 OPSsig-128 PASS 

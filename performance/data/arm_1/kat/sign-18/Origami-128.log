@@ -1,0 +1,16 @@
+library     = lib/libOrigami-128.so
+id          = sign-18
+type        = sig
+algorithm   = Origami
+instance    = Origami-128
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Origami-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2996
+sk_len      = 16
+sn_len      = 116
+timing  keygen 0.740 ms  sign 7.950 ms  verify 7.132 ms (avg over 1)
+wrote  kat/KAT_SIG_Origami-128.txt (6602 bytes)
+manifest 2a4da0d5bd4dd3ee50054dd4c055ed45e56601427493d102b3117e5710916a81 strict:1 KAT_SIG_Origami-128.txt
+RESULT sign-18 Origami-128 PASS 

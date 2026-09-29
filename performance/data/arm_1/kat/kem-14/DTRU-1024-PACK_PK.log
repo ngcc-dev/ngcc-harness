@@ -1,0 +1,17 @@
+library     = lib/libDTRU-1024-PACK_PK.so
+id          = kem-14
+type        = kem
+algorithm   = DTRU
+instance    = DTRU-1024-PACK_PK
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/DTRU-1024
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1506
+sk_len      = 2050
+ct_len      = 1280
+ss_len      = 32
+timing  keygen 0.078 ms  enc 0.057 ms  dec 0.106 ms (avg over 10)
+wrote  kat/KAT_KEM_DTRU-1024.txt (99750 bytes)
+manifest c2c672db7429f562d14d761791e08e10ce16232c43285076939ae8956db12058 strict KAT_KEM_DTRU-1024.txt
+RESULT kem-14 DTRU-1024-PACK_PK PASS 

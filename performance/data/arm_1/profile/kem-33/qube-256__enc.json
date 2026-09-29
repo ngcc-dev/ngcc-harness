@@ -1,0 +1,126 @@
+{
+ "schema": 2,
+ "candidate": "kem-33",
+ "label": "qube-256",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-33/libqube-256.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-33",
+  "instance": "qube_256",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 18459465
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 2048,
+   "calls": 1000,
+   "ticks": 80399
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 4096,
+   "calls": 1000,
+   "ticks": 159526
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 20607
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 776,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 87684
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10862
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 40362
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 83576,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 1479744
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 65536,
+   "calls": 1000,
+   "ticks": 2548674
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 131072,
+   "calls": 1000,
+   "ticks": 5093456
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 8192,
+   "calls": 1000,
+   "ticks": 319130
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 264,
+   "out_bits": 16384,
+   "calls": 570,
+   "ticks": 363491
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 2000,
+   "ticks": 60916
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.4678633427350143,
+  "pseudohash": 0.004750083493752392,
+  "sm3hash": 0.08016180317251881,
+  "drng": 0.0032999872964899037
+ },
+ "hash_share": 0.5527752294012855
+}

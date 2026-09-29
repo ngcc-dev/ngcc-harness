@@ -1,0 +1,16 @@
+library     = lib/libsydo_256s.so
+id          = sign-28
+type        = sig
+algorithm   = SYDO
+instance    = sydo_256s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/sydo_256s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 128
+sk_len      = 278
+sn_len      = 14444
+timing  keygen 0.411 ms  sign 434.979 ms  verify 425.413 ms (avg over 10)
+wrote  kat/KAT_SIG_sydo_256s.txt (301204 bytes)
+manifest 5e323b4d00e0c6e6c7432e86a1dddae693f7cbc0ea08ccf40c2fe547efbd65b6 strict KAT_SIG_sydo_256s.txt
+RESULT sign-28 sydo_256s PASS 

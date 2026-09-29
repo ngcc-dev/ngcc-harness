@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-34",
+ "label": "yuanyang-2048",
+ "instance": "yuanyang-2048",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "verify",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 1432,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.6867791836572263,
+  "timeout_per_process_s": 301.6120675101943
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-34/lib/libyuanyang-2048.so",
+ "library_sha256": "cd54e7dd76babfef7d7a996552aa8b37c0a609b724eb4d11f356b211a754f682",
+ "kat_log": "kat/sign-34/yuanyang-2048.log",
+ "kat_log_sha256": "b6ac4d22b8622f446eb3caf018f91d4d3903deb64fdec505daa8aef9cdd508f0",
+ "started_utc": "2026-09-28T20:00:16.520153+00:00",
+ "ended_utc": "2026-09-28T20:00:18.930760+00:00",
+ "load_average_start": [
+  4.16259765625,
+  4.10302734375,
+  4.013671875
+ ],
+ "load_average_end": [
+  4.1494140625,
+  4.10107421875,
+  4.01318359375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-34",
+    "instance": "yuanyang-2048",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "3538944",
+    "pk_bytes": "3330",
+    "sk_bytes": "62720",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2364",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "3747840",
+    "measurement_count": "1432",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1432,
+     "seconds": 0.443456041,
+     "cycles": 1195121306
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-34/lib/libyuanyang-2048.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "1432",
+    "3"
+   ],
+   "wall_s": 0.482558012008667,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-34",
+    "instance": "yuanyang-2048",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "3538944",
+    "pk_bytes": "3330",
+    "sk_bytes": "62720",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2364",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "5603328",
+    "measurement_count": "1432",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1432,
+     "seconds": 0.44824099,
+     "cycles": 1207785014
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-34/lib/libyuanyang-2048.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "1432",
+    "3"
+   ],
+   "wall_s": 0.48723864555358887,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-34",
+    "instance": "yuanyang-2048",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "5599232",
+    "pk_bytes": "3330",
+    "sk_bytes": "62720",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2364",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "5664768",
+    "measurement_count": "1432",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1432,
+     "seconds": 0.439633125,
+     "cycles": 1184964726
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-34/lib/libyuanyang-2048.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "1432",
+    "3"
+   ],
+   "wall_s": 0.47667384147644043,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-34",
+    "instance": "yuanyang-2048",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "3538944",
+    "pk_bytes": "3330",
+    "sk_bytes": "62720",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2364",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "5148672",
+    "measurement_count": "1432",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1432,
+     "seconds": 0.447227343,
+     "cycles": 1205362015
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-34/lib/libyuanyang-2048.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "1432",
+    "3"
+   ],
+   "wall_s": 0.4851374626159668,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-34",
+    "instance": "yuanyang-2048",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "3522560",
+    "pk_bytes": "3330",
+    "sk_bytes": "62720",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "2364",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "5230592",
+    "measurement_count": "1432",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1432,
+     "seconds": 0.441392135,
+     "cycles": 1189756652
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-34/lib/libyuanyang-2048.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "1432",
+    "3"
+   ],
+   "wall_s": 0.4788506031036377,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1432,
+   "seconds": 0.443456041,
+   "cycles": 1195121306
+  },
+  {
+   "measurements": 1432,
+   "seconds": 0.44824099,
+   "cycles": 1207785014
+  },
+  {
+   "measurements": 1432,
+   "seconds": 0.439633125,
+   "cycles": 1184964726
+  },
+  {
+   "measurements": 1432,
+   "seconds": 0.447227343,
+   "cycles": 1205362015
+  },
+  {
+   "measurements": 1432,
+   "seconds": 0.441392135,
+   "cycles": 1189756652
+  }
+ ],
+ "measurements": 7160,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00031004883156424584,
+ "median_trial_seconds": 0.0003096760062849162,
+ "min_trial_seconds": 0.0003070063722067039,
+ "max_trial_seconds": 0.00031301745111731843,
+ "mean_cycles": 835613.0884078213,
+ "median_trial_cycles": 834581.9175977653,
+ "operations_per_second": 3225.2983988194387,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 3330,
+  "sk_bytes": 62720,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 2364,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+ "baseline_rss_bytes": 5599232,
+ "peak_rss_bytes": 5664768,
+ "timing_scope": "loop"
+}

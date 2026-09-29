@@ -1,0 +1,16 @@
+library     = lib/libCEDRUSALPHA-384f.so
+id          = sign-04
+type        = sig
+algorithm   = CEDRUS-alpha
+instance    = CEDRUSALPHA-384f
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CEDRUSALPHA-384f
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 96
+sk_len      = 192
+sn_len      = 76176
+timing  keygen 178.950 ms  sign 3465.519 ms  verify 34.564 ms (avg over 10)
+wrote  kat/KAT_SIG_CEDRUSALPHA-384f.txt (1533474 bytes)
+manifest e69a313773dab4af524f74ba407453647a18f6b16ad479cfe07427c7d7d224ed strict KAT_SIG_CEDRUSALPHA-384f.txt
+RESULT sign-04 CEDRUSALPHA-384f PASS 

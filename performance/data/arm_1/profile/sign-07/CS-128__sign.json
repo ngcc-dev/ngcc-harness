@@ -1,0 +1,117 @@
+{
+ "schema": 2,
+ "candidate": "sign-07",
+ "label": "CS-128",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-07/libCS-128.so",
+  "sign",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-07",
+  "instance": "CS_128",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 26427919
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 27648,
+   "calls": 5427,
+   "ticks": 5755491
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 12800,
+   "calls": 1809,
+   "ticks": 891854
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 4096,
+   "calls": 9000,
+   "ticks": 1595002
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 64,
+   "calls": 11907,
+   "ticks": 363386
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 144,
+   "out_bits": 46080,
+   "calls": 5427,
+   "ticks": 9588720
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 20005
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 24,
+   "calls": 1809,
+   "ticks": 55432
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 8,
+   "calls": 51894,
+   "ticks": 1576293
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 768,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 20829
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 4352,
+   "out_bits": 256,
+   "calls": 1809,
+   "ticks": 152175
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 30809
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.6216559843398944,
+  "drng": 0.1370112417856283
+ },
+ "hash_share": 0.6216559843398944
+}

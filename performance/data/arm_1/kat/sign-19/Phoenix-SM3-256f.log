@@ -1,0 +1,16 @@
+library     = lib/libPhoenix-SM3-256f.so
+id          = sign-19
+type        = sig
+algorithm   = Phoenix
+instance    = Phoenix-SM3-256f
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Phoenix-SM3-256f
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 64
+sk_len      = 128
+sn_len      = 44906
+timing  keygen 16.265 ms  sign 307.495 ms  verify 8.290 ms (avg over 10)
+wrote  kat/KAT_SIG_Phoenix-SM3-256f.txt (904410 bytes)
+manifest 822f201652bf069d8dddf071ca2ec1fad403f0881cff760e9a03344d7c04cd71 strict KAT_SIG_Phoenix-SM3-256f.txt
+RESULT sign-19 Phoenix-SM3-256f MISMATCH KAT_SIG_Phoenix-SM3-256f.txt: sha256 bdc73e29d41f79d07e8f172acb6d37f65f2bc5c91ba93ff1118feb7859b4db09 != manifest 822f201652bf069d8dddf071ca2ec1fad403f0881cff760e9a03344d7c04cd71

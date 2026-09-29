@@ -23,9 +23,13 @@ YY_SRCS := common.c prng.c fpr.c fft.c auxfunc.c drng.c ntt.c codec.c poly_inv_n
            keygen/ntrugen/src/cfft.c keygen/ntrugen/src/complex.c keygen/ntrugen/src/fft.c
 
 # label, twiddle file
+# keygen/ntrugen/src/bigint.c includes <immintrin.h> unconditionally (its AVX
+# code is guarded); on AArch64 compat/aarch64/immintrin.h stands in for it.
+YY_COMPAT := $(if $(filter aarch64,$(shell uname -m)),-Icompat/aarch64)
+
 define YY
 SRCS_$(1) := $(YY_SRCS) keygen/ntrugen/src/$(2)
-INC_$(1)  := -Isrc/$(1)/keygen/ntrugen/src
+INC_$(1)  := -Isrc/$(1)/keygen/ntrugen/src $(YY_COMPAT)
 DEFS_$(1) := -DNGCC_KATS
 CFLAGS_$(1) := -std=c99
 KATNAME_$(1) := YuanYang-$(3)

@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-24",
+ "label": "Sigurd-128",
+ "instance": "Sigurd128_REF",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "sign",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 49,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.719711589588623,
+  "timeout_per_process_s": 301.63182695375315
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-24/lib/libSigurd-128.so",
+ "library_sha256": "0888cdb64d53791ca17c4906f9dad05ebb1331c46f415a2dd994cce30cf5df4a",
+ "kat_log": "kat/sign-24/Sigurd-128.log",
+ "kat_log_sha256": "9e997f2b63c1c7e5bf1b6877f5f091adca6685b56211a648accd80ba1a18a1b3",
+ "started_utc": "2026-09-28T20:00:48.027372+00:00",
+ "ended_utc": "2026-09-28T20:00:51.043802+00:00",
+ "load_average_start": [
+  4.08935546875,
+  4.08935546875,
+  4.01025390625
+ ],
+ "load_average_end": [
+  4.08935546875,
+  4.08935546875,
+  4.01025390625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-24",
+    "instance": "Sigurd128_REF",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "2617344",
+    "pk_bytes": "112",
+    "sk_bytes": "80",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "62868",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "3133440",
+    "measurement_count": "49",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 49,
+     "seconds": 0.561522344,
+     "cycles": 1513305961
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-24/lib/libSigurd-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "49",
+    "3"
+   ],
+   "wall_s": 0.6123378276824951,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-24",
+    "instance": "Sigurd128_REF",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "4452352",
+    "pk_bytes": "112",
+    "sk_bytes": "80",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "62868",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "4583424",
+    "measurement_count": "49",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 49,
+     "seconds": 0.550919531,
+     "cycles": 1484855240
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-24/lib/libSigurd-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "49",
+    "3"
+   ],
+   "wall_s": 0.6010079383850098,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-24",
+    "instance": "Sigurd128_REF",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "2617344",
+    "pk_bytes": "112",
+    "sk_bytes": "80",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "62868",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "3133440",
+    "measurement_count": "49",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 49,
+     "seconds": 0.551048073,
+     "cycles": 1485103806
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-24/lib/libSigurd-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "49",
+    "3"
+   ],
+   "wall_s": 0.6011474132537842,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-24",
+    "instance": "Sigurd128_REF",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "2605056",
+    "pk_bytes": "112",
+    "sk_bytes": "80",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "62868",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "3121152",
+    "measurement_count": "49",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 49,
+     "seconds": 0.550951927,
+     "cycles": 1484745004
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-24/lib/libSigurd-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "49",
+    "3"
+   ],
+   "wall_s": 0.6009669303894043,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-24",
+    "instance": "Sigurd128_REF",
+    "variant": "Reference_Implementation",
+    "operation": "sign",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "2617344",
+    "pk_bytes": "112",
+    "sk_bytes": "80",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "62868",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "3133440",
+    "measurement_count": "49",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 49,
+     "seconds": 0.550769947,
+     "cycles": 1484552871
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-24/lib/libSigurd-128.so",
+    "sign",
+    "0",
+    "1",
+    "1",
+    "49",
+    "3"
+   ],
+   "wall_s": 0.6007940769195557,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 49,
+   "seconds": 0.561522344,
+   "cycles": 1513305961
+  },
+  {
+   "measurements": 49,
+   "seconds": 0.550919531,
+   "cycles": 1484855240
+  },
+  {
+   "measurements": 49,
+   "seconds": 0.551048073,
+   "cycles": 1485103806
+  },
+  {
+   "measurements": 49,
+   "seconds": 0.550951927,
+   "cycles": 1484745004
+  },
+  {
+   "measurements": 49,
+   "seconds": 0.550769947,
+   "cycles": 1484552871
+  }
+ ],
+ "measurements": 245,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.011286578865306122,
+ "median_trial_seconds": 0.01124391687755102,
+ "min_trial_seconds": 0.011240203,
+ "max_trial_seconds": 0.011459639673469389,
+ "mean_cycles": 30418624.008163266,
+ "median_trial_cycles": 30303168.163265307,
+ "operations_per_second": 88.60080737785881,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 112,
+  "sk_bytes": 80,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 62868,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 4452352,
+ "peak_rss_bytes": 4583424,
+ "timing_scope": "loop"
+}

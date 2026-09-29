@@ -1,0 +1,125 @@
+{
+ "schema": 2,
+ "candidate": "sign-29",
+ "label": "Tins512",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-29/libTins512.so",
+  "sign",
+  "0",
+  "3",
+  "0"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-29",
+  "instance": "Tins512",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "0",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 393719302
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 547056,
+   "calls": 3,
+   "ticks": 62713
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 197132296,
+   "out_bits": 1024,
+   "calls": 3,
+   "ticks": 21248681
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 119
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 102260,
+   "out_bits": 1024,
+   "calls": 3,
+   "ticks": 11625
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 570,
+   "calls": 579,
+   "ticks": 28928
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 546012,
+   "calls": 3,
+   "ticks": 62607
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1576,
+   "out_bits": 1024,
+   "calls": 577536,
+   "ticks": 158590252
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 1155066,
+   "ticks": 44525056
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 3,
+   "ticks": 219
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 51124,
+   "out_bits": 1024,
+   "calls": 3,
+   "ticks": 6237
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 522,
+   "calls": 6,
+   "ticks": 311
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1056,
+   "calls": 577536,
+   "ticks": 40112487
+  }
+ ],
+ "share": {
+  "drng": 0.102274345696163,
+  "pseudohash": 0.456814776634954,
+  "pseudoXOF": 0.11308832402633895
+ },
+ "hash_share": 0.5699031006612929
+}

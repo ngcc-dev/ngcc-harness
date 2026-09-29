@@ -1,0 +1,76 @@
+{
+ "schema": 2,
+ "candidate": "kem-03",
+ "label": "BAG-Loong-384",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-03/libBAG-Loong-384.so",
+  "dec",
+  "0",
+  "8",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-03",
+  "instance": "BAG-Loong-384",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 8,
+  "ticks": 25066455
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 1016,
+   "out_bits": 8085528,
+   "calls": 16,
+   "ticks": 14232029
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 121520,
+   "out_bits": 384,
+   "calls": 8,
+   "ticks": 34595
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 97400,
+   "out_bits": 256,
+   "calls": 8,
+   "ticks": 13764
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1104,
+   "out_bits": 512,
+   "calls": 8,
+   "ticks": 876
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 736,
+   "out_bits": 1922144,
+   "calls": 8,
+   "ticks": 1130078
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.6142353196732446,
+  "sm3hash": 0.0005491003813662522,
+  "pseudohash": 3.494710360918606e-05
+ },
+ "hash_share": 0.61481936715822
+}

@@ -1,0 +1,76 @@
+{
+ "schema": 2,
+ "candidate": "kem-09",
+ "label": "Cheetah512",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-09/libCheetah512.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-09",
+  "instance": "Cheetah512",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 23248795
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 10240,
+   "calls": 2000,
+   "ticks": 1505031
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 245760,
+   "calls": 1000,
+   "ticks": 18037659
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1920,
+   "calls": 1000,
+   "ticks": 98955
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 28800,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 541683
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 640,
+   "calls": 1000,
+   "ticks": 50247
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.8405893724814555,
+  "drng": 0.006417622934866087,
+  "sm3hash": 0.023299401108745635
+ },
+ "hash_share": 0.8638887735902011
+}

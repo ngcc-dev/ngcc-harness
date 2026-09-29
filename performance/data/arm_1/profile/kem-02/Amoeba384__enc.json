@@ -1,0 +1,76 @@
+{
+ "schema": 2,
+ "candidate": "kem-02",
+ "label": "Amoeba384",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-02/libAmoeba384.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-02",
+  "instance": "Amoeba384",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 7660464
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 520,
+   "out_bits": 1536,
+   "calls": 31000,
+   "ticks": 3605230
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 40439
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 1032,
+   "out_bits": 256,
+   "calls": 4000,
+   "ticks": 113468
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 22664,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 816020
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 528,
+   "out_bits": 2592,
+   "calls": 6000,
+   "ticks": 1277507
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.743917992434923,
+  "drng": 0.005278923052180651,
+  "sm3hash": 0.014812157592542697
+ },
+ "hash_share": 0.7587301500274657
+}

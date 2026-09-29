@@ -1,0 +1,46 @@
+{
+ "schema": 2,
+ "candidate": "sign-12",
+ "label": "Galas-256F",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-12/libGalas-256F.so",
+  "keygen",
+  "0",
+  "75",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-12",
+  "instance": "Galas-256F",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199990",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 75,
+  "ticks": 24243959
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 450,
+   "ticks": 13617
+  }
+ ],
+ "share": {
+  "drng": 0.0005616656916471439
+ },
+ "hash_share": 0
+}

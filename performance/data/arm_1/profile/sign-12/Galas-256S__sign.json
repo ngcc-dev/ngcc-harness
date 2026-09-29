@@ -1,0 +1,124 @@
+{
+ "schema": 2,
+ "candidate": "sign-12",
+ "label": "Galas-256S",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-12/libGalas-256S.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-12",
+  "instance": "Galas-256S",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 226699875
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 10792,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 1342
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 456,
+   "out_bits": 768,
+   "calls": 239616,
+   "ticks": 14061865
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 200,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 207
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 480,
+   "out_bits": 512,
+   "calls": 239613,
+   "ticks": 9365843
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 2097192,
+   "out_bits": 512,
+   "calls": 54,
+   "ticks": 4016319
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1048616,
+   "out_bits": 512,
+   "calls": 9,
+   "ticks": 334783
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 480,
+   "out_bits": 128,
+   "calls": 2875392,
+   "ticks": 57096022
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 71928,
+   "out_bits": 512,
+   "calls": 6,
+   "ticks": 15598
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1672,
+   "out_bits": 512,
+   "calls": 16866,
+   "ticks": 2065134
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 29704,
+   "out_bits": 512,
+   "calls": 9,
+   "ticks": 10033
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 808,
+   "out_bits": 512,
+   "calls": 6,
+   "ticks": 516
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1064,
+   "out_bits": 512,
+   "calls": 3,
+   "ticks": 318
+  }
+ ],
+ "share": {
+  "pseudohash": 0.028426350036584714,
+  "pseudoXOF": 0.35519971063063005
+ },
+ "hash_share": 0.3836260606672148
+}

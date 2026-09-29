@@ -1,0 +1,16 @@
+library     = lib/libSigurd-128.so
+id          = sign-24
+type        = sig
+algorithm   = Sigurd
+instance    = Sigurd128_REF
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Sigurd-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 112
+sk_len      = 80
+sn_len      = 62868
+timing  keygen 5.100 ms  sign 9.030 ms  verify 4.155 ms (avg over 10)
+wrote  kat/KAT_SIG_Sigurd128_REF.txt (515954 bytes)
+manifest 3820844c3599b3041e2753e21c42cf53ea0ebf7adf10ae56ff5fa96b0fc86654 strict KAT_SIG_Sigurd128_REF.txt
+RESULT sign-24 Sigurd128_REF PASS 

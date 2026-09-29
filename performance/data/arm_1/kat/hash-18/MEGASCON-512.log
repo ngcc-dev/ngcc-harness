@@ -1,0 +1,18 @@
+library     = lib/libMEGASCON-512.so
+id          = hash-18
+type        = hash
+algorithm   = Megascon
+instance    = MEGASCON-512
+variant     = Reference_Implementation
+source_dir  = Megascon/Implementations/Reference_Implementation/MEGASCON-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.070 s
+wrote  kat/KAT_2_12_MEGASCON-512.txt (2804822 bytes)
+manifest 6248fba03c39d130083e713172af6e9a23817a692847000cbaf3fed077aaa871 strict KAT_2_12_MEGASCON-512.txt
+timing  KAT_2_23 0.028 s
+wrote  kat/KAT_2_23_MEGASCON-512.txt (815 bytes)
+manifest 3d528c95242167bd76d2d8071e8f4766c6778ae68ed1a798bc33e4392d1e2d4a strict KAT_2_23_MEGASCON-512.txt
+RESULT hash-18 MEGASCON-512 PASS 

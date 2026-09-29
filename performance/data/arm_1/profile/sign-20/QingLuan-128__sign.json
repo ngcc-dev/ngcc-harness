@@ -1,0 +1,131 @@
+{
+ "schema": 2,
+ "candidate": "sign-20",
+ "label": "QingLuan-128",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-20/libQingLuan-128.so",
+  "sign",
+  "0",
+  "227",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-20",
+  "instance": "QingLuan-128",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199970",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 227,
+  "ticks": 25341165
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 128,
+   "calls": 227,
+   "ticks": 7466
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 1032,
+   "out_bits": 256,
+   "calls": 227,
+   "ticks": 6412
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 288,
+   "out_bits": 256,
+   "calls": 1111629,
+   "ticks": 11129171
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 776,
+   "out_bits": 256,
+   "calls": 227,
+   "ticks": 4353
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 520,
+   "out_bits": 256,
+   "calls": 227,
+   "ticks": 4447
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 408,
+   "out_bits": 256,
+   "calls": 174336,
+   "ticks": 1754134
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 392,
+   "out_bits": 256,
+   "calls": 227,
+   "ticks": 2278
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 280,
+   "out_bits": 256,
+   "calls": 1135,
+   "ticks": 11465
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 229640,
+   "out_bits": 256,
+   "calls": 227,
+   "ticks": 918631
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 616,
+   "out_bits": 256,
+   "calls": 227,
+   "ticks": 4347
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 1024,
+   "out_bits": 256,
+   "calls": 58112,
+   "ticks": 1651413
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 65544,
+   "out_bits": 256,
+   "calls": 454,
+   "ticks": 528583
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 227,
+   "ticks": 6857
+  }
+ ],
+ "share": {
+  "drng": 0.0005652068482250125,
+  "sm3hash": 0.6319849146635523
+ },
+ "hash_share": 0.6319849146635523
+}

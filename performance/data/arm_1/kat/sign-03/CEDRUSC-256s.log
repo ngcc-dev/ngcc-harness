@@ -1,0 +1,16 @@
+library     = lib/libCEDRUSC-256s.so
+id          = sign-03
+type        = sig
+algorithm   = CEDRUS+C
+instance    = CEDRUSC-256s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CEDRUSC-256s
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 64
+sk_len      = 128
+sn_len      = 24104
+timing  keygen 267.436 ms  sign 3584.583 ms  verify 9.720 ms (avg over 10)
+wrote  kat/KAT_SIG_CEDRUSC-256s.txt (490114 bytes)
+manifest dd807852a9fbbf8dc821fcd931caf48181fbe393c2e11c2cedbfdd90e2b51cff strict KAT_SIG_CEDRUSC-256s.txt
+RESULT sign-03 CEDRUSC-256s PASS 

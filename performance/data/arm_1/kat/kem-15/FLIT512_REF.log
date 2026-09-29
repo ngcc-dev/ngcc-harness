@@ -1,0 +1,17 @@
+library     = lib/libFLIT512_REF.so
+id          = kem-15
+type        = kem
+algorithm   = FLIT
+instance    = FLIT512_REF
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/FLIT512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3072
+sk_len      = 6336
+ct_len      = 2304
+ss_len      = 64
+timing  keygen 0.327 ms  enc 0.226 ms  dec 0.275 ms (avg over 10)
+wrote  kat/KAT_KEM_FLIT512_REF.txt (237910 bytes)
+manifest f3621f0a23b41cbcd92bce79909cb7fec3ac694b7e0d93e76a3299a720d65545 strict KAT_KEM_FLIT512_REF.txt
+RESULT kem-15 FLIT512_REF PASS 

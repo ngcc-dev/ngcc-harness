@@ -1,0 +1,125 @@
+{
+ "schema": 2,
+ "candidate": "kem-33",
+ "label": "qube-384",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-33/libqube-384.so",
+  "enc",
+  "0",
+  "535",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-33",
+  "instance": "qube_384",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 535,
+  "ticks": 23757354
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 165912,
+   "out_bits": 512,
+   "calls": 535,
+   "ticks": 3175152
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 2048,
+   "calls": 535,
+   "ticks": 42794
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 512,
+   "calls": 535,
+   "ticks": 11006
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1160,
+   "out_bits": 768,
+   "calls": 535,
+   "ticks": 86954
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 4096,
+   "calls": 535,
+   "ticks": 85294
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 1024,
+   "calls": 535,
+   "ticks": 21446
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 256,
+   "calls": 535,
+   "ticks": 5820
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 384,
+   "calls": 1070,
+   "ticks": 43096
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 131072,
+   "calls": 535,
+   "ticks": 2715748
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 262144,
+   "calls": 535,
+   "ticks": 5432324
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 8192,
+   "calls": 535,
+   "ticks": 169915
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 392,
+   "out_bits": 16384,
+   "calls": 535,
+   "ticks": 340010
+  }
+ ],
+ "share": {
+  "pseudohash": 0.13730931483363004,
+  "pseudoXOF": 0.37143686119253855,
+  "drng": 0.0018140067281903532
+ },
+ "hash_share": 0.5087461760261686
+}

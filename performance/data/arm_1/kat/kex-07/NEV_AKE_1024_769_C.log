@@ -1,0 +1,20 @@
+library     = lib/libNEV_AKE_1024_769_C.so
+id          = kex-07
+type        = kex
+algorithm   = NEV-AKE
+instance    = NEV_AKE_1024_769_C_ICCS
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/NEV-AKE-C2-c
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 1229
+sk_len      = 2490
+sta_len     = 3514
+stb_len     = 32
+ss_len      = 32
+total_msg   = 2253
+timing  full exchange 1.244 ms (avg over 10)
+wrote  kat/KAT_KEX_NEV_AKE_1024_769_C_ICCS.txt (385840 bytes)
+manifest 7af8dad5b268d488614305d00d65c06ff30a6ec13a55c33c50b7fa8380a53cfc strict KAT_KEX_NEV_AKE_1024_769_C_ICCS.txt
+RESULT kex-07 NEV_AKE_1024_769_C_ICCS PASS 

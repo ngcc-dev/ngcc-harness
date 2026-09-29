@@ -1,0 +1,17 @@
+library     = lib/libbag_piglet_128.so
+id          = kem-04
+type        = kem
+algorithm   = BAG-Piglet
+instance    = bag_piglet_128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/bag_piglet128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 522
+sk_len      = 16
+ct_len      = 1027
+ss_len      = 16
+timing  keygen 0.438 ms  enc 0.939 ms  dec 3.259 ms (avg over 10)
+wrote  kat/KAT_KEM_bag_piglet_128.txt (33980 bytes)
+manifest 7dbb8e36ec32f092a934fd23f26a5feec12a423058fa26405a74094f10ad1c4a strict KAT_KEM_bag_piglet_128.txt
+RESULT kem-04 bag_piglet_128 PASS 

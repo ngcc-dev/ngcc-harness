@@ -11,6 +11,7 @@ Results are published per test system (`performance/systems.csv`):
 | system | results | evidence |
 |---|---|---|
 | `x86_1` — Intel Core i7-12700, one performance core, fixed 2.1 GHz | [summary](summary_x86_1.md) · [method](method_x86_1.md) · `<id>/perf_x86_1.md` per candidate | [`data/x86_1/`](data/x86_1/) |
+| `arm_1` — Qualcomm Snapdragon X Elite (Oryon), one core, fixed 2.71 GHz (preliminary: hash shares of the 512-bit TRINE and UVW signature instances pending) | [summary](summary_arm_1.md) · [method](method_arm_1.md) · `<id>/perf_arm_1.md` per candidate | [`data/arm_1/`](data/arm_1/) |
 
 The [symmetric cryptography survey](symmetric-survey.md) records how each
 public-key submission implements its hashing and randomness (from
@@ -104,12 +105,26 @@ hash-cost tables and generated KAT text stay in the run directory. On AArch64
 the same scripts select the ARM guide flags, and the hash wrappers use
 `cntvct_el0` instead of `rdtsc`.
 
+Several cores can share one run: `performance/campaign_parallel.sh RUN "CPUS" DEFERRED_CPU`
+runs one `--shard K/N` per core (instances divided by prior run time, all
+operations of an instance on one core) and the deferred instances on a further
+core, keeping its own processes off the benchmark cores; `--trial-target` and
+`--op-budget` shorten a campaign. Where cpufreq exposes no fixed limit,
+`clockprobe` measures the clock and `check` requires it to be steady; on
+AArch64 with cpufreq, `check` requires the minimum and maximum frequency to be
+pinned to the same value. `publish --defer` leaves the deferred instances'
+timings out of a preliminary dataset; `evidence` attaches the library and KAT
+log of instances timed without passing their KATs to runs built before
+`build` recorded them.
+
 ## Files
 
 | file | purpose |
 |---|---|
 | `campaign.py` | build, KAT gate, calibration, measurement, profiling, publication |
 | `ngcc_perf.c` | the timing driver: one API operation per process, fixed iteration counts, KEX steps |
+| `campaign_parallel.sh` | one campaign on several cores: a shard per core plus the deferred instances |
+| `clockprobe.c` | measured core clock (cycle counter over wall time) for hosts without a fixed cpufreq limit |
 | `iccs/` | the ICCS helpers as hash instances, and their self-test (`campaign.py baseline`) |
 | `hashprof/` | link-time wrappers and tools for the ICCS hash share ([README](hashprof/README.md)) |
 | `report.py` | renders `<id>/perf_<ID>.md`, `summary_<ID>.md`, `method_<ID>.md`, `symmetric-survey.md` |

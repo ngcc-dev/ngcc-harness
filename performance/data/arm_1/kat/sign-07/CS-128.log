@@ -1,0 +1,16 @@
+library     = lib/libCS-128.so
+id          = sign-07
+type        = sig
+algorithm   = CS
+instance    = CS_128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/CS-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 976
+sk_len      = 1888
+sn_len      = 1548
+timing  keygen 0.150 ms  sign 1.086 ms  verify 0.167 ms (avg over 10)
+wrote  kat/KAT_SIG_CS_128.txt (92444 bytes)
+manifest 26bdb85c0284d198da2707f19954d40ee5756dda5b3b2f5bef0d702b9cc6e43c strict KAT_SIG_CS_128.txt
+RESULT sign-07 CS_128 PASS 

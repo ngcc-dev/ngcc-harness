@@ -1,0 +1,17 @@
+library     = lib/libscabbard128.so
+id          = kem-24
+type        = kem
+algorithm   = MORNING-Scabbard
+instance    = scabbard128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/scabbard128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 736
+sk_len      = 1056
+ct_len      = 760
+ss_len      = 16
+timing  keygen 0.266 ms  enc 0.427 ms  dec 0.228 ms (avg over 10)
+wrote  kat/KAT_KEM_scabbard128.txt (53730 bytes)
+manifest ef2c8930d3a5ad8b98b2f3dc9a342bf1d13e49d89590622be74205958996a9b2 strict KAT_KEM_scabbard128.txt
+RESULT kem-24 scabbard128 PASS 

@@ -1,0 +1,16 @@
+library     = lib/libsydo_160f.so
+id          = sign-28
+type        = sig
+algorithm   = SYDO
+instance    = sydo_160f
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/sydo_160f
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 80
+sk_len      = 174
+sn_len      = 6724
+timing  keygen 0.232 ms  sign 77.937 ms  verify 72.381 ms (avg over 10)
+wrote  kat/KAT_SIG_sydo_160f.txt (143744 bytes)
+manifest 12f6afebe5d00f4c7132cee733252bad366c517705f4686a5d0b6bfaeee0210c strict KAT_SIG_sydo_160f.txt
+RESULT sign-28 sydo_160f PASS 

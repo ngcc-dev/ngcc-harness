@@ -1,0 +1,16 @@
+library     = lib/libGalas-160F.so
+id          = sign-12
+type        = sig
+algorithm   = Galas
+instance    = Galas-160F
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Galas-160F
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 40
+sk_len      = 40
+sn_len      = 5964
+timing  keygen 5.123 ms  sign 478.888 ms  verify 284.155 ms (avg over 10)
+wrote  kat/KAT_SIG_Galas-160F.txt (125054 bytes)
+manifest 3b10a86d5c5cf9d12e49d4bd7af749ff24097f5bc8847d306bbd5b792d1b534e strict KAT_SIG_Galas-160F.txt
+RESULT sign-12 Galas-160F MISMATCH KAT_SIG_Galas-160F.txt: sha256 0828565010fa10b26c99ccdd8a309390d5da738298fb2262767bc573d880e218 != manifest 3b10a86d5c5cf9d12e49d4bd7af749ff24097f5bc8847d306bbd5b792d1b534e

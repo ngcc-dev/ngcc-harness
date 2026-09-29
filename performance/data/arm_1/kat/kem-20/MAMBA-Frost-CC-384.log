@@ -1,0 +1,17 @@
+library     = lib/libMAMBA-Frost-CC-384.so
+id          = kem-20
+type        = kem
+algorithm   = MAMBA-Frost
+instance    = MAMBA-Frost-CC-384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-Frost-CC-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 37628
+sk_len      = 43492
+ct_len      = 25204
+ss_len      = 48
+timing  keygen 129.849 ms  enc 137.044 ms  dec 137.623 ms (avg over 10)
+wrote  kat/KAT_KEM_MAMBA-Frost-CC-384.txt (2129860 bytes)
+manifest 1c1a929e5557a9d972e78784fbfba37d652d551bf2519ae21ecba7e968aca136 strict KAT_KEM_MAMBA-Frost-CC-384.txt
+RESULT kem-20 MAMBA-Frost-CC-384 PASS 

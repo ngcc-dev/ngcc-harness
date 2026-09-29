@@ -1,0 +1,16 @@
+library     = lib/libRhyme-SM3-256.so
+id          = sign-22
+type        = sig
+algorithm   = Rhyme
+instance    = Rhyme-SM3-256
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Rhyme-SM3/Rhyme-SM3-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1824
+sk_len      = 22336
+sn_len      = 10308
+timing  keygen 782.527 ms  sign 4.424 ms  verify 0.320 ms (avg over 10)
+wrote  kat/KAT_SIG_Rhyme-SM3-256.txt (552552 bytes)
+manifest 3581ab05381e57635efd2c82c951b9f2526bd016ffa2ae21ecaee681ae822de0 strict KAT_SIG_Rhyme-SM3-256.txt
+RESULT sign-22 Rhyme-SM3-256 PASS 

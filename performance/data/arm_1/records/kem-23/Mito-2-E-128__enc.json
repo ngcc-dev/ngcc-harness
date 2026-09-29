@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-23",
+ "label": "Mito-2-E-128",
+ "instance": "MITO_2_E_128",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "enc",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 114,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.6235549480023193,
+  "timeout_per_process_s": 301.5741329688014
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-23/lib/libMito-2-E-128.so",
+ "library_sha256": "d7044685877bb9c3a0d442af6555d1744683fff1e72e5923854e5d9064ae6063",
+ "kat_log": "kat/kem-23/Mito-2-E-128.log",
+ "kat_log_sha256": "bdf8327e34e8df14dd3b0215970ae1133a9c17afc29d9b683aac439e35dc53e1",
+ "started_utc": "2026-09-28T20:15:48.975110+00:00",
+ "ended_utc": "2026-09-28T20:15:52.284097+00:00",
+ "load_average_start": [
+  4.0,
+  4.0283203125,
+  4.0
+ ],
+ "load_average_end": [
+  4.0,
+  4.02783203125,
+  4.0
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-23",
+    "instance": "MITO_2_E_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1556480",
+    "pk_bytes": "5192",
+    "sk_bytes": "5336",
+    "ct_bytes": "6440",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1630208",
+    "measurement_count": "114",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 114,
+     "seconds": 0.631949843,
+     "cycles": 1703429108
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-23/lib/libMito-2-E-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "114",
+    "3"
+   ],
+   "wall_s": 0.6619439125061035,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-23",
+    "instance": "MITO_2_E_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1544192",
+    "pk_bytes": "5192",
+    "sk_bytes": "5336",
+    "ct_bytes": "6440",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1617920",
+    "measurement_count": "114",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 114,
+     "seconds": 0.631819427,
+     "cycles": 1703341249
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-23/lib/libMito-2-E-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "114",
+    "3"
+   ],
+   "wall_s": 0.6612989902496338,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-23",
+    "instance": "MITO_2_E_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1564672",
+    "pk_bytes": "5192",
+    "sk_bytes": "5336",
+    "ct_bytes": "6440",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1638400",
+    "measurement_count": "114",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 114,
+     "seconds": 0.63192,
+     "cycles": 1703293464
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-23/lib/libMito-2-E-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "114",
+    "3"
+   ],
+   "wall_s": 0.6617822647094727,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-23",
+    "instance": "MITO_2_E_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1564672",
+    "pk_bytes": "5192",
+    "sk_bytes": "5336",
+    "ct_bytes": "6440",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1638400",
+    "measurement_count": "114",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 114,
+     "seconds": 0.631892188,
+     "cycles": 1703392378
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-23/lib/libMito-2-E-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "114",
+    "3"
+   ],
+   "wall_s": 0.6620588302612305,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-23",
+    "instance": "MITO_2_E_128",
+    "variant": "Reference_Implementation",
+    "operation": "enc",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1564672",
+    "pk_bytes": "5192",
+    "sk_bytes": "5336",
+    "ct_bytes": "6440",
+    "ss_bytes": "64",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1638400",
+    "measurement_count": "114",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 114,
+     "seconds": 0.631888697,
+     "cycles": 1703309640
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "kem-23/lib/libMito-2-E-128.so",
+    "enc",
+    "0",
+    "1",
+    "1",
+    "114",
+    "3"
+   ],
+   "wall_s": 0.661811351776123,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 114,
+   "seconds": 0.631949843,
+   "cycles": 1703429108
+  },
+  {
+   "measurements": 114,
+   "seconds": 0.631819427,
+   "cycles": 1703341249
+  },
+  {
+   "measurements": 114,
+   "seconds": 0.63192,
+   "cycles": 1703293464
+  },
+  {
+   "measurements": 114,
+   "seconds": 0.631892188,
+   "cycles": 1703392378
+  },
+  {
+   "measurements": 114,
+   "seconds": 0.631888697,
+   "cycles": 1703309640
+  }
+ ],
+ "measurements": 570,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.005542930096491228,
+ "median_trial_seconds": 0.005542913929824562,
+ "min_trial_seconds": 0.005542275675438597,
+ "max_trial_seconds": 0.0055434196754385965,
+ "mean_cycles": 14941694.454385964,
+ "median_trial_cycles": 14941589.903508771,
+ "operations_per_second": 180.40999662489293,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 5192,
+  "sk_bytes": 5336,
+  "ct_bytes": 6440,
+  "ss_bytes": 64,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1564672,
+ "peak_rss_bytes": 1638400,
+ "timing_scope": "loop"
+}

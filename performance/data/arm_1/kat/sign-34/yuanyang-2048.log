@@ -1,0 +1,16 @@
+library     = lib/libyuanyang-2048.so
+id          = sign-34
+type        = sig
+algorithm   = YuanYang.DSA
+instance    = yuanyang-2048
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/yuanyang-2048
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3330
+sk_len      = 62720
+sn_len      = 2364
+timing  keygen 17.806 ms  sign 7.504 ms  verify 0.269 ms (avg over 10)
+wrote  kat/KAT_SIG_YuanYang-2048.txt (1372504 bytes)
+manifest 60cde62d5c531311fbf07033ffacbec98d56aaf7a0896c4eea20ad9927388888 strict KAT_SIG_YuanYang-2048.txt
+RESULT sign-34 yuanyang-2048 PASS 

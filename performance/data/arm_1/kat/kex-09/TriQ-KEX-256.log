@@ -1,0 +1,20 @@
+library     = lib/libTriQ-KEX-256.so
+id          = kex-09
+type        = kex
+algorithm   = TriQ-KEX
+instance    = TriQ-KEX-256
+variant     = Reference_Implementation
+source_dir  = TriQ-KEX/Implementations/Reference_Implementation/TriQ-KEX-256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 6328
+sk_len      = 6488
+sta_len     = 25256
+stb_len     = 25040
+ss_len      = 32
+total_msg   = 43760
+timing  full exchange 87.389 ms (avg over 10)
+wrote  kat/KAT_KEX_TriQ-KEX-256.txt (2398900 bytes)
+manifest 3c2be5c6509e8ff1f074653bb1ef249a92c7ce4c4a5537e1fbccde6a349391a1 strict KAT_KEX_TriQ-KEX-256.txt
+RESULT kex-09 TriQ-KEX-256 PASS 

@@ -1,0 +1,17 @@
+library     = lib/libMAMBA-Viper-384.so
+id          = kem-21
+type        = kem
+algorithm   = MAMBA-Viper
+instance    = MAMBA-Viper-384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/MAMBA-Viper-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2496
+sk_len      = 5488
+ct_len      = 2656
+ss_len      = 48
+timing  keygen 0.544 ms  enc 0.651 ms  dec 0.656 ms (avg over 10)
+wrote  kat/KAT_KEM_MAMBA-Viper-384.txt (216150 bytes)
+manifest 0374e731aec928f440219d04cbe9d36c94df026edfb103b36dd410c11df6987a strict KAT_KEM_MAMBA-Viper-384.txt
+RESULT kem-21 MAMBA-Viper-384 PASS 

@@ -1,0 +1,18 @@
+library     = lib/libMoFang-512.so
+id          = hash-19
+type        = hash
+algorithm   = MoFang
+instance    = MoFang_512
+variant     = Reference_Implementation
+source_dir  = MoFang/Implementations/Reference_Implementation/MoFang-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.069 s
+wrote  kat/KAT_2_12_MoFang_512.txt (2804822 bytes)
+manifest 1303616f6ef315f5e885074f1b8a4fe6b69adc902fcd7fdb16aa3464f17cb7b3 strict KAT_2_12_MoFang_512.txt
+timing  KAT_2_23 0.024 s
+wrote  kat/KAT_2_23_MoFang_512.txt (815 bytes)
+manifest a3161670822610a2965a1662c5c6c5e8f34da5d4f8b341109aefdda9939f4aaf strict KAT_2_23_MoFang_512.txt
+RESULT hash-19 MoFang_512 PASS 

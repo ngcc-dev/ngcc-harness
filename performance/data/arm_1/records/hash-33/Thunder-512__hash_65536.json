@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-33",
+ "label": "Thunder-512",
+ "instance": "Thunder-512",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "hash",
+ "input_bytes": 65536,
+ "plan": {
+  "iterations_per_trial": 1253,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5112048102752684,
+  "timeout_per_process_s": 301.50672288616516
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-33/lib/libThunder-512.so",
+ "library_sha256": "230c72969e7c743bac6d4191c8d5af8d3e53e4e580a0ca98e35f32e5aefae2ae",
+ "kat_log": "kat/hash-33/Thunder-512.log",
+ "kat_log_sha256": "351b19a2a1681c030fbe7b33df2255af9f22a5c2519dbfd398e93e97f406bce8",
+ "started_utc": "2026-09-28T20:50:17.662312+00:00",
+ "ended_utc": "2026-09-28T20:50:20.851235+00:00",
+ "load_average_start": [
+  4.0,
+  4.046875,
+  4.02978515625
+ ],
+ "load_average_end": [
+  4.0,
+  4.0458984375,
+  4.029296875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 7,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2706712",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694810952,
+  "core_clock_min_hz": 2692315393,
+  "core_clock_max_hz": 2695538517,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1495040",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1560576",
+    "measurement_count": "1253",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1253,
+     "seconds": 0.634401302,
+     "cycles": 1709694145
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1253",
+    "3"
+   ],
+   "wall_s": 0.6379208564758301,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1564672",
+    "measurement_count": "1253",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1253,
+     "seconds": 0.631604166,
+     "cycles": 1702434746
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1253",
+    "3"
+   ],
+   "wall_s": 0.6366450786590576,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "3510272",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "3575808",
+    "measurement_count": "1253",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1253,
+     "seconds": 0.634601718,
+     "cycles": 1709687919
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1253",
+    "3"
+   ],
+   "wall_s": 0.640021800994873,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1490944",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1556480",
+    "measurement_count": "1253",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1253,
+     "seconds": 0.632615781,
+     "cycles": 1704602958
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1253",
+    "3"
+   ],
+   "wall_s": 0.6364586353302002,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-512",
+    "variant": "Reference_Implementation",
+    "operation": "hash",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1499136",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1564672",
+    "measurement_count": "1253",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1253,
+     "seconds": 0.632604531,
+     "cycles": 1704809585
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "7",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-512.so",
+    "hash",
+    "65536",
+    "1",
+    "1",
+    "1253",
+    "3"
+   ],
+   "wall_s": 0.6377301216125488,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1253,
+   "seconds": 0.634401302,
+   "cycles": 1709694145
+  },
+  {
+   "measurements": 1253,
+   "seconds": 0.631604166,
+   "cycles": 1702434746
+  },
+  {
+   "measurements": 1253,
+   "seconds": 0.634601718,
+   "cycles": 1709687919
+  },
+  {
+   "measurements": 1253,
+   "seconds": 0.632615781,
+   "cycles": 1704602958
+  },
+  {
+   "measurements": 1253,
+   "seconds": 0.632604531,
+   "cycles": 1704809585
+  }
+ ],
+ "measurements": 6265,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0005053196325618516,
+ "median_trial_seconds": 0.0005048809106145252,
+ "min_trial_seconds": 0.0005040735562649641,
+ "max_trial_seconds": 0.0005064658563447725,
+ "mean_cycles": 1361728.5479648842,
+ "median_trial_cycles": 1360582.2705506785,
+ "operations_per_second": 1978.9454744321638,
+ "throughput_MB_per_second": 129.6921706123863,
+ "sizes": {
+  "input_bytes": 65536,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 64
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 3510272,
+ "peak_rss_bytes": 3575808,
+ "timing_scope": "loop"
+}

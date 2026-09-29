@@ -1,0 +1,16 @@
+library     = lib/libSHUTTLE-512.so
+id          = sign-23
+type        = sig
+algorithm   = Shuttle
+instance    = SHUTTLE-512
+variant     = Reference_Implementation
+source_dir  = Implementation codes and test vectors/Shuttle 算法实现源代码及测试向量/Implementations/Reference_Implementation/SHUTTLE-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 3648
+sk_len      = 7104
+sn_len      = 5001
+timing  keygen 5.949 ms  sign 4.167 ms  verify 0.775 ms (avg over 10)
+wrote  kat/KAT_SIG_SHUTTLE-512.txt (319274 bytes)
+manifest 1e205e3cd4c44f27eb483311b0fedd728646c91dc7a88b4597aeb4bfe2e5ad7f strict KAT_SIG_SHUTTLE-512.txt
+RESULT sign-23 SHUTTLE-512 PASS 

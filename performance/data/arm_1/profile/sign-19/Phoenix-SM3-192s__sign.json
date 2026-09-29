@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "sign-19",
+ "label": "Phoenix-SM3-192s",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-19/libPhoenix-SM3-192s.so",
+  "sign",
+  "0",
+  "3",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-19",
+  "instance": "Phoenix-SM3-192s",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 216542843
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 192,
+   "calls": 3,
+   "ticks": 138
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 448,
+   "out_bits": 192,
+   "calls": 27,
+   "ticks": 567
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 640,
+   "out_bits": 488,
+   "calls": 6912,
+   "ticks": 277030
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 384,
+   "out_bits": 4096,
+   "calls": 6912,
+   "ticks": 1098774
+  }
+ ],
+ "share": {
+  "drng": 6.372872826833626e-07,
+  "pseudoXOF": 0.006356114018508568
+ },
+ "hash_share": 0.006356114018508568
+}

@@ -1,0 +1,16 @@
+library     = lib/libRhyme-SHAKE-384.so
+id          = sign-22
+type        = sig
+algorithm   = Rhyme
+instance    = Rhyme-SHAKE-384
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Rhyme-SHAKE/Rhyme-SHAKE-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2720
+sk_len      = 45760
+sn_len      = 14436
+timing  keygen 1326.975 ms  sign 2.331 ms  verify 0.257 ms (avg over 10)
+wrote  kat/KAT_SIG_Rhyme-SHAKE-384.txt (1068852 bytes)
+manifest 87c7da377a4e8e599674286ec6045fe8e8dc2f27683d3ba1222466fe64667cfa strict KAT_SIG_Rhyme-SHAKE-384.txt
+RESULT sign-22 Rhyme-SHAKE-384 PASS 

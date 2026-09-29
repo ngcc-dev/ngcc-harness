@@ -1,0 +1,119 @@
+{
+ "schema": 2,
+ "candidate": "kem-33",
+ "label": "qube-192",
+ "operation": "enc",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-33/libqube-192.so",
+  "enc",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-33",
+  "instance": "qube_192",
+  "operation": "enc",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 9405410
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 192,
+   "calls": 2000,
+   "ticks": 61174
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 32768,
+   "calls": 1000,
+   "ticks": 1252896
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 65536,
+   "calls": 1000,
+   "ticks": 2503813
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 8192,
+   "calls": 1000,
+   "ticks": 313910
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 39844
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10850
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 20343
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 4096,
+   "calls": 1000,
+   "ticks": 157093
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 50920,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 902828
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 584,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 88604
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 200,
+   "out_bits": 2048,
+   "calls": 1000,
+   "ticks": 78750
+  }
+ ],
+ "share": {
+  "drng": 0.0065041290066036464,
+  "pseudoXOF": 0.46542351689081074,
+  "sm3hash": 0.09599028644152674,
+  "pseudohash": 0.009420535627899263
+ },
+ "hash_share": 0.5708343389602367
+}

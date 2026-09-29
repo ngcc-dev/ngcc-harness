@@ -1,0 +1,18 @@
+library     = lib/libMEGASCON-512-XOF-256.so
+id          = hash-18
+type        = hash
+algorithm   = Megascon
+instance    = MEGASCON-512-XOF-256
+variant     = Reference_Implementation
+source_dir  = Megascon/Implementations/Reference_Implementation/MEGASCON-512-XOF
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 256
+digest_len  = 32
+timing  KAT_2_12 0.065 s
+wrote  kat/KAT_2_12_MEGASCON-512-XOF-256.txt (2542614 bytes)
+manifest 09d474cf4697fefedcac398ed9b6c0a6e314a8ea8168222a0025d9910200ac07 strict KAT_2_12_MEGASCON-512-XOF-256.txt
+timing  KAT_2_23 0.028 s
+wrote  kat/KAT_2_23_MEGASCON-512-XOF-256.txt (623 bytes)
+manifest d09369b3371204c29ce8535763caea19a4ac6edcb24bb205ef5555a1b206641f strict KAT_2_23_MEGASCON-512-XOF-256.txt
+RESULT hash-18 MEGASCON-512-XOF-256 PASS 

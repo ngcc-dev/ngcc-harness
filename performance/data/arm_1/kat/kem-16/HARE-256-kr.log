@@ -1,0 +1,17 @@
+library     = lib/libHARE-256-kr.so
+id          = kem-16
+type        = kem
+algorithm   = HARE
+instance    = HARE-256-kr
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/HARE-256/kr
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 6580
+sk_len      = 6676
+ct_len      = 11790
+ss_len      = 32
+timing  keygen 4.816 ms  enc 10.329 ms  dec 15.731 ms (avg over 10)
+wrote  kat/KAT_KEM_HARE-256-kr.txt (503960 bytes)
+manifest 7b9b24cf3dbd43703fd8c308006a0580da861bbf51164d766e409920516c244d strict KAT_KEM_HARE-256-kr.txt
+RESULT kem-16 HARE-256-kr PASS 

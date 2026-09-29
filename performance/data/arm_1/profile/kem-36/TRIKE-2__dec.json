@@ -1,0 +1,68 @@
+{
+ "schema": 2,
+ "candidate": "kem-36",
+ "label": "TRIKE-2",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-36/libTRIKE-2.so",
+  "dec",
+  "0",
+  "97",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-36",
+  "instance": "TRIKE-2",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 97,
+  "ticks": 24377032
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 32,
+   "calls": 25511,
+   "ticks": 773623
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 15584,
+   "calls": 291,
+   "ticks": 179544
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 31680,
+   "out_bits": 512,
+   "calls": 97,
+   "ticks": 118948
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 47616,
+   "out_bits": 512,
+   "calls": 97,
+   "ticks": 175610
+  }
+ ],
+ "share": {
+  "drng": 0.03910102755741552,
+  "pseudohash": 0.012083423445479335
+ },
+ "hash_share": 0.012083423445479335
+}

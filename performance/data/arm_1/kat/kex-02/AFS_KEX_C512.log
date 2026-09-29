@@ -1,0 +1,20 @@
+library     = lib/libAFS_KEX_C512.so
+id          = kex-02
+type        = kex
+algorithm   = AFS-KEX
+instance    = AFS_KEX_C512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/AFS_KEX_C512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 4
+pk_len      = 6272
+sk_len      = 12674
+sta_len     = 256
+stb_len     = 256
+ss_len      = 64
+total_msg   = 6016
+timing  full exchange 7.917 ms (avg over 10)
+wrote  kat/KAT_KEX_AFS_KEX_C512.txt (905410 bytes)
+manifest c7e61b175e0b4df1bea12d39f684d27eba4c69dd7e1c38e196e2582f75634f57 strict KAT_KEX_AFS_KEX_C512.txt
+RESULT kex-02 AFS_KEX_C512 PASS 

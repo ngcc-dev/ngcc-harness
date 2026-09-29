@@ -1,0 +1,17 @@
+library     = lib/libQCTM256.so
+id          = kem-32
+type        = kem
+algorithm   = QCTM
+instance    = QCTM256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/QCTM256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 595662
+sk_len      = 641942
+ct_len      = 1153
+ss_len      = 32
+timing  keygen 67157.425 ms  enc 12.736 ms  dec 9874.904 ms (avg over 10)
+wrote  kat/KAT_KEM_QCTM256.txt (24778210 bytes)
+manifest b1f1cf3f3c655dfa07a29526c4ded280813bf2b641a347fc5351e45fd3ba8d19 strict KAT_KEM_QCTM256.txt
+RESULT kem-32 QCTM256 PASS 

@@ -1,0 +1,16 @@
+library     = lib/libQingLuan-512.so
+id          = sign-20
+type        = sig
+algorithm   = Qing Luan
+instance    = QingLuan-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/QingLuan-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 302
+sk_len      = 128
+sn_len      = 292816
+timing  keygen 2.484 ms  sign 158.226 ms  verify 75.336 ms (avg over 10)
+wrote  kat/KAT_SIG_QingLuan-512.txt (5869134 bytes)
+manifest b67a0dd24d19befdcf25d7dec3c1ed43c0316bcba00351ceb750cbf33001407d strict KAT_SIG_QingLuan-512.txt
+RESULT sign-20 QingLuan-512 PASS 

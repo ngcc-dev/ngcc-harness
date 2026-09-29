@@ -1,0 +1,75 @@
+{
+ "schema": 2,
+ "candidate": "sign-02",
+ "label": "BiT-128",
+ "operation": "verify",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-02/libBiT-128.so",
+  "verify",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-02",
+  "instance": "BiT-128",
+  "operation": "verify",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 2823094
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 288,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 10435
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 4864,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 91771
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 192,
+   "out_bits": 5376,
+   "calls": 9000,
+   "ticks": 1854117
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 768,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 19315
+  },
+  {
+   "fn": "sm3hash",
+   "in_bits": 8384,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 154339
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.6604640157217577,
+  "sm3hash": 0.0940191860419809
+ },
+ "hash_share": 0.7544832017637386
+}

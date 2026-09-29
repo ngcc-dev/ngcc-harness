@@ -1,0 +1,17 @@
+library     = lib/libCheetah128.so
+id          = kem-09
+type        = kem
+algorithm   = CheetahKEM
+instance    = Cheetah128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Cheetah128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 832
+sk_len      = 1936
+ct_len      = 864
+ss_len      = 16
+timing  keygen 0.073 ms  enc 0.095 ms  dec 0.104 ms (avg over 10)
+wrote  kat/KAT_KEM_Cheetah128.txt (75330 bytes)
+manifest 4f696cb7def4d20a8fbd76dcc05fbe0987465ae5573bcb7b5987402477e6c63e strict KAT_KEM_Cheetah128.txt
+RESULT kem-09 Cheetah128 PASS 

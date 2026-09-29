@@ -1,0 +1,20 @@
+library     = lib/libNEV_AKE_512_1409.so
+id          = kex-07
+type        = kex
+algorithm   = NEV-AKE
+instance    = NEV_AKE_512_1409_ICCS
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/NEV-AKE-R1
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 672
+sk_len      = 1360
+sta_len     = 2032
+stb_len     = 16
+ss_len      = 16
+total_msg   = 1344
+timing  full exchange 0.693 ms (avg over 10)
+wrote  kat/KAT_KEX_NEV_AKE_512_1409_ICCS.txt (221740 bytes)
+manifest 04b0e480e1a0f78a6463fd54543eeb72ccdbc88d00d0691063a88d2608740dc6 strict KAT_KEX_NEV_AKE_512_1409_ICCS.txt
+RESULT kex-07 NEV_AKE_512_1409_ICCS PASS 

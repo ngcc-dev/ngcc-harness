@@ -1,0 +1,17 @@
+library     = lib/libUVW-256.so
+id          = sign-32
+type        = sig
+algorithm   = UVW signature
+instance    = UVW-256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/UVW-256
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 23040012
+sk_len      = 40
+sn_len      = 2444
+DBG_SIGN: e1e1e2_hw=17088 fe_hw=17088 diff=0
+DBG_SIGN: e1e1e2_hw=17088 f_hw=8556 e_hw=8532 sum=17088 w=17088 d_zeros=0 p_dups=0
+DBG_VFY: ew=8532 ertw=8556 sum=17088 w=17088 match=1
+DBG_VFY: ew=8532 ertw=6336 sum=14868 w=17088 match=0
+RESULT sign-32 UVW-256 CRYPTOFAIL sig_verify accepted a modified message at count 0

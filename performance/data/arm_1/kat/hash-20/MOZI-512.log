@@ -1,0 +1,18 @@
+library     = lib/libMOZI-512.so
+id          = hash-20
+type        = hash
+algorithm   = Mozi
+instance    = MOZI-512
+variant     = Reference_Implementation
+source_dir  = Mozi/Implementations/Reference_Implementation/MOZI-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.070 s
+wrote  kat/KAT_2_12_MOZI-512.txt (2804822 bytes)
+manifest 3f27634c92a4cc7444dff9022815149f82bf1a604c7e473445e980aeebe2e61c strict KAT_2_12_MOZI-512.txt
+timing  KAT_2_23 0.030 s
+wrote  kat/KAT_2_23_MOZI-512.txt (815 bytes)
+manifest 3e25a2c10a0883bf911117d3782fab40efb832574c0fcdc2b895f06d6e402afa strict KAT_2_23_MOZI-512.txt
+RESULT hash-20 MOZI-512 PASS 

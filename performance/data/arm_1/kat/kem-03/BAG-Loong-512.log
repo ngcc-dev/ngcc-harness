@@ -1,0 +1,17 @@
+library     = lib/libBAG-Loong-512.so
+id          = kem-03
+type        = kem
+algorithm   = BAG-Loong
+instance    = BAG-Loong-512
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/Loong-Block-ms-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 19043
+sk_len      = 38150
+ct_len      = 21660
+ss_len      = 64
+timing  keygen 139.159 ms  enc 99.991 ms  dec 188.475 ms (avg over 10)
+wrote  kat/KAT_KEM_BAG-Loong-512.txt (1580760 bytes)
+manifest 62e316fe9f99df72fad540e5bfc9f5628fc3653bc20dc2e2ae70aeca504c9f4c strict KAT_KEM_BAG-Loong-512.txt
+RESULT kem-03 BAG-Loong-512 PASS 

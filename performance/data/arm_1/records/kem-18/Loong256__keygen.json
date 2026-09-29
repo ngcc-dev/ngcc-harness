@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-18",
+ "label": "Loong256",
+ "instance": "Loong256",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 98,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5949641111907957,
+  "timeout_per_process_s": 301.5569784667145
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-18/lib/libLoong256.so",
+ "library_sha256": "f8c29774d4f766ef1dc92c6ad5300319825068f018ba7a80127c1bd5e5774e3e",
+ "kat_log": "kat/kem-18/Loong256.log",
+ "kat_log_sha256": "df131a2c805665fa7c3fc1165f552bf0d90367edb9a8a6d6695224b87772b964",
+ "started_utc": "2026-09-28T19:58:02.459372+00:00",
+ "ended_utc": "2026-09-28T19:58:05.047427+00:00",
+ "load_average_start": [
+  4.00146484375,
+  4.029296875,
+  3.98193359375
+ ],
+ "load_average_end": [
+  4.00146484375,
+  4.029296875,
+  3.98193359375
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-18",
+    "instance": "Loong256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1454080",
+    "pk_bytes": "3248",
+    "sk_bytes": "3888",
+    "ct_bytes": "3520",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "2248704",
+    "measurement_count": "98",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 98,
+     "seconds": 0.498085364,
+     "cycles": 1342667694
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-18/lib/libLoong256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "98",
+    "3"
+   ],
+   "wall_s": 0.5172412395477295,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-18",
+    "instance": "Loong256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "3248",
+    "sk_bytes": "3888",
+    "ct_bytes": "3520",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "2252800",
+    "measurement_count": "98",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 98,
+     "seconds": 0.499266094,
+     "cycles": 1345423470
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-18/lib/libLoong256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "98",
+    "3"
+   ],
+   "wall_s": 0.5185520648956299,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-18",
+    "instance": "Loong256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "3248",
+    "sk_bytes": "3888",
+    "ct_bytes": "3520",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "2252800",
+    "measurement_count": "98",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 98,
+     "seconds": 0.50052526,
+     "cycles": 1349231443
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-18/lib/libLoong256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "98",
+    "3"
+   ],
+   "wall_s": 0.5180144309997559,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-18",
+    "instance": "Loong256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1458176",
+    "pk_bytes": "3248",
+    "sk_bytes": "3888",
+    "ct_bytes": "3520",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "2252800",
+    "measurement_count": "98",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 98,
+     "seconds": 0.497642864,
+     "cycles": 1341332742
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-18/lib/libLoong256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "98",
+    "3"
+   ],
+   "wall_s": 0.5169539451599121,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-18",
+    "instance": "Loong256",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1441792",
+    "pk_bytes": "3248",
+    "sk_bytes": "3888",
+    "ct_bytes": "3520",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "2236416",
+    "measurement_count": "98",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 98,
+     "seconds": 0.499675625,
+     "cycles": 1346735078
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-18/lib/libLoong256.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "98",
+    "3"
+   ],
+   "wall_s": 0.5171105861663818,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 98,
+   "seconds": 0.498085364,
+   "cycles": 1342667694
+  },
+  {
+   "measurements": 98,
+   "seconds": 0.499266094,
+   "cycles": 1345423470
+  },
+  {
+   "measurements": 98,
+   "seconds": 0.50052526,
+   "cycles": 1349231443
+  },
+  {
+   "measurements": 98,
+   "seconds": 0.497642864,
+   "cycles": 1341332742
+  },
+  {
+   "measurements": 98,
+   "seconds": 0.499675625,
+   "cycles": 1346735078
+  }
+ ],
+ "measurements": 490,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0050922351163265305,
+ "median_trial_seconds": 0.005094551979591837,
+ "min_trial_seconds": 0.005077988408163266,
+ "max_trial_seconds": 0.005107400612244898,
+ "mean_cycles": 13725286.585714286,
+ "median_trial_cycles": 13728810.918367347,
+ "operations_per_second": 196.37742114338712,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 3248,
+  "sk_bytes": 3888,
+  "ct_bytes": 3520,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1458176,
+ "peak_rss_bytes": 2252800,
+ "timing_scope": "loop"
+}

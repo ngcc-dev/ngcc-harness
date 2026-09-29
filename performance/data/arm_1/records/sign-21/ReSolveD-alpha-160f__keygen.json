@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-21",
+ "label": "ReSolveD-alpha-160f",
+ "instance": "ReSolveD-alpha-160f",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 143,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5714173526763915,
+  "timeout_per_process_s": 301.54285041160585
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-21/lib/libReSolveD-alpha-160f.so",
+ "library_sha256": "b4e7144c9bb2df551d216ee72f10a8c18e7a241a101d0425868760040edabd0a",
+ "kat_log": "kat/sign-21/ReSolveD-alpha-160f.log",
+ "kat_log_sha256": "e4007e95a14a477b3aceae0ae821cf261d3d543944bb8ceee208dcb575637767",
+ "started_utc": "2026-09-28T20:14:03.654749+00:00",
+ "ended_utc": "2026-09-28T20:14:06.843674+00:00",
+ "load_average_start": [
+  4.01416015625,
+  4.04833984375,
+  4.0029296875
+ ],
+ "load_average_end": [
+  4.01416015625,
+  4.04833984375,
+  4.0029296875
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 3,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694350208,
+  "core_clock_min_hz": 2691656566,
+  "core_clock_max_hz": 2695682707,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-21",
+    "instance": "ReSolveD-alpha-160f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1531904",
+    "pk_bytes": "121",
+    "sk_bytes": "40",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "6851",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1916928",
+    "measurement_count": "143",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 143,
+     "seconds": 0.620932656,
+     "cycles": 1673632041
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-21/lib/libReSolveD-alpha-160f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "143",
+    "3"
+   ],
+   "wall_s": 0.6378400325775146,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-21",
+    "instance": "ReSolveD-alpha-160f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1548288",
+    "pk_bytes": "121",
+    "sk_bytes": "40",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "6851",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1933312",
+    "measurement_count": "143",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 143,
+     "seconds": 0.621009791,
+     "cycles": 1673972492
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-21/lib/libReSolveD-alpha-160f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "143",
+    "3"
+   ],
+   "wall_s": 0.6379439830780029,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-21",
+    "instance": "ReSolveD-alpha-160f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1544192",
+    "pk_bytes": "121",
+    "sk_bytes": "40",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "6851",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1929216",
+    "measurement_count": "143",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 143,
+     "seconds": 0.620711093,
+     "cycles": 1673205193
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-21/lib/libReSolveD-alpha-160f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "143",
+    "3"
+   ],
+   "wall_s": 0.6373257637023926,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-21",
+    "instance": "ReSolveD-alpha-160f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1548288",
+    "pk_bytes": "121",
+    "sk_bytes": "40",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "6851",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1933312",
+    "measurement_count": "143",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 143,
+     "seconds": 0.620801822,
+     "cycles": 1673337872
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-21/lib/libReSolveD-alpha-160f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "143",
+    "3"
+   ],
+   "wall_s": 0.6378047466278076,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-21",
+    "instance": "ReSolveD-alpha-160f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+    "baseline_rss_bytes": "1548288",
+    "pk_bytes": "121",
+    "sk_bytes": "40",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "6851",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1933312",
+    "measurement_count": "143",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 143,
+     "seconds": 0.620875781,
+     "cycles": 1673581111
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "3",
+    "performance/ngcc_perf",
+    "sign-21/lib/libReSolveD-alpha-160f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "143",
+    "3"
+   ],
+   "wall_s": 0.6379129886627197,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 143,
+   "seconds": 0.620932656,
+   "cycles": 1673632041
+  },
+  {
+   "measurements": 143,
+   "seconds": 0.621009791,
+   "cycles": 1673972492
+  },
+  {
+   "measurements": 143,
+   "seconds": 0.620711093,
+   "cycles": 1673205193
+  },
+  {
+   "measurements": 143,
+   "seconds": 0.620801822,
+   "cycles": 1673337872
+  },
+  {
+   "measurements": 143,
+   "seconds": 0.620875781,
+   "cycles": 1673581111
+  }
+ ],
+ "measurements": 715,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.004341721878321678,
+ "median_trial_seconds": 0.004341788678321678,
+ "min_trial_seconds": 0.004340637013986014,
+ "max_trial_seconds": 0.004342725811188811,
+ "mean_cycles": 11703117.075524475,
+ "median_trial_cycles": 11703364.412587412,
+ "operations_per_second": 230.32336663318395,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 121,
+  "sk_bytes": 40,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 6851,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int -std=c99",
+ "baseline_rss_bytes": 1548288,
+ "peak_rss_bytes": 1933312,
+ "timing_scope": "loop"
+}

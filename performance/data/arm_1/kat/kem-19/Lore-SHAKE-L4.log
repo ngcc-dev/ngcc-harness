@@ -1,0 +1,17 @@
+library     = lib/libLore-SHAKE-L4.so
+id          = kem-19
+type        = kem
+algorithm   = Lore
+instance    = Lore-SHAKE-L4
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Lore-SHAKE/Lore-L4
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 2914
+sk_len      = 11432
+ct_len      = 3170
+ss_len      = 32
+timing  keygen 0.598 ms  enc 1.170 ms  dec 0.940 ms (avg over 10)
+wrote  kat/KAT_KEM_Lore-L4.txt (353360 bytes)
+manifest 123a9b5fc8f49ca31b011416b0c2533164ecd26de5a7b334fbaa6a0dd358a1c5 strict KAT_KEM_Lore-L4.txt
+RESULT kem-19 Lore-SHAKE-L4 PASS 

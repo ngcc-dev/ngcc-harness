@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "kem-16",
+ "label": "HARE-384-kr",
+ "instance": "HARE-384-kr",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 36,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.7259774308050537,
+  "timeout_per_process_s": 301.63558645848303
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "kem-16/lib/libHARE-384-kr.so",
+ "library_sha256": "fe16605244ece939bc0e3f80b14fc6878e2b64153dc77399f9ca78ab0ce2e311",
+ "kat_log": "kat/kem-16/HARE-384-kr.log",
+ "kat_log_sha256": "c8b7e261ad1aea7ba8b08bd0e6a6205f15dcfd8889cddf20d346cc32a7100c4e",
+ "started_utc": "2026-09-28T20:00:51.044334+00:00",
+ "ended_utc": "2026-09-28T20:00:54.479498+00:00",
+ "load_average_start": [
+  4.08935546875,
+  4.08935546875,
+  4.01025390625
+ ],
+ "load_average_end": [
+  4.08203125,
+  4.08740234375,
+  4.009765625
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-16",
+    "instance": "HARE-384-kr",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1527808",
+    "pk_bytes": "13157",
+    "sk_bytes": "13301",
+    "ct_bytes": "23693",
+    "ss_bytes": "48",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1880064",
+    "measurement_count": "36",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 36,
+     "seconds": 0.630668333,
+     "cycles": 1700032460
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-16/lib/libHARE-384-kr.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "36",
+    "3"
+   ],
+   "wall_s": 0.6860661506652832,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-16",
+    "instance": "HARE-384-kr",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "13157",
+    "sk_bytes": "13301",
+    "ct_bytes": "23693",
+    "ss_bytes": "48",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1871872",
+    "measurement_count": "36",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 36,
+     "seconds": 0.6307125,
+     "cycles": 1700103405
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-16/lib/libHARE-384-kr.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "36",
+    "3"
+   ],
+   "wall_s": 0.6867570877075195,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-16",
+    "instance": "HARE-384-kr",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "13157",
+    "sk_bytes": "13301",
+    "ct_bytes": "23693",
+    "ss_bytes": "48",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1871872",
+    "measurement_count": "36",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 36,
+     "seconds": 0.63062677,
+     "cycles": 1699960954
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-16/lib/libHARE-384-kr.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "36",
+    "3"
+   ],
+   "wall_s": 0.6870772838592529,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-16",
+    "instance": "HARE-384-kr",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1527808",
+    "pk_bytes": "13157",
+    "sk_bytes": "13301",
+    "ct_bytes": "23693",
+    "ss_bytes": "48",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1880064",
+    "measurement_count": "36",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 36,
+     "seconds": 0.630742968,
+     "cycles": 1700081886
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-16/lib/libHARE-384-kr.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "36",
+    "3"
+   ],
+   "wall_s": 0.6875131130218506,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "kem-16",
+    "instance": "HARE-384-kr",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1523712",
+    "pk_bytes": "13157",
+    "sk_bytes": "13301",
+    "ct_bytes": "23693",
+    "ss_bytes": "48",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1871872",
+    "measurement_count": "36",
+    "guide_100_measurements": "not_met"
+   },
+   "trials": [
+    {
+     "measurements": 36,
+     "seconds": 0.631031615,
+     "cycles": 1700768447
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "kem-16/lib/libHARE-384-kr.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "36",
+    "3"
+   ],
+   "wall_s": 0.6875951290130615,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 36,
+   "seconds": 0.630668333,
+   "cycles": 1700032460
+  },
+  {
+   "measurements": 36,
+   "seconds": 0.6307125,
+   "cycles": 1700103405
+  },
+  {
+   "measurements": 36,
+   "seconds": 0.63062677,
+   "cycles": 1699960954
+  },
+  {
+   "measurements": 36,
+   "seconds": 0.630742968,
+   "cycles": 1700081886
+  },
+  {
+   "measurements": 36,
+   "seconds": 0.631031615,
+   "cycles": 1700768447
+  }
+ ],
+ "measurements": 180,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.017521012144444445,
+ "median_trial_seconds": 0.017519791666666666,
+ "min_trial_seconds": 0.017517410277777777,
+ "max_trial_seconds": 0.017528655972222223,
+ "mean_cycles": 47227484.177777775,
+ "median_trial_cycles": 47224496.833333336,
+ "operations_per_second": 57.07432834107587,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 13157,
+  "sk_bytes": 13301,
+  "ct_bytes": 23693,
+  "ss_bytes": 48,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1527808,
+ "peak_rss_bytes": 1880064,
+ "timing_scope": "loop"
+}

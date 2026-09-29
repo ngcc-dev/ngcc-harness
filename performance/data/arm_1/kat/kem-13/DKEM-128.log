@@ -1,0 +1,17 @@
+library     = lib/libDKEM-128.so
+id          = kem-13
+type        = kem
+algorithm   = DKEM
+instance    = DKEM-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/DKEM-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 800
+sk_len      = 1600
+ct_len      = 800
+ss_len      = 32
+timing  keygen 0.051 ms  enc 0.061 ms  dec 0.065 ms (avg over 10)
+wrote  kat/KAT_KEM_DKEM-128.txt (67010 bytes)
+manifest e42f9614bda0a02fd7e286524fe2a651bd44a9fb1f05db8acf5e34b2999f31cc strict KAT_KEM_DKEM-128.txt
+RESULT kem-13 DKEM-128 PASS 

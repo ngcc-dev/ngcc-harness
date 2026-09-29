@@ -1,0 +1,18 @@
+library     = lib/libCHash_1024.so
+id          = hash-03
+type        = hash
+algorithm   = C Hash
+instance    = CHash_1024
+variant     = Reference_Implementation
+source_dir  = C Hash/Implementations/Reference_Implementation/CHash_1024
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 1024
+digest_len  = 128
+timing  KAT_2_12 0.682 s
+wrote  kat/KAT_2_12_CHash_1024.txt (3333335 bytes)
+manifest ac5a046e9fe254a770671f0ab550f9daf0d6184a8ac4507a1214abaab25643fc strict KAT_2_12_CHash_1024.txt
+timing  KAT_2_23 1.076 s
+wrote  kat/KAT_2_23_CHash_1024.txt (1202 bytes)
+manifest 92022160c039743c7ff3c4365dc4ae7d6c8a1b5f3e87ad2b8cbc8c459cde6d20 strict KAT_2_23_CHash_1024.txt
+RESULT hash-03 CHash_1024 PASS 

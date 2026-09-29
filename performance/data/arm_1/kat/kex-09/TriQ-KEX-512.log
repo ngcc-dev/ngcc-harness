@@ -1,0 +1,20 @@
+library     = lib/libTriQ-KEX-512.so
+id          = kex-09
+type        = kex
+algorithm   = TriQ-KEX
+instance    = TriQ-KEX-512
+variant     = Reference_Implementation
+source_dir  = TriQ-KEX/Implementations/Reference_Implementation/TriQ-KEX-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+passes      = 2
+pk_len      = 19768
+sk_len      = 20088
+sta_len     = 79112
+stb_len     = 78832
+ss_len      = 64
+total_msg   = 137744
+timing  full exchange 463.301 ms (avg over 10)
+wrote  kat/KAT_KEX_TriQ-KEX-512.txt (7513820 bytes)
+manifest 49c48d03ce87aaa15b3578dd52a94f5e08a1e462f6cbd9b986736c29728c7ec3 strict KAT_KEX_TriQ-KEX-512.txt
+RESULT kex-09 TriQ-KEX-512 PASS 

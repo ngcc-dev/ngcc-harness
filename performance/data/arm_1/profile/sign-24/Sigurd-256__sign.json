@@ -1,0 +1,153 @@
+{
+ "schema": 2,
+ "candidate": "sign-24",
+ "label": "Sigurd-256",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-24/libSigurd-256.so",
+  "sign",
+  "0",
+  "11",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-24",
+  "instance": "Sigurd256_REF",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 11,
+  "ticks": 22131827
+ },
+ "calls": [
+  {
+   "fn": "pseudohash",
+   "in_bits": 1536,
+   "out_bits": 512,
+   "calls": 11,
+   "ticks": 1354
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 167680,
+   "out_bits": 512,
+   "calls": 11,
+   "ticks": 66071
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 624,
+   "out_bits": 117264,
+   "calls": 11,
+   "ticks": 97310
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 57299,
+   "ticks": 4922139
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 600,
+   "out_bits": 2736,
+   "calls": 11,
+   "ticks": 2332
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 648,
+   "out_bits": 256,
+   "calls": 11,
+   "ticks": 223
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 2560,
+   "out_bits": 512,
+   "calls": 11,
+   "ticks": 1757
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 166656,
+   "calls": 11,
+   "ticks": 70057
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 576,
+   "out_bits": 3253632,
+   "calls": 11,
+   "ticks": 2638457
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 5280,
+   "out_bits": 512,
+   "calls": 11,
+   "ticks": 2738
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 1024,
+   "out_bits": 512,
+   "calls": 57486,
+   "ticks": 5982670
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 9216,
+   "out_bits": 512,
+   "calls": 11,
+   "ticks": 4369
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 648,
+   "out_bits": 19200,
+   "calls": 11,
+   "ticks": 16032
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 576,
+   "out_bits": 7328,
+   "calls": 11,
+   "ticks": 6104
+  },
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 600,
+   "out_bits": 256,
+   "calls": 11,
+   "ticks": 219
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 49408,
+   "calls": 11,
+   "ticks": 20937
+  }
+ ],
+ "share": {
+  "pseudohash": 0.4961677135827964,
+  "pseudoXOF": 0.12473787184401902,
+  "drng": 0.004111454512996148
+ },
+ "hash_share": 0.6209055854268154
+}

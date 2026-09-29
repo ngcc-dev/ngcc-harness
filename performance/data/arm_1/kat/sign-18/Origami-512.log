@@ -1,0 +1,16 @@
+library     = lib/libOrigami-512.so
+id          = sign-18
+type        = sig
+algorithm   = Origami
+instance    = Origami-512
+variant     = Reference_Implementation
+source_dir  = Implementations and Test_Vectors/Implementations/Reference_Implementation/Origami-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 35924
+sk_len      = 64
+sn_len      = 1220
+timing  keygen 138.108 ms  sign 3183.496 ms  verify 3085.419 ms (avg over 1)
+wrote  kat/KAT_SIG_Origami-512.txt (74764 bytes)
+manifest 0fa552918b17ddaf6f4e0b0a5ccf8458e8cca1363ef52fc6673e0d171607b7f6 strict:1 KAT_SIG_Origami-512.txt
+RESULT sign-18 Origami-512 PASS 

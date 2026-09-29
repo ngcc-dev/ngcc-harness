@@ -1,0 +1,17 @@
+library     = lib/libBW_KEM_C256.so
+id          = kem-08
+type        = kem
+algorithm   = BW-KEM
+instance    = BW_KEM_C256
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/BW_KEM_C256
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1568
+sk_len      = 3169
+ct_len      = 1440
+ss_len      = 32
+timing  keygen 0.165 ms  enc 0.171 ms  dec 0.194 ms (avg over 10)
+wrote  kat/KAT_KEM_BW_KEM_C256.txt (126570 bytes)
+manifest fea80ac3279be42641ec7f1499c95f160c745c1c0a61321a30a36141bc665321 strict KAT_KEM_BW_KEM_C256.txt
+RESULT kem-08 BW_KEM_C256 PASS 

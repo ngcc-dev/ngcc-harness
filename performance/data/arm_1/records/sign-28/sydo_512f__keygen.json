@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "sign-28",
+ "label": "sydo_512f",
+ "instance": "sydo_512f",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 2371,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 2.5097531134387205,
+  "timeout_per_process_s": 301.50585186806325
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "sign-28/lib/libsydo_512f.so",
+ "library_sha256": "d2ca631b1e7d87dbcf6d06913a3282fa63055743804aa925fed4e486d7a59d42",
+ "kat_log": "kat/sign-28/sydo_512f.log",
+ "kat_log_sha256": "814255a38b7e7498bb1cb5af52f1e4343b4ad5660b9879789a64c91c6a51130c",
+ "started_utc": "2026-09-28T19:45:53.310471+00:00",
+ "ended_utc": "2026-09-28T19:45:56.259247+00:00",
+ "load_average_start": [
+  4.09521484375,
+  3.9716796875,
+  3.8203125
+ ],
+ "load_average_end": [
+  4.09521484375,
+  3.9716796875,
+  3.8203125
+ ],
+ "environment": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295756,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-34-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2695077195,
+  "core_clock_min_hz": 2692891458,
+  "core_clock_max_hz": 2696228363,
+  "core_clock_mhz": 2700
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-28",
+    "instance": "sydo_512f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1617920",
+    "pk_bytes": "246",
+    "sk_bytes": "534",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "67716",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1683456",
+    "measurement_count": "2371",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2371,
+     "seconds": 0.582045209,
+     "cycles": 1568531481
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-28/lib/libsydo_512f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2371",
+    "3"
+   ],
+   "wall_s": 0.585676908493042,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-28",
+    "instance": "sydo_512f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1613824",
+    "pk_bytes": "246",
+    "sk_bytes": "534",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "67716",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1679360",
+    "measurement_count": "2371",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2371,
+     "seconds": 0.590088854,
+     "cycles": 1590420948
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-28/lib/libsydo_512f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2371",
+    "3"
+   ],
+   "wall_s": 0.5947420597076416,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-28",
+    "instance": "sydo_512f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1617920",
+    "pk_bytes": "246",
+    "sk_bytes": "534",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "67716",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1683456",
+    "measurement_count": "2371",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2371,
+     "seconds": 0.585483593,
+     "cycles": 1578038980
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-28/lib/libsydo_512f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2371",
+    "3"
+   ],
+   "wall_s": 0.5881180763244629,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-28",
+    "instance": "sydo_512f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1617920",
+    "pk_bytes": "246",
+    "sk_bytes": "534",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "67716",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1683456",
+    "measurement_count": "2371",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2371,
+     "seconds": 0.585380417,
+     "cycles": 1577773855
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-28/lib/libsydo_512f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2371",
+    "3"
+   ],
+   "wall_s": 0.5893335342407227,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "sign-28",
+    "instance": "sydo_512f",
+    "variant": "Reference_Implementation",
+    "operation": "keygen",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1617920",
+    "pk_bytes": "246",
+    "sk_bytes": "534",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "67716",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1683456",
+    "measurement_count": "2371",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2371,
+     "seconds": 0.586137656,
+     "cycles": 1579090815
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "sign-28/lib/libsydo_512f.so",
+    "keygen",
+    "0",
+    "1",
+    "1",
+    "2371",
+    "3"
+   ],
+   "wall_s": 0.5907511711120605,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 2371,
+   "seconds": 0.582045209,
+   "cycles": 1568531481
+  },
+  {
+   "measurements": 2371,
+   "seconds": 0.590088854,
+   "cycles": 1590420948
+  },
+  {
+   "measurements": 2371,
+   "seconds": 0.585483593,
+   "cycles": 1578038980
+  },
+  {
+   "measurements": 2371,
+   "seconds": 0.585380417,
+   "cycles": 1577773855
+  },
+  {
+   "measurements": 2371,
+   "seconds": 0.586137656,
+   "cycles": 1579090815
+  }
+ ],
+ "measurements": 11855,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00024708019645719106,
+ "median_trial_seconds": 0.0002469352986081822,
+ "min_trial_seconds": 0.0002454851155630536,
+ "max_trial_seconds": 0.0002488776271615352,
+ "mean_cycles": 665867.2356811472,
+ "median_trial_cycles": 665558.4057359764,
+ "operations_per_second": 4047.268920531473,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 246,
+  "sk_bytes": 534,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 67716,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1617920,
+ "peak_rss_bytes": 1683456,
+ "timing_scope": "loop"
+}

@@ -1,0 +1,81 @@
+{
+ "schema": 2,
+ "candidate": "sign-23",
+ "label": "SHUTTLE-512",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "7",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-23/libSHUTTLE-512.so",
+  "sign",
+  "0",
+  "237",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-23",
+  "instance": "SHUTTLE-512",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 237,
+  "ticks": 23794396
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 474,
+   "ticks": 19812
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 4096,
+   "calls": 237,
+   "ticks": 42268
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 16560,
+   "calls": 237,
+   "ticks": 155475
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 16384,
+   "calls": 3792,
+   "ticks": 2447234
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 5824,
+   "calls": 49343,
+   "ticks": 12108412
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 1024,
+   "calls": 474,
+   "ticks": 28316
+  }
+ ],
+ "share": {
+  "drng": 0.6220589503511668
+ },
+ "hash_share": 0
+}

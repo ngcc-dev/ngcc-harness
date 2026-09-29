@@ -1,0 +1,17 @@
+library     = lib/libyuanyang-1024.so
+id          = kem-40
+type        = kem
+algorithm   = YuanYang.KEM
+instance    = YuanYang-KEM
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/yuanyang-1024
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1568
+sk_len      = 3168
+ct_len      = 1344
+ss_len      = 32
+timing  keygen 0.275 ms  enc 0.124 ms  dec 0.198 ms (avg over 10)
+wrote  kat/KAT_KEM_yuanyang-1024.txt (124630 bytes)
+manifest d7393e709a1ebcfc6da7384e25688439e8c2875194e48afae5eef3cb040ce41c strict KAT_KEM_yuanyang-1024.txt
+RESULT kem-40 YuanYang-KEM PASS 

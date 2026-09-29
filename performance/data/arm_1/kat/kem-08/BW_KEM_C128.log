@@ -1,0 +1,17 @@
+library     = lib/libBW_KEM_C128.so
+id          = kem-08
+type        = kem
+algorithm   = BW-KEM
+instance    = BW_KEM_C128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/BW_KEM_C128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 784
+sk_len      = 1585
+ct_len      = 768
+ss_len      = 16
+timing  keygen 0.066 ms  enc 0.075 ms  dec 0.086 ms (avg over 10)
+wrote  kat/KAT_KEM_BW_KEM_C128.txt (65430 bytes)
+manifest 6ec25ac26bf5c6901b8134545c1451cedcba71bfbf3753703643f564f0d8059c strict KAT_KEM_BW_KEM_C128.txt
+RESULT kem-08 BW_KEM_C128 PASS 

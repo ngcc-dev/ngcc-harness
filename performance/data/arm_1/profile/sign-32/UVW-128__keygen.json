@@ -1,0 +1,67 @@
+{
+ "schema": 2,
+ "candidate": "sign-32",
+ "label": "UVW-128",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/sign-32/libUVW-128.so",
+  "keygen",
+  "0",
+  "3",
+  "0"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "sign-32",
+  "instance": "UVW-128",
+  "operation": "keygen",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "0",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 3,
+  "ticks": 1433056764
+ },
+ "calls": [
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 16,
+   "calls": 14,
+   "ticks": 671
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 64,
+   "calls": 48500,
+   "ticks": 1472982
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 9728,
+   "calls": 51605,
+   "ticks": 20217924
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 3,
+   "ticks": 139
+  }
+ ],
+ "share": {
+  "drng": 0.015136676051444952
+ },
+ "hash_share": 0
+}

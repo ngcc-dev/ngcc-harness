@@ -1,0 +1,61 @@
+{
+ "schema": 2,
+ "candidate": "kem-14",
+ "label": "DTRU-Light",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "3",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/kem-14/libDTRU-Light.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "kem-14",
+  "instance": "DTRU-Light",
+  "operation": "dec",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19200000",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 1068526
+ },
+ "calls": [
+  {
+   "fn": "pseudoXOF",
+   "in_bits": 256,
+   "out_bits": 3072,
+   "calls": 1000,
+   "ticks": 118467
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 392,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 68746
+  },
+  {
+   "fn": "pseudohash",
+   "in_bits": 4352,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 213506
+  }
+ ],
+ "share": {
+  "pseudoXOF": 0.11086955301040873,
+  "pseudohash": 0.2641508021330319
+ },
+ "hash_share": 0.3750203551434406
+}

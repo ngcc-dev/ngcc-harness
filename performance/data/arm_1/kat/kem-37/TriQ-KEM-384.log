@@ -1,0 +1,17 @@
+library     = lib/libTriQ-KEM-384.so
+id          = kem-37
+type        = kem
+algorithm   = TriQ-KEM
+instance    = TriQ-KEM-384
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/TriQ-KEM-384
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 12255
+sk_len      = 12399
+ct_len      = 24335
+ss_len      = 48
+timing  keygen 12.528 ms  enc 25.225 ms  dec 37.332 ms (avg over 10)
+wrote  kat/KAT_KEM_TriQ-KEM-384.txt (983160 bytes)
+manifest ee5fc8bff072ab3621fe7605e87e5cb0f1c28ee9447a6948df93a51f1f74ba95 strict KAT_KEM_TriQ-KEM-384.txt
+RESULT kem-37 TriQ-KEM-384 PASS 

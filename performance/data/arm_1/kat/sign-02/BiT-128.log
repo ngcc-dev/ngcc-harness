@@ -1,0 +1,16 @@
+library     = lib/libBiT-128.so
+id          = sign-02
+type        = sig
+algorithm   = BiT
+instance    = BiT-128
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/BiT-128
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1048
+sk_len      = 1864
+sn_len      = 1504
+timing  keygen 0.128 ms  sign 0.658 ms  verify 0.124 ms (avg over 10)
+wrote  kat/KAT_SIG_BiT-128.txt (92534 bytes)
+manifest 294c774baf60b96309b21b3b8dccf95a04887e449a705efcbd73c0212c9fc318 strict KAT_SIG_BiT-128.txt
+RESULT sign-02 BiT-128 PASS 

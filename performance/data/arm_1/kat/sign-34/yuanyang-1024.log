@@ -1,0 +1,16 @@
+library     = lib/libyuanyang-1024.so
+id          = sign-34
+type        = sig
+algorithm   = YuanYang.DSA
+instance    = yuanyang-1024
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/yuanyang-1024
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+pk_len      = 1570
+sk_len      = 31264
+sn_len      = 1150
+timing  keygen 5.582 ms  sign 4.252 ms  verify 0.152 ms (avg over 10)
+wrote  kat/KAT_SIG_YuanYang-1024.txt (683904 bytes)
+manifest 8c90be813b9bee3ea7cea90e4223d8ae02e7114e1856915b1ddb2f6a7cb86a37 strict KAT_SIG_YuanYang-1024.txt
+RESULT sign-34 yuanyang-1024 PASS 

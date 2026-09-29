@@ -1,0 +1,16 @@
+library     = lib/libGreatWall192s.so
+id          = sign-13
+type        = sig
+algorithm   = GreatWall
+instance    = GreatWall192s
+variant     = Reference_Implementation
+source_dir  = Implementations/Reference_Implementation/GreatWall192s
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+pk_len      = 50
+sk_len      = 50
+sn_len      = 6804
+timing  keygen 1.902 ms  sign 356.724 ms  verify 330.411 ms (avg over 10)
+wrote  kat/KAT_SIG_GreatWall192s.txt (142254 bytes)
+manifest 3e69c532625fb563bcf4ed86753ab793465edd8971bee1116f7f7b92e05bfddc strict KAT_SIG_GreatWall192s.txt
+RESULT sign-13 GreatWall192s PASS 
