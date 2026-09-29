@@ -90,6 +90,10 @@ run_crash() {
     fi
 }
 
+echo "== hash-01-2 AFS-TrEDM: final-block replay distinguisher (High) =="
+run_target hash-01 "hash-01-2" python3 hash-01/reproduce_final_block_replay.py
+
+echo
 echo "== hash-02-1 AXIS: allocation failure falsely reports success (Low) =="
 run_target hash-02 "hash-02-1" make -C hash-02 exploit
 
@@ -290,6 +294,10 @@ run_target kem-14 "kem-14-1" make -C kem-14 exploit
 echo
 echo "== kem-14-2/-3 DTRU: rejection oracle and missing public-key binding (Low) =="
 run_target kem-14 "kem-14-2/kem-14-3" make -C kem-14 exploit-rejection-contract
+
+echo
+echo "== kem-16-1 HARE: headline DFR claims require refined model (Medium Proof gap) =="
+run_target kem-16 "kem-16-1" python3 kem-16/reproduce_model1_dfr.py
 
 echo
 echo "== kem-17-4 HEP-QC: public EPC-P column fingerprint =="
@@ -494,6 +502,20 @@ run_target sign-05 "sign-05-1" make -C sign-05 reproduce
 echo
 echo "== sign-06-3 COMPASS-SIG: rejected signatures leak heap memory (Low) =="
 run_target sign-06 "sign-06-3" make -C sign-06 reproduce-verify-leak
+
+echo
+echo "== sign-06-4 COMPASS-SIG: XOF replay duplicates high-level secrets (High) =="
+if [ -z "$only" ] || [ "$only" = sign-06 ]; then
+    if [ -f sign-06/lib/libCOMPASS-SIG-128.so ] &&
+       [ -f sign-06/lib/libCOMPASS-SIG-256.so ] &&
+       [ -f sign-06/lib/libCOMPASS-SIG-384.so ] &&
+       [ -f sign-06/lib/libCOMPASS-SIG-512.so ]; then
+        python3 sign-06/reproduce_xof_replay.py || fail=$((fail + 1))
+    else
+        echo "SKIP   sign-06 XOF replay (build it: make -C sign-06)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack write =="

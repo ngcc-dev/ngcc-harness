@@ -1,5 +1,6 @@
 ID;Status;Verification;Title
 hash-01-1;Confirmed;review;Partial-message bits control a machine branch
+hash-01-2;Confirmed;runtime;Missing final-block separation gives a 2^64-query distinguisher
 hash-02-1;Confirmed;runtime;Allocation failure returns a successful all-zero digest
 hash-02-2;Confirmed;review;Partial-bit AXIS update branches on secret state
 hash-02-3;Confirmed;runtime;The invertible AXIS state caps AXIS-1024 second-preimage security at 768 bits
@@ -77,6 +78,7 @@ kem-13-3;Confirmed;runtime;A 16-bit NTT butterfly silently breaks honest DKEM-51
 kem-14-1;Confirmed;runtime;Caller-declared ciphertext length overflows a decapsulation stack buffer
 kem-14-2;Confirmed;runtime;Decapsulation return value exposes the implicit-rejection branch
 kem-14-3;Confirmed;runtime;Rejection key omits the specified public-key binding
+kem-16-1;Proof gap;runtime;Headline DFR values lack a reproducible HARE calculation
 kem-17-1;Confirmed;runtime;Publicly reproducible secret keys
 kem-17-2;Confirmed;static;HEP-QC-7 has at most 256 bits of key-generation support
 kem-17-3;Confirmed;runtime;First encapsulation in each process is publicly reproducible
@@ -106,7 +108,7 @@ kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every test
 kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with variable work
 kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
 kem-38-2;Confirmed;runtime+static;UVW exposes a stable list-decoding failure oracle
-kem-38-3;Lead;review;Retry reactions may expose UVW-KEM-128 session keys
+kem-38-3;Probable;review;Stateful timing reactions recover UVW-KEM-128 shared secrets
 kem-38-4;Confirmed;runtime;Unused c1 bits make ciphertexts malleable without changing the key
 kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's independence premise
 kem-39-2;Confirmed;runtime;WeaverKEM-256 omits its high-layer BCH decoder
@@ -141,9 +143,10 @@ sign-05-2;Confirmed;review;Signing indexes lookup tables with the secret key
 sign-06-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-06-2;Confirmed;static;The implementation expands the entire key pair from a 256-bit root
 sign-06-3;Confirmed;runtime;Rejected signatures leak heap memory without bound
+sign-06-4;Confirmed;runtime;XOF block replay duplicates every high-level secret polynomial
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
-sign-07-3;Lead;review;Compressed signatures may leak the CS-128 signing key
+sign-07-3;Confirmed;review;Compressed signatures enable practical equivalent-key recovery and forgery
 sign-08-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-08-2;Confirmed;runtime;The compression-consistency restart leaks an equivalent DARTS-128 signing key
 sign-09-1;Confirmed;runtime+static;The unauthenticated signature salt invalidates the salted-target analysis
