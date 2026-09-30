@@ -59,6 +59,7 @@ kem-03-2;Confirmed;runtime;The rejection key does not bind the received cipherte
 kem-03-3;Confirmed;runtime+static;Public support spaces reduce secret-key recovery to linear algebra
 kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-04-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
+kem-05-1;Confirmed;runtime;The default library deterministically generates a public secret key
 kem-06-1;Confirmed;runtime;Malformed inputs drive the BRA decoder out of bounds
 kem-06-2;Confirmed;runtime;Reference field multiplication touches one limb past its output
 kem-06-3;Confirmed;review;Secret-derived decoder pivots select memory addresses
@@ -96,6 +97,8 @@ kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit se
 kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure estimate
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
 kem-24-1;Probable;review;Encryption omits the specified rounding constant
+kem-26-1;Confirmed;runtime+static;Fixed-weight parity falsifies the DQCSD and JPCI assumptions
+kem-26-2;Confirmed;runtime;NSS-HQC-256 fails honest decapsulation near 10^-4
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
 kem-28-1;Confirmed;runtime;Noncanonical ciphertext encoding defeats IND-CCA security
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
@@ -125,6 +128,9 @@ kex-01-3;Confirmed;runtime;Incoming message lengths are ignored before fixed-siz
 kex-02-1;Confirmed;runtime;The ephemeral key is generated once as long-term state
 kex-02-2;Confirmed;review;Secret-derived decryption coefficients take a sign branch
 kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret to 64 bits
+kex-03-2;Confirmed;runtime+static;Omitting signatures from the KDF breaks transcript matching
+kex-03-3;Confirmed;runtime+static;The generic double-key KEM fails its claimed first-key CCA game
+kex-04-1;Confirmed;runtime;DKEX-512 silently derives different keys in honest sessions
 kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-session aborts
 kex-05-2;Confirmed;runtime;Ephemeral-key reuse recovers the complete Loom-KEM secret key
 kex-05-3;Confirmed;runtime+static;Shuttle signing-key leakage enables permanent responder impersonation
@@ -149,6 +155,7 @@ sign-04-2;Confirmed;runtime;FORC chain addresses are truncated to eight bits
 sign-04-3;Confirmed;review;Specified and implemented hash instantiations are incompatible
 sign-05-1;Confirmed;runtime;The final Fiat–Shamir challenge omits ã0, allowing public-key-only universal forgery
 sign-05-2;Confirmed;review;Signing indexes lookup tables with the secret key
+sign-05-3;Confirmed;static;The specified opening-rejection retry cannot make progress
 sign-06-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-06-2;Confirmed;static;The implementation expands the entire key pair from a 256-bit root
 sign-06-3;Confirmed;runtime;Rejected signatures leak heap memory without bound
@@ -170,6 +177,7 @@ sign-11-6;Confirmed;static;The specified PORS tree reuses leaf hash addresses
 sign-11-7;Confirmed;static;The implementation leaves 1 to 4 OTS digest bits unchecked
 sign-11-8;Confirmed;static;Complementary constant-sum rounding breaks interoperability
 sign-12-1;Confirmed;runtime;Publicly reproducible signing keys
+sign-13-1;Confirmed;static;SHAKE256 capacity reduces GreatWall-512 forgery cost to about 2^256
 sign-14-1;Confirmed;runtime;A degenerate QuickSilver witness gives universal public-key-only forgeries
 sign-15-1;Confirmed;review;Returned-length error causes an out-of-bounds heap disclosure
 sign-15-2;Confirmed;runtime;Trivial hint-padding malleability violates SUF-CMA
@@ -201,6 +209,7 @@ sign-27-3;Confirmed;static;A known signature transfers to a new message in about
 sign-27-4;Proof gap;review;Distinct challenges can share the identical response, invalidating special soundness
 sign-27-5;Confirmed;runtime;Response rescaling gives a practical fresh-message forgery
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
+sign-30-1;Confirmed;runtime;The normal build deterministically exposes every signing key
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Probable;review;Secret-dependent echelon pivots during signing
 sign-32-1;Confirmed;runtime;Every signature is accepted

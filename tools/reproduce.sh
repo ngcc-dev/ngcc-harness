@@ -235,12 +235,21 @@ echo "== kem-04-2 BAG-Piglet: rejection key omits received ciphertext (High) =="
 run_target kem-04 "kem-04-2" python3 kem-04/reproduce_rejection_key.py kem-04/lib/libbag_piglet_128.so
 
 echo
+echo "== kem-05-1 BIKE-MLThre: unseeded default key generation exposes the secret key (Critical) =="
+run_target kem-05 "kem-05-1" python3 kem-05/reproduce_unseeded_drbg.py
+
+echo
 echo "== kem-19-1 Lore: ring-projection preflight (Lead; lattice cost unverified) =="
 run_target kem-19 "kem-19-1" python3 kem-19/reproduce_ring_projection.py
 
 echo
 echo "== kem-22-1 Mithril: honest shared-secret mismatch (Medium) =="
 run_target kem-22 "kem-22-1" make -C kem-22 exploit-decoder
+
+echo
+echo "== kem-26-1 / kem-26-2 NSS-HQC: parity distinguisher and honest failure (Medium) =="
+run_target kem-26 "kem-26-1" python3 kem-26/reproduce_parity.py
+run_target kem-26 "kem-26-2" python3 kem-26/reproduce_failure.py
 
 echo
 echo "== kem-28-1 OAEP-NTRU: noncanonical ciphertext aliases (Critical) =="
@@ -459,6 +468,14 @@ if [ -z "$only" ] || [ "$only" = kex-01 ]; then
 fi
 
 echo
+echo "== kex-03-2 / kex-03-3 CreTAKE: transcript and double-key KEM binding (Critical / High) =="
+run_target kex-03 "kex-03-2/kex-03-3" python3 kex-03/reproduce_binding_attacks.py
+
+echo
+echo "== kex-04-1 DKEX-512: honest shared-secret mismatch (Low) =="
+run_target kex-04 "kex-04-1" python3 kex-04/reproduce_correctness.py
+
+echo
 echo "== kex-05-2 LoomKEX-256: ephemeral-key reuse recovery (High) =="
 if [ -z "$only" ] || [ "$only" = kex-05 ]; then
     if [ -x kex-05/reproduce_state_rollback_key_recovery ]; then
@@ -535,6 +552,10 @@ echo "== sign-05-1 Chinith: public-key-only forgery in all 14 sets (Critical) ==
 run_target sign-05 "sign-05-1" make -C sign-05 reproduce
 
 echo
+echo "== sign-05-3 Chinith: specified opening retry cannot progress (Low) =="
+run_target sign-05 "sign-05-3" python3 sign-05/reproduce_open_retry.py
+
+echo
 echo "== sign-06-3 COMPASS-SIG: rejected signatures leak heap memory (Low) =="
 run_target sign-06 "sign-06-3" make -C sign-06 reproduce-verify-leak
 
@@ -597,6 +618,10 @@ fi
 echo
 echo "== sign-10-2 Facto-DSA: public-key universal signing trapdoor =="
 run_target sign-10 "sign-10-2" make -C sign-10 reproduce-forgery
+
+echo
+echo "== sign-13-1 GreatWall-512: SHAKE256 capacity forgery bound (Critical) =="
+run_target sign-13 "sign-13-1" python3 sign-13/reproduce_shake_capacity.py
 
 echo
 echo "== sign-14-1 Lynxer: universal public-key-only forgery (Critical) =="
@@ -678,6 +703,10 @@ run_target sign-19 "sign-19-1" python3 sign-19/reproduce_interop.py
 echo
 echo "== sign-29-1 Tins: one-signature witness recovery =="
 run_target sign-29 "sign-29-1" make -C sign-29 exploit
+
+echo
+echo "== sign-30-1 TRINE: unseeded normal build exposes the signing key (Critical) =="
+run_target sign-30 "sign-30-1" python3 sign-30/reproduce_unseeded_forgery.py
 
 echo
 echo "== sign-32-1 / sign-32-2 UVW: universal acceptance and verifier crashes =="
