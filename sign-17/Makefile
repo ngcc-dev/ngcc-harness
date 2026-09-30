@@ -33,3 +33,7 @@ $(eval $(call OPS,OPSsig-256))
 $(eval $(call OPS,OPSsig-512))
 
 include ../api/link_finish.mk
+
+.PHONY: reproduce-spec-findings
+reproduce-spec-findings:
+	@./reproduce_spec_findings.sh

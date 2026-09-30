@@ -29,7 +29,7 @@ $(eval $(call AFS,AFS_KEX_C128,-DBWKEM128_INTERNAL_COMPAT -DBWKEM_C128_USE_ICCS_
 $(eval $(call AFS,AFS_KEX_C256,-DBWKEM_C256_USE_ICCS_AUXFUNC))
 $(eval $(call AFS,AFS_KEX_C512,-DBWKEM_C512_USE_ICCS_AUXFUNC))
 
-.PHONY: exploit clean-exploit
+.PHONY: exploit clean-exploit reproduce-protocol-findings
 all: reproduce_pfs_break reproduce_pfs_break_c256 reproduce_pfs_break_c512
 exploit: reproduce_pfs_break reproduce_pfs_break_c256 reproduce_pfs_break_c512
 
@@ -51,5 +51,8 @@ reproduce_pfs_break_c512: reproduce_pfs_break.c $(OBJS_AFS_KEX_C512)
 clean-exploit:
 	rm -f reproduce_pfs_break reproduce_pfs_break_c256 reproduce_pfs_break_c512
 clean: clean-exploit
+
+reproduce-protocol-findings:
+	@./reproduce_protocol_findings.sh
 
 include ../api/link_finish.mk

@@ -49,3 +49,13 @@ $(eval $(call GALAS,Galas-512S,GALAS_512S))
 $(eval $(call GALAS,Galas-512F,GALAS_512F))
 
 include ../api/link_finish.mk
+
+build/reproduce_long_message: reproduce_long_message.c | build/Galas-160F
+	$(CC) -O2 -std=gnu11 -Wall -Wextra -o $@ $< -ldl
+
+reproduce-long-message: build/reproduce_long_message \
+                        lib/libGalas-160F.so lib/libGalas-256F.so
+	./build/reproduce_long_message ./lib/libGalas-160F.so
+	./build/reproduce_long_message ./lib/libGalas-256F.so
+
+.PHONY: reproduce-long-message

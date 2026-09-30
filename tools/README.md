@@ -81,6 +81,38 @@ the break is specific: the submission ships `polarkem_recover_message(pk, ct, mu
 and `polarkem_derive_valid_secret(mu, ct, ss)`, which together recover the
 session key from public data alone. `reproduce.sh` runs it.
 
+The latest candidate-local witnesses are also wired into the runner:
+
+- `sign-12/reproduce_long_message.c` sparsely maps a `2^32 + 38`-byte Galas
+  message and shows that the reference verifier hashes only its 38-byte prefix.
+- `kem-18/reproduce_loong256.sh` downloads Tianyuan Xie's pinned LoongKEM PoC,
+  generates a fresh transcript, and runs the 337-dimensional public recovery;
+  set `PYTHON` to an interpreter providing `fpylll`.
+- `kem-05/reproduce_multi_instance.py` and
+  `kem-32/reproduce_multi_instance.py` hash-pin the May–Sá Diogo estimator and
+  check the first below-target same-key session counts plus controls.
+- `kem-26/reproduce_isd_estimate.py` pins
+  `cryptographic-estimators==2.1.1` and reproduces NSS-HQC's ephemeral-decoding
+  work factors and public message-recovery certificate. The broader comparative
+  audit used to identify these parameters remains internal.
+- Rudraksh2's `kem-34` targets check its message space, Cortex-M4 decoder
+  constant, caller-declared lengths, and `-II` NTT moduli. The length witness
+  uses AddressSanitizer.
+- The `kem-36` certificates cover TRIKE's weak-key test, missing free,
+  secret-support addresses, and proof gaps. `kem-38/reproduce_dfr_reaction.py`
+  checks UVW's final-failure reaction and retry-matrix leak. The `kem-39`
+  scripts compare Weaver's BCH decoders and specified parsers.
+- The `kem-37` and `kex-09` scripts trace TriQ's decrypted message into
+  rejection-sampler timing. They are source/dataflow witnesses, not completed
+  key recoveries.
+- OPS-SIG's pinned `sign-17/reproduce_spec_findings.sh` checks its fixed
+  challenge support, reduced public-key-only forgeries, and rounding mismatch.
+  AFS-KEX's pinned `kex-02/reproduce_protocol_findings.sh` exercises its three
+  protocol findings at every level.
+- Chinith's `sign-05/reproduce_em_constraints.sh` checks the uBlockith-EM
+  constraint alignment and Vistrutith composition. YuanYang.DSA's new `sign-34`
+  scripts check the sampler constants and signature-mean effect.
+
 The September 28 additions are also wired into `tools/reproduce.sh`:
 
 - `hash-24-3` checks explicit full-mode QSH free-start collisions.

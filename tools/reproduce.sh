@@ -810,6 +810,77 @@ if [ -z "$only" ] || [ "$only" = sign-34 ]; then
 fi
 
 echo
+echo "== kem-05-2 BIKE-MLThre: same-key multi-instance ISD estimates (Critical) =="
+run_target kem-05 "kem-05-2" python3 kem-05/reproduce_multi_instance.py
+
+echo
+echo "== kem-18-3 LoongKEM: Loong128 and Loong256 public recovery (Critical) =="
+run_target kem-18 "kem-18-3" sh kem-18/reproduce_loong256.sh
+
+echo
+echo "== kem-21-1 Viper: 256-bit secret-seed ceiling (Critical) =="
+run_target kem-21 "kem-21-1" python3 kem-21/reproduce_seed_ceiling.py
+
+echo
+echo "== kem-26-3 NSS-HQC: ephemeral ISD estimates (Critical) =="
+run_target kem-26 "kem-26-3" python3 kem-26/reproduce_isd_estimate.py
+
+echo
+echo "== kem-32-2 QCTM: same-key multi-instance ISD estimates (Critical) =="
+run_target kem-32 "kem-32-2" python3 kem-32/reproduce_multi_instance.py
+
+echo
+echo "== kem-34-1 / kem-34-2 / kem-34-3 / kem-34-4 Rudraksh2 findings (Medium / Low) =="
+run_target kem-34 "kem-34-1" make -C kem-34 reproduce-message-space
+run_target kem-34 "kem-34-2/kem-34-4" make -C kem-34 reproduce-parameters
+run_target kem-34 "kem-34-3" make -C kem-34 reproduce-length-read
+
+echo
+echo "== kem-36-2 / kem-36-3 / kem-36-4 / kem-36-5 / kem-36-6 TRIKE findings =="
+run_target kem-36 "kem-36-2" python3 kem-36/reproduce_weak_key_test.py
+run_target kem-36 "kem-36-3/kem-36-6" python3 kem-36/reproduce_implementation_issues.py
+run_target kem-36 "kem-36-4/kem-36-5" python3 kem-36/reproduce_spec_proof_gaps.py
+
+echo
+echo "== kem-37-2 / kex-09-2 re-encryption sampler timing leads (Medium) =="
+run_target kem-37 "kem-37-2" python3 kem-37/reproduce_reencrypt_sampler.py
+run_target kex-09 "kex-09-2" python3 kex-09/reproduce_reencrypt_sampler.py
+
+echo
+echo "== kem-38-5 / kem-38-6 UVW failure reaction and retry-matrix findings =="
+run_target kem-38 "kem-38-5/kem-38-6" python3 kem-38/reproduce_dfr_reaction.py
+
+echo
+echo "== kem-39-3 / kem-39-4 / kem-39-5 WeaverKEM implementation findings =="
+run_target kem-39 "kem-39-3" sh kem-39/reproduce_bch_decoder.sh
+run_target kem-39 "kem-39-4/kem-39-5" python3 kem-39/reproduce_spec_mismatches.py
+
+echo
+echo "== kem-40-1 YuanYang.KEM: encryption discards the specified error (Critical) =="
+run_target kem-40 "kem-40-1" python3 kem-40/reproduce_unused_error.py
+
+echo
+echo "== kex-02-3 / kex-02-4 / kex-02-5 AFS-KEX protocol findings =="
+run_target kex-02 "kex-02-3/kex-02-4/kex-02-5" make -C kex-02 reproduce-protocol-findings
+
+echo
+echo "== sign-05-4 / sign-05-5 Chinith constraint-system findings =="
+run_target sign-05 "sign-05-4/sign-05-5" sh sign-05/reproduce_em_constraints.sh
+
+echo
+echo "== sign-12-2 Galas: 32-bit message-length truncation (Critical) =="
+run_target sign-12 "sign-12-2" make -C sign-12 reproduce-long-message
+
+echo
+echo "== sign-17-1 / sign-17-2 OPS specification findings =="
+run_target sign-17 "sign-17-1/sign-17-2" make -C sign-17 reproduce-spec-findings
+
+echo
+echo "== sign-34-3 / sign-34-4 YuanYang.DSA sampler findings =="
+run_target sign-34 "sign-34-4" python3 sign-34/reproduce_sampler_constants.py
+run_target sign-34 "sign-34-3" sh sign-34/reproduce_sampler_mean.sh
+
+echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
 else

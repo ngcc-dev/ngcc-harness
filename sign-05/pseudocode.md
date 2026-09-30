@@ -147,10 +147,9 @@ Note ã_0 is *not* transmitted: the verifier recomputes it and checks it via cha
 Checked: `src/<label>/params.{h,c}` (all constants), `sig_impl.c` +
 `sig_impl_internal.h` (Sign/Verify flow, Fiat–Shamir absorption order, signature
 layout), `bavc.c` (Commit/Open/Reconstruct), `vole.c`, `universal_hashing.c`,
-`random_oracle.c` (domain separators). OWF constraint generation
-(`owf.c`, `sm4_witness.c`, `utils_ublock/ublock_constraints.c`,
-`utils_vistrutah/vistrutith_constraints.c`) was **not** verified line-by-line
-against §6.3–6.5 / §7.3–7.5 / §8.3–8.4 — out of time box.
+`random_oracle.c` (domain separators). The uBlockith-EM witness layout and
+Vistrutith aggregation paths were subsequently checked against §7.2–§7.5 and
+§8.3–§8.4; the remaining OWF constraint code has not been reviewed line by line.
 
 Agreements:
 
@@ -184,6 +183,16 @@ Agreements:
 
 Discrepancies / notes:
 
+- **(a) uBlockith-EM constraint misalignment.** The EM witness already begins
+  with `S0=in`, but `OWFConstraints` selects from `l_ke=0` before
+  `EncCstrnts` prepends `in` again. The specified final transition therefore
+  reads `S22`, not `out`; the code has the same duplicated start but reads
+  `out` directly in its final-round branch. See `sign-05-4`.
+- **(a) Vistrutith aggregation mismatch.** The prover passes tags of three
+  different constraint families as the three coefficients of one polynomial,
+  while the verifier evaluates that artificial polynomial at `delta`. Once the
+  final challenge binds the reconstructed constant term, honest proofs fail.
+  See `sign-05-5`.
 - **(b) spec ambiguity, not verified.** `decom_I` is zero-padded to the fixed length
   `2N_block·τ + T_open·N_block` (BAVC.Open step 27). Neither the spec's
   `SM4th.Verify` nor `VOLEReconstruct` requires the verifier to check that the
