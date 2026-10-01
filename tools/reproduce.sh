@@ -257,6 +257,10 @@ run_target kem-26 "kem-26-1" python3 kem-26/reproduce_parity.py
 run_target kem-26 "kem-26-2" python3 kem-26/reproduce_failure.py
 
 echo
+echo "== kem-25-1 NEV: compressed-set rejection mismatch (Medium Proof gap) =="
+run_target kem-25 "kem-25-1" python3 kem-25/reproduce_rejection_mismatch.py
+
+echo
 echo "== kem-28-1 OAEP-NTRU: noncanonical ciphertext aliases (Critical) =="
 run_target kem-28 "kem-28-1" python3 kem-28/reproduce_noncanonical_ciphertext.py
 
@@ -733,6 +737,14 @@ echo "== sign-21-1 ReSolveD-alpha: shared-tweak multi-target key recovery (Criti
 run_target sign-21 "sign-21-1" sh sign-21/reproduce_tccr_multitarget.sh
 
 echo
+echo "== sign-21-2 ReSolveD-alpha: fixed-tweak leaf multi-target recovery (Critical) =="
+run_target sign-21 "sign-21-2" python3 sign-21/reproduce_leaf_commitment_multitarget.py
+
+echo
+echo "== sign-21-3 ReSolveD-alpha: deterministic cross-profile witness recovery (High) =="
+run_target sign-21 "sign-21-3" sh sign-21/reproduce_cross_profile_recovery.sh
+
+echo
 echo "== sign-22-4 Rhyme-128: order-dependent secret-tail recovery and forgery (Critical) =="
 run_target sign-22 "sign-22-4" sh sign-22/reproduce_order_dependent_forgery.sh
 
@@ -935,6 +947,10 @@ run_target sign-05 "sign-05-4/sign-05-5" sh sign-05/reproduce_em_constraints.sh
 echo
 echo "== sign-12-2 Galas: 32-bit message-length truncation (Critical) =="
 run_target sign-12 "sign-12-2" make -C sign-12 reproduce-long-message
+
+echo
+echo "== sign-12-3 Galas: same-key cross-variant key recovery (High) =="
+run_target sign-12 "sign-12-3" sh sign-12/reproduce_cross_variant_key_recovery.sh
 
 echo
 echo "== sign-17-1 / sign-17-2 OPS specification findings =="
