@@ -18,18 +18,22 @@ for name, p in SETS.items():
     a = p["n"] * p["ell"] * p["beta1"] / p["gamma1"]
     b = p["n"] * p["k"] * (p["beta2"] + p["eta1"]) / p["gamma2"]
     pbar = (1 - exp(-a)) + (1 - exp(-b))
-    repetitions = ((1 - p["beta1"] / p["gamma1"]) ** (-p["n"] * p["ell"]) *
-                   (1 - (p["beta2"] + p["eta1"]) / p["gamma2"]) ** (-p["n"] * p["k"]))
+    # Section 3.4's repetition estimate in product form, before its exponential
+    # approximation; it rests on the section's heuristic assumptions and is not
+    # a uniform bound over every secret key.
+    estimated_repetitions = ((1 - p["beta1"] / p["gamma1"]) ** (-p["n"] * p["ell"]) *
+                             (1 - (p["beta2"] + p["eta1"]) / p["gamma2"]) ** (-p["n"] * p["k"]))
     heuristic_abort = 1 - exp(-(a + b))
-    # The exact acceptance formula in section 3.4 rounds to Table 2.
-    assert abs(repetitions - p["table_repetitions"]) < 0.005
+    # The estimate rounds to Table 2.
+    assert abs(estimated_repetitions - p["table_repetitions"]) < 0.005
     assert 0 < heuristic_abort < 1
     if not 0 < pbar < 1:
         violations.append(name)
     print(
-        f"set={name} pbar={pbar:.9f} exact_repetitions={repetitions:.6f} "
+        f"set={name} pbar={pbar:.9f} estimated_repetitions={estimated_repetitions:.6f} "
         f"heuristic_abort={heuristic_abort:.9f}"
     )
 
 assert violations == ["I", "III"]
-print("PROOF GAP sign-01-6 CONFIRMED printed pbar violates 0 < pbar < 1 for sets I and III")
+print("CONFIRMED sign-01-6: printed pbar violates 0 < pbar < 1 for sets I and III; "
+      "the theorems hold for any bound below one")

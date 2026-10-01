@@ -612,7 +612,7 @@ echo
 echo "== sign-01-5 Aigis-Sig+: challenge signs collapse to one bit (Critical) =="
 run_target sign-01 "sign-01-5" python3 sign-01/reproduce_challenge_entropy.py
 echo
-echo "== sign-01-6 Aigis-Sig+: abort-bound proof precondition fails (Low proof gap) =="
+echo "== sign-01-6 Aigis-Sig+: printed abort bound outside the theorems' hypothesis (Low) =="
 run_target sign-01 "sign-01-6" python3 sign-01/reproduce_abort_bound.py
 echo "== sign-07-1: SUF-CMA malleability (High) =="
 run sign-07 "sign-07-1" CONFIRMED sig-malleable sign-07/lib/libCS-128.so
