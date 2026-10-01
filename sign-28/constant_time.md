@@ -1,12 +1,14 @@
 # Constant-time review — 28 SYDO
 
-Scope: reference implementation, representative instance only: `Implementations/Reference_Implementation/sydo_512f/SIG_AlgorithmInstance.c`. Other instances and optimized implementations have not been proven source-equivalent. This is a source-level triage, not a constant-time certification.
+Scope: all six submitted reference trees, with representative tracing in `sydo_160f`; the optimized implementation has not been exhaustively certified. This remains a source-level review, not a constant-time certification.
 
-Secret: witness/secret key and per-proof random tapes until revealed. Public: verification key, message, Fiat–Shamir challenge and opened transcript.
+Secret: the long-term RSD witness and all values arithmetically derived from it during signing; the secret key and per-signature seed material remain secret until the protocol intentionally reveals the corresponding transcript values. Public: verification key, message, final signature and verifier-only intermediates.
 
-- Branch/loop trace: `Implementations/Reference_Implementation/sydo_512f/SIG_AlgorithmInstance.c:76` — The wrapper tests an RNG return code, not a secret bit. Deeper SYDO proof operations were not exhaustively certified here.
-- Table lookups and division/remainder: this source triage does not certify their absence or constant-time compilation. Only the explicitly traced operands above are classified. Public lengths, fixed parameters and verifier checks are not findings.
+- Secret branches: `src/quicksilver.c:810–923` emits the prover's membership constraints with branches on the witness-derived `cache->a0[]` and `cache->a1[]` bits. The branch pattern is not made public by the signature interface. Replacing these conditional copies/XORs with masks is a local constant-time repair.
+- Secret comparisons/cache behavior: `src/primitives.c:92–99` and `126–133` use early-exit `memcmp` on PRG keys derived from secret tree-node seeds and branch on cache hits. Disabling the cache or comparing/selecting every entry with masks is a local repair. The global cache is also not thread-safe.
+- Wrapper branch: `SIG_AlgorithmInstance.c:76` tests an RNG return code, not a secret bit.
+- Division/remainder and table lookups: this review does not certify their absence throughout the deeper proof implementation.
 
-Assessment: No new vulnerability report is promoted from this representative source triage. A compiler/architecture-specific timing and cache test is still needed before claiming constant-time behavior or exploitable leakage.
+No timing or cache observation channel, witness recovery, or forgery was demonstrated for these source-level branches, so no separate side-channel finding is promoted. The definite stack over-read in `universal_hashing_impl.inc` is a memory-safety issue rather than a timing finding and is tracked as `sign-28-4`.
 
-Recheck the cited source line and its caller before reusing this result. A timing claim requires controlled same-public-input tests with changed secret state and a public-value control.
+Recheck the cited source lines and callers before reusing this result. A timing claim requires controlled same-public-input tests with changed secret state and a public-value control.

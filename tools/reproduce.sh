@@ -57,8 +57,13 @@ run() {
 run_target() {
     cand=$1; label=$2; shift 2
     [ -n "$only" ] && [ "$only" != "$cand" ] && return 0
-    if "$@"; then
+    "$@"
+    rc=$?
+    if [ "$rc" -eq 0 ]; then
         echo "$label  REPRODUCER PASS"
+    elif [ "$rc" -eq 77 ]; then
+        echo "SKIP   $cand $label (network artifact unavailable)"
+        skipped=$((skipped + 1))
     else
         echo "UNEXPECTED $label reproducer failure"
         fail=$((fail + 1))
@@ -355,8 +360,16 @@ echo "== kem-31-3 QIMEN-PIKE: malformed public-key denial of service (Low) =="
 run_target kem-31 "kem-31-3" python3 kem-31/reproduce_malformed_public_key.py --timeout 10
 
 echo
+echo "== kem-31-4 QIMEN-PIKE: shared torsion mask leaks a square-coset constraint (Medium Confirmed) =="
+run_target kem-31 "kem-31-4" python3 kem-31/reproduce_pairing_constraint.py
+
+echo
 echo "== kem-33-1 QUBE: secret sampler has variable work (Medium) =="
 run_target kem-33 "kem-33-1" make -C kem-33 exploit
+
+echo
+echo "== kem-35-1 Scloud+: decrypted-message-dependent re-encryption timing (Medium) =="
+run_target kem-35 "kem-35-1" sh kem-35/reproduce_reencryption_timing.sh
 
 echo
 echo "== kem-37-1 TriQ-KEM: secret sampler has variable work (Medium) =="
@@ -695,6 +708,35 @@ run_target sign-18 "sign-18-2" python3 sign-18/reproduce_signature_subspace.py
 echo
 echo "== sign-18-5 Origami: public-key-only signature forgery (Critical) =="
 run_target sign-18 "sign-18-5" python3 sign-18/reproduce_public_forgery.py
+
+echo
+echo "== sign-20-1 Qingluan-128: quantum-accounting proof gap (Medium) =="
+run_target sign-20 "sign-20-1" python3 sign-20/reproduce_quantum_accounting.py
+
+echo
+echo "== sign-21-1 ReSolveD-alpha: shared-tweak multi-target key recovery (Critical) =="
+run_target sign-21 "sign-21-1" sh sign-21/reproduce_tccr_multitarget.sh
+
+echo
+echo "== sign-22-4 Rhyme-128: order-dependent secret-tail recovery and forgery (Critical) =="
+run_target sign-22 "sign-22-4" sh sign-22/reproduce_order_dependent_forgery.sh
+
+echo
+echo "== sign-28-1 SYDO: grinding deficit (High) =="
+run_target sign-28 "sign-28-1" sh sign-28/reproduce_forum_findings.sh
+
+echo
+echo "== sign-28-2 SYDO: padding malleability (Medium; slow) =="
+if [ "$only" = sign-28 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target sign-28 "sign-28-2" env SETS=160f sh sign-28/reproduce_forum_findings.sh full
+elif [ -z "$only" ]; then
+    echo "SKIP   sign-28 sign-28-2 full replay (run tools/reproduce.sh sign-28 or set NGCC_SLOW=1)"
+    skipped=$((skipped + 1))
+fi
+
+echo
+echo "== sign-28-3 / sign-28-4 SYDO: Hash4 mismatch and stack over-read (Medium / Low) =="
+run_target sign-28 "sign-28-3/sign-28-4" python3 sign-28/reproduce_static_findings.py
 
 echo
 echo "== sign-19-1 Phoenix: reference/AVX2 signature interoperability failure (Low) =="

@@ -34,3 +34,13 @@ endef
 $(foreach p,sydo_160f sydo_160s sydo_256f sydo_256s sydo_512f sydo_512s,$(eval $(call SYDO,$(p))))
 
 include ../api/link_finish.mk
+
+.PHONY: exploit-forum-findings exploit-forum-findings-full exploit-static-findings
+exploit-forum-findings:
+	./reproduce_forum_findings.sh
+
+exploit-forum-findings-full:
+	./reproduce_forum_findings.sh full
+
+exploit-static-findings:
+	python3 reproduce_static_findings.py

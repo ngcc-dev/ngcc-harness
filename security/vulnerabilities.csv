@@ -111,6 +111,7 @@ kem-30-1;Confirmed;runtime;Re-encryption rejection sampling leaks the decrypted-
 kem-31-1;Confirmed;runtime;Invalid ciphertexts trigger an assertion during decapsulation
 kem-31-2;Confirmed;runtime;Non-canonical field encodings make ciphertexts malleable without changing the key
 kem-31-3;Confirmed;runtime;Malformed public keys hang or abort encapsulation
+kem-31-4;Confirmed;static;A shared torsion mask leaks a square-coset constraint on the secret degree
 kem-32-1;Confirmed;review;Debug path retains the secret error vector
 kem-32-2;Confirmed;runtime;Same-key multi-instance decoding misses QCTM-128 and -256 targets
 kem-33-1;Confirmed;runtime;Decapsulation re-expands the private seed with a variable-length sampler
@@ -119,6 +120,7 @@ kem-34-1;Proof gap;runtime;Rudraksh2-128 leaves only a 2^64-query Grover margin
 kem-34-2;Confirmed;runtime;Cortex-M4 uses an incompatible Minal decoder constant
 kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer lengths
 kem-34-4;Confirmed;runtime;Rudraksh2-II's modulus cannot support its specified NTT
+kem-35-1;Confirmed;runtime;Re-encryption rejection sampling leaks the decrypted-message class
 kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every tested honest ciphertext
 kem-36-2;Confirmed;runtime;The specified weak-key test rejects every key
 kem-36-3;Confirmed;runtime;Decapsulation fails to free the private h0 buffer
@@ -221,9 +223,12 @@ sign-18-3;Probable;review;Variable-time hidden-zone linear solving
 sign-18-4;Probable;review;Signing indexes field tables and signature state with private values
 sign-18-5;Confirmed;runtime;Public variable permutation permits signature forgery
 sign-19-1;Confirmed;runtime;Phoenix parameter sets define incompatible signature languages
+sign-20-1;Proof gap;static;Qingluan-128's own quantum accounting falls below the 80-bit target
+sign-21-1;Confirmed;runtime;A shared TCCR tweak enables one-signature multi-target key recovery below the claimed levels
 sign-22-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-22-2;Confirmed;static;The implementation expands the complete key pair from a 256-bit root
 sign-22-3;Confirmed;runtime+static;Rhyme-SM3 omits the specified doubled-width parity mask
+sign-22-4;Confirmed;runtime;An undersized rejection envelope permits practical secret-tail recovery and forgery
 sign-23-1;Confirmed;runtime;Reversed transition leaks Shuttle's signing key
 sign-24-1;Confirmed;runtime;Chunked Reed–Solomon encoding reveals the signing witness
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
@@ -235,6 +240,10 @@ sign-27-2;Lead;review;Triangle prime sizing relies on the former square-root att
 sign-27-3;Confirmed;static;A known signature transfers to a new message in about 2^(lambda/2) work
 sign-27-4;Proof gap;review;Distinct challenges can share the identical response, invalidating special soundness
 sign-27-5;Confirmed;runtime;Response rescaling gives a practical fresh-message forgery
+sign-28-1;Confirmed;runtime;SYDO enforces two fewer grinding bits than its claimed soundness
+sign-28-2;Confirmed;runtime;The reference verifier ignores required BAVC opening padding
+sign-28-3;Confirmed;static;The implementations omit the Hash4 step required by the proof
+sign-28-4;Confirmed;static;Reference universal hashing reads beyond an eight-byte stack buffer
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-30-1;Confirmed;runtime;The normal build deterministically exposes every signing key
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits

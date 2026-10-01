@@ -40,7 +40,11 @@ def reason(path: str) -> str | None:
         return "IP statement"
     if suffix == ".pdf":
         candidate = path.split("/", 1)[0]
-        if path == f"{candidate}/{candidate}-spec.pdf" and re.fullmatch(
+        allowed_specs = {
+            f"{candidate}/{candidate}-spec.pdf",
+            f"{candidate}/{candidate}-addition-spec.pdf",
+        }
+        if path in allowed_specs and re.fullmatch(
             r"(?:sign|kem|kex|hash)-\d{2}", candidate
         ):
             return None

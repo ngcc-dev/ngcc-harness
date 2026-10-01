@@ -49,10 +49,15 @@ The FEILIAN `hash-10-2` RTL witness needs Verilator and a C++ compiler. The
 sign-15-4 optimized build needs an AVX2-capable CPU. Several witnesses fetch
 separately published, commit-pinned artifacts over the network: sign-10-2,
 sign-16-2, sign-18-5, sign-25-3, kem-06-1's ciphertext extension, kem-30-1,
-and kex-06-2. The kem-09-2 and kem-18-2 estimates need the pinned
+kem-35-1, kex-06-2, sign-21-1, sign-22-4, and sign-28-1/-2. The kem-09-2 and kem-18-2 estimates need the pinned
 lattice-estimator checkout documented in their reports. The sign-18-5 witness
 loads only the Origami library built by this harness and needs Python SM3
 support.
+
+Network-dependent witnesses report `SKIP` when their pinned artifact cannot be
+retrieved. The roughly ten-minute `sign-28-2` padding sweep is omitted from an
+unfiltered run; use `tools/reproduce.sh sign-28` or set `NGCC_SLOW=1` to include
+it.
 
 If the default Python lacks NumPy or Sage, point the witnesses to an
 appropriate environment, for example:
