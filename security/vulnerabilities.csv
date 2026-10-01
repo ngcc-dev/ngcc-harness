@@ -80,6 +80,7 @@ kem-12-2;Confirmed;static;CTL-512 returns only 384 shared-secret bits
 kem-13-1;Confirmed;runtime;DKEM's rejection key does not bind the full ciphertext
 kem-13-2;Confirmed;runtime;Malicious public key defeats DKEM's contributory key derivation
 kem-13-3;Confirmed;runtime;A 16-bit NTT butterfly silently breaks honest DKEM-512 sessions
+kem-13-4;Confirmed;runtime;DKEM ignores input lengths before fixed-size reads
 kem-14-1;Confirmed;runtime;Caller-declared ciphertext length overflows a decapsulation stack buffer
 kem-14-2;Confirmed;runtime;Decapsulation return value exposes the implicit-rejection branch
 kem-14-3;Confirmed;runtime;Rejection key omits the specified public-key binding
@@ -154,11 +155,13 @@ kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret t
 kex-03-2;Confirmed;runtime+static;Omitting signatures from the KDF breaks transcript matching
 kex-03-3;Confirmed;runtime+static;The generic double-key KEM fails its claimed first-key CCA game
 kex-04-1;Confirmed;runtime;DKEX-512 silently derives different keys in honest sessions
+kex-04-2;Confirmed;runtime;DKEX ignores input lengths before fixed-size reads
 kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-session aborts
 kex-05-2;Confirmed;runtime;Ephemeral-key reuse recovers the complete Loom-KEM secret key
 kex-05-3;Confirmed;runtime+static;Shuttle signing-key leakage enables permanent responder impersonation
 kex-06-1;Confirmed;static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
 kex-06-2;Lead;runtime;Static-key reconciliation admits an active reaction-recovery path
+kex-06-3;Proof gap;static;Reconciliation leakage makes the passive-security bound vacuous
 kex-07-1;Confirmed;review;Both party identities are hard-wired to zero
 kex-08-1;Confirmed;runtime;The raw shared j-invariant is distinguishable from a uniform key
 kex-08-2;Confirmed;runtime;NIIKE-lv512 key generation cycles between two hard-coded secret keys
@@ -171,6 +174,7 @@ sign-01-2;Confirmed;runtime;Malformed hint counts cause an attacker-controlled s
 sign-01-3;Confirmed;runtime;Signature API ignores declared key-buffer lengths
 sign-01-4;Confirmed;runtime;Honest signing writes one polynomial past the mask vector
 sign-01-5;Confirmed;static;The challenge sampler collapses independent signs to one effective bit
+sign-01-6;Proof gap;static;The abort bound violates the security proof's own precondition
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-02-2;Probable;review;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
@@ -235,6 +239,7 @@ sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
 sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
 sign-25-3;Confirmed;runtime;Detached compact challenge enables one-query message-retargeting forgeries
 sign-26-1;Lead;review;Prime sizing assumes a superseded square-root isogeny cost
+sign-26-2;Confirmed;static;Missing challenge grinding drops Levels 1 and 3 below their targets
 sign-27-1;Confirmed;runtime;An all-zero signature aborts the verifier process
 sign-27-2;Lead;review;Triangle prime sizing relies on the former square-root attack cost
 sign-27-3;Confirmed;static;A known signature transfers to a new message in about 2^(lambda/2) work
@@ -244,6 +249,7 @@ sign-28-1;Confirmed;runtime;SYDO enforces two fewer grinding bits than its claim
 sign-28-2;Confirmed;runtime;The reference verifier ignores required BAVC opening padding
 sign-28-3;Confirmed;static;The implementations omit the Hash4 step required by the proof
 sign-28-4;Confirmed;static;Reference universal hashing reads beyond an eight-byte stack buffer
+sign-28-5;Confirmed;runtime;An undocumented exported helper generates keys from a public constant
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-30-1;Confirmed;runtime;The normal build deterministically exposes every signing key
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits

@@ -9,7 +9,7 @@ MODE=${1:-fast}
 TMP=$(mktemp -d /tmp/ngcc-sydo.XXXXXX)
 trap 'rm -rf -- "$TMP"' EXIT HUP INT TERM
 
-if [ -z "${CC_OPT:-}" ] || [ -z "${CXX_OPT:-}" ]; then
+if [ "$MODE" = full ] && { [ -z "${CC_OPT:-}" ] || [ -z "${CXX_OPT:-}" ]; }; then
     for pair in gcc:g++ clang-21:clang++-21 clang-20:clang++-20 clang-19:clang++-19 clang-18:clang++-18 clang-17:clang++-17 clang:clang++; do
         old_ifs=$IFS
         IFS=:
@@ -25,8 +25,13 @@ if [ -z "${CC_OPT:-}" ] || [ -z "${CXX_OPT:-}" ]; then
         fi
     done
 fi
-: "${CC_OPT:?a native C23 compiler is required for the optimized implementation}"
-: "${CXX_OPT:?a matching C++23 compiler is required for the optimized implementation}"
+if [ "$MODE" = full ]; then
+    : "${CC_OPT:?a native C23 compiler is required for the optimized implementation}"
+    : "${CXX_OPT:?a matching C++23 compiler is required for the optimized implementation}"
+else
+    CC_OPT=${CC_OPT:-cc}
+    CXX_OPT=${CXX_OPT:-c++}
+fi
 
 if ! curl -fsSL "$ARCHIVE_URL" -o "$TMP/SYDO.zip"; then
     echo 'SKIP sign-28-1/sign-28-2: archived submission is unavailable' >&2
@@ -63,7 +68,11 @@ if [ "$MODE" = full ]; then
 else
     for set_name in ${SETS:-160s 160f 256s 256f 512s 512f}; do
         test -x "$TMP/work/ref_$set_name/layout"
-        grep -Fq "sydo_$set_name " "$POC/results/layouts.txt"
+        layout=$(grep -F "sydo_$set_name " "$POC/results/layouts.txt")
+        zero_bits=$(printf '%s\n' "$layout" | sed -n 's/.*zero_bits_param=\([0-9][0-9]*\).*/\1/p')
+        enforced=$(printf '%s\n' "$layout" | sed -n 's/.*enforced_zero_bits=\([0-9][0-9]*\).*/\1/p')
+        test -n "$zero_bits" && test -n "$enforced"
+        test "$enforced" -eq "$((zero_bits - 2))"
     done
     grep -Fq 'satisfy spec grinding condition:' "$POC/results/kat_grind.log"
     grep -Fq 'cheat on [3, 77, 150, 201]' "$POC/results/qs_cheat.log"

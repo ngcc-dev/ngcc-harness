@@ -321,6 +321,10 @@ echo "== kem-13-3 DKEM: int16 NTT overflow breaks honest DKEM-512 sessions (Medi
 run_target kem-13 "kem-13-3" make -C kem-13 reproduce-ntt-overflow
 
 echo
+echo "== kem-13-4 DKEM: ignored input lengths permit fixed-size over-reads (Low) =="
+run_target kem-13 "kem-13-4" make -C kem-13 reproduce-truncated
+
+echo
 echo "== kem-14-1 DTRU: caller length causes stack overflow (High) =="
 run_target kem-14 "kem-14-1" make -C kem-14 exploit
 
@@ -440,6 +444,10 @@ echo "== kex-06-2 MAMBA-NIKE: static-key reaction-recovery path (High lead) =="
 run_target kex-06 "kex-06-2" make -C kex-06 exploit-reaction-recovery
 
 echo
+echo "== kex-06-3 MAMBA-NIKE: passive-security reconciliation proof gap (Medium) =="
+run_target kex-06 "kex-06-3" python3 kex-06/reproduce_reconciliation_bound.py
+
+echo
 echo "== kex-02-1 AFS-KEX: completed-session key recovery after long-term compromise (Critical) =="
 if [ -z "$only" ] || [ "$only" = kex-02 ]; then
     if [ -x kex-02/reproduce_pfs_break ] &&
@@ -487,6 +495,10 @@ run_target kex-03 "kex-03-2/kex-03-3" python3 kex-03/reproduce_binding_attacks.p
 echo
 echo "== kex-04-1 DKEX-512: honest shared-secret mismatch (Low) =="
 run_target kex-04 "kex-04-1" python3 kex-04/reproduce_correctness.py
+
+echo
+echo "== kex-04-2 DKEX: ignored input lengths permit fixed-size over-reads (Low) =="
+run_target kex-04 "kex-04-2" make -C kex-04 reproduce-truncated
 
 echo
 echo "== kex-05-2 LoomKEX-256: ephemeral-key reuse recovery (High) =="
@@ -595,6 +607,9 @@ run_target sign-01 "sign-01-3/sign-01-4" make -C sign-01 exploit-memory
 echo
 echo "== sign-01-5 Aigis-Sig+: challenge signs collapse to one bit (Critical) =="
 run_target sign-01 "sign-01-5" python3 sign-01/reproduce_challenge_entropy.py
+echo
+echo "== sign-01-6 Aigis-Sig+: abort-bound proof precondition fails (Low proof gap) =="
+run_target sign-01 "sign-01-6" python3 sign-01/reproduce_abort_bound.py
 echo "== sign-07-1: SUF-CMA malleability (High) =="
 run sign-07 "sign-07-1" CONFIRMED sig-malleable sign-07/lib/libCS-128.so
 
@@ -722,6 +737,10 @@ echo "== sign-22-4 Rhyme-128: order-dependent secret-tail recovery and forgery (
 run_target sign-22 "sign-22-4" sh sign-22/reproduce_order_dependent_forgery.sh
 
 echo
+echo "== sign-26-2 SQIsign2D-push: missing challenge grinding (Critical) =="
+run_target sign-26 "sign-26-2" python3 sign-26/reproduce_grinding_shortfall.py
+
+echo
 echo "== sign-28-1 SYDO: grinding deficit (High) =="
 run_target sign-28 "sign-28-1" sh sign-28/reproduce_forum_findings.sh
 
@@ -737,6 +756,10 @@ fi
 echo
 echo "== sign-28-3 / sign-28-4 SYDO: Hash4 mismatch and stack over-read (Medium / Low) =="
 run_target sign-28 "sign-28-3/sign-28-4" python3 sign-28/reproduce_static_findings.py
+
+echo
+echo "== sign-28-5 SYDO: undocumented helper uses a public RNG seed (Medium) =="
+run_target sign-28 "sign-28-5" make -C sign-28 reproduce-fixed-rng
 
 echo
 echo "== sign-19-1 Phoenix: reference/AVX2 signature interoperability failure (Low) =="

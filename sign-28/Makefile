@@ -35,7 +35,7 @@ $(foreach p,sydo_160f sydo_160s sydo_256f sydo_256s sydo_512f sydo_512s,$(eval $
 
 include ../api/link_finish.mk
 
-.PHONY: exploit-forum-findings exploit-forum-findings-full exploit-static-findings
+.PHONY: exploit-forum-findings exploit-forum-findings-full exploit-static-findings reproduce-fixed-rng
 exploit-forum-findings:
 	./reproduce_forum_findings.sh
 
@@ -44,3 +44,23 @@ exploit-forum-findings-full:
 
 exploit-static-findings:
 	python3 reproduce_static_findings.py
+
+SYDO160_DIR := $(REF)/sydo_160s
+SYDO160_CORE := src/aes.c src/bavc.c src/compat.c src/fields.c src/randomness.c \
+                src/sydo.c src/field.c src/hash.c src/macs.c src/primitives.c \
+                src/quicksilver.c src/rsd.c src/vole_check.c src/universal_hashing.c \
+                src/utils.c src/vole.c lib/auxfunc.c lib/drng.c lib/blake2/ref/blake2b-ref.c
+
+build/reproduce_fixed_rng: reproduce_fixed_rng.c $(addprefix $(SYDO160_DIR)/,$(SYDO160_CORE))
+	@mkdir -p build
+	$(CC) -O2 -DNDEBUG -std=c11 -I$(SYDO160_DIR) -I$(SYDO160_DIR)/src -I$(SYDO160_DIR)/lib \
+		-I$(SYDO160_DIR)/lib/blake2/ref -DSYDO_REF_NGCC -o $@ $^
+
+reproduce-fixed-rng: build/reproduce_fixed_rng
+	@tmp=$$(mktemp -d); trap 'rm -rf "$$tmp"' EXIT; \
+		./build/reproduce_fixed_rng > "$$tmp/key1"; \
+		./build/reproduce_fixed_rng > "$$tmp/key2"; \
+		cmp "$$tmp/key1" "$$tmp/key2"; \
+		grep -Eq 'getrandom|/dev/urandom|arc4random_buf|SecRandomCopyBytes|BCryptGenRandom' \
+			Implementations/Optimized_Implementation/sydo_160s/src/randomness.c; \
+		echo 'ATTACK sign-28-5 CONFIRMED fresh processes generated identical helper-derived keys'

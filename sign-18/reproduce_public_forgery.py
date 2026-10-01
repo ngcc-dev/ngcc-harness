@@ -102,9 +102,17 @@ def main() -> None:
         return
     with tempfile.TemporaryDirectory(prefix="ngcc-origami-attack-") as temp:
         attack_dir = pathlib.Path(temp) / "UnfoldOrigami"
-        subprocess.run(["git", "clone", "--quiet", ATTACK_URL, str(attack_dir)], check=True)
+        subprocess.run(["git", "init", "--quiet", str(attack_dir)], check=True)
+        subprocess.run(["git", "-C", str(attack_dir), "remote", "add", "origin", ATTACK_URL],
+                       check=True)
+        try:
+            subprocess.run(["git", "-C", str(attack_dir), "fetch", "--quiet", "--depth=1",
+                            "origin", ATTACK_COMMIT], check=True)
+        except subprocess.CalledProcessError:
+            print("SKIP sign-18-5: pinned external artifact is unavailable", file=sys.stderr)
+            raise SystemExit(77)
         subprocess.run(["git", "-C", str(attack_dir), "checkout", "--quiet", "--detach",
-                        ATTACK_COMMIT], check=True)
+                        "FETCH_HEAD"], check=True)
         reproduce(attack_dir, lib_path)
 
 

@@ -32,8 +32,8 @@ $(eval $(call DKEM,512))
 
 include ../api/link_finish.mk
 
-.PHONY: reproduce reproduce-rejection-binding reproduce-malicious-key reproduce-ntt-overflow
-reproduce: reproduce-rejection-binding reproduce-malicious-key reproduce-ntt-overflow
+.PHONY: reproduce reproduce-rejection-binding reproduce-malicious-key reproduce-ntt-overflow reproduce-truncated
+reproduce: reproduce-rejection-binding reproduce-malicious-key reproduce-ntt-overflow reproduce-truncated
 
 reproduce-rejection-binding: libs
 	python3 reproduce_rejection_binding.py $(LIBS)
@@ -43,3 +43,19 @@ reproduce-malicious-key: libs
 
 reproduce-ntt-overflow: libs
 	python3 reproduce_ntt_overflow.py $(LIBS)
+
+DKEM128_DIR := $(REF)/DKEM-128
+DKEM128_REPRO_SRCS := $(addprefix $(DKEM128_DIR)/,$(DKEM_SRCS))
+
+build/reproduce_truncated: reproduce_truncated.c $(DKEM128_REPRO_SRCS)
+	@mkdir -p build
+	$(CC) -O1 -g -std=c99 -fcommon -fsanitize=address -fno-omit-frame-pointer \
+		-DDKE_FORCE_SCALAR -DDKE_MODE=128 -DDKE_HASH=0 -DDKE_RANDOM=0 \
+		-I$(DKEM128_DIR) -o $@ $^
+
+reproduce-truncated: build/reproduce_truncated
+	@set +e; out=$$(ASAN_OPTIONS=detect_leaks=0:halt_on_error=1 ./build/reproduce_truncated 2>&1); rc=$$?; set -e; \
+		printf '%s\n' "$$out"; test $$rc -ne 0; \
+		printf '%s\n' "$$out" | grep -Eq 'AddressSanitizer: (heap-buffer-overflow|unknown-crash)'; \
+		printf '%s\n' "$$out" | grep -q 'READ of size'; \
+		echo 'ATTACK kem-13-4 CONFIRMED one-byte-short ciphertext causes an out-of-bounds read'

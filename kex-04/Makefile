@@ -44,3 +44,20 @@ $(eval $(call DKEX,DKEX-256,256,5))
 $(eval $(call DKEX,DKEX-512,512,5))
 
 include ../api/link_finish.mk
+
+DKEX128_DIR := $(REF)/DKEX-128
+DKEX128_REPRO_SRCS := $(addprefix $(DKEX128_DIR)/,$(DKEX_SRCS))
+
+.PHONY: reproduce-truncated
+build/reproduce_truncated: reproduce_truncated.c $(DKEX128_REPRO_SRCS)
+	@mkdir -p build
+	$(CC) -O1 -g -fcommon -fsanitize=address -fno-omit-frame-pointer \
+		-DDKE_FORCE_SCALAR -DADKEX_MODE=128 -DDKE_MODE=128 -DDKE_HASH=0 -DDKE_RANDOM=0 \
+		-DADKEX_SIG_BACKEND_MLDSA -DADKEX_SIG_MLDSA_LEVEL=2 -DDILITHIUM_MODE=2 \
+		-I$(DKEX128_DIR) -I$(DKEX128_DIR)/dilithium -o $@ $^
+
+reproduce-truncated: build/reproduce_truncated
+	@set +e; out=$$(ASAN_OPTIONS=detect_leaks=0:halt_on_error=1 ./build/reproduce_truncated 2>&1); rc=$$?; set -e; \
+		printf '%s\n' "$$out"; test $$rc -ne 0; \
+		printf '%s\n' "$$out" | grep -q 'AddressSanitizer: heap-buffer-overflow'; \
+		echo 'ATTACK kex-04-2 CONFIRMED one-byte pass-1 message causes an out-of-bounds read'
