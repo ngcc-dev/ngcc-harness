@@ -15,6 +15,7 @@ performance/data/<system>/ (see performance/systems.csv):
     (measurement count, mean time and cycles, median trial, throughput) are
     recomputed from the raw trials;
   - every hash profile's shares are recomputed from its call records;
+  - every measured instance has one explicit comparison-target row;
   - performance/report.py --check regenerates every report of that system and
     finds them byte-for-byte identical to the committed pages.
 """
@@ -58,6 +59,36 @@ def check_source_catalog() -> list[str]:
 def systems() -> dict:
     with (ROOT / "performance/systems.csv").open(encoding="utf-8") as f:
         return {r["ID"]: r for r in csv.DictReader((l for l in f if not l.startswith("#")), delimiter=";")}
+
+
+def check_security_targets(datasets: list[Path]) -> list[str]:
+    path = ROOT / "performance/security_targets.csv"
+    problems = []
+    with path.open(encoding="utf-8", newline="") as source:
+        reader = csv.DictReader(source, delimiter=";")
+        if tuple(reader.fieldnames or ()) != ("ID", "Instance", "TargetBits"):
+            return ["performance/security_targets.csv: invalid header"]
+        rows = list(reader)
+    found = set()
+    for line_number, row in enumerate(rows, 2):
+        key = row["ID"], row["Instance"]
+        if key in found:
+            problems.append(f"performance/security_targets.csv:{line_number}: duplicate {key[0]}/{key[1]}")
+        found.add(key)
+        if row["TargetBits"] not in ("", "128", "256", "512"):
+            problems.append(
+                f"performance/security_targets.csv:{line_number}: invalid target {row['TargetBits']!r}")
+    expected = set()
+    for dataset in datasets:
+        build = json.loads((dataset / "build.json").read_text(encoding="utf-8"))["instances"]
+        for entry in build.values():
+            if entry["candidate"] != "iccs":
+                expected.add((entry["candidate"], entry["label"]))
+    for candidate, label in sorted(expected - found):
+        problems.append(f"performance/security_targets.csv: missing {candidate}/{label}")
+    for candidate, label in sorted(found - expected):
+        problems.append(f"performance/security_targets.csv: stale {candidate}/{label}")
+    return problems
 
 
 def close(a, b) -> bool:
@@ -165,6 +196,11 @@ def main() -> int:
     print(f"performance source catalog: 119 submissions, {len(problems)} problem(s)")
     known = systems()
     datasets = sorted(d for d in DATA.iterdir() if (d / "campaign.json").is_file()) if DATA.is_dir() else []
+    target_problems = check_security_targets(datasets)
+    for problem in target_problems:
+        print(problem)
+    print(f"performance security targets: {len(target_problems)} problem(s)")
+    problems += target_problems
     for ds in datasets:
         found, counts = check_dataset(ds, known)
         for problem in found:

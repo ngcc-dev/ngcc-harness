@@ -142,6 +142,21 @@ def validate(ids: list[str]) -> list[str]:
                 if not row.get(field, "").isdigit():
                     problems.append(f"data/parameters.csv:{line_number}: invalid {field}")
 
+    short_names = ROOT / "data/short_names.csv"
+    if not short_names.is_file():
+        problems.append("data/short_names.csv: missing")
+    else:
+        with short_names.open(encoding="utf-8", newline="") as source:
+            reader = csv.DictReader(source, delimiter=";")
+            if tuple(reader.fieldnames or ()) != ("ID", "ShortName"):
+                problems.append("data/short_names.csv: invalid header")
+            names = list(reader)
+        if [row.get("ID", "") for row in names] != ids:
+            problems.append("data/short_names.csv: candidate order or coverage differs from downloads.csv")
+        for line_number, row in enumerate(names, 2):
+            if not re.fullmatch(r"[A-Za-z0-9-]+", row.get("ShortName", "")):
+                problems.append(f"data/short_names.csv:{line_number}: invalid ShortName")
+
     manifest = ROOT / "data/specifications.csv"
     if not manifest.is_file():
         problems.append("data/specifications.csv: missing")
@@ -195,7 +210,8 @@ def main() -> int:
                 shutil.copyfile(origin, destination / name)
         data = ROOT / "data"
         data.mkdir(exist_ok=True)
-        for name in ("sign.csv", "kem.csv", "kex.csv", "hash.csv", "spec-sources.tsv"):
+        for name in ("sign.csv", "kem.csv", "kex.csv", "hash.csv", "short_names.csv",
+                     "spec-sources.tsv"):
             shutil.copyfile(source / name, data / name)
         write_csv(data / "parameters.csv", extract_metadata(source, set(ids)))
         write_spec_manifest(source, ids)

@@ -24,6 +24,16 @@ The aggregate public-key tables omit non-ICCS variants whose measured
 operations never call a placeholder hash helper; their measurements remain on
 the per-candidate pages.
 
+`security_targets.csv` assigns each measured instance to the NGCC
+128-, 256- or 512-bit comparison target. A blank marks an intermediate or
+otherwise supplementary parameter set. The mapping uses the complete NGCC
+classical/quantum target: in particular, 160-bit signature sets intended to
+meet the 128/80-bit requirement are in the 128-bit group, while SQI Level-1
+sets that do not meet the associated 80-bit quantum target remain supplementary.
+Hash functions are assigned by their claimed collision-security target, not by
+digest size: for example, an ordinary 512-bit digest belongs to the 256-bit
+table, while XOF instances follow the security level stated in their specification.
+
 ## What is measured
 
 Every candidate with a harness Makefile — KEMs, signatures, key exchange and
@@ -133,6 +143,7 @@ log of instances timed without passing their KATs to runs built before
 | `kat_issues.csv` | cause and treatment of every instance whose KATs do not pass |
 | `summary_notes.csv` | brief per-instance caveats shown in the summary table |
 | `symmetric_survey.csv` | ICCS helper usage per public-key candidate |
+| `security_targets.csv` | explicit 128/256/512 NGCC comparison target for every measured instance; blank marks a supplementary parameter set |
 | `smoke.py`, `Makefile` | optimized (AVX2) builds of four families and a no-record smoke test |
 | `kem-35.mk` | Scloud+ AVX2 and NEON build rules |
 | `source_catalog.csv`, `import_sources.py`, `import_dove.py`, `catalog.py` | source provenance (below) |

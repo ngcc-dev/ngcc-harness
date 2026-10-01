@@ -305,7 +305,7 @@ def compact_notes(run: Run, cand: str, label: str, entry: dict) -> str:
     notes = []
     verdict = run.survey.get(cand, {}).get("Verdict", "")
     if verdict == "bypass":
-        notes.append("own symmetric primitives; sym % excludes them")
+        notes.append("own symmetric primitives; placeholder share unavailable")
     elif verdict == "mixed":
         notes.append("mixed own/ICCS primitives")
     elif verdict == "instance-dependent":
@@ -319,19 +319,43 @@ def compact_notes(run: Run, cand: str, label: str, entry: dict) -> str:
     return "; ".join(dict.fromkeys(notes)) or "–"
 
 
-def omit_non_iccs_zero_row(run: Run, cand: str, label: str, cat: str) -> bool:
-    """Hide non-ICCS variants that never enter a placeholder hash helper.
-
-    ICCS-only implementations are retained even when the hash share is zero,
-    because some use the separately-accounted ICCS DRNG as their XOF.  The
-    candidate detail pages always retain every measured implementation.
-    """
-    if cat == "hash" or run.survey.get(cand, {}).get("Verdict") == "ICCS-only":
+def zero_placeholder_row(run: Run, cand: str, label: str, cat: str) -> bool:
+    """Whether all profiled operations avoid the placeholder hash helpers."""
+    if cat == "hash":
         return False
     profiles = run.profiles.get((cand, label), {})
     shares = [profiles[op].get("hash_share") for op in OPS[cat]
               if op in profiles and profiles[op].get("hash_share") is not None]
     return bool(shares) and all(share == 0 for share in shares)
+
+
+def candidate_has_iccs_backend(run: Run, cand: str, cat: str) -> bool:
+    """Whether any measured reference instance has positive placeholder share."""
+    for label in instances_of(run, cand):
+        entry = run.build.get(f"{cand}/{label}", {})
+        if entry.get("variant", "reference") != "reference":
+            continue
+        profiles = run.profiles.get((cand, label), {})
+        shares = [profiles[op].get("hash_share") for op in OPS[cat]
+                  if op in profiles and profiles[op].get("hash_share") is not None]
+        if any(share > 0 for share in shares):
+            return True
+    return False
+
+
+def omit_non_iccs_zero_row(run: Run, cand: str, label: str, cat: str) -> bool:
+    """Hide a non-ICCS backend only when an ICCS-facing alternative exists.
+
+    ICCS-only implementations are retained even when the hash share is zero,
+    because some use the separately-accounted ICCS DRNG as their XOF.  The
+    candidate detail pages always retain every measured implementation.  A
+    candidate with no ICCS-facing backend stays in the summary with an unknown
+    share instead of disappearing from the comparison.
+    """
+    if cat == "hash" or run.survey.get(cand, {}).get("Verdict") == "ICCS-only":
+        return False
+    return (zero_placeholder_row(run, cand, label, cat) and
+            candidate_has_iccs_backend(run, cand, cat))
 
 
 def baseline_table(run: Run) -> list[str]:
@@ -371,7 +395,8 @@ def summary(run: Run, out: Path, arch: str):
              "- **Symmetric %**, in parentheses after each public-key cycle count, is the measured share of an operation spent specifically in the ICCS placeholder "
              "functions (`pseudohash`, `pseudoXOF`, `sm3hash`). It excludes the ICCS DRNG and candidates' own "
              "hash primitives, so a low value does not necessarily mean little symmetric-cryptography work; see "
-             "the [symmetric cryptography survey](symmetric-survey.md).",
+             "the [symmetric cryptography survey](symmetric-survey.md). `(??%)` means that the candidate uses "
+             "its own symmetric primitives and no ICCS-facing backend was measured.",
              "- Each instance links to its **performance report** with KAT status, all measured implementations, "
              "sizes, memory proxies, primitive profiles, and raw-evidence references.",
              f"- See [method and limitations]({method_page_path(out).name}). These are independent measurements, "
@@ -386,8 +411,9 @@ def summary(run: Run, out: Path, arch: str):
               "replacement." if run.baseline else
               "- **Hash rows** give three message sizes; the parenthesized 32-byte value is relative to an "
               "exact-shape measured `pseudoXOF` call, not an estimate of a production replacement."),
-             "- **Scope:** the table keeps ICCS-facing reference parameter sets. Notes flag important caveats; "
-             "additional measured variants remain on the linked instance reports.", ""]
+             "- **Scope:** the table keeps reference parameter sets, suppressing a non-ICCS backend only when an "
+             "ICCS-facing backend of the same candidate was measured. Notes flag important caveats; additional "
+             "measured variants remain on the linked instance reports.", ""]
     for cat, title in CATS:
         rows = []
         for cand in sorted({c for (c, l) in run.records if c.startswith(cat)} |
@@ -405,10 +431,15 @@ def summary(run: Run, out: Path, arch: str):
                         cells.append(hash_cell(run, recs.get(op), int(op.split("_")[1])))
                     else:
                         p = run.profiles.get((cand, label), {}).get(op)
-                        share = pct(p["hash_share"]) if p and "hash_share" in p else None
+                        unavailable = (zero_placeholder_row(run, cand, label, cat) and
+                                       not candidate_has_iccs_backend(run, cand, cat))
+                        share = ("??%" if unavailable else
+                                 pct(p["hash_share"]) if p and "hash_share" in p else None)
                         cells.append(pk_cell(recs.get(op), share))
                 sizes = next((r["sizes"] for r in recs.values() if r.get("sizes")), {})
-                cells += [str(sizes[k]) if sizes.get(k) else "–" for k, _ in SIZE_COLS.get(cat, [])]
+                cells += [(str(sizes[k]) if k == "total_msg_bytes" and sizes.get(k) == 0 else
+                           str(sizes[k]) if sizes.get(k) else "–")
+                          for k, _ in SIZE_COLS.get(cat, [])]
                 variant = " (AVX2)" if label.endswith("-avx2") else ""
                 status = entry.get("kat")
                 if status and status != "PASS":
