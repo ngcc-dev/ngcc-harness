@@ -33,7 +33,25 @@ $(eval $(call CMP,512))
 include ../api/link_finish.mk
 
 .PHONY: reproduce reproduce-verify-leak
-reproduce: reproduce-verify-leak
+reproduce: reproduce-verify-leak reproduce-challenge-image
 
 reproduce-verify-leak: libs
 	python3 reproduce_verify_leak.py $(LIBS)
+
+# sign-06-5: build the delivered challenge sampler of every parameter set and
+# measure it against Figure 1; the 128/256 sets are controls. A shipped KAT
+# file, when present, supplies the challenge hashes of the archived signatures.
+CI_SRCS := poly.c ntt.c reduce.c rounding.c symmetric-shake.c auxfunc.c
+define CHALLENGE_IMAGE
+build/reproduce_challenge_image_$(1): reproduce_challenge_image.c $$(addprefix $$(REF)/COMPASS-SIG-$(1)/,$$(CI_SRCS))
+	@mkdir -p build
+	$$(CC) -O2 -std=gnu11 -DCOMPASS_SIG_MODE=$(1) -I$$(REF)/COMPASS-SIG-$(1) -o $$@ $$^
+endef
+$(foreach m,128 256 384 512,$(eval $(call CHALLENGE_IMAGE,$(m))))
+
+.PHONY: reproduce-challenge-image
+reproduce-challenge-image: $(foreach m,128 256 384 512,build/reproduce_challenge_image_$(m))
+	./build/reproduce_challenge_image_128
+	./build/reproduce_challenge_image_256
+	./build/reproduce_challenge_image_384 $(wildcard $(NGCC_KAT_DIR)/COMPASS-SIG-384/KAT_SIG_COMPASS-SIG-384.txt kat/KAT_SIG_COMPASS-SIG-384.txt)
+	./build/reproduce_challenge_image_512 $(wildcard $(NGCC_KAT_DIR)/COMPASS-SIG-512/KAT_SIG_COMPASS-SIG-512.txt kat/KAT_SIG_COMPASS-SIG-512.txt)

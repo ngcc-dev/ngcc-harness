@@ -34,6 +34,37 @@ Hash functions are assigned by their claimed collision-security target, not by
 digest size: for example, an ordinary 512-bit digest belongs to the 256-bit
 table, while XOF instances follow the security level stated in their specification.
 
+### Representative-instance policy
+
+The ordered comparisons distinguish a parameter set from an implementation of
+that parameter set:
+
+- When a submission designates a recommended or primary parameter set for a
+  target, that parameter set represents the candidate. Optional,
+  experimental, compact, illustrative and DFR-oriented alternatives remain in
+  the candidate's detailed performance report but have a blank comparison
+  target; an alternative is not promoted merely because it is faster or
+  smaller. If the submission makes no such designation, all parameter sets
+  that claim the target remain comparison-eligible.
+- Reference, architecture-specific and other optimized implementations of the
+  *same* eligible parameter set are implementation alternatives. A comparison
+  that includes more than one conforming, KAT-passing implementation uses the
+  faster complete measurement; this does not change which parameter set is
+  represented. The current cross-system ordered pages use the reference
+  campaign because comparable optimized coverage is not yet available on both
+  systems; optimized measurements remain visible in the detailed reports.
+
+For NEV and NEV-AKE, Remark 5 and the parameter discussion designate the R
+sets as the recommended standardization choices and describe the compressed C
+sets as demonstrations of possible efficiency gains. Accordingly NEV-R1/R2/R3
+and NEV-AKE-R1/R2/R3 are comparison-eligible; the C, compressed C and
+DFR-oriented D alternatives remain measured but supplementary.
+
+The same rule selects MAMBA-Frost's five stated default parameter sets rather
+than its compact-ciphertext alternatives. For PolarLAC at the 512-bit target,
+§5.5 recommends PolarLAC-512* for unrestricted query counts; the plain
+PolarLAC-512 set remains measured as the bounded-query alternative.
+
 ## What is measured
 
 Every candidate with a harness Makefile — KEMs, signatures, key exchange and

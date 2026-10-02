@@ -184,12 +184,23 @@ witnesses isolate their malformed calls in child processes. `kem-28-1` tests
 `sign-23-1` builds a source-linked Shuttle covariance recovery driver and
 tests fresh-message forgeries at all three levels; allow several minutes for
 its ordinary signature samples. `sign-24-1` recovers Sigurd witnesses and
-forges at all three levels with two keys each. `sign-33-6` checks only the
-validity of a posted VDOO-128 signature and two negative controls. Its public
-seed regenerates the secret key, so the replay does not establish a
-public-key-only forgery. Run them with
-`tools/reproduce.sh sign-23`, `sign-24`, or `sign-33`; build their drivers with
-`make -C <id> exploit` for Shuttle/Sigurd or `make -C sign-33 replay-forgery`.
+forges at all three levels with two keys each.
+
+The BiT `sign-02-2` wrapper downloads and hash-checks both the attack package
+and official submission archive, then streams 200,000 oracle signatures. It
+requires equivalent-key recovery, an accepted
+fresh-message forgery and a rejecting changed-message control. Because this
+takes about three minutes, the full runner executes it only for
+`tools/reproduce.sh sign-02` or with `NGCC_SLOW=1`.
+
+The UVW `sign-32-3` wrapper recomputes pair candidates from 300 public error
+vectors, recovers an equivalent decoder and forges against the intended
+verifier; it does not use the separate accept-all wrapper bug. The VDOO
+`sign-33-6` wrapper replays a public-key-only forgery and reject controls by
+default; `VDOO_FULL=1` repeats the complete uncached public-map recovery
+through the attack's public-key-only `--pk` path. Its posted key is regenerated
+from public API seed `00..2f`; the attack receives serialized public-key bytes
+and no secret-key input. Both require Python with NumPy.
 
 `sign-05-1` has one source-linked Chinith forgery witness per parameter set.
 `make -C sign-05 reproduce` builds and runs all 14; each creates a victim key,

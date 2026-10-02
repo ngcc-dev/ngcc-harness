@@ -177,7 +177,7 @@ sign-01-4;Confirmed;runtime;Honest signing writes one polynomial past the mask v
 sign-01-5;Confirmed;static;The challenge sampler collapses independent signs to one effective bit
 sign-01-6;Confirmed;static;The printed abort bound exceeds one, outside the theorems' hypothesis
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
-sign-02-2;Probable;review;A shared bimodal sign leaks an equivalent BiT-128 signing key
+sign-02-2;Confirmed;runtime;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
 sign-04-1;Confirmed;runtime;The 160-bit WOTS implementation authenticates only 128 bits
 sign-04-2;Confirmed;runtime;FORC chain addresses are truncated to eight bits
@@ -191,6 +191,7 @@ sign-06-1;Confirmed;static;The implemented message representative caps forgery s
 sign-06-2;Confirmed;static;The implementation expands the entire key pair from a 256-bit root
 sign-06-3;Confirmed;runtime;Rejected signatures leak heap memory without bound
 sign-06-4;Confirmed;runtime;XOF block replay duplicates every high-level secret polynomial
+sign-06-5;Confirmed;runtime+static;A byte-wide position index and 64 sign bits shrink the 384- and 512-bit challenge spaces below their levels
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
 sign-07-3;Confirmed;review;Compressed signatures enable practical equivalent-key recovery and forgery
@@ -260,12 +261,13 @@ sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Probable;review;Secret-dependent echelon pivots during signing
 sign-32-1;Confirmed;runtime;Every signature is accepted
 sign-32-2;Confirmed;runtime;An all-zero signature crashes two verifier instances
+sign-32-3;Confirmed;runtime;Pair-correlated signatures recover an equivalent UVW-128 signing key
 sign-33-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-33-2;Confirmed;static;A 256-bit implementation prehash limits forgery security to 128 bits
 sign-33-3;Proof gap;static;The VDOO-256 and -512 proof bound contains a 128-bit salt term
 sign-33-4;Confirmed;runtime;Signing reuses a publicly predictable randomness stream
 sign-33-5;Probable;review;Signing branches directly on private central-map coefficients
-sign-33-6;Probable;review;Restricted oil terms may enable a public-key-only VDOO forgery
+sign-33-6;Confirmed;runtime;Restricted oil terms enable a public-key-only VDOO forgery
 sign-34-1;Confirmed;runtime;Wrong perturbation covariance leaks secret-basis information
 sign-34-2;Confirmed;runtime;Non-injective public-key packing creates key aliases
 sign-34-3;Confirmed;runtime;Wrong wide-sampler constant leaks secret-basis information through signature means

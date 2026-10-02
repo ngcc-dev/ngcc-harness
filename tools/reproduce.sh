@@ -62,7 +62,7 @@ run_target() {
     if [ "$rc" -eq 0 ]; then
         echo "$label  REPRODUCER PASS"
     elif [ "$rc" -eq 77 ]; then
-        echo "SKIP   $cand $label (network artifact unavailable)"
+        echo "SKIP   $cand $label (dependency or pinned artifact unavailable)"
         skipped=$((skipped + 1))
     else
         echo "UNEXPECTED $label reproducer failure"
@@ -603,6 +603,11 @@ if [ -z "$only" ] || [ "$only" = sign-06 ]; then
 fi
 
 echo
+echo "== sign-06-5 COMPASS-SIG: narrow challenge sampler shrinks the 384/512 challenge space (Critical) =="
+run_target sign-06 "sign-06-5" make -C sign-06 reproduce-challenge-image
+run_target sign-06 "sign-06-5" python3 sign-06/reproduce_challenge_image.py
+
+echo
 echo "== sign-01-1 / sign-01-2: SUF-CMA malleability and malformed-hint stack write =="
 run sign-01 "sign-01-1/sign-01-2" CONFIRMED sig-malleable sign-01/lib/libAigis-sig1.so
 echo
@@ -786,9 +791,22 @@ echo "== sign-30-1 TRINE: unseeded normal build exposes the signing key (Critica
 run_target sign-30 "sign-30-1" python3 sign-30/reproduce_unseeded_forgery.py
 
 echo
+echo "== sign-02-2 BiT-128: shared-sign equivalent-key recovery (Critical Confirmed) =="
+if [ -z "$only" ] && [ "${NGCC_SLOW:-0}" != 1 ]; then
+    echo "SKIP   sign-02 sign-02-2 (set NGCC_SLOW=1 or request sign-02; about 3 minutes)"
+    skipped=$((skipped + 1))
+else
+    run_target sign-02 "sign-02-2" sh sign-02/reproduce_bimodal_key_recovery.sh
+fi
+
+echo
 echo "== sign-32-1 / sign-32-2 UVW: universal acceptance and verifier crashes =="
 run sign-32 "sign-32-1/sign-32-2" CONFIRMED sig-accept-all sign-32/lib/libUVW-128.so
 run sign-32 "sign-32-1/sign-32-2" CONFIRMED sig-accept-all sign-32/lib/libUVW-256.so
+
+echo
+echo "== sign-32-3 UVW-128: pair-leakage equivalent-key recovery (Critical Confirmed) =="
+run_target sign-32 "sign-32-3" sh sign-32/reproduce_pair_leakage_forgery.sh
 
 echo
 echo "== sign-12-1 Galas: key generation ignores the seed (Critical) =="
@@ -866,14 +884,11 @@ elif [ -z "$only" ] || [ "$only" = sign-33 ]; then
 fi
 
 echo
-echo "== sign-33-6 VDOO: posted signature validity replay (Probable) =="
-if [ -z "$only" ] || [ "$only" = sign-33 ]; then
-    if make -C sign-33 reproduce-posted-signature; then
-        echo "sign-33-6  POSTED SIGNATURE VALID; public-key-only forgery untested"
-    else
-        echo "UNEXPECTED sign-33-6 replay failure"
-        fail=$((fail + 1))
-    fi
+echo "== sign-33-6 VDOO: public-key-only structural forgery (Critical Confirmed) =="
+if [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target sign-33 "sign-33-6" env VDOO_FULL=1 sh sign-33/reproduce_public_structural_forgery.sh
+else
+    run_target sign-33 "sign-33-6" sh sign-33/reproduce_public_structural_forgery.sh
 fi
 
 echo
