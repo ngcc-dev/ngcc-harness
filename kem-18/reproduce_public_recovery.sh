@@ -13,6 +13,15 @@ curl -fsSL -A 'Mozilla/5.0' -o "$TMP/poc2.zip" "$URL"
 printf '%s  %s\n' "$SHA256" "$TMP/poc2.zip" | sha256sum -c -
 unzip -q "$TMP/poc2.zip" -d "$TMP"
 
+# fpylll builds integrated with Sage return Sage Integer objects from the
+# lattice matrix. The pinned PoC's diagnostic RMS division then enters a
+# broken Sage/Python coercion path on current Sage. Convert only that already
+# accumulated diagnostic sum to float in the temporary, hash-verified copy.
+score_py="$TMP/poc2/recover_r2_public_only.py"
+grep -Fq 'math.sqrt(sum(x * x for x in res) / len(res))' "$score_py"
+sed -i 's/math\.sqrt(sum(x \* x for x in res) \/ len(res))/math.sqrt(float(sum(x * x for x in res)) \/ len(res))/' "$score_py"
+grep -Fq 'math.sqrt(float(sum(x * x for x in res)) / len(res))' "$score_py"
+
 cc -O2 -I"$SRC" -o "$TMP/dump_loong128_pkct" \
     "$TMP/poc2/dump_loong128_pkct.c" \
     "$SRC/KEM_Loong.c" "$SRC/poly.c" "$SRC/auxfunc.c" "$SRC/drng.c"

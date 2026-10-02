@@ -4,8 +4,8 @@ hash-01-2;Confirmed;runtime;Missing final-block separation gives a 2^64-query di
 hash-02-1;Confirmed;runtime;Allocation failure returns a successful all-zero digest
 hash-02-2;Confirmed;review;Partial-bit AXIS update branches on secret state
 hash-02-3;Confirmed;runtime;The invertible AXIS state caps AXIS-1024 second-preimage security at 768 bits
-hash-04-1;Confirmed;review;Fixed-length outputs occupy only one determinant fiber
-hash-04-2;Lead;review;Projective positive-word collision lead for CHAMP-512
+hash-04-1;Confirmed;static;Fixed-length outputs occupy only one determinant fiber
+hash-04-2;Lead;static;Projective positive-word collision lead for CHAMP-512
 hash-04-3;Confirmed;runtime;Known-length preimages admit an exact square-root search
 hash-04-4;Confirmed;runtime;Unsupported digest lengths cause full-size writes
 hash-04-5;Confirmed;review;Message bytes index a large precomputed matrix table
@@ -98,7 +98,7 @@ kem-19-1;Lead;review;Lore-512's reducible ring admits smaller quotient attacks
 kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit seed
 kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure estimate
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
-kem-24-1;Probable;review;Encryption omits the specified rounding constant
+kem-24-1;Confirmed;review;Encryption omits the specified rounding constant
 kem-25-1;Proof gap;static;Compressed NEV sets omit the implicit rejection required by their security argument
 kem-26-1;Confirmed;runtime+static;Fixed-weight parity falsifies the DQCSD and JPCI assumptions
 kem-26-2;Confirmed;runtime;NSS-HQC-256 fails honest decapsulation near 10^-4
@@ -117,7 +117,7 @@ kem-31-4;Confirmed;static;A shared torsion mask leaks a square-coset constraint 
 kem-32-1;Confirmed;review;Debug path retains the secret error vector
 kem-32-2;Confirmed;runtime;Same-key multi-instance decoding misses QCTM-128 and -256 targets
 kem-33-1;Confirmed;runtime;Decapsulation re-expands the private seed with a variable-length sampler
-kem-33-2;Probable;review;Decryption multiplication traverses secret support positions
+kem-33-2;Confirmed;review;Decryption multiplication traverses secret support positions
 kem-34-1;Proof gap;runtime;Rudraksh2-128 leaves only a 2^64-query Grover margin
 kem-34-2;Confirmed;runtime;Cortex-M4 uses an incompatible Minal decoder constant
 kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer lengths
@@ -137,13 +137,13 @@ kem-38-3;Probable;review;Stateful timing reactions recover UVW-KEM-128 shared se
 kem-38-4;Confirmed;runtime;Unused c1 bits make ciphertexts malleable without changing the key
 kem-38-5;Lead;runtime;The implementation's final decryption failures expose UVW's hidden pairs
 kem-38-6;Confirmed;runtime;UVW-256 and -512 leak retry matrices
-kem-39-1;Probable;review;PRF substream reuse violates the IND-CPA proof's independence premise
+kem-39-1;Confirmed;review;PRF substream reuse violates the IND-CPA proof's independence premise
 kem-39-2;Confirmed;runtime;WeaverKEM-256 omits its high-layer BCH decoder
 kem-39-3;Confirmed;runtime;BCH decoders mis-correct some errors within their designed radius
 kem-39-4;Confirmed;runtime;Matrix and lifting samplers differ from the normative parsers
 kem-39-5;Confirmed;runtime;Message encoding uses the wrong half-modulus
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
-kem-40-2;Probable;review;Decapsulation addresses a private array with a secret-derived index
+kem-40-2;Confirmed;review;Decapsulation addresses a private array with a secret-derived index
 kex-01-1;Confirmed;review;The stated no-matching-session theorem is false for responder sessions
 kex-01-2;Confirmed;runtime;ADKEX-512 silently derives different keys in honest sessions
 kex-01-3;Confirmed;runtime;Incoming message lengths are ignored before fixed-size reads
@@ -226,8 +226,8 @@ sign-17-1;Confirmed;runtime;The specified fixed-support challenge permits public
 sign-17-2;Confirmed;runtime;The specified high-bit wrap rejects honest signatures
 sign-18-1;Confirmed;static;A fixed 512-bit message prehash caps forgery security at 256 bits
 sign-18-2;Confirmed;runtime;Signatures expose the hidden-algebra constraint subspace
-sign-18-3;Probable;review;Variable-time hidden-zone linear solving
-sign-18-4;Probable;review;Signing indexes field tables and signature state with private values
+sign-18-3;Confirmed;review;Variable-time hidden-zone linear solving
+sign-18-4;Confirmed;review;Signing indexes field tables and signature state with private values
 sign-18-5;Confirmed;runtime;Public variable permutation permits signature forgery
 sign-19-1;Confirmed;runtime;Phoenix parameter sets define incompatible signature languages
 sign-20-1;Proof gap;static;Qingluan-128's own quantum accounting falls below the 80-bit target
@@ -258,7 +258,7 @@ sign-28-5;Confirmed;runtime;An undocumented exported helper generates keys from 
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-30-1;Confirmed;runtime;The normal build deterministically exposes every signing key
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
-sign-31-2;Probable;review;Secret-dependent echelon pivots during signing
+sign-31-2;Confirmed;review;Secret-dependent echelon pivots during signing
 sign-32-1;Confirmed;runtime;Every signature is accepted
 sign-32-2;Confirmed;runtime;An all-zero signature crashes two verifier instances
 sign-32-3;Confirmed;runtime;Pair-correlated signatures recover an equivalent UVW-128 signing key
@@ -266,7 +266,7 @@ sign-33-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-33-2;Confirmed;static;A 256-bit implementation prehash limits forgery security to 128 bits
 sign-33-3;Proof gap;static;The VDOO-256 and -512 proof bound contains a 128-bit salt term
 sign-33-4;Confirmed;runtime;Signing reuses a publicly predictable randomness stream
-sign-33-5;Probable;review;Signing branches directly on private central-map coefficients
+sign-33-5;Confirmed;review;Signing branches directly on private central-map coefficients
 sign-33-6;Confirmed;runtime;Restricted oil terms enable a public-key-only VDOO forgery
 sign-34-1;Confirmed;runtime;Wrong perturbation covariance leaks secret-basis information
 sign-34-2;Confirmed;runtime;Non-injective public-key packing creates key aliases

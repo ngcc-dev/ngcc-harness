@@ -70,6 +70,28 @@ run_target() {
     fi
 }
 
+# find_python <probe>
+# Print a Python executable that satisfies the supplied import/version probe.
+# NGCC_ESTIMATOR_PYTHON is intended for isolated estimator environments;
+# NGCC_SAGE_PYTHON remains a compatibility fallback for existing setups.
+find_python() {
+    probe=$1
+    configured=${NGCC_ESTIMATOR_PYTHON:-${NGCC_SAGE_PYTHON:-}}
+    if [ -n "$configured" ] && "$configured" -c "$probe" >/dev/null 2>&1; then
+        printf '%s\n' "$configured"
+    elif python3 -c "$probe" >/dev/null 2>&1; then
+        command -v python3
+    elif command -v sage >/dev/null 2>&1 &&
+         sage -python -c "$probe" >/dev/null 2>&1; then
+        sage -python -c 'import sys; print(sys.executable)'
+    elif command -v mamba >/dev/null 2>&1 &&
+         mamba run -n sage python -c "$probe" >/dev/null 2>&1; then
+        mamba run -n sage python -c 'import sys; print(sys.executable)'
+    else
+        return 1
+    fi
+}
+
 # run_crash <candidate> <report-id> <library> <security-check>
 # The listed malformed-input findings intentionally terminate their process.
 run_crash() {
@@ -132,6 +154,10 @@ run_target hash-10 "hash-10-4" make -C hash-10 unused-bits
 echo
 echo "== hash-12-1 Iphe: cross-profile output relation (Medium) =="
 run_target hash-12 "hash-12-1" make -C hash-12 exploit
+
+echo
+echo "== hash-04-1 / hash-04-2 CHAMP: determinant-fiber bound and projective lead (Critical / Low Lead) =="
+run_target hash-04 "hash-04-1/hash-04-2" python3 hash-04/reproduce_structure.py
 
 echo "== hash-04-3 / hash-04-4 CHAMP: square-root preimages and full-size writes =="
 run_target hash-04 "hash-04-3/hash-04-4" make -C hash-04 reproduce
@@ -211,8 +237,20 @@ done
 
 echo
 echo "== kem-02-1 Amoeba-576: chosen-ciphertext full secret-key recovery (Critical) =="
-run_target kem-02 "kem-02-1" make -C kem-02 exploit-key-recovery \
-    PYTHON="${AMOEBA_PYTHON:-python3}"
+if [ -z "$only" ] || [ "$only" = kem-02 ]; then
+    if [ -n "${AMOEBA_PYTHON:-}" ] && "$AMOEBA_PYTHON" -c 'import numpy' >/dev/null 2>&1; then
+        run_target kem-02 "kem-02-1" make -C kem-02 exploit-key-recovery PYTHON="$AMOEBA_PYTHON"
+    elif [ -n "${NGCC_SAGE_PYTHON:-}" ] && "$NGCC_SAGE_PYTHON" -c 'import numpy' >/dev/null 2>&1; then
+        run_target kem-02 "kem-02-1" make -C kem-02 exploit-key-recovery PYTHON="$NGCC_SAGE_PYTHON"
+    elif python3 -c 'import numpy' >/dev/null 2>&1; then
+        run_target kem-02 "kem-02-1" make -C kem-02 exploit-key-recovery PYTHON=python3
+    elif command -v mamba >/dev/null 2>&1 && mamba run -n sage python -c 'import numpy' >/dev/null 2>&1; then
+        run_target kem-02 "kem-02-1" mamba run -n sage make -C kem-02 exploit-key-recovery PYTHON=python
+    else
+        echo "SKIP   kem-02 kem-02-1 (set AMOEBA_PYTHON to a NumPy-enabled Python)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kem-02-3 Amoeba: two-error decryption-failure accounting (Medium) =="
@@ -272,14 +310,33 @@ run kem-22 "[control kem-09-1/kem-18-1]" NOT-CONFIRMED kem-reject-mask kem-22/li
 
 echo
 echo "== kem-18-2 LoongKEM: reducible-ring quotient attacks (High lead) =="
-run_target kem-18 "kem-18-2" python3 kem-18/reproduce_reducible_ring.py
+if [ -z "$only" ] || [ "$only" = kem-18 ]; then
+    if [ -n "${NGCC_SAGE_PYTHON:-}" ] && "$NGCC_SAGE_PYTHON" -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kem-18 "kem-18-2" "$NGCC_SAGE_PYTHON" kem-18/reproduce_reducible_ring.py
+    elif command -v sage >/dev/null 2>&1 && sage -python -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kem-18 "kem-18-2" sage -python kem-18/reproduce_reducible_ring.py
+    elif python3 -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kem-18 "kem-18-2" python3 kem-18/reproduce_reducible_ring.py
+    elif command -v mamba >/dev/null 2>&1 && mamba run -n sage python -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kem-18 "kem-18-2" mamba run -n sage python kem-18/reproduce_reducible_ring.py
+    else
+        echo "SKIP   kem-18 kem-18-2 (set NGCC_SAGE_PYTHON to a Sage-enabled Python)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kem-18-3 Loong128: public-only shared-secret recovery (Critical; may take minutes) =="
 if [ -z "$only" ] || [ "$only" = kem-18 ]; then
-    loong_python=${NGCC_FPYLLL_PYTHON:-python3}
-    if "$loong_python" -c 'import fpylll' >/dev/null 2>&1; then
-        run_target kem-18 "kem-18-3" make -C kem-18 reproduce-public-recovery
+    loong_python=${NGCC_FPYLLL_PYTHON:-}
+    if [ -z "$loong_python" ] && python3 -c 'import fpylll' >/dev/null 2>&1; then
+        loong_python=python3
+    elif [ -z "$loong_python" ] && command -v mamba >/dev/null 2>&1 &&
+         mamba run -n sage python -c 'import fpylll' >/dev/null 2>&1; then
+        loong_python=$(mamba run -n sage which python | tail -n 1)
+    fi
+    if [ -n "$loong_python" ] && "$loong_python" -c 'import fpylll' >/dev/null 2>&1; then
+        run_target kem-18 "kem-18-3" env NGCC_FPYLLL_PYTHON="$loong_python" make -C kem-18 reproduce-public-recovery
     else
         echo "SKIP   kem-18-3 (install Python fpylll or set NGCC_FPYLLL_PYTHON)"
         skipped=$((skipped + 1))
@@ -527,7 +584,22 @@ run_target kex-05 "kex-05-3" python3 kex-05/validate_shuttle_embedding.py
 
 echo
 echo "== kex-08-1 NIIKE: raw shared-invariant distinguisher (Critical) =="
-run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON="${NIIKE_PYTHON:-sage -python}"
+if [ -z "$only" ] || [ "$only" = kex-08 ]; then
+    if [ -n "${NIIKE_PYTHON:-}" ] && $NIIKE_PYTHON -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON="$NIIKE_PYTHON"
+    elif [ -n "${NGCC_SAGE_PYTHON:-}" ] && "$NGCC_SAGE_PYTHON" -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON="$NGCC_SAGE_PYTHON"
+    elif command -v sage >/dev/null 2>&1 && sage -python -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON="sage -python"
+    elif python3 -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON=python3
+    elif command -v mamba >/dev/null 2>&1 && mamba run -n sage python -c 'import sage.all' >/dev/null 2>&1; then
+        run_target kex-08 "kex-08-1" make -C kex-08 exploit PYTHON="mamba run -n sage python"
+    else
+        echo "SKIP   kex-08 kex-08-1 (set NIIKE_PYTHON to a Sage-enabled Python command)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kex-08-2 NIIKE-lv512: two-key secret cycle (Critical) =="
@@ -642,14 +714,10 @@ run_target sign-08 "sign-08-2" make -C sign-08 exploit-key-recovery
 echo
 echo "== sign-10-1 Facto-DSA: hidden-zero-subspace algebraic recovery lead (High) =="
 if [ -z "$only" ] || [ "$only" = sign-10 ]; then
-    if [ -x sign-10/cryptanalysis/build/selftest ] &&
-       [ -x sign-10/cryptanalysis/build/attack1 ] &&
-       [ -x sign-10/cryptanalysis/build/attack3 ]; then
-        make -C sign-10/cryptanalysis test || fail=$((fail + 1))
-    else
-        echo "SKIP   sign-10 (build it: make -C sign-10/cryptanalysis)"
-        skipped=$((skipped + 1))
-    fi
+    # This directory is intentionally ignored. Rebuild so an executable left
+    # by another x86-64 host cannot turn the check into a SIGILL.
+    make -C sign-10/cryptanalysis clean >/dev/null
+    make -C sign-10/cryptanalysis test || fail=$((fail + 1))
 fi
 
 echo
@@ -758,7 +826,7 @@ echo "== sign-26-2 SQIsign2D-push: missing challenge grinding (Critical) =="
 run_target sign-26 "sign-26-2" python3 sign-26/reproduce_grinding_shortfall.py
 
 echo
-echo "== sign-28-1 SYDO: grinding deficit (High) =="
+echo "== sign-28-1 SYDO: grinding deficit (Critical) =="
 run_target sign-28 "sign-28-1" sh sign-28/reproduce_forum_findings.sh
 
 echo
@@ -870,7 +938,7 @@ elif [ -z "$only" ] || [ "$only" = sign-33 ]; then
 fi
 
 echo
-echo "== sign-33-4 VDOO: signing salt repeats across fresh processes and messages (Critical) =="
+echo "== sign-33-4 VDOO: signing salt repeats across fresh processes and messages (High) =="
 if { [ -z "$only" ] || [ "$only" = sign-33 ]; } && [ -f sign-33/lib/libvdoo_128.so ]; then
     a=$("$A" sig-random-fresh sign-33/lib/libvdoo_128.so 0x01 0x10 | awk '{print $5, $6}')
     b=$("$A" sig-random-fresh sign-33/lib/libvdoo_128.so 0x99 0x12 | awk '{print $5, $6}')
@@ -903,11 +971,43 @@ fi
 
 echo
 echo "== kem-05-2 BIKE-MLThre: same-key multi-instance ISD estimates (Critical) =="
-run_target kem-05 "kem-05-2" python3 kem-05/reproduce_multi_instance.py
+if [ -z "$only" ] || [ "$only" = kem-05 ]; then
+    estimator_python=${NGCC_SAGE_PYTHON:-}
+    if [ -z "$estimator_python" ] &&
+       python3 -c 'import numpy, scipy' >/dev/null 2>&1; then
+        estimator_python=python3
+    elif [ -z "$estimator_python" ] && command -v sage >/dev/null 2>&1 &&
+         sage -python -c 'import numpy, scipy' >/dev/null 2>&1; then
+        estimator_python=$(sage -python -c 'import sys; print(sys.executable)')
+    elif [ -z "$estimator_python" ] && command -v mamba >/dev/null 2>&1 &&
+         mamba run -n sage python -c 'import numpy, scipy' >/dev/null 2>&1; then
+        estimator_python=$(mamba run -n sage python -c 'import sys; print(sys.executable)')
+    fi
+    if [ -n "$estimator_python" ]; then
+        run_target kem-05 "kem-05-2" "$estimator_python" kem-05/reproduce_multi_instance.py
+    else
+        echo "SKIP   kem-05 kem-05-2 (set NGCC_SAGE_PYTHON to Python with NumPy and SciPy)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kem-18-3 LoongKEM: Loong128 and Loong256 public recovery (Critical) =="
-run_target kem-18 "kem-18-3" sh kem-18/reproduce_loong256.sh
+if [ -z "$only" ] || [ "$only" = kem-18 ]; then
+    loong_python=${NGCC_FPYLLL_PYTHON:-}
+    if [ -z "$loong_python" ] && python3 -c 'import fpylll' >/dev/null 2>&1; then
+        loong_python=python3
+    elif [ -z "$loong_python" ] && command -v mamba >/dev/null 2>&1 &&
+         mamba run -n sage python -c 'import fpylll' >/dev/null 2>&1; then
+        loong_python=$(mamba run -n sage which python | tail -n 1)
+    fi
+    if [ -n "$loong_python" ] && "$loong_python" -c 'import fpylll' >/dev/null 2>&1; then
+        run_target kem-18 "kem-18-3 Loong256" env PYTHON="$loong_python" sh kem-18/reproduce_loong256.sh
+    else
+        echo "SKIP   kem-18-3 Loong256 (install Python fpylll or set NGCC_FPYLLL_PYTHON)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kem-21-1 Viper: 256-bit secret-seed ceiling (Critical) =="
@@ -915,11 +1015,27 @@ run_target kem-21 "kem-21-1" python3 kem-21/reproduce_seed_ceiling.py
 
 echo
 echo "== kem-26-3 NSS-HQC: ephemeral ISD estimates (Critical) =="
-run_target kem-26 "kem-26-3" python3 kem-26/reproduce_isd_estimate.py
+if [ -z "$only" ] || [ "$only" = kem-26 ]; then
+    estimator_python=$(find_python 'import importlib.metadata; assert importlib.metadata.version("cryptographic-estimators") == "2.1.1"')
+    if [ -n "$estimator_python" ]; then
+        run_target kem-26 "kem-26-3" "$estimator_python" kem-26/reproduce_isd_estimate.py
+    else
+        echo "SKIP   kem-26 kem-26-3 (set NGCC_ESTIMATOR_PYTHON to Python with cryptographic-estimators==2.1.1)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kem-32-2 QCTM: same-key multi-instance ISD estimates (Critical) =="
-run_target kem-32 "kem-32-2" python3 kem-32/reproduce_multi_instance.py
+if [ -z "$only" ] || [ "$only" = kem-32 ]; then
+    estimator_python=$(find_python 'import numpy, scipy')
+    if [ -n "$estimator_python" ]; then
+        run_target kem-32 "kem-32-2" "$estimator_python" kem-32/reproduce_multi_instance.py
+    else
+        echo "SKIP   kem-32 kem-32-2 (set NGCC_ESTIMATOR_PYTHON to Python with NumPy and SciPy)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kem-34-1 / kem-34-2 / kem-34-3 / kem-34-4 Rudraksh2 findings (Medium / Low) =="
@@ -948,7 +1064,7 @@ run_target kem-39 "kem-39-3" sh kem-39/reproduce_bch_decoder.sh
 run_target kem-39 "kem-39-4/kem-39-5" python3 kem-39/reproduce_spec_mismatches.py
 
 echo
-echo "== kem-40-1 YuanYang.KEM: encryption discards the specified error (Critical) =="
+echo "== kem-40-1 YuanYang.KEM: encryption discards the specified error (Medium) =="
 run_target kem-40 "kem-40-1" python3 kem-40/reproduce_unused_error.py
 
 echo

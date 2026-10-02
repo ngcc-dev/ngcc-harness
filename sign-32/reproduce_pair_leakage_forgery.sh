@@ -25,6 +25,9 @@ elif python3 -c 'import numpy' >/dev/null 2>&1; then
     python=python3
 elif command -v sage >/dev/null 2>&1 && sage -python -c 'import numpy' >/dev/null 2>&1; then
     python=$(sage -python -c 'import sys; print(sys.executable)')
+elif command -v mamba >/dev/null 2>&1 &&
+     mamba run -n sage python -c 'import numpy' >/dev/null 2>&1; then
+    python=$(mamba run -n sage python -c 'import sys; print(sys.executable)')
 else
     echo 'SKIP sign-32-3: Python with NumPy is unavailable; set NGCC_SAGE_PYTHON' >&2
     exit 77

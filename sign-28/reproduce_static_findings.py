@@ -49,5 +49,5 @@ for name in SETS:
     need(verify, r"memcpy\(&iv, iv_ptr, sizeof\(iv\)\).*?vole_reconstruct", f"optimized {name}")
     need(vec, r"while \(opening_pos < OPEN_SIZE\).*?opening\[opening_pos\+\+\] != 0.*?return false", f"optimized {name}")
 
-print("ATTACK sign-28-3 SYDO CONFIRMED implementation omits the specified Hash4 derivation")
-print("ATTACK sign-28-4 SYDO CONFIRMED reference universal hash reads beyond tmp[8]")
+print("CONFIRMED sign-28-3 SYDO: implementation omits the specified Hash4 derivation")
+print("CONFIRMED sign-28-4 SYDO: reference universal hash reads beyond tmp[8]")

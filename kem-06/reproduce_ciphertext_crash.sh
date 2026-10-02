@@ -13,12 +13,17 @@ test "$(git -C "$TMP/audit" rev-parse HEAD)" = "$COMMIT"
 cd "$TMP/audit/bra-brqc-padding-malleability"
 for level in 128 256 512; do
     echo "=== BRA-$level ==="
-    WORK="$TMP/BRA-$level"
-    mkdir "$WORK"
-    cp -R "$HERE/Implementations/Reference_Implementation/BRA-$level/." "$WORK/"
-    make -s -C "$WORK" "BRA-$level" >/dev/null
-    set -- "$WORK"/bin/build/*.o
+    ref="$HERE/Implementations/Reference_Implementation/BRA-$level"
+    lib="$HERE/lib/libBRA-$level.so"
+    [ -f "$lib" ] || { echo "build first: make -C $HERE" >&2; exit 77; }
     "${CC:-cc}" -O2 -std=gnu99 -DHDR="\"KEM_BRA-$level.h\"" \
-        src/kem_audit.c "$@" -I"$WORK" -o audit
-    ./audit 1 0 5
+        src/kem_audit.c -I"$ref" -L"$HERE/lib" -l"BRA-$level" \
+        -Wl,-rpath,"$HERE/lib" -o audit
+    out=$(./audit 1 0 5 2>&1)
+    printf '%s\n' "$out"
+    case "$level:$out" in
+        128:*"random ct: 5 trials, crashes=5"*|256:*"random ct: 5 trials, crashes=5"*) ;;
+        512:*"random ct: 5 trials, crashes=0"*) ;;
+        *) echo "unexpected random-ciphertext result for BRA-$level" >&2; exit 1 ;;
+    esac
 done

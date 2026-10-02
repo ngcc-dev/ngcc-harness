@@ -30,7 +30,7 @@ $(eval $(call RUDRAKSH,lwekem512))
 include ../api/link_finish.mk
 
 RUD128_DIR := $(REF)/lwekem128
-RUD128_REPRO_SRCS := $(addprefix $(RUD128_DIR)/,$(RUD_SRCS) KEM_lwekem128.c)
+RUD128_REPRO_SRCS := $(addprefix $(RUD128_DIR)/,$(SRCS_lwekem128))
 
 .PHONY: reproduce-message-space reproduce-length-read reproduce-parameters
 

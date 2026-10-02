@@ -22,6 +22,9 @@ elif python3 -c 'import numpy' >/dev/null 2>&1; then
     PY=python3
 elif command -v sage >/dev/null 2>&1 && sage -python -c 'import numpy' >/dev/null 2>&1; then
     PY='sage -python'
+elif command -v mamba >/dev/null 2>&1 &&
+     mamba run -n sage python -c 'import numpy' >/dev/null 2>&1; then
+    PY='mamba run -n sage python'
 else
     echo 'DARTS recovery requires Python with NumPy; set NGCC_SAGE_PYTHON.' >&2
     exit 2

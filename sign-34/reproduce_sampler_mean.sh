@@ -11,7 +11,19 @@ git clone --quiet https://github.com/acprk/ngcc-round1-cryptanalysis.git "$TMP/a
 git -C "$TMP/audit" checkout --quiet "$COMMIT"
 test "$(git -C "$TMP/audit" rev-parse HEAD)" = "$COMMIT"
 
-PYTHON_BIN=${PYTHON_BIN:-python3}
+if [ -n "${PYTHON_BIN:-}" ]; then
+    :
+elif python3 -c 'import numpy' >/dev/null 2>&1; then
+    PYTHON_BIN=python3
+elif command -v sage >/dev/null 2>&1 && sage -python -c 'import numpy' >/dev/null 2>&1; then
+    PYTHON_BIN=$(sage -python -c 'import sys; print(sys.executable)')
+elif command -v mamba >/dev/null 2>&1 &&
+     mamba run -n sage python -c 'import numpy' >/dev/null 2>&1; then
+    PYTHON_BIN=$(mamba run -n sage python -c 'import sys; print(sys.executable)')
+else
+    echo "The pinned regression requires NumPy; set PYTHON_BIN to a Python with NumPy." >&2
+    exit 77
+fi
 "$PYTHON_BIN" -c 'import numpy' || {
     echo "The pinned regression requires NumPy; set PYTHON_BIN to a Python with NumPy." >&2
     exit 2
