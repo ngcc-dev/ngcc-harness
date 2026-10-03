@@ -721,6 +721,10 @@ run_target sign-01 "sign-01-5" python3 sign-01/reproduce_challenge_entropy.py
 echo
 echo "== sign-01-6 Aigis-Sig+: printed abort bound outside the theorems' hypothesis (Low) =="
 run_target sign-01 "sign-01-6" python3 sign-01/reproduce_abort_bound.py
+
+echo
+echo "== sign-01-8 Aigis-Sig+: short message-representative collision bounds (Critical) =="
+run_target sign-01 "sign-01-8" python3 security/design_parameter_audit.py --report-id sign-01-8
 echo "== sign-07-1: SUF-CMA malleability (High) =="
 run sign-07 "sign-07-1" CONFIRMED sig-malleable sign-07/lib/libCS-128.so
 
@@ -866,7 +870,7 @@ echo "== sign-21-2 ReSolveD-alpha: fixed-tweak leaf multi-target recovery (Criti
 run_target sign-21 "sign-21-2" python3 sign-21/reproduce_leaf_commitment_multitarget.py
 
 echo
-echo "== sign-21-3 ReSolveD-alpha: deterministic cross-profile witness recovery (High) =="
+echo "== sign-21-3 ReSolveD-alpha: deterministic cross-profile witness recovery (Info) =="
 run_target sign-21 "sign-21-3" sh sign-21/reproduce_cross_profile_recovery.sh
 
 echo
@@ -1125,6 +1129,20 @@ echo "== kem-40-1 YuanYang.KEM: encryption discards the specified error (Medium)
 run_target kem-40 "kem-40-1" python3 kem-40/reproduce_unused_error.py
 
 echo
+echo "== kem-41-1 ZEN: average-message DFR model versus worst-case proof (Medium Proof gap) =="
+if [ "$only" = kem-41 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    if zen_python=$(find_python 'import numpy'); then
+        run_target kem-41 "kem-41-1" "$zen_python" kem-41/reproduce_dfr_model.py
+    else
+        echo "SKIP   kem-41 kem-41-1 (set NGCC_ESTIMATOR_PYTHON to Python with NumPy)"
+        skipped=$((skipped + 1))
+    fi
+elif [ -z "$only" ]; then
+    echo "SKIP   kem-41 kem-41-1 slow model (run tools/reproduce.sh kem-41 or set NGCC_SLOW=1)"
+    skipped=$((skipped + 1))
+fi
+
+echo
 echo "== kex-02-3 / kex-02-4 / kex-02-5 AFS-KEX protocol findings =="
 run_target kex-02 "kex-02-3/kex-02-4/kex-02-5" make -C kex-02 reproduce-protocol-findings
 
@@ -1137,7 +1155,7 @@ echo "== sign-12-2 Galas: 32-bit message-length truncation (Critical) =="
 run_target sign-12 "sign-12-2" make -C sign-12 reproduce-long-message
 
 echo
-echo "== sign-12-3 Galas: same-key cross-variant key recovery (High) =="
+echo "== sign-12-3 Galas: same-key cross-variant key recovery (Low) =="
 run_target sign-12 "sign-12-3" sh sign-12/reproduce_cross_variant_key_recovery.sh
 
 echo
@@ -1157,6 +1175,7 @@ run_target kem-06 "kem-06-5" python3 security/rbg_protocol_dependency.py --repor
 run_target kem-07 "kem-07-3" python3 security/rbg_protocol_dependency.py --report-id kem-07-3
 run_target kem-10 "kem-10-4" python3 security/rbg_protocol_dependency.py --report-id kem-10-4
 run_target sign-12 "sign-12-4" python3 security/rbg_protocol_dependency.py --report-id sign-12-4
+run_target kem-23 "kem-23-1" python3 security/design_parameter_audit.py --report-id kem-23-1
 run_target kem-23 "kem-23-2" python3 security/rbg_protocol_dependency.py --report-id kem-23-2
 run_target sign-23 "sign-23-2" python3 security/rbg_protocol_dependency.py --report-id sign-23-2
 run_target kex-05 "kex-05-4" python3 security/rbg_protocol_dependency.py --report-id kex-05-4

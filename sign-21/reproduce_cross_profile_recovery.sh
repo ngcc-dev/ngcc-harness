@@ -24,4 +24,4 @@ grep -q 'different_message_pair=reject' "$log"
 grep -q 'different_rho_pair=reject' "$log"
 grep -q 'different_key_pair=reject' "$log"
 
-echo "ATTACK sign-21-3 CONFIRMED: deterministic S/F transcripts recover an equivalent witness and forge"
+echo "OUT-OF-MODEL sign-21-3 CONFIRMED: deterministic same-key S/F transcripts recover an equivalent witness and forge"

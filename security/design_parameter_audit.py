@@ -48,6 +48,7 @@ REPORT_IDS = {
     "vdoo-level5-message-prehash": "sign-33-2",
     "atlas192-challenge-cardinality": "sign-15-3",
     "bit512-message-representative-collision": "sign-02-1",
+    "aigis-message-representative-collision": "sign-01-8",
     "origami512-message-prehash-collision": "sign-18-1",
     "tsuov512-message-prehash-collision": "sign-31-1",
     "compass-sig512-message-representative-collision": "sign-06-1",
@@ -513,6 +514,70 @@ def registered_checks() -> list[Finding]:
         )
     )
 
+    aigis_spec_path = ROOT / "sign-01/sign-01-spec.pdf"
+    aigis_spec = extract_pdf(aigis_spec_path)
+    aigis_root = ROOT / (
+        "sign-01/Implementations/Implementations/Reference_Implementation"
+    )
+    aigis_ii_params_path = aigis_root / "Aigis-Sig+-II/params.h"
+    aigis_ii_sign_path = aigis_root / "Aigis-Sig+-II/sign.c"
+    aigis_iii_params_path = aigis_root / "Aigis-Sig+-III/params.h"
+    aigis_iii_sign_path = aigis_root / "Aigis-Sig+-III/sign.c"
+    aigis_avx_root = ROOT / (
+        "sign-01/Implementations/Implementations/Optimized_Implementation/avx2"
+    )
+    aigis_avx_ii_params_path = aigis_avx_root / "Aigis-Sig+-II/params.h"
+    aigis_avx_ii_sign_path = aigis_avx_root / "Aigis-Sig+-II/sign.c"
+    aigis_avx_iii_params_path = aigis_avx_root / "Aigis-Sig+-III/params.h"
+    aigis_avx_iii_sign_path = aigis_avx_root / "Aigis-Sig+-III/sign.c"
+    aigis_ii_params = aigis_ii_params_path.read_text(encoding="utf-8", errors="replace")
+    aigis_ii_sign = aigis_ii_sign_path.read_text(encoding="utf-8", errors="replace")
+    aigis_iii_params = aigis_iii_params_path.read_text(encoding="utf-8", errors="replace")
+    aigis_iii_sign = aigis_iii_sign_path.read_text(encoding="utf-8", errors="replace")
+    aigis_avx_ii_params = aigis_avx_ii_params_path.read_text(encoding="utf-8", errors="replace")
+    aigis_avx_ii_sign = aigis_avx_ii_sign_path.read_text(encoding="utf-8", errors="replace")
+    aigis_avx_iii_params = aigis_avx_iii_params_path.read_text(encoding="utf-8", errors="replace")
+    aigis_avx_iii_sign = aigis_avx_iii_sign_path.read_text(encoding="utf-8", errors="replace")
+    aigis_reproduced = all(
+        (
+            re.search(r"targeted\s*[≥>]*\s*128/256/512 classical", aigis_spec, re.I),
+            "PARAMS II XOF-128(M, d) XOF-256(M, d) XOF-256(M, 48)" in aigis_spec,
+            "PARAMS III XOF-128(M, d) XOF-512(M, d) XOF-512(M, 96)" in aigis_spec,
+            re.search(r"#elif\s+PARAMS\s*==\s*2.*?#define\s+CRHBYTES\s+48\b", aigis_ii_params, re.S),
+            re.search(r"#elif\s+PARAMS\s*==\s*3.*?#define\s+CRHBYTES\s+96\b", aigis_iii_params, re.S),
+            aigis_ii_sign.count("KDF(buf, CRHBYTES, buf, CRHBYTES + mlen)") == 1,
+            aigis_iii_sign.count("KDF(buf, CRHBYTES, buf, CRHBYTES + mlen)") == 1,
+            re.search(r"#elif\s+PARAMS\s*==\s*2.*?#define\s+CRHBYTES\s+48\b", aigis_avx_ii_params, re.S),
+            re.search(r"#elif\s+PARAMS\s*==\s*3.*?#define\s+CRHBYTES\s+96\b", aigis_avx_iii_params, re.S),
+            aigis_avx_ii_sign.count("KDF(buf, CRHBYTES, buf, CRHBYTES + mlen)") == 1,
+            aigis_avx_iii_sign.count("KDF(buf, CRHBYTES, buf, CRHBYTES + mlen)") == 1,
+        )
+    )
+    findings.append(
+        Finding(
+            "aigis-message-representative-collision",
+            "sign-01",
+            "specification_design_break",
+            "confirmed" if aigis_reproduced else "not_reproduced",
+            "Aigis-Sig+ II and III claim 256- and 512-bit classical security "
+            "but Table 3 fixes their unsalted message representatives at 384 "
+            "and 768 bits. Generic collisions cost about 2^192 and 2^384 "
+            "evaluations and transfer a signature between colliding messages. "
+            "The reference source implements the same 48- and 96-byte values.",
+            [
+                "sign-01/sign-01-spec.pdf (physical pages 17, 21 and 33-34)",
+                str(aigis_ii_params_path.relative_to(ROOT)),
+                str(aigis_ii_sign_path.relative_to(ROOT)),
+                str(aigis_iii_params_path.relative_to(ROOT)),
+                str(aigis_iii_sign_path.relative_to(ROOT)),
+                str(aigis_avx_ii_params_path.relative_to(ROOT)),
+                str(aigis_avx_ii_sign_path.relative_to(ROOT)),
+                str(aigis_avx_iii_params_path.relative_to(ROOT)),
+                str(aigis_avx_iii_sign_path.relative_to(ROOT)),
+            ],
+        )
+    )
+
     origami_spec_path = ROOT / "sign-18/sign-18-spec.pdf"
     origami_spec = extract_pdf(origami_spec_path)
     origami_dir = ROOT / (
@@ -878,15 +943,13 @@ def registered_checks() -> list[Finding]:
             "mito-e-erasure-decoder-discarded",
             "kem-23",
             "implementation_specification_conformance_break",
-            "confirmed" if len(mito_e_dirs) == 6 and len(mito_bad) == 6 else "not_reproduced",
-            "Every included Mito-E implementation tree asks the modified RM decoder "
-            "for the erasure count and positions, then discards both values and calls "
+            "confirmed" if len(mito_e_dirs) == 12 and len(mito_bad) == 12 else "not_reproduced",
+            "All twelve submitted Mito-E implementation trees ask the modified RM decoder "
+            "for the erasure count and positions, then discard both values and call "
             "the ordinary errors-only Reed-Solomon decoder.  The PDF defines Mito-E "
             "by errors-and-erasures decoding with correctness condition 2*nu+t <= "
             "N-K and uses that decoder in its E-variant DFR analysis.  Consequently "
-            "the claimed E-variant DFRs do not apply to the shipped decapsulator. "
-            "The public harness checks the six included reference trees; this "
-            "command makes no claim about optimized counterparts.",
+            "the claimed E-variant DFRs do not apply to the shipped decapsulator.",
             [
                 "kem-23/kem-23-spec.pdf (physical pages 17-20, 47-48)",
                 *[str((d / "code.c").relative_to(ROOT)) for d in mito_e_dirs],

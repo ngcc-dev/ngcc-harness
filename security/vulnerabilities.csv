@@ -157,6 +157,7 @@ kem-39-5;Confirmed;runtime;Message encoding uses the wrong half-modulus
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
 kem-40-2;Confirmed;review;Decapsulation addresses a private array with a secret-derived index
 kem-40-3;Confirmed;static;YuanYang resets the external DRBG for deterministic encryption
+kem-41-1;Proof gap;runtime;The numerical DFR model averages over messages while the proof assumes worst-case correctness
 kex-01-1;Confirmed;review;The stated no-matching-session theorem is false for responder sessions
 kex-01-2;Confirmed;runtime;ADKEX-512 silently derives different keys in honest sessions
 kex-01-3;Confirmed;runtime;Incoming message lengths are ignored before fixed-size reads
@@ -191,6 +192,7 @@ sign-01-4;Confirmed;runtime;Honest signing writes one polynomial past the mask v
 sign-01-5;Confirmed;static;The challenge sampler collapses independent signs to one effective bit
 sign-01-6;Confirmed;static;The printed abort bound exceeds one, outside the theorems' hypothesis
 sign-01-7;Confirmed;static;The external DRBG is used as a KDF
+sign-01-8;Confirmed;static;Short message representatives cap Aigis-Sig+ II and III below their claimed levels
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-02-2;Confirmed;runtime;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
@@ -253,7 +255,7 @@ sign-20-4;Confirmed;runtime;Signing re-expands the secret through a variable-wor
 sign-20-5;Confirmed;runtime+static;Qing Luan's random-generation state caps the 384- and 512-bit sets at 256 bits
 sign-21-1;Confirmed;runtime;A shared TCCR tweak enables one-signature multi-target key recovery below the claimed levels
 sign-21-2;Confirmed;static;A shared leaf-commitment tweak gives one-signature multi-target key recovery
-sign-21-3;Confirmed;runtime;Same-key deterministic S/F signatures recover an equivalent witness
+sign-21-3;Confirmed;runtime;Same-key cross-profile access is outside EUF-CMA despite reproduced witness recovery
 sign-22-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-22-2;Confirmed;static;The implementation expands the complete key pair from a 256-bit root
 sign-22-3;Confirmed;runtime+static;Rhyme-SM3 omits the specified doubled-width parity mask
