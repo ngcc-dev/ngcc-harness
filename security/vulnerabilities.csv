@@ -48,6 +48,7 @@ hash-32-2;Lead;static;A conditional iterative trail gives a 2^384 full-round col
 hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multiplication
 kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA security
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
+kem-01-3;Confirmed;static;The external DRBG is used as a KDF
 kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth ciphertext byte
 kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
 kem-02-3;Confirmed;runtime;The decryption-failure bound omits detected two-error rejections
@@ -65,8 +66,10 @@ kem-06-1;Confirmed;runtime;Malformed inputs drive the BRA decoder out of bounds
 kem-06-2;Confirmed;runtime;Reference field multiplication touches one limb past its output
 kem-06-3;Confirmed;review;Secret-derived decoder pivots select memory addresses
 kem-06-4;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
+kem-06-5;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-07-1;Confirmed;review;Secret-derived decoder pivots select memory addresses
 kem-07-2;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
+kem-07-3;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-08-1;Confirmed;review;C128 decapsulation branches on decrypted coefficients
 kem-09-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-09-2;Lead;review;A degree-128 quotient defeats the full-dimension MLWE estimates
@@ -74,7 +77,9 @@ kem-09-3;Confirmed;static;Cheetah's decryption-failure analysis omits public-key
 kem-10-1;Confirmed;runtime;Malformed ciphertexts crash the reference decapsulator
 kem-10-2;Confirmed;review;Secret-derived decoder pivots select memory addresses
 kem-10-3;Confirmed;runtime;Ignored padding bits make CMultiURAG-512 ciphertexts malleable without changing the key
+kem-10-4;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-11-1;Confirmed;static;COMPASS-KEM-384 and -512 use a 256-bit key-generation root
+kem-11-2;Proof gap;static;The Biased-MLWR reduction does not instantiate the concrete small-secret sets
 kem-12-1;Confirmed;static;The specified CTL-512 public-key space has at most 256 bits of support
 kem-12-2;Confirmed;static;CTL-512 returns only 384 shared-secret bits
 kem-13-1;Confirmed;runtime;DKEM's rejection key does not bind the full ciphertext
@@ -84,8 +89,10 @@ kem-13-4;Confirmed;runtime;DKEM ignores input lengths before fixed-size reads
 kem-14-1;Confirmed;runtime;Caller-declared ciphertext length overflows a decapsulation stack buffer
 kem-14-2;Confirmed;runtime;Decapsulation return value exposes the implicit-rejection branch
 kem-14-3;Confirmed;runtime;Rejection key omits the specified public-key binding
+kem-14-4;Proof gap;static;Ring-paired DoubleE8 blocks invalidate DTRU's failure estimates
 kem-15-1;Confirmed;runtime;FLIT512 reference and optimized implementations silently derive different keys
 kem-16-1;Proof gap;runtime;Headline DFR values lack a reproducible HARE calculation
+kem-16-2;Confirmed;runtime+static;Same-key multi-instance decoding misses three HARE targets
 kem-17-1;Confirmed;runtime;Publicly reproducible secret keys
 kem-17-2;Confirmed;static;HEP-QC-7 has at most 256 bits of key-generation support
 kem-17-3;Confirmed;runtime;First encapsulation in each process is publicly reproducible
@@ -98,6 +105,7 @@ kem-19-1;Lead;review;Lore-512's reducible ring admits smaller quotient attacks
 kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit seed
 kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure estimate
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
+kem-23-2;Confirmed;static;Mito uses the external DRBG as an XOF
 kem-24-1;Confirmed;review;Encryption omits the specified rounding constant
 kem-25-1;Proof gap;static;Compressed NEV sets omit the implicit rejection required by their security argument
 kem-26-1;Confirmed;runtime+static;Fixed-weight parity falsifies the DQCSD and JPCI assumptions
@@ -118,6 +126,7 @@ kem-32-1;Confirmed;review;Debug path retains the secret error vector
 kem-32-2;Confirmed;runtime;Same-key multi-instance decoding misses QCTM-128 and -256 targets
 kem-33-1;Confirmed;runtime;Decapsulation re-expands the private seed with a variable-length sampler
 kem-33-2;Confirmed;review;Decryption multiplication traverses secret support positions
+kem-33-3;Confirmed;runtime+static;The optimized API generates predictable keys and encapsulations
 kem-34-1;Proof gap;runtime;Rudraksh2-128 leaves only a 2^64-query Grover margin
 kem-34-2;Confirmed;runtime;Cortex-M4 uses an incompatible Minal decoder constant
 kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer lengths
@@ -129,6 +138,8 @@ kem-36-3;Confirmed;runtime;Decapsulation fails to free the private h0 buffer
 kem-36-4;Proof gap;runtime;Boundary weak-key classes are omitted from the DFR bound
 kem-36-5;Proof gap;runtime;The weak-key reduction assumes the secret parity checks are public
 kem-36-6;Confirmed;runtime;Decapsulation addresses depend on the secret support
+kem-36-7;Confirmed;runtime+static;TRIKE shares the generic unsalted-FO multi-ciphertext loss, no TRIKE-specific weakness
+kem-36-8;Confirmed;static;TRIKE resets the external DRBG for deterministic re-encryption
 kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with variable work
 kem-37-2;Lead;runtime;FO re-encryption leaks the decrypted message through sampler timing
 kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
@@ -137,6 +148,7 @@ kem-38-3;Probable;review;Stateful timing reactions recover UVW-KEM-128 shared se
 kem-38-4;Confirmed;runtime;Unused c1 bits make ciphertexts malleable without changing the key
 kem-38-5;Lead;runtime;The implementation's final decryption failures expose UVW's hidden pairs
 kem-38-6;Confirmed;runtime;UVW-256 and -512 leak retry matrices
+kem-38-7;Confirmed;static;UVW-KEM resets the external DRBG for key expansion and re-encryption
 kem-39-1;Confirmed;review;PRF substream reuse violates the IND-CPA proof's independence premise
 kem-39-2;Confirmed;runtime;WeaverKEM-256 omits its high-layer BCH decoder
 kem-39-3;Confirmed;runtime;BCH decoders mis-correct some errors within their designed radius
@@ -144,6 +156,7 @@ kem-39-4;Confirmed;runtime;Matrix and lifting samplers differ from the normative
 kem-39-5;Confirmed;runtime;Message encoding uses the wrong half-modulus
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
 kem-40-2;Confirmed;review;Decapsulation addresses a private array with a secret-derived index
+kem-40-3;Confirmed;static;YuanYang resets the external DRBG for deterministic encryption
 kex-01-1;Confirmed;review;The stated no-matching-session theorem is false for responder sessions
 kex-01-2;Confirmed;runtime;ADKEX-512 silently derives different keys in honest sessions
 kex-01-3;Confirmed;runtime;Incoming message lengths are ignored before fixed-size reads
@@ -160,6 +173,7 @@ kex-04-2;Confirmed;runtime;DKEX ignores input lengths before fixed-size reads
 kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-session aborts
 kex-05-2;Confirmed;runtime;Ephemeral-key reuse recovers the complete Loom-KEM secret key
 kex-05-3;Confirmed;runtime+static;Shuttle signing-key leakage enables permanent responder impersonation
+kex-05-4;Confirmed;static;Loom's ICCS build uses the external DRBG as an XOF
 kex-06-1;Confirmed;static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
 kex-06-2;Lead;runtime;Static-key reconciliation admits an active reaction-recovery path
 kex-06-3;Proof gap;static;Reconciliation leakage makes the passive-security bound vacuous
@@ -176,6 +190,7 @@ sign-01-3;Confirmed;runtime;Signature API ignores declared key-buffer lengths
 sign-01-4;Confirmed;runtime;Honest signing writes one polynomial past the mask vector
 sign-01-5;Confirmed;static;The challenge sampler collapses independent signs to one effective bit
 sign-01-6;Confirmed;static;The printed abort bound exceeds one, outside the theorems' hypothesis
+sign-01-7;Confirmed;static;The external DRBG is used as a KDF
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-02-2;Confirmed;runtime;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
@@ -211,6 +226,7 @@ sign-11-8;Confirmed;static;Complementary constant-sum rounding breaks interopera
 sign-12-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-12-2;Confirmed;runtime;32-bit message-length truncation enables long-message forgeries
 sign-12-3;Confirmed;runtime;Same-key S/F signatures recover the Galas secret key
+sign-12-4;Confirmed;static;Key generation resets the external DRBG as a seed expander
 sign-13-1;Confirmed;static;SHAKE256 capacity reduces GreatWall-512 forgery cost to about 2^256
 sign-14-1;Confirmed;runtime;A degenerate QuickSilver witness gives universal public-key-only forgeries
 sign-15-1;Confirmed;review;Returned-length error causes an out-of-bounds heap disclosure
@@ -231,6 +247,10 @@ sign-18-4;Confirmed;review;Signing indexes field tables and signature state with
 sign-18-5;Confirmed;runtime;Public variable permutation permits signature forgery
 sign-19-1;Confirmed;runtime;Phoenix parameter sets define incompatible signature languages
 sign-20-1;Proof gap;static;Qingluan-128's own quantum accounting falls below the 80-bit target
+sign-20-2;Confirmed;runtime;DRBG rollback is outside the security model, so the reported witness recovery is not an attack
+sign-20-3;Confirmed;runtime+static;Nested SM3 multicollisions give sub-target message binding for QingLuan-384 and -512
+sign-20-4;Confirmed;runtime;Signing re-expands the secret through a variable-work sampler
+sign-20-5;Confirmed;runtime+static;Qing Luan's random-generation state caps the 384- and 512-bit sets at 256 bits
 sign-21-1;Confirmed;runtime;A shared TCCR tweak enables one-signature multi-target key recovery below the claimed levels
 sign-21-2;Confirmed;static;A shared leaf-commitment tweak gives one-signature multi-target key recovery
 sign-21-3;Confirmed;runtime;Same-key deterministic S/F signatures recover an equivalent witness
@@ -239,6 +259,7 @@ sign-22-2;Confirmed;static;The implementation expands the complete key pair from
 sign-22-3;Confirmed;runtime+static;Rhyme-SM3 omits the specified doubled-width parity mask
 sign-22-4;Confirmed;runtime;An undersized rejection envelope permits practical secret-tail recovery and forgery
 sign-23-1;Confirmed;runtime;Reversed transition leaks Shuttle's signing key
+sign-23-2;Confirmed;static;Shuttle's ICCS build uses the external DRBG as an XOF
 sign-24-1;Confirmed;runtime;Chunked Reed–Solomon encoding reveals the signing witness
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
 sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
@@ -256,12 +277,14 @@ sign-28-3;Confirmed;static;The implementations omit the Hash4 step required by t
 sign-28-4;Confirmed;static;Reference universal hashing reads beyond an eight-byte stack buffer
 sign-28-5;Confirmed;runtime;An undocumented exported helper generates keys from a public constant
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
+sign-29-2;Confirmed;static;Deterministic TINS expansion depends on the external DRBG
 sign-30-1;Confirmed;runtime;The normal build deterministically exposes every signing key
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Confirmed;review;Secret-dependent echelon pivots during signing
 sign-32-1;Confirmed;runtime;Every signature is accepted
 sign-32-2;Confirmed;runtime;An all-zero signature crashes two verifier instances
 sign-32-3;Confirmed;runtime;Pair-correlated signatures recover an equivalent UVW-128 signing key
+sign-32-4;Confirmed;static;UVW-Sign resets the external DRBG for deterministic matrix expansion
 sign-33-1;Confirmed;runtime;Publicly reproducible signing keys
 sign-33-2;Confirmed;static;A 256-bit implementation prehash limits forgery security to 128 bits
 sign-33-3;Proof gap;static;The VDOO-256 and -512 proof bound contains a 128-bit salt term

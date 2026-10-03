@@ -394,12 +394,32 @@ echo "== kem-14-2/-3 DTRU: rejection oracle and missing public-key binding (Low)
 run_target kem-14 "kem-14-2/kem-14-3" make -C kem-14 exploit-rejection-contract
 
 echo
+echo "== kem-14-4 DTRU: ring-paired DoubleE8 covariance (Medium Proof gap) =="
+run_target kem-14 "kem-14-4" python3 kem-14/reproduce_dtru_covariance.py
+
+echo
+echo "== kem-11-2 COMPASS-KEM: concrete secret missing from Biased-MLWR reduction (Medium Proof gap) =="
+run_target kem-11 "kem-11-2" python3 kem-11/reproduce_biased_mlwr_gap.py
+
+echo
 echo "== kem-15-1 FLIT512: reference/optimized interoperability failure (Low) =="
 run_target kem-15 "kem-15-1" python3 kem-15/reproduce_interop.py
 
 echo
 echo "== kem-16-1 HARE: headline DFR claims require refined model (Medium Proof gap) =="
 run_target kem-16 "kem-16-1" python3 kem-16/reproduce_model1_dfr.py
+
+echo
+echo "== kem-16-2 HARE: same-key multi-instance decoding (Critical) =="
+run_target kem-16 "kem-16-2-e2e" make -C kem-16 reproduce-multi-instance
+if [ -z "$only" ] || [ "$only" = kem-16 ]; then
+    if ep=$(find_python 'import numpy, scipy'); then
+        run_target kem-16 "kem-16-2-estimator" env NGCC_ESTIMATOR_PYTHON="$ep" python3 kem-16/reproduce_multi_instance.py
+    else
+        echo "SKIP   kem-16 kem-16-2 estimator (numpy/scipy unavailable)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== kem-17-4 HEP-QC: public EPC-P column fingerprint =="
@@ -431,6 +451,16 @@ run_target kem-31 "kem-31-4" python3 kem-31/reproduce_pairing_constraint.py
 echo
 echo "== kem-33-1 QUBE: secret sampler has variable work (Medium) =="
 run_target kem-33 "kem-33-1" make -C kem-33 exploit
+
+echo
+echo "== kem-33-3 QUBE optimized API: never-seeded PRNG (Critical) =="
+run_target kem-33 "kem-33-3-static" python3 kem-33/reproduce_unseeded_optimized.py
+if [ "$only" = kem-33 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target kem-33 "kem-33-3-full" sh kem-33/reproduce_unseeded_optimized.sh
+elif [ -z "$only" ]; then
+    echo "SKIP   kem-33 kem-33-3 full replay (set NGCC_SLOW=1 or request kem-33)"
+    skipped=$((skipped + 1))
+fi
 
 echo
 echo "== kem-35-1 Scloud+: decrypted-message-dependent re-encryption timing (Medium) =="
@@ -806,6 +836,28 @@ echo "== sign-20-1 Qingluan-128: quantum-accounting proof gap (Medium) =="
 run_target sign-20 "sign-20-1" python3 sign-20/reproduce_quantum_accounting.py
 
 echo
+echo "== sign-20-5 Qing Luan: 256-bit random-generation state ceilings (Critical) =="
+run_target sign-20 "sign-20-5-static" python3 sign-20/reproduce_state_ceiling.py
+
+echo
+echo "== sign-20-2/-5 Qing Luan: out-of-model DRBG-rollback replay and full state reconstruction (Info / Critical) =="
+if [ "$only" = sign-20 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target sign-20 "sign-20-2/sign-20-5" sh sign-20/reproduce_rollback.sh
+elif [ -z "$only" ]; then
+    echo "SKIP   sign-20 sign-20-2/-5 full replay (set NGCC_SLOW=1 or request sign-20)"
+    skipped=$((skipped + 1))
+fi
+
+echo
+echo "== sign-20-3/-4 Qing Luan: hash shortcuts and secret-dependent sampler (Critical / Low) =="
+if [ "$only" = sign-20 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target sign-20 "sign-20-3/sign-20-4" sh sign-20/reproduce_qing_hash_sampler.sh
+elif [ -z "$only" ]; then
+    echo "SKIP   sign-20 sign-20-3/-4 full replay (set NGCC_SLOW=1 or request sign-20)"
+    skipped=$((skipped + 1))
+fi
+
+echo
 echo "== sign-21-1 ReSolveD-alpha: shared-tweak multi-target key recovery (Critical) =="
 run_target sign-21 "sign-21-1" sh sign-21/reproduce_tccr_multitarget.sh
 
@@ -1050,6 +1102,11 @@ run_target kem-36 "kem-36-3/kem-36-6" python3 kem-36/reproduce_implementation_is
 run_target kem-36 "kem-36-4/kem-36-5" python3 kem-36/reproduce_spec_proof_gaps.py
 
 echo
+echo "== kem-36-7 TRIKE: generic unsalted-FO multi-ciphertext loss (Info) =="
+run_target kem-36 "kem-36-7-scaled" make -C kem-36 reproduce-multitarget
+run_target kem-36 "kem-36-7-bounds" python3 kem-36/reproduce_multitarget_bounds.py
+
+echo
 echo "== kem-37-2 / kex-09-2 re-encryption sampler timing leads (Medium) =="
 run_target kem-37 "kem-37-2" python3 kem-37/reproduce_reencrypt_sampler.py
 run_target kex-09 "kex-09-2" python3 kex-09/reproduce_reencrypt_sampler.py
@@ -1091,6 +1148,23 @@ echo
 echo "== sign-34-3 / sign-34-4 YuanYang.DSA sampler findings =="
 run_target sign-34 "sign-34-4" python3 sign-34/reproduce_sampler_constants.py
 run_target sign-34 "sign-34-3" sh sign-34/reproduce_sampler_mean.sh
+
+echo
+echo "== external DRBG used as a deterministic protocol expander (Low) =="
+run_target kem-01 "kem-01-3" python3 security/rbg_protocol_dependency.py --report-id kem-01-3
+run_target sign-01 "sign-01-7" python3 security/rbg_protocol_dependency.py --report-id sign-01-7
+run_target kem-06 "kem-06-5" python3 security/rbg_protocol_dependency.py --report-id kem-06-5
+run_target kem-07 "kem-07-3" python3 security/rbg_protocol_dependency.py --report-id kem-07-3
+run_target kem-10 "kem-10-4" python3 security/rbg_protocol_dependency.py --report-id kem-10-4
+run_target sign-12 "sign-12-4" python3 security/rbg_protocol_dependency.py --report-id sign-12-4
+run_target kem-23 "kem-23-2" python3 security/rbg_protocol_dependency.py --report-id kem-23-2
+run_target sign-23 "sign-23-2" python3 security/rbg_protocol_dependency.py --report-id sign-23-2
+run_target kex-05 "kex-05-4" python3 security/rbg_protocol_dependency.py --report-id kex-05-4
+run_target sign-29 "sign-29-2" python3 security/rbg_protocol_dependency.py --report-id sign-29-2
+run_target sign-32 "sign-32-4" python3 security/rbg_protocol_dependency.py --report-id sign-32-4
+run_target kem-36 "kem-36-8" python3 security/rbg_protocol_dependency.py --report-id kem-36-8
+run_target kem-38 "kem-38-7" python3 security/rbg_protocol_dependency.py --report-id kem-38-7
+run_target kem-40 "kem-40-3" python3 security/rbg_protocol_dependency.py --report-id kem-40-3
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

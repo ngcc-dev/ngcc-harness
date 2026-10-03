@@ -83,6 +83,22 @@ session key from public data alone. `reproduce.sh` runs it.
 
 The latest candidate-local witnesses are also wired into the runner:
 
+- `kem-33/reproduce_unseeded_optimized.py` certifies QUBE's never-seeded
+  optimized PRNG path; its shell companion downloads a commit- and hash-pinned
+  artifact and requires full key and sender-session recovery on all four sets.
+- `kem-36/reproduce_multitarget.c` links TRIKE's submitted encapsulation and
+  decapsulation for a scaled multi-target recovery. The bounds certificate
+  checks both implementation families and the published full-size cycle costs.
+- `kem-16/reproduce_multi_instance.py` hash-pins the DS-DOOM estimator, while
+  its native companion verifies HARE's ciphertext-to-session-key mapping and
+  controls on all four shipped sets.
+- Qing Luan's `sign-20` scripts provide a scaled concatenated-hash witness, a
+  submitted-source sampler trace, a pinned rollback forgery replay, and static
+  certificates for the 256-bit random-generation state ceilings.
+- `kem-11/reproduce_biased_mlwr_gap.py` checks COMPASS-KEM's missing proof
+  bridge. `kem-14/reproduce_dtru_covariance.py` certifies DTRU's ring-paired
+  decoder covariance and query-bound proof loss, not the cited paper's
+  extreme-tail fit or a full key recovery.
 - `sign-12/reproduce_long_message.c` sparsely maps a `2^32 + 38`-byte Galas
   message and shows that the reference verifier hashes only its 38-byte prefix.
 - `kem-18/reproduce_loong256.sh` downloads Tianyuan Xie's pinned LoongKEM PoC,
@@ -289,6 +305,13 @@ Facto-DSA, Origami and Tins under their `sign-*` directories. Static-only
 validators for MEGASCON, MOZI, ZC-EDMC, Amoeba, YuanYang.KEM and DOVE are listed
 as `static` in `security/vulnerabilities.csv` and checked by
 `security/check_vulnerability_ids.py`.
+
+`security/rbg_protocol_dependency.py` is the shared source certificate for the
+Low external-RBG dependency findings.  It checks the submitted copies in which
+the ICCS DRBG is reset from protocol data and then used as a deterministic
+PRG, KDF or XOF for key expansion, encryption/re-encryption, signing or
+verification.  Ordinary fresh-randomness and KAT-only seeding sites are outside
+that check.
 
 Facto-DSA's separate `sign-10/reproduce_forgery.py` demonstrates `sign-10-2`:
 the public key exposes a universal signing trapdoor. This complete confirmed

@@ -41,3 +41,19 @@ $(eval $(call HARE,HARE-384-kr,HARE-384))
 $(eval $(call HARE,HARE-512-kr,HARE-512))
 
 include ../api/link_finish.mk
+
+.PHONY: reproduce-multi-instance
+reproduce-multi-instance:
+	@mkdir -p build
+	@set -e; \
+	R='$(IMPL)'; C="$$R/_shared/hare_core"; A="$$R/_shared/api_pkc"; \
+	for L in 128 256 384 512; do \
+	  $(CC) -O2 -std=gnu11 -w -DHARE_SYMMETRIC_MODE_B -DHARE_BACKEND_KR=1 \
+	    -DHARE_INSTANCE_NAME=\"HARE-$$L-kr\" \
+	    -I"$$R/Reference_Implementation/HARE-$$L/kr" -I"$$C/common" -I"$$C/ref" -I"$$A" \
+	    reproduce_multi_instance_e2e.c "$$C"/common/*.c "$$C"/ref/*.c \
+	    "$$A/auxfunc.c" "$$A/drng.c" \
+	    "$$R/Reference_Implementation/HARE-$$L/kr/KEM_AlgorithmInstance.c" \
+	    -o "build/reproduce_multi_instance_$$L" -lcrypto; \
+	  "build/reproduce_multi_instance_$$L" 2; \
+	done

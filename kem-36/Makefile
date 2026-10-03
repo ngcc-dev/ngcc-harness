@@ -26,3 +26,21 @@ $(eval $(call TRIKE,TRIKE-7))
 $(eval $(call TRIKE,TRIKE-9))
 
 include ../api/link_finish.mk
+
+.PHONY: reproduce-multitarget
+reproduce-multitarget:
+	@mkdir -p build
+	@set -e; \
+	for S in 5 9; do \
+	  R='$(REF)'/TRIKE-$$S; \
+	  $(CC) -O3 -march=native -w -I"$$R/ICCS" \
+	    -Dget_random_number=iccs_get_random_number -c "$$R/ICCS/drng.c" \
+	    -o "build/trike_drng$$S.o"; \
+	  $(CC) -O3 -march=native -w -I"$$R/src" -I"$$R/ICCS" \
+	    reproduce_multitarget.c "$$R/src/KEM_AlgorithmInstance.c" \
+	    "$$R/src/decoder.c" "$$R/src/sample.c" "$$R/src/gf2x.c" \
+	    "$$R/ICCS/auxfunc.c" "build/trike_drng$$S.o" -lm \
+	    -o "build/reproduce_multitarget$$S"; \
+	done
+	@build/reproduce_multitarget5 8 2 3 503
+	@build/reproduce_multitarget9 6 2 2 902
