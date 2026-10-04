@@ -35,6 +35,9 @@ def check(bits: int, left: bytes, right: bytes, expected: str) -> None:
     right_digest = digest(bits, right)
     assert left_digest == right_digest, f"Neulaser-{bits}: collision failed"
     assert left_digest.hex() == expected
+    control = bytearray(right)
+    control[-1] ^= 1
+    assert digest(bits, bytes(control)) != left_digest, f"Neulaser-{bits}: control collided"
 
 
 def iscas_collision(bits: int, prefix: int) -> tuple[bytes, bytes]:

@@ -33,6 +33,7 @@ hash-20-2;Confirmed;static;The specified final marker creates cross-rate relatio
 hash-21-1;Confirmed;runtime;A local feedback collision merges complete Neulaser states
 hash-21-2;Confirmed;runtime;Reduction modulo 2^32-5 creates reachable state mergers
 hash-21-3;Confirmed;review;Secret state indexes a 256-byte S-box
+hash-21-4;Confirmed;runtime+static;Long random messages admit second preimages in one scan
 hash-22-1;Confirmed;review;"Secret state indexes AES S-box; tail bits branch"
 hash-24-1;Confirmed;runtime;Full-round core permutation has a one-query invariant-subspace distinguisher
 hash-24-2;Confirmed;review;Truncated tree chaining values cap QSH second-preimage security
@@ -64,10 +65,10 @@ kem-05-1;Confirmed;runtime;The default library deterministically generates a pub
 kem-05-2;Confirmed;runtime;Same-key multi-instance decoding misses BIKE-MLThre-128 and -256 targets
 kem-06-1;Confirmed;runtime;Malformed inputs drive the BRA decoder out of bounds
 kem-06-2;Confirmed;runtime;Reference field multiplication touches one limb past its output
-kem-06-3;Confirmed;review;Secret-derived decoder pivots select memory addresses
+kem-06-3;Lead;review;The decoder address trace gives a candidate-specific key-recovery route
 kem-06-4;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
 kem-06-5;Confirmed;static;Secret-key expansion depends on the external DRBG
-kem-07-1;Confirmed;review;Secret-derived decoder pivots select memory addresses
+kem-07-1;Lead;review;The decoder address trace gives a candidate-specific key-recovery route
 kem-07-2;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
 kem-07-3;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-08-1;Confirmed;review;C128 decapsulation branches on decrypted coefficients
@@ -209,6 +210,7 @@ sign-05-2;Confirmed;review;Signing indexes lookup tables with the secret key
 sign-05-3;Confirmed;static;The specified opening-rejection retry cannot make progress
 sign-05-4;Probable;runtime;uBlockith-EM witness misalignment reduces the specified relation to a two-round fixed point
 sign-05-5;Confirmed;runtime;Vistrutith combines three constraint families as one polynomial
+sign-05-6;Confirmed;static;The specified SM4th-EM relation omits the public output
 sign-06-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-06-2;Confirmed;static;The implementation expands the entire key pair from a 256-bit root
 sign-06-3;Confirmed;runtime;Rejected signatures leak heap memory without bound
@@ -217,6 +219,7 @@ sign-06-5;Confirmed;runtime+static;A byte-wide position index and 64 sign bits s
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
 sign-07-3;Confirmed;review;Compressed signatures enable practical equivalent-key recovery and forgery
+sign-07-4;Confirmed;runtime+static;A missing nonce collapses every secret and error polynomial to one value
 sign-08-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-08-2;Confirmed;runtime;The compression-consistency restart leaks an equivalent DARTS-128 signing key
 sign-09-1;Confirmed;runtime+static;The unauthenticated signature salt invalidates the salted-target analysis
@@ -261,6 +264,7 @@ sign-20-5;Confirmed;runtime+static;Qing Luan's random-generation state caps the 
 sign-21-1;Confirmed;runtime;A shared TCCR tweak enables one-signature multi-target key recovery below the claimed levels
 sign-21-2;Confirmed;static;A shared leaf-commitment tweak gives one-signature multi-target key recovery
 sign-21-3;Confirmed;runtime;Same-key cross-profile access is outside EUF-CMA despite reproduced witness recovery
+sign-21-4;Proof gap;static;The quantum EUF-CMA proof misses every target through its TCCR error term
 sign-22-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-22-2;Confirmed;static;The implementation expands the complete key pair from a 256-bit root
 sign-22-3;Confirmed;runtime+static;Rhyme-SM3 omits the specified doubled-width parity mask

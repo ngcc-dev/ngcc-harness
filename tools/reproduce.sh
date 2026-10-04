@@ -203,6 +203,10 @@ echo "== hash-21-1 / hash-21-2 Neulaser: state-merger collisions =="
 run_target hash-21 "hash-21-1/hash-21-2" make -C hash-21 reproduce
 
 echo
+echo "== hash-21-4 Neulaser: long-message second-preimage scan (Critical) =="
+run_target hash-21 "hash-21-4" python3 hash-21/reproduce_long_second_preimage.py
+
+echo
 echo "== hash-24-1 QSH: invariant-subspace distinguisher =="
 run_target hash-24 "hash-24-1" make -C hash-24 reproduce
 
@@ -723,6 +727,10 @@ echo "== sign-05-3 Chinith: specified opening retry cannot progress (Low) =="
 run_target sign-05 "sign-05-3" python3 sign-05/reproduce_open_retry.py
 
 echo
+echo "== sign-05-6 Chinith: specified SM4th-EM relation omits the public output (Low) =="
+run_target sign-05 "sign-05-6" python3 sign-05/reproduce_sm4th_em_spec_relation.py
+
+echo
 echo "== sign-06-3 COMPASS-SIG: rejected signatures leak heap memory (Low) =="
 run_target sign-06 "sign-06-3" make -C sign-06 reproduce-verify-leak
 
@@ -774,6 +782,27 @@ if [ -z "$only" ] || [ "$only" = sign-07 ]; then
         done
     else
         echo "SKIP   sign-07 sign-07-2 (build it: make -C sign-07 exploit)"; skipped=$((skipped + 1))
+    fi
+fi
+
+echo
+echo "== sign-07-4 CS: omitted ExpandS nonce collapses the secret (Critical) =="
+if [ -z "$only" ] || [ "$only" = sign-07 ]; then
+    if [ -f sign-07/lib/libCS-128.so ] &&
+       [ -f sign-07/lib/libCS-256.so ] &&
+       [ -f sign-07/lib/libCS-512.so ]; then
+        run_target sign-07 "sign-07-4" python3 sign-07/reproduce_expand_s_collapse.py
+    else
+        echo "SKIP   sign-07 sign-07-4 runtime collapse (build it: make -C sign-07 libs)"
+        skipped=$((skipped + 1))
+    fi
+    estimator_path=${LATTICE_ESTIMATOR_PATH:-../lattice-estimator}
+    if estimator_python=$(find_python 'import sage.all') && [ -d "$estimator_path" ]; then
+        run_target sign-07 "sign-07-4" env LATTICE_ESTIMATOR_PATH="$estimator_path" \
+            "$estimator_python" sign-07/reproduce_expand_s_estimate.py
+    else
+        echo "SKIP   sign-07 sign-07-4 estimator (Sage Python or pinned lattice-estimator unavailable)"
+        skipped=$((skipped + 1))
     fi
 fi
 
@@ -908,6 +937,10 @@ run_target sign-21 "sign-21-2" python3 sign-21/reproduce_leaf_commitment_multita
 echo
 echo "== sign-21-3 ReSolveD-alpha: deterministic cross-profile witness recovery (Info) =="
 run_target sign-21 "sign-21-3" sh sign-21/reproduce_cross_profile_recovery.sh
+
+echo
+echo "== sign-21-4 ReSolveD-alpha: quantum TCCR proof error (High Proof gap) =="
+run_target sign-21 "sign-21-4" python3 sign-21/reproduce_quantum_tccr_bound.py
 
 echo
 echo "== sign-22-4 Rhyme-128: order-dependent secret-tail recovery and forgery (Critical) =="
