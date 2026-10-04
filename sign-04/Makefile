@@ -25,14 +25,20 @@ include ../api/link_finish.mk
 
 CEDRUS160S := $(REF)/CEDRUSALPHA-160s
 
-.PHONY: exploit clean-exploit
+.PHONY: exploit reproduce-q64-alias clean-exploit
 exploit: reproduce_cedrus_alpha
 	./reproduce_cedrus_alpha
+
+reproduce-q64-alias: reproduce_q64_alias_extension
+	./reproduce_q64_alias_extension
 
 reproduce_cedrus_alpha: reproduce_cedrus_alpha.c \
 	$(CEDRUS160S)/wots.c $(CEDRUS160S)/address.c \
 	$(CEDRUS160S)/hash_sm3.c $(CEDRUS160S)/auxfunc.c $(CEDRUS160S)/utils.c
 	$(CC) -O2 -std=c99 -I$(CEDRUS160S) $^ -o $@
 
+reproduce_q64_alias_extension: reproduce_q64_alias_extension.c
+	$(CC) -O3 -std=c11 -fopenmp $< -lm -o $@
+
 clean-exploit:
-	rm -f reproduce_cedrus_alpha
+	rm -f reproduce_cedrus_alpha reproduce_q64_alias_extension

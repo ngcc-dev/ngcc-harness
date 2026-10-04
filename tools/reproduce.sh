@@ -286,6 +286,24 @@ echo "== kem-19-1 Lore: ring-projection preflight (Lead; lattice cost unverified
 run_target kem-19 "kem-19-1" python3 kem-19/reproduce_ring_projection.py
 
 echo
+echo "== kem-20-1 MAMBA-Frost: fail-open key generation exposes shared secrets (High) =="
+if [ -z "$only" ] || [ "$only" = kem-20 ]; then
+    mamba_complete=1
+    for mamba_set in 128 192 256 384 512 CC-128 CC-192 CC-256 CC-384 CC-512; do
+        if [ ! -f "kem-20/lib/libMAMBA-Frost-$mamba_set.so" ]; then
+            mamba_complete=0
+        fi
+    done
+    if [ "$mamba_complete" = 1 ]; then
+        python3 kem-20/reproduce_fail_open.py || fail=$((fail + 1))
+        run_target kem-20 "kem-20-1-rlimit" python3 kem-20/reproduce_rlimit.py
+    else
+        echo "SKIP   kem-20 (build all ten instances: make -C kem-20)"
+        skipped=$((skipped + 1))
+    fi
+fi
+
+echo
 echo "== kem-22-1 Mithril: honest shared-secret mismatch (Medium) =="
 run_target kem-22 "kem-22-1" make -C kem-22 exploit-decoder
 
@@ -463,8 +481,9 @@ elif [ -z "$only" ]; then
 fi
 
 echo
-echo "== kem-35-1 Scloud+: decrypted-message-dependent re-encryption timing (Medium) =="
+echo "== kem-35-1 Scloud+: timing-based near-complete key extraction (High) =="
 run_target kem-35 "kem-35-1" sh kem-35/reproduce_reencryption_timing.sh
+run_target kem-35 "kem-35-1-recovery" sh kem-35/reproduce_partial_key_recovery.sh
 
 echo
 echo "== kem-37-1 TriQ-KEM: secret sampler has variable work (Medium) =="
@@ -527,8 +546,10 @@ echo "== kem-29-3 / kem-29-4 Polar-KEM: radius failure and ciphertext aliases ==
 run_target kem-29 "kem-29-3/kem-29-4" make -C kem-29 audit-spec
 
 echo
-echo "== kem-30-1 PolarLAC: decrypted-message timing classes (Medium) =="
+echo "== kem-30-1/-2 PolarLAC: timing key recovery and secret-indexed LLR table (Critical / Medium) =="
 run_target kem-30 "kem-30-1" make -C kem-30 reproduce-timing-leak
+run_target kem-30 "kem-30-1-recovery" sh kem-30/reproduce_full_timing_recovery.sh
+run_target kem-30 "kem-30-2" python3 kem-30/reproduce_llr_cache_lookup.py
 
 echo
 echo "== kex-06-2 MAMBA-NIKE: static-key reaction-recovery path (High lead) =="
@@ -652,12 +673,18 @@ echo "== kex-09-1 TriQ-KEX: secret sampler has variable work (Medium) =="
 run_target kex-09 "kex-09-1" make -C kex-09 exploit
 
 echo
-echo "== sign-03-1 CEDRUS+C: adaptive FORS leaf-accumulation forgery (Critical) =="
+echo "== sign-03-1/-2 CEDRUS+C: FORS forgeries (Critical / High) =="
 if [ -z "$only" ] || [ "$only" = sign-03 ]; then
     if [ -x sign-03/reproduce_forgery ] && [ -f sign-03/lib/libCEDRUSC-160f.so ]; then
         sign-03/reproduce_forgery sign-03/lib/libCEDRUSC-160f.so || fail=$((fail + 1))
     else
         echo "SKIP   sign-03 (build it: make -C sign-03 exploit)"; skipped=$((skipped + 1))
+    fi
+    if [ "$only" = sign-03 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+        run_target sign-03 "sign-03-2" sh sign-03/reproduce_fors_accumulation.sh
+    else
+        echo "SKIP   sign-03 sign-03-2 full replay (request sign-03 or set NGCC_SLOW=1)"
+        skipped=$((skipped + 1))
     fi
 fi
 
@@ -675,8 +702,17 @@ echo "== sign-24-1 Sigurd: witness recovery and forgery (Critical) =="
 run_target sign-24 "sign-24-1" make -C sign-24 reproduce
 
 echo
-echo "== sign-04-1 / sign-04-2 CEDRUS-alpha: WOTS truncation and address aliases =="
+echo "== sign-04-1/-2/-4 CEDRUS-alpha: WOTS and FORC forgeries (Critical / Critical Probable / High) =="
 run_target sign-04 "sign-04-1/sign-04-2" make -C sign-04 exploit
+run_target sign-04 "sign-04-2-q64" make -C sign-04 reproduce-q64-alias
+if [ -z "$only" ] || [ "$only" = sign-04 ]; then
+    if [ "$only" = sign-04 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+        run_target sign-04 "sign-04-4" sh sign-04/reproduce_forc_accumulation.sh
+    else
+        echo "SKIP   sign-04 sign-04-4 full replay (request sign-04 or set NGCC_SLOW=1)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== sign-05-1 Chinith: public-key-only forgery in all 14 sets (Critical) =="
@@ -913,6 +949,14 @@ run_target sign-29 "sign-29-1" make -C sign-29 exploit
 echo
 echo "== sign-30-1 TRINE: unseeded normal build exposes the signing key (Critical) =="
 run_target sign-30 "sign-30-1" python3 sign-30/reproduce_unseeded_forgery.py
+if [ -z "$only" ] || [ "$only" = sign-30 ]; then
+    if [ "$only" = sign-30 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+        run_target sign-30 "sign-30-2" sh sign-30/reproduce_seed_collision.sh
+    else
+        echo "SKIP   sign-30 sign-30-2 full replay (request sign-30 or set NGCC_SLOW=1)"
+        skipped=$((skipped + 1))
+    fi
+fi
 
 echo
 echo "== sign-02-2 BiT-128: shared-sign equivalent-key recovery (Critical Confirmed) =="
@@ -1127,6 +1171,10 @@ run_target kem-39 "kem-39-4/kem-39-5" python3 kem-39/reproduce_spec_mismatches.p
 echo
 echo "== kem-40-1 YuanYang.KEM: encryption discards the specified error (Medium) =="
 run_target kem-40 "kem-40-1" python3 kem-40/reproduce_unused_error.py
+
+echo
+echo "== kem-40-4 YuanYang.KEM: dead even-rounding corrections (Medium Confirmed) =="
+run_target kem-40 "kem-40-4" python3 kem-40/reproduce_bias_correction.py
 
 echo
 echo "== kem-41-1 ZEN: average-message DFR model versus worst-case proof (Medium Proof gap) =="

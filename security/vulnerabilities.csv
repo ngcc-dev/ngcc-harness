@@ -102,6 +102,7 @@ kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared sec
 kem-18-2;Lead;static;Reducible rings project LoongKEM into much smaller SLWE instances
 kem-18-3;Confirmed;runtime;Public consistency equations recover Loong128 and Loong256 shared secrets
 kem-19-1;Lead;review;Lore-512's reducible ring admits smaller quotient attacks
+kem-20-1;Confirmed;runtime;Fail-open key generation creates publicly decapsulatable keys
 kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit seed
 kem-22-1;Confirmed;runtime;Reversed decryption offset invalidates the failure estimate
 kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon decoding
@@ -117,7 +118,8 @@ kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
 kem-29-2;Confirmed;static;The specified aligned basis directly exposes the secret isometry
 kem-29-3;Confirmed;static;Decoding radii contradict the specified error and lattice geometry
 kem-29-4;Confirmed;static;Norm-only validation gives one-query ciphertext aliases
-kem-30-1;Confirmed;runtime;Re-encryption rejection sampling leaks the decrypted-message class
+kem-30-1;Probable;runtime;Re-encryption rejection sampling leaks the decrypted-message class
+kem-30-2;Confirmed;static;Secret-indexed LLR tables expose PolarLAC decoding through the cache
 kem-31-1;Confirmed;runtime;Invalid ciphertexts trigger an assertion during decapsulation
 kem-31-2;Confirmed;runtime;Non-canonical field encodings make ciphertexts malleable without changing the key
 kem-31-3;Confirmed;runtime;Malformed public keys hang or abort encapsulation
@@ -157,6 +159,7 @@ kem-39-5;Confirmed;runtime;Message encoding uses the wrong half-modulus
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
 kem-40-2;Confirmed;review;Decapsulation addresses a private array with a secret-derived index
 kem-40-3;Confirmed;static;YuanYang resets the external DRBG for deterministic encryption
+kem-40-4;Confirmed;static;Dead even-rounding corrections invalidate the submitted failure estimates
 kem-41-1;Proof gap;runtime;The numerical DFR model averages over messages while the proof assumes worst-case correctness
 kex-01-1;Confirmed;review;The stated no-matching-session theorem is false for responder sessions
 kex-01-2;Confirmed;runtime;ADKEX-512 silently derives different keys in honest sessions
@@ -196,9 +199,11 @@ sign-01-8;Confirmed;static;Short message representatives cap Aigis-Sig+ II and I
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-02-2;Confirmed;runtime;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
+sign-03-2;Confirmed;runtime;FORS+C accumulation gives a below-target fresh-message forgery
 sign-04-1;Confirmed;runtime;The 160-bit WOTS implementation authenticates only 128 bits
-sign-04-2;Confirmed;runtime;FORC chain addresses are truncated to eight bits
+sign-04-2;Probable;runtime;FORC chain addresses are truncated to eight bits
 sign-04-3;Confirmed;review;Specified and implemented hash instantiations are incompatible
+sign-04-4;Confirmed;runtime;FORC accumulation gives below-target fresh-message forgeries
 sign-05-1;Confirmed;runtime;The final Fiat–Shamir challenge omits ã0, allowing public-key-only universal forgery
 sign-05-2;Confirmed;review;Signing indexes lookup tables with the secret key
 sign-05-3;Confirmed;static;The specified opening-rejection retry cannot make progress
@@ -281,6 +286,7 @@ sign-28-5;Confirmed;runtime;An undocumented exported helper generates keys from 
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-29-2;Confirmed;static;Deterministic TINS expansion depends on the external DRBG
 sign-30-1;Confirmed;runtime;The normal build deterministically exposes every signing key
+sign-30-2;Confirmed;runtime;The specified 128-bit round seeds permit collision-accumulation forgeries
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Confirmed;review;Secret-dependent echelon pivots during signing
 sign-32-1;Confirmed;runtime;Every signature is accepted
