@@ -1249,6 +1249,34 @@ run_target sign-34 "sign-34-4" python3 sign-34/reproduce_sampler_constants.py
 run_target sign-34 "sign-34-3" sh sign-34/reproduce_sampler_mean.sh
 
 echo
+echo "== 2026-10-05 forum batch: pinned full witnesses =="
+run_target sign-13 "sign-13-2" python3 sign-13/reproduce_malformed_pk_abort.py
+run_target sign-14 "sign-14-2/sign-14-3" python3 sign-14/reproduce_tccr_image_bounds.py
+run_target sign-14 "sign-14-4" python3 sign-14/reproduce_quantum_tccr_bound.py
+run_target sign-15 "sign-15-11" python3 sign-15/reproduce_last_byte_alias.py
+run_target kem-15 "kem-15-2" python3 kem-15/reproduce_random_compare.py
+for forum_case in \
+    "kem-03|kem-03-4/kem-03-5|kem-03/reproduce_spec_level.sh" \
+    "kem-15|kem-15-2|kem-15/reproduce_fo_bypass.sh" \
+    "kem-26|kem-26-4|kem-26/reproduce_seed_y_width.sh" \
+    "kex-03|kex-03-4/kex-03-5|kex-03/reproduce_naxos_and_lengths.sh" \
+    "sign-14|sign-14-2/sign-14-3|sign-14/reproduce_tccr_multitarget.sh" \
+    "sign-15|sign-15-8/sign-15-9/sign-15-10/sign-15-11/sign-15-12|sign-15/reproduce_512_shortfalls.sh" \
+    "sign-31|sign-31-3/sign-31-4/sign-31-5/sign-31-6|sign-31/reproduce_implementation_findings.sh"
+do
+    forum_candidate=${forum_case%%|*}
+    forum_rest=${forum_case#*|}
+    forum_ids=${forum_rest%%|*}
+    forum_script=${forum_rest#*|}
+    if [ "$only" = "$forum_candidate" ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+        run_target "$forum_candidate" "$forum_ids" sh "$forum_script"
+    elif [ -z "$only" ]; then
+        echo "SKIP   $forum_candidate $forum_ids pinned full witness (select $forum_candidate or set NGCC_SLOW=1)"
+        skipped=$((skipped + 1))
+    fi
+done
+
+echo
 echo "== external DRBG used as a deterministic protocol expander (Low) =="
 run_target kem-01 "kem-01-3" python3 security/rbg_protocol_dependency.py --report-id kem-01-3
 run_target sign-01 "sign-01-7" python3 security/rbg_protocol_dependency.py --report-id sign-01-7

@@ -59,6 +59,8 @@ kem-02-6;Confirmed;runtime;Pre-FO decoder failures give a full chosen-ciphertext
 kem-03-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-03-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
 kem-03-3;Confirmed;runtime+static;Public support spaces reduce secret-key recovery to linear algebra
+kem-03-4;Confirmed;runtime+static;Merged support reduces rank-decoding costs below three claimed levels
+kem-03-5;Confirmed;runtime;The decoder rejects supports permitted by the specification
 kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-04-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
 kem-05-1;Confirmed;runtime;The default library deterministically generates a public secret key
@@ -92,6 +94,7 @@ kem-14-2;Confirmed;runtime;Decapsulation return value exposes the implicit-rejec
 kem-14-3;Confirmed;runtime;Rejection key omits the specified public-key binding
 kem-14-4;Proof gap;static;Ring-paired DoubleE8 blocks invalidate DTRU's failure estimates
 kem-15-1;Confirmed;runtime;FLIT512 reference and optimized implementations silently derive different keys
+kem-15-2;Confirmed;runtime;Optimized equality check accepts invalid ciphertexts and exposes a plaintext-checking oracle
 kem-16-1;Proof gap;runtime;Headline DFR values lack a reproducible HARE calculation
 kem-16-2;Confirmed;runtime+static;Same-key multi-instance decoding misses three HARE targets
 kem-17-1;Confirmed;runtime;Publicly reproducible secret keys
@@ -113,6 +116,7 @@ kem-25-1;Proof gap;static;Compressed NEV sets omit the implicit rejection requir
 kem-26-1;Confirmed;runtime+static;Fixed-weight parity falsifies the DQCSD and JPCI assumptions
 kem-26-2;Confirmed;runtime;NSS-HQC-256 fails honest decapsulation near 10^-4
 kem-26-3;Confirmed;runtime;Ephemeral syndrome decoding misses the 256-, 384-, and 512-bit targets
+kem-26-4;Confirmed;runtime;A 256-bit decryption sub-seed caps NSS-HQC-384 and -512
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
 kem-28-1;Confirmed;runtime;Noncanonical ciphertext encoding defeats IND-CCA security
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
@@ -173,6 +177,8 @@ kex-02-5;Confirmed;runtime;An unauthenticated responder observes decapsulation f
 kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret to 64 bits
 kex-03-2;Confirmed;runtime+static;Omitting signatures from the KDF breaks transcript matching
 kex-03-3;Confirmed;runtime+static;The generic double-key KEM fails its claimed first-key CCA game
+kex-03-4;Confirmed;runtime;Initiator length-unit error removes the NAXOS long-term-key binding
+kex-03-5;Confirmed;runtime;Ignored KEX message lengths cause pre-authentication out-of-bounds reads
 kex-04-1;Confirmed;runtime;DKEX-512 silently derives different keys in honest sessions
 kex-04-2;Confirmed;runtime;DKEX ignores input lengths before fixed-size reads
 kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-session aborts
@@ -238,7 +244,11 @@ sign-12-2;Confirmed;runtime;32-bit message-length truncation enables long-messag
 sign-12-3;Confirmed;runtime;Same-key S/F signatures recover the Galas secret key
 sign-12-4;Confirmed;static;Key generation resets the external DRBG as a seed expander
 sign-13-1;Confirmed;static;SHAKE256 capacity reduces GreatWall-512 forgery cost to about 2^256
+sign-13-2;Confirmed;runtime;Malformed public-key padding aborts verification
 sign-14-1;Confirmed;runtime;A degenerate QuickSilver witness gives universal public-key-only forgeries
+sign-14-2;Confirmed;runtime+static;A shared TCCR tweak enables one-signature multi-target key recovery
+sign-14-3;Confirmed;runtime+static;Fixed leaf-commitment tweaks give a second multi-target key-recovery route
+sign-14-4;Proof gap;static;The quantum EUF-CMA proof misses every target through its TCCR error term
 sign-15-1;Confirmed;review;Returned-length error causes an out-of-bounds heap disclosure
 sign-15-2;Confirmed;runtime;Trivial hint-padding malleability violates SUF-CMA
 sign-15-3;Confirmed;static;The ATLAS-192 challenge space is below 192 bits
@@ -246,6 +256,11 @@ sign-15-4;Confirmed;runtime;Repeated masking coefficients expose the signing key
 sign-15-5;Confirmed;runtime;Unchecked hint decoding causes out-of-bounds reads and writes
 sign-15-6;Withdrawn;review;Withdrawn — official NICCS DRNG rotates by the word size
 sign-15-7;Confirmed;runtime;Finite mask support leaks the specified ATLAS-128 signing key
+sign-15-8;Confirmed;runtime+static;The specified ATLAS-512 challenge space is only 322.67 bits
+sign-15-9;Confirmed;runtime;A 384-bit message representative caps ATLAS-256 and -512 forgery security at 192 bits
+sign-15-10;Confirmed;runtime;A 256-bit mask key and key-generation seed cap ATLAS-512
+sign-15-11;Confirmed;runtime;Unused challenge-sign bits violate ATLAS strong unforgeability
+sign-15-12;Confirmed;runtime+static;A byte-wide position index shrinks the ATLAS-512 challenge image
 sign-16-1;Proof gap;review;The stated hash requirement is too weak for the EUF-CMA target
 sign-16-2;Proof gap;review;Polynomial solutions of the relaxed Octarine-512 SIS estimates
 sign-17-1;Confirmed;runtime;The specified fixed-support challenge permits public-key forgeries in 2^39, 2^45, and 2^90
@@ -293,6 +308,10 @@ sign-30-1;Confirmed;runtime;The normal build deterministically exposes every sig
 sign-30-2;Confirmed;runtime;The specified 128-bit round seeds permit collision-accumulation forgeries
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Confirmed;review;Secret-dependent echelon pivots during signing
+sign-31-3;Confirmed;runtime;Allocation failure reuses a stale message representative
+sign-31-4;Confirmed;runtime;Declared public-key and signature lengths are ignored
+sign-31-5;Confirmed;runtime;Impossible-length input wraps the message allocation
+sign-31-6;Confirmed;runtime;Noncanonical field encodings create signature and public-key aliases
 sign-32-1;Confirmed;runtime;Every signature is accepted
 sign-32-2;Confirmed;runtime;An all-zero signature crashes two verifier instances
 sign-32-3;Confirmed;runtime;Pair-correlated signatures recover an equivalent UVW-128 signing key
