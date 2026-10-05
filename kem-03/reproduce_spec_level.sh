@@ -36,6 +36,8 @@ if grep -Fq 'w=3 256-key ' "$LOG"; then
     grep -Eq 'w=3 256-key .* best=[^ ]+ 243\.3 ' "$LOG"
     grep -Eq 'w=3 384-key .* best=[^ ]+ 333\.3 ' "$LOG"
     grep -Eq 'w=3 512-key .* best=[^ ]+ 432\.9 ' "$LOG"
+else
+    echo 'NOT CHECKED kem-03-4: optional CryptographicEstimators figures (dependency unavailable)'
 fi
 
 echo 'ATTACK kem-03-4 BAG-Loong CONFIRMED merged-support rank lowers the estimated key-recovery costs below the 256/384/512-bit targets'

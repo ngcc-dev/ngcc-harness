@@ -9,7 +9,7 @@ trap 'rm -rf -- "$TMP"' EXIT HUP INT TERM
 git init -q "$TMP/source"
 git -C "$TMP/source" remote add origin https://github.com/acprk/ngcc-round1-cryptanalysis.git
 if ! git -C "$TMP/source" fetch -q --depth=1 origin "$COMMIT"; then
-    echo 'SKIP sign-31-3/sign-31-4/sign-31-5: pinned external artifact is unavailable' >&2
+    echo 'SKIP sign-31-3/sign-31-4/sign-31-5/sign-31-6: pinned external artifact is unavailable' >&2
     exit 77
 fi
 git -C "$TMP/source" checkout -q --detach FETCH_HEAD
