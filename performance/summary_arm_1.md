@@ -3,13 +3,14 @@
 Independent measurements of the NGCC Round 1 implementations on one Qualcomm Oryon core (fixed 2.71 GHz (governor performance, minimum = maximum), boost off, SMT none).
 
 - **Cycles** are the mean of all timed calls in five trials, normally with each trial in a fresh process.
-- **Symmetric %**, in parentheses after each public-key cycle count, is the measured share of an operation spent specifically in the ICCS placeholder functions (`pseudohash`, `pseudoXOF`, `sm3hash`). It excludes the ICCS DRNG and candidates' own hash primitives, so a low value does not necessarily mean little symmetric-cryptography work; see the [symmetric cryptography survey](symmetric-survey.md). `(??%)` means that the candidate uses its own symmetric primitives and no ICCS-facing backend was measured.
+- **Symmetric %** is the cycle share in ICCS placeholder hashes, excluding the DRNG and candidates' own hashes. `(??%)` means no ICCS-facing backend was measured. See the [symmetric survey](symmetric-survey.md).
 - Each instance links to its **performance report** with KAT status, all measured implementations, sizes, memory proxies, primitive profiles, and raw-evidence references.
 - See [method and limitations](method_arm_1.md). These are independent measurements, not submitter self-assessments or NICCS results.
 - **Notation:** `–` means not measured, `n=` marks fewer than 100 timed calls, and ⚠ marks an instance whose submitted KAT vectors are not reproduced by the submitted code.
-- **Sizes** in bytes (public key, ciphertext, signature; for key exchange, the total transferred in all protocol messages) are the implementation's own API constants and do not depend on the system.
-- **Hash rows** give three message sizes; each parenthesized value is the candidate's cycles divided by those of the ICCS `pseudoXOF` with the same output width and message length, timed the same way ([ICCS helpers](#iccs-hash-helpers)). It is a relative speed, not an estimate of a production replacement.
-- **Scope:** the table keeps reference parameter sets, suppressing a non-ICCS backend only when an ICCS-facing backend of the same candidate was measured. Notes flag important caveats; additional measured variants remain on the linked instance reports.
+- **Sizes** use a separate catalog, not timing-record buffer sizes. `≈` marks a nominal variable-length signature; other variable signatures use their maximum.
+- **KEX bandwidth** counts protocol messages plus required public keys once. KEM public-key size is listed separately from ciphertext size. Certificates and transport framing are excluded; see the [size audit](EXTERNAL_SIZE_AUDIT.md) for discrepancies and AFS-KEX's API mapping.
+- **Hash rows** show three message sizes. Parentheses give cycles relative to the same-width, same-length ICCS `pseudoXOF` ([helper timings](#iccs-hash-helpers)), not a production replacement estimate.
+- **Scope:** reference sets are shown. When both ICCS and non-ICCS backends were measured, the non-ICCS one stays on the candidate report; notes flag caveats.
 
 ## Digital signatures
 
@@ -138,16 +139,16 @@ Independent measurements of the NGCC Round 1 implementations on one Qualcomm Ory
 | [sign-21](../sign-21/perf_arm_1.md) | ReSolveD-ɑ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-21/sign-21-spec.pdf) | `ReSolveD-alpha-384s` | 68.54 M (39%) | 27.07 G (2.0%, n=35) | 26.86 G (1.7%, n=35) | 288 | 31575 | own symmetric primitives; placeholder share unavailable |
 | [sign-21](../sign-21/perf_arm_1.md) | ReSolveD-ɑ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-21/sign-21-spec.pdf) | `ReSolveD-alpha-512f` | 120.91 M (76%) | 721.69 M (41%) | 577.76 M (34%) | 385 | 72611 | own symmetric primitives; placeholder share unavailable |
 | [sign-21](../sign-21/perf_arm_1.md) | ReSolveD-ɑ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-21/sign-21-spec.pdf) | `ReSolveD-alpha-512s` | 120.91 M (76%) | 3.67 G (39%) | 3.16 G (34%) | 385 | 56239 | own symmetric primitives; placeholder share unavailable |
-| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-128` | 420.26 M (0.7%) | 3.80 M (81%) | 274.1 k (64%) | 800 | 5156 | hash backend varies by instance |
-| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-256` | 1.10 G (0.9%) | 14.01 M (82%) | 785.3 k (66%) | 1824 | 10308 | hash backend varies by instance |
-| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-384` | 2.96 G (0.5%) | 20.72 M (80%) | 1.40 M (65%) | 2720 | 14436 | hash backend varies by instance |
-| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-512` | 3.28 G (0.6%) | 29.31 M (81%) | 1.89 M (62%) | 3872 | 20612 | hash backend varies by instance |
+| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-128` | 420.26 M (0.7%) | 3.80 M (81%) | 274.1 k (64%) | 800 | ≈1483 | hash backend varies by instance |
+| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-256` | 1.10 G (0.9%) | 14.01 M (82%) | 785.3 k (66%) | 1824 | ≈3258 | hash backend varies by instance |
+| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-384` | 2.96 G (0.5%) | 20.72 M (80%) | 1.40 M (65%) | 2720 | ≈4743 | hash backend varies by instance |
+| [sign-22](../sign-22/perf_arm_1.md) | Rhyme [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-22/sign-22-spec.pdf) | `Rhyme-SM3-512` | 3.28 G (0.6%) | 29.31 M (81%) | 1.89 M (62%) | 3872 | ≈7002 | hash backend varies by instance |
 | [sign-23](../sign-23/perf_arm_1.md) | Shuttle [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-23/sign-23-spec.pdf) | `SHUTTLE-128` | 8.29 M (??%) | 4.31 M (??%) | 1.05 M (??%) | 1264 | 1183 | ICCS DRNG is used as the XOF and accounted separately |
 | [sign-23](../sign-23/perf_arm_1.md) | Shuttle [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-23/sign-23-spec.pdf) | `SHUTTLE-256` | 8.84 M (??%) | 6.85 M (??%) | 1.43 M (??%) | 1952 | 2417 | ICCS DRNG is used as the XOF and accounted separately |
 | [sign-23](../sign-23/perf_arm_1.md) | Shuttle [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-23/sign-23-spec.pdf) | `SHUTTLE-512` | 18.80 M (??%) | 14.10 M (??%) | 2.60 M (??%) | 3648 | 5001 | ICCS DRNG is used as the XOF and accounted separately |
-| [sign-24](../sign-24/perf_arm_1.md) | Sigurd [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-24/sign-24-spec.pdf) | `Sigurd-128` | 15.95 M (26%) | 30.42 M (36%) | 13.81 M (45%) | 112 | 62868 | – |
-| [sign-24](../sign-24/perf_arm_1.md) | Sigurd [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-24/sign-24-spec.pdf) | `Sigurd-256` | 86.23 M (39%) | 282.20 M (62%) | 100.85 M (51%) | 212 | 137412 | – |
-| [sign-24](../sign-24/perf_arm_1.md) | Sigurd [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-24/sign-24-spec.pdf) | `Sigurd-512` | 461.63 M (46%) | 2.78 G (63%) | 922.08 M (34%) | 435 | 494532 | – |
+| [sign-24](../sign-24/perf_arm_1.md) | Sigurd [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-24/sign-24-spec.pdf) | `Sigurd-128` | 15.95 M (26%) | 30.42 M (36%) | 13.81 M (45%) | 112 | ≈25108 | – |
+| [sign-24](../sign-24/perf_arm_1.md) | Sigurd [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-24/sign-24-spec.pdf) | `Sigurd-256` | 86.23 M (39%) | 282.20 M (62%) | 100.85 M (51%) | 212 | ≈74756 | – |
+| [sign-24](../sign-24/perf_arm_1.md) | Sigurd [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-24/sign-24-spec.pdf) | `Sigurd-512` | 461.63 M (46%) | 2.78 G (63%) | 922.08 M (34%) | 435 | ≈282692 | – |
 | [sign-25](../sign-25/perf_arm_1.md) | SQIsign2D2 [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-25/sign-25-spec.pdf) | `SQISign2Dsquare-Level1-eff_compressed` | 46.24 M (0.0%) | 152.62 M (0.4%) | 32.94 M (1.2%) | 65 | 168 | – |
 | [sign-25](../sign-25/perf_arm_1.md) | SQIsign2D2 [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-25/sign-25-spec.pdf) | `SQISign2Dsquare-Level1-eff_uncompressed` | 25.48 M (0.0%) | 137.80 M (0.4%) | 29.13 M (1.3%) | 64 | 200 | – |
 | [sign-25](../sign-25/perf_arm_1.md) | SQIsign2D2 [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/sign-25/sign-25-spec.pdf) | `SQISign2Dsquare-Level1-sec_compressed` | 66.74 M (0.0%) | 218.62 M (0.0%) | 46.54 M (0.0%) | 69 | 178 | – |
@@ -204,9 +205,9 @@ Independent measurements of the NGCC Round 1 implementations on one Qualcomm Ory
 
 | id | algorithm | instance performance report | keygen cycles (sym %) | enc cycles (sym %) | dec cycles (sym %) | public key (B) | ciphertext (B) | notes |
 |---|---|---|---|---|---|---|---|---|
-| [kem-01](../kem-01/perf_arm_1.md) | Aigis-Enc+ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-01/kem-01-spec.pdf) | `Aigis-enc1` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-01](../kem-01/perf_arm_1.md) | Aigis-Enc+ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-01/kem-01-spec.pdf) | `Aigis-enc2` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-01](../kem-01/perf_arm_1.md) | Aigis-Enc+ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-01/kem-01-spec.pdf) | `Aigis-enc3` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
+| [kem-01](../kem-01/perf_arm_1.md) | Aigis-Enc+ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-01/kem-01-spec.pdf) | `Aigis-enc1` ⚠ KAT BUILDFAIL | – | – | – | 656 | 896 | KAT/output caveat; see candidate page |
+| [kem-01](../kem-01/perf_arm_1.md) | Aigis-Enc+ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-01/kem-01-spec.pdf) | `Aigis-enc2` ⚠ KAT BUILDFAIL | – | – | – | 1312 | 1664 | KAT/output caveat; see candidate page |
+| [kem-01](../kem-01/perf_arm_1.md) | Aigis-Enc+ [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-01/kem-01-spec.pdf) | `Aigis-enc3` ⚠ KAT BUILDFAIL | – | – | – | 2624 | 3584 | KAT/output caveat; see candidate page |
 | [kem-02](../kem-02/perf_arm_1.md) | Amoeba [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-02/kem-02-spec.pdf) | `Amoeba128` | 329.5 k (81%) | 448.5 k (79%) | 492.2 k (73%) | 784 | 1047 | – |
 | [kem-02](../kem-02/perf_arm_1.md) | Amoeba [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-02/kem-02-spec.pdf) | `Amoeba192` | 448.4 k (80%) | 622.2 k (79%) | 689.0 k (71%) | 1144 | 1581 | – |
 | [kem-02](../kem-02/perf_arm_1.md) | Amoeba [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-02/kem-02-spec.pdf) | `Amoeba256` | 541.3 k (79%) | 721.2 k (76%) | 808.7 k (68%) | 1648 | 1833 | – |
@@ -223,12 +224,12 @@ Independent measurements of the NGCC Round 1 implementations on one Qualcomm Ory
 | [kem-05](../kem-05/perf_arm_1.md) | BIKE-MLThre [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-05/kem-05-spec.pdf) | `BIKE_v2_128` | 1.04 G (0.0%) | 9.17 M (1.3%) | 51.48 M (0.2%) | 1541 | 1573 | mixed own/ICCS primitives |
 | [kem-05](../kem-05/perf_arm_1.md) | BIKE-MLThre [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-05/kem-05-spec.pdf) | `BIKE_v2_256` | 11.94 G (0.0%, n=85) | 65.07 M (0.6%) | 361.68 M (0.1%) | 5122 | 5154 | mixed own/ICCS primitives |
 | [kem-05](../kem-05/perf_arm_1.md) | BIKE-MLThre [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-05/kem-05-spec.pdf) | `BIKE_v2_512` | 160.30 G (0.0%, n=5) | 476.64 M (0.5%) | 2.58 G (0.1%) | 18751 | 18815 | mixed own/ICCS primitives |
-| [kem-06](../kem-06/perf_arm_1.md) | BRA [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-06/kem-06-spec.pdf) | `BRA-128` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-06](../kem-06/perf_arm_1.md) | BRA [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-06/kem-06-spec.pdf) | `BRA-256` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-06](../kem-06/perf_arm_1.md) | BRA [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-06/kem-06-spec.pdf) | `BRA-512` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-07](../kem-07/perf_arm_1.md) | BRQC [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-07/kem-07-spec.pdf) | `BRQC-128` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-07](../kem-07/perf_arm_1.md) | BRQC [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-07/kem-07-spec.pdf) | `BRQC-256` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-07](../kem-07/perf_arm_1.md) | BRQC [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-07/kem-07-spec.pdf) | `BRQC-512` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
+| [kem-06](../kem-06/perf_arm_1.md) | BRA [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-06/kem-06-spec.pdf) | `BRA-128` ⚠ KAT BUILDFAIL | – | – | – | 1078 | 2092 | KAT/output caveat; see candidate page |
+| [kem-06](../kem-06/perf_arm_1.md) | BRA [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-06/kem-06-spec.pdf) | `BRA-256` ⚠ KAT BUILDFAIL | – | – | – | 1735 | 3406 | KAT/output caveat; see candidate page |
+| [kem-06](../kem-06/perf_arm_1.md) | BRA [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-06/kem-06-spec.pdf) | `BRA-512` ⚠ KAT BUILDFAIL | – | – | – | 3573 | 7082 | KAT/output caveat; see candidate page |
+| [kem-07](../kem-07/perf_arm_1.md) | BRQC [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-07/kem-07-spec.pdf) | `BRQC-128` ⚠ KAT BUILDFAIL | – | – | – | 1954 | 3844 | KAT/output caveat; see candidate page |
+| [kem-07](../kem-07/perf_arm_1.md) | BRQC [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-07/kem-07-spec.pdf) | `BRQC-256` ⚠ KAT BUILDFAIL | – | – | – | 3345 | 6626 | KAT/output caveat; see candidate page |
+| [kem-07](../kem-07/perf_arm_1.md) | BRQC [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-07/kem-07-spec.pdf) | `BRQC-512` ⚠ KAT BUILDFAIL | – | – | – | 6562 | 13060 | KAT/output caveat; see candidate page |
 | [kem-08](../kem-08/perf_arm_1.md) | BW-KEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-08/kem-08-spec.pdf) | `BW_KEM_C128` | 219.7 k (72%) | 248.0 k (69%) | 286.9 k (66%) | 784 | 768 | – |
 | [kem-08](../kem-08/perf_arm_1.md) | BW-KEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-08/kem-08-spec.pdf) | `BW_KEM_C256` | 559.9 k (78%) | 570.2 k (78%) | 654.4 k (72%) | 1568 | 1440 | – |
 | [kem-08](../kem-08/perf_arm_1.md) | BW-KEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-08/kem-08-spec.pdf) | `BW_KEM_C512` | 1.94 M (83%) | 1.97 M (83%) | 2.23 M (78%) | 3136 | 2944 | – |
@@ -236,9 +237,9 @@ Independent measurements of the NGCC Round 1 implementations on one Qualcomm Ory
 | [kem-09](../kem-09/perf_arm_1.md) | CheetahKEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-09/kem-09-spec.pdf) | `Cheetah256` | 650.6 k (74%) | 749.3 k (70%) | 820.0 k (64%) | 1648 | 1728 | – |
 | [kem-09](../kem-09/perf_arm_1.md) | CheetahKEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-09/kem-09-spec.pdf) | `Cheetah384` | 2.03 M (85%) | 2.16 M (83%) | 2.34 M (80%) | 2704 | 2832 | – |
 | [kem-09](../kem-09/perf_arm_1.md) | CheetahKEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-09/kem-09-spec.pdf) | `Cheetah512` | 3.26 M (86%) | 3.41 M (84%) | 3.64 M (82%) | 3600 | 4032 | – |
-| [kem-10](../kem-10/perf_arm_1.md) | C-Multi-UR-AG [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-10/kem-10-spec.pdf) | `CMultiURAG-128` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-10](../kem-10/perf_arm_1.md) | C-Multi-UR-AG [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-10/kem-10-spec.pdf) | `CMultiURAG-256` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
-| [kem-10](../kem-10/perf_arm_1.md) | C-Multi-UR-AG [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-10/kem-10-spec.pdf) | `CMultiURAG-512` ⚠ KAT BUILDFAIL | – | – | – | – | – | KAT/output caveat; see candidate page |
+| [kem-10](../kem-10/perf_arm_1.md) | C-Multi-UR-AG [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-10/kem-10-spec.pdf) | `CMultiURAG-128` ⚠ KAT BUILDFAIL | – | – | – | 3866 | 7332 | KAT/output caveat; see candidate page |
+| [kem-10](../kem-10/perf_arm_1.md) | C-Multi-UR-AG [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-10/kem-10-spec.pdf) | `CMultiURAG-256` ⚠ KAT BUILDFAIL | – | – | – | 10780 | 15304 | KAT/output caveat; see candidate page |
+| [kem-10](../kem-10/perf_arm_1.md) | C-Multi-UR-AG [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-10/kem-10-spec.pdf) | `CMultiURAG-512` ⚠ KAT BUILDFAIL | – | – | – | 28866 | 40926 | KAT/output caveat; see candidate page |
 | [kem-11](../kem-11/perf_arm_1.md) | COMPASS-KEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-11/kem-11-spec.pdf) | `COMPASS-KEM-128` | 1.51 M (97%) | 1.53 M (96%) | 1.55 M (94%) | 672 | 768 | – |
 | [kem-11](../kem-11/perf_arm_1.md) | COMPASS-KEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-11/kem-11-spec.pdf) | `COMPASS-KEM-256` | 5.88 M (98%) | 5.90 M (97%) | 5.94 M (97%) | 1312 | 1472 | – |
 | [kem-11](../kem-11/perf_arm_1.md) | COMPASS-KEM [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kem-11/kem-11-spec.pdf) | `COMPASS-KEM-384` | 3.53 M (93%) | 3.67 M (91%) | 3.75 M (88%) | 2144 | 2432 | – |
@@ -382,65 +383,65 @@ Independent measurements of the NGCC Round 1 implementations on one Qualcomm Ory
 
 ## Key exchange
 
-| id | algorithm | instance performance report | exchange cycles (sym %) | transferred (B) | notes |
+| id | algorithm | instance performance report | exchange cycles (sym %) | bandwidth (bytes) | notes |
 |---|---|---|---|---|---|
-| [kex-01](../kex-01/perf_arm_1.md) | ADKEX (Authenticated Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-01/kex-01-spec.pdf) | `ADKEX-128` | 1.33 M (69%) | 2400 | – |
-| [kex-01](../kex-01/perf_arm_1.md) | ADKEX (Authenticated Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-01/kex-01-spec.pdf) | `ADKEX-256` | 3.64 M (73%) | 4768 | – |
-| [kex-01](../kex-01/perf_arm_1.md) | ADKEX (Authenticated Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-01/kex-01-spec.pdf) | `ADKEX-512` | 12.84 M (84%) | 9664 | – |
-| [kex-02](../kex-02/perf_arm_1.md) | AFS-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-02/kex-02-spec.pdf) | `AFS_KEX_C128` | 2.38 M (69%) | 3136 | – |
-| [kex-02](../kex-02/perf_arm_1.md) | AFS-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-02/kex-02-spec.pdf) | `AFS_KEX_C256` | 5.84 M (76%) | 5888 | – |
-| [kex-02](../kex-02/perf_arm_1.md) | AFS-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-02/kex-02-spec.pdf) | `AFS_KEX_C512` | 20.05 M (81%) | 12032 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC128` | 1.69 M (74%) | 2450 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC256` | 3.39 M (74%) | 4900 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC512` | 12.12 M (82%) | 9284 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC512Star` | 12.13 M (84%) | 10920 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-ZEN128` | 1.43 M (59%) | 2151 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-ZEN256` | 2.54 M (60%) | 4301 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-ZEN512` | 7.65 M (68%) | 8602 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-PLAC128-BiT128` | 3.62 M (72%) | 3314 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-PLAC256-BiT256` | 7.19 M (75%) | 7076 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-PLAC512-BiT512` | 25.06 M (79%) | 13931 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-ZEN128-BiT128` | 3.40 M (69%) | 3143 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-ZEN256-BiT256` | 6.80 M (72%) | 6733 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-ZEN512-BiT512` | 22.34 M (76%) | 13249 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT128-PLAC128` | 3.66 M (72%) | 3314 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT128-ZEN128` | 3.56 M (68%) | 3143 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT256-PLAC256` | 7.41 M (74%) | 7076 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT256-ZEN256` | 6.95 M (71%) | 6733 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT512-PLAC512` | 27.37 M (78%) | 13931 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT512-ZEN512` | 23.45 M (75%) | 13249 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT128-ePLAC128` | 5.73 M (72%) | 4178 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT128-eZEN128` | 5.67 M (70%) | 4135 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT256-ePLAC256` | 11.34 M (74%) | 9252 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT256-eZEN256` | 11.27 M (73%) | 9165 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT512-ePLAC512` | 38.72 M (78%) | 18066 | – |
-| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT512-eZEN512` | 41.77 M (77%) | 17896 | – |
-| [kex-04](../kex-04/perf_arm_1.md) | DKEX (Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-04/kex-04-spec.pdf) | `DKEX-128` | 3.17 M (14%) | 6408 | mixed own/ICCS primitives |
-| [kex-04](../kex-04/perf_arm_1.md) | DKEX (Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-04/kex-04-spec.pdf) | `DKEX-256` | 7.27 M (16%) | 12390 | mixed own/ICCS primitives |
-| [kex-04](../kex-04/perf_arm_1.md) | DKEX (Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-04/kex-04-spec.pdf) | `DKEX-512` | 10.57 M (40%) | 15718 | mixed own/ICCS primitives |
-| [kex-05](../kex-05/perf_arm_1.md) | Loom [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-05/kex-05-spec.pdf) | `LoomKEX-128` | 29.95 M (3.2%) | 4038 | – |
-| [kex-05](../kex-05/perf_arm_1.md) | Loom [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-05/kex-05-spec.pdf) | `LoomKEX-256` | 37.19 M (3.6%) | 7706 | – |
-| [kex-05](../kex-05/perf_arm_1.md) | Loom [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-05/kex-05-spec.pdf) | `LoomKEX-512` | 79.08 M (6.1%) | 16170 | – |
-| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-128` | 6.83 M (??%) | 1568 | own symmetric primitives; placeholder share unavailable |
-| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-192` | 6.85 M (??%) | 1568 | own symmetric primitives; placeholder share unavailable |
-| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-256` | 6.90 M (??%) | 1568 | own symmetric primitives; placeholder share unavailable |
-| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-384` | 14.48 M (??%) | 3360 | own symmetric primitives; placeholder share unavailable |
-| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-512` | 14.56 M (??%) | 3360 | own symmetric primitives; placeholder share unavailable |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_512_769` | 668.8 k (56%) | 2460 | alternative parameter set, detailed measurement only |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_512_769_C` | 629.5 k (53%) | 2254 | alternative parameter set, detailed measurement only |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_512_1409` | 825.0 k (64%) | 2688 | recommended R set, used in ordered measurements |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_1024_769` | 1.35 M (53%) | 4916 | alternative parameter set, detailed measurement only |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_1024_769_C` | 1.29 M (49%) | 4506 | alternative parameter set, detailed measurement only |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_1024_1409` | 1.55 M (56%) | 5376 | recommended R set, used in ordered measurements |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_2048_769` | 4.18 M (63%) | 9832 | alternative parameter set, detailed measurement only |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_2048_769_C` | 3.91 M (60%) | 9012 | alternative parameter set, detailed measurement only |
-| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_2048_1409` | 4.69 M (61%) | 10752 | recommended R set, used in ordered measurements |
-| [kex-08](../kex-08/perf_arm_1.md) | NIIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-08/kex-08-spec.pdf) | `NIIKE-lv128` | 53.18 G (??%, n=15) | 0 | own symmetric primitives; placeholder share unavailable |
-| [kex-08](../kex-08/perf_arm_1.md) | NIIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-08/kex-08-spec.pdf) | `NIIKE-lv256` | 848.72 G (??%, n=1) | 0 | own symmetric primitives; placeholder share unavailable |
-| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-128` | 37.66 M (11%) | 14328 | – |
-| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-256` | 217.58 M (5.3%) | 43760 | – |
-| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-384` | 602.41 M (6.3%) | 85276 | – |
-| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-512` | 1.28 G (5.6%) | 137744 | – |
+| [kex-01](../kex-01/perf_arm_1.md) | ADKEX (Authenticated Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-01/kex-01-spec.pdf) | `ADKEX-128` | 1.33 M (69%) | 3200 | – |
+| [kex-01](../kex-01/perf_arm_1.md) | ADKEX (Authenticated Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-01/kex-01-spec.pdf) | `ADKEX-256` | 3.64 M (73%) | 6336 | – |
+| [kex-01](../kex-01/perf_arm_1.md) | ADKEX (Authenticated Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-01/kex-01-spec.pdf) | `ADKEX-512` | 12.84 M (84%) | 13056 | – |
+| [kex-02](../kex-02/perf_arm_1.md) | AFS-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-02/kex-02-spec.pdf) | `AFS_KEX_C128` | 2.38 M (69%) | 4704 | – |
+| [kex-02](../kex-02/perf_arm_1.md) | AFS-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-02/kex-02-spec.pdf) | `AFS_KEX_C256` | 5.84 M (76%) | 9216 | – |
+| [kex-02](../kex-02/perf_arm_1.md) | AFS-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-02/kex-02-spec.pdf) | `AFS_KEX_C512` | 20.05 M (81%) | 18560 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC128` | 1.69 M (74%) | 3510 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC256` | 3.39 M (74%) | 7020 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC512` | 12.12 M (82%) | 13516 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-PLAC512Star` | 12.13 M (84%) | 15964 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-ZEN128` | 1.43 M (59%) | 3381 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-ZEN256` | 2.54 M (60%) | 6759 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2K-ZEN512` | 7.65 M (68%) | 13518 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-PLAC128-BiT128` | 3.62 M (72%) | 4892 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-PLAC256-BiT256` | 7.19 M (75%) | 10280 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-PLAC512-BiT512` | 25.06 M (79%) | 21103 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-ZEN128-BiT128` | 3.40 M (69%) | 4806 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-ZEN256-BiT256` | 6.80 M (72%) | 10106 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-K2S-ZEN512-BiT512` | 22.34 M (76%) | 20763 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT128-PLAC128` | 3.66 M (72%) | 4892 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT128-ZEN128` | 3.56 M (68%) | 4806 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT256-PLAC256` | 7.41 M (74%) | 10280 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT256-ZEN256` | 6.95 M (71%) | 10106 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT512-PLAC512` | 27.37 M (78%) | 21103 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2K-BiT512-ZEN512` | 23.45 M (75%) | 20763 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT128-ePLAC128` | 5.73 M (72%) | 6274 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT128-eZEN128` | 5.67 M (70%) | 6231 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT256-ePLAC256` | 11.34 M (74%) | 13540 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT256-eZEN256` | 11.27 M (73%) | 13453 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT512-ePLAC512` | 38.72 M (78%) | 28178 | – |
+| [kex-03](../kex-03/perf_arm_1.md) | CreTAKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-03/kex-03-spec.pdf) | `CreTAKE-S2S-BiT512-eZEN512` | 41.77 M (77%) | 28008 | – |
+| [kex-04](../kex-04/perf_arm_1.md) | DKEX (Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-04/kex-04-spec.pdf) | `DKEX-128` | 3.17 M (14%) | 9032 | mixed own/ICCS primitives |
+| [kex-04](../kex-04/perf_arm_1.md) | DKEX (Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-04/kex-04-spec.pdf) | `DKEX-256` | 7.27 M (16%) | 17574 | mixed own/ICCS primitives |
+| [kex-04](../kex-04/perf_arm_1.md) | DKEX (Ding Key Exchange) [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-04/kex-04-spec.pdf) | `DKEX-512` | 10.57 M (40%) | 20902 | mixed own/ICCS primitives |
+| [kex-05](../kex-05/perf_arm_1.md) | Loom [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-05/kex-05-spec.pdf) | `LoomKEX-128` | 29.95 M (3.2%) | 6566 | – |
+| [kex-05](../kex-05/perf_arm_1.md) | Loom [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-05/kex-05-spec.pdf) | `LoomKEX-256` | 37.19 M (3.6%) | 11610 | – |
+| [kex-05](../kex-05/perf_arm_1.md) | Loom [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-05/kex-05-spec.pdf) | `LoomKEX-512` | 79.08 M (6.1%) | 23466 | – |
+| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-128` | 6.83 M (??%) | 2752 | own symmetric primitives; placeholder share unavailable |
+| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-192` | 6.85 M (??%) | 2880 | own symmetric primitives; placeholder share unavailable |
+| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-256` | 6.90 M (??%) | 2880 | own symmetric primitives; placeholder share unavailable |
+| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-384` | 14.48 M (??%) | 6208 | own symmetric primitives; placeholder share unavailable |
+| [kex-06](../kex-06/perf_arm_1.md) | MAMBA-NIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-06/kex-06-spec.pdf) | `MAMBA-NIKE-512` | 14.56 M (??%) | 6208 | own symmetric primitives; placeholder share unavailable |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_512_769` | 668.8 k (56%) | 3690 | alternative parameter set, detailed measurement only |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_512_769_C` | 629.5 k (53%) | 3484 | alternative parameter set, detailed measurement only |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_512_1409` | 825.0 k (64%) | 4032 | recommended R set, used in ordered measurements |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_1024_769` | 1.35 M (53%) | 7374 | alternative parameter set, detailed measurement only |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_1024_769_C` | 1.29 M (49%) | 6964 | alternative parameter set, detailed measurement only |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_1024_1409` | 1.55 M (56%) | 8064 | recommended R set, used in ordered measurements |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_2048_769` | 4.18 M (63%) | 14748 | alternative parameter set, detailed measurement only |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_2048_769_C` | 3.91 M (60%) | 13928 | alternative parameter set, detailed measurement only |
+| [kex-07](../kex-07/perf_arm_1.md) | NEV-AKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-07/kex-07-spec.pdf) | `NEV_AKE_2048_1409` | 4.69 M (61%) | 16128 | recommended R set, used in ordered measurements |
+| [kex-08](../kex-08/perf_arm_1.md) | NIIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-08/kex-08-spec.pdf) | `NIIKE-lv128` | 53.18 G (??%, n=15) | 8320 | own symmetric primitives; placeholder share unavailable |
+| [kex-08](../kex-08/perf_arm_1.md) | NIIKE [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-08/kex-08-spec.pdf) | `NIIKE-lv256` | 848.72 G (??%, n=1) | 17920 | own symmetric primitives; placeholder share unavailable |
+| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-128` | 37.66 M (11%) | 18436 | – |
+| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-256` | 217.58 M (5.3%) | 56416 | – |
+| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-384` | 602.41 M (6.3%) | 109786 | – |
+| [kex-09](../kex-09/perf_arm_1.md) | TriQ-KEX [PDF](https://github.com/ngcc-dev/ngcc-harness/blob/main/kex-09/kex-09-spec.pdf) | `TriQ-KEX-512` | 1.28 G (5.6%) | 177280 | – |
 
 ## ICCS hash helpers
 

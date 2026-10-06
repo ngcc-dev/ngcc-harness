@@ -16,6 +16,9 @@ performance/data/<system>/ (see performance/systems.csv):
     recomputed from the raw trials;
   - every hash profile's shares are recomputed from its call records;
   - every measured instance has one explicit comparison-target row;
+  - every key-exchange instance has one bandwidth row, checked against its
+    source key sizes and raw passes (accounting for AFS-KEX's API mapping);
+  - every measured KEM/signature instance has a separate external-size row;
   - performance/report.py --check regenerates every report of that system and
     finds them byte-for-byte identical to the committed pages.
 """
@@ -88,6 +91,181 @@ def check_security_targets(datasets: list[Path]) -> list[str]:
         problems.append(f"performance/security_targets.csv: missing {candidate}/{label}")
     for candidate, label in sorted(found - expected):
         problems.append(f"performance/security_targets.csv: stale {candidate}/{label}")
+    return problems
+
+
+def check_kex_bandwidth(datasets: list[Path]) -> list[str]:
+    path = ROOT / "performance/kex_bandwidth.csv"
+    problems = []
+    with path.open(encoding="utf-8", newline="") as source:
+        lines = [(number, line) for number, line in enumerate(source, 1)
+                 if not line.startswith("#")]
+        reader = csv.DictReader((line for _, line in lines), delimiter=";")
+        if tuple(reader.fieldnames or ()) != (
+                "ID", "Instance", "PkABytes", "PkBBytes", "ProtocolMessageBytes"):
+            return ["performance/kex_bandwidth.csv: invalid header"]
+        rows = list(zip((number for number, _ in lines[1:]), reader))
+    with (ROOT / "data/parameters.csv").open(encoding="utf-8", newline="") as source:
+        source_pks = {(row["ID"], row["Instance"]): int(row["PublicKeyBytes"])
+                      for row in csv.DictReader(source, delimiter=";")
+                      if row["ID"].startswith(("kex-", "kem-", "sign-"))}
+
+    def expected_keys(key: tuple[str, str], cap: int) -> tuple[int, int]:
+        candidate, label = key
+        if candidate in ("kex-01", "kex-06"):
+            return 0, cap  # Only the responder has a required static key.
+        if candidate == "kex-02":
+            return cap // 2, cap // 2  # Base keys; fresh composites are protocol messages.
+        if candidate != "kex-03":
+            return cap, cap
+        mode = label.split("-")[1]
+        kem_match = re.search(r"(PLAC|ZEN)(128|256|512)(Star)?", label)
+        sig_match = re.search(r"BiT(128|256|512)", label)
+        kem_pk = None
+        if kem_match:
+            family, level, star = kem_match.groups()
+            if family == "PLAC":
+                instance = f"POLARLAC-{level}" + ("-Star" if star else "")
+                kem_pk = source_pks["kem-30", instance]
+            else:
+                kem_pk = source_pks["kem-41", f"ZEN_{level}"]
+        sig_pk = source_pks["sign-02", f"BiT-{sig_match.group(1)}"] if sig_match else None
+        if mode == "K2K":
+            return kem_pk, kem_pk
+        if mode == "K2S":
+            return kem_pk, sig_pk
+        if mode == "S2K":
+            return sig_pk, kem_pk
+        if mode == "S2S":
+            return sig_pk, sig_pk
+        raise ValueError(f"unrecognized CreTAKE instance: {label}")
+    bandwidth = {}
+    for line_number, row in rows:
+        key = row.get("ID"), row.get("Instance")
+        if not all(key):
+            problems.append(f"performance/kex_bandwidth.csv:{line_number}: missing ID or instance")
+            continue
+        if key in bandwidth:
+            problems.append(f"performance/kex_bandwidth.csv:{line_number}: duplicate {key}")
+            continue
+        try:
+            values = tuple(int(row.get(field)) for field in ("PkABytes", "PkBBytes", "ProtocolMessageBytes"))
+        except (TypeError, ValueError):
+            problems.append(f"performance/kex_bandwidth.csv:{line_number}: invalid byte count")
+            continue
+        if min(values) < 0:
+            problems.append(f"performance/kex_bandwidth.csv:{line_number}: negative byte count")
+        bandwidth[key] = values
+    expected = set()
+    for ds in datasets:
+        for record_path in sorted((ds / "records").glob("kex-*/*__exchange.json")):
+            r = json.loads(record_path.read_text(encoding="utf-8"))
+            key = r["candidate"], r["label"]
+            expected.add(key)
+            if key not in bandwidth:
+                continue
+            pk_a, pk_b, messages = bandwidth[key]
+            sizes = r["sizes"]
+            cap = int(sizes["pk_bytes"])
+            if (pk_a, pk_b) != expected_keys(key, cap):
+                problems.append(f"{ds.name}: {key}: required public keys differ from source sizes")
+            raw = int(sizes["total_msg_bytes"])
+            if key[0] == "kex-02":
+                # The frozen pass-4 function never sets its no-output length.
+                raw -= int(sizes["msg4_bytes"])
+                # Figure 3 sends two fresh composites that the API instead
+                # places in its pre-distributed public-key buffers.
+                raw += pk_a + pk_b
+            if messages != raw:
+                problems.append(f"{ds.name}: {key}: protocol messages {messages} != corrected raw {raw}")
+            if messages + pk_a + pk_b == 0:
+                problems.append(f"{ds.name}: {key}: zero bandwidth")
+    for key in sorted(expected - bandwidth.keys()):
+        problems.append(f"performance/kex_bandwidth.csv: missing {key}")
+    for key in sorted(bandwidth.keys() - expected):
+        problems.append(f"performance/kex_bandwidth.csv: stale {key}")
+    return problems
+
+
+def check_external_sizes(datasets: list[Path]) -> list[str]:
+    path = ROOT / "performance/external_sizes.csv"
+    problems = []
+    with path.open(encoding="utf-8", newline="") as source:
+        lines = [(number, line) for number, line in enumerate(source, 1)
+                 if not line.startswith("#")]
+        reader = csv.DictReader((line for _, line in lines), delimiter=";")
+        if tuple(reader.fieldnames or ()) != (
+                "ID", "Instance", "PublicKeyBytes", "CiphertextBytes", "SignatureBytes", "Basis"):
+            return ["performance/external_sizes.csv: invalid header"]
+        rows = list(zip((number for number, _ in lines[1:]), reader))
+    sizes = {}
+    for line_number, row in rows:
+        key = row.get("ID"), row.get("Instance")
+        if not all(key):
+            problems.append(f"performance/external_sizes.csv:{line_number}: missing ID or instance")
+            continue
+        if key in sizes:
+            problems.append(f"performance/external_sizes.csv:{line_number}: duplicate {key}")
+            continue
+        try:
+            pk, ct, sig = (int(row.get(field) or 0) for field in
+                           ("PublicKeyBytes", "CiphertextBytes", "SignatureBytes"))
+        except (TypeError, ValueError):
+            problems.append(f"performance/external_sizes.csv:{line_number}: invalid byte count")
+            continue
+        basis = row.get("Basis")
+        if pk <= 0 or min(ct, sig) < 0 or (ct == 0) == (sig == 0):
+            problems.append(f"performance/external_sizes.csv:{line_number}: invalid external sizes")
+        if basis not in ("encoded", "maximum-variable", "nominal-variable"):
+            problems.append(f"performance/external_sizes.csv:{line_number}: invalid basis {basis!r}")
+        sizes[key] = pk, ct, sig, basis
+    expected = set()
+    for ds in datasets:
+        for record_path in sorted((ds / "records").glob("*/*__keygen.json")):
+            r = json.loads(record_path.read_text(encoding="utf-8"))
+            key = r["candidate"], r["label"]
+            if key[0].split("-", 1)[0] not in ("kem", "sign"):
+                continue
+            expected.add(key)
+            if key not in sizes:
+                continue
+            pk, ct, sig, basis = sizes[key]
+            raw = r["sizes"]
+            if pk != int(raw["pk_bytes"]):
+                problems.append(f"{ds.name}: {key}: public key disagrees with API encoding")
+            if key[0].startswith("kem-"):
+                if sig != 0 or ct != int(raw["ct_bytes"]):
+                    problems.append(f"{ds.name}: {key}: ciphertext disagrees with API encoding")
+            elif ct != 0:
+                problems.append(f"{ds.name}: {key}: signature row has a ciphertext size")
+            elif basis == "nominal-variable":
+                if not 0 < sig < int(raw["signature_bytes"]):
+                    problems.append(f"{ds.name}: {key}: nominal signature is not below API cap")
+            elif sig != int(raw["signature_bytes"]):
+                problems.append(f"{ds.name}: {key}: signature disagrees with API encoding")
+    for key in sorted(expected - sizes.keys()):
+        problems.append(f"performance/external_sizes.csv: missing {key}")
+    for key in sorted(sizes.keys() - expected):
+        problems.append(f"performance/external_sizes.csv: stale {key}")
+    # The independently inventoried submission API constants are a second
+    # source check, not the source of the catalog itself. Some benchmark labels
+    # denote optimized variants and have no exact row in this reference index.
+    with (ROOT / "data/parameters.csv").open(encoding="utf-8", newline="") as source:
+        parameters = {(row["ID"], row["Instance"]): row for row in
+                      csv.DictReader(source, delimiter=";")
+                      if row["Type"] in ("kem", "sig")}
+    for key, (pk, ct, sig, basis) in sizes.items():
+        if not (ROOT / key[0] / "pseudocode.md").is_file():
+            problems.append(f"performance/external_sizes.csv: no specification comparison for {key}")
+        params = parameters.get(key)
+        if not params:
+            continue
+        if pk != int(params["PublicKeyBytes"]):
+            problems.append(f"performance/external_sizes.csv: {key}: public key differs from source catalog")
+        if ct and ct != int(params["CiphertextBytes"]):
+            problems.append(f"performance/external_sizes.csv: {key}: ciphertext differs from source catalog")
+        if sig and basis != "nominal-variable" and sig != int(params["SignatureBytes"]):
+            problems.append(f"performance/external_sizes.csv: {key}: signature differs from source catalog")
     return problems
 
 
@@ -201,6 +379,16 @@ def main() -> int:
         print(problem)
     print(f"performance security targets: {len(target_problems)} problem(s)")
     problems += target_problems
+    bandwidth_problems = check_kex_bandwidth(datasets)
+    for problem in bandwidth_problems:
+        print(problem)
+    print(f"performance KEX bandwidth: {len(bandwidth_problems)} problem(s)")
+    problems += bandwidth_problems
+    size_problems = check_external_sizes(datasets)
+    for problem in size_problems:
+        print(problem)
+    print(f"performance KEM/signature external sizes: {len(size_problems)} problem(s)")
+    problems += size_problems
     for ds in datasets:
         found, counts = check_dataset(ds, known)
         for problem in found:

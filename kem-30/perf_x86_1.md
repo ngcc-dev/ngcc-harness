@@ -78,6 +78,8 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
+External public-key, ciphertext and signature sizes follow the curated `performance/external_sizes.csv` catalog; secret-key and shared-secret lengths remain API figures. See [the size audit](../performance/EXTERNAL_SIZE_AUDIT.md) for disagreements.
+
 | instance | public key | secret key | ciphertext | shared secret |
 |---|---|---|---|---|
 | `POLARLAC-128` | 530 | 1570 | 640 | 16 |

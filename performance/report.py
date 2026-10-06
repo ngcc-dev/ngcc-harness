@@ -51,11 +51,11 @@ def op_order(key: str):
 
 BASELINE = "iccs"        # the ICCS helpers timed as hash instances (performance/iccs)
 HASH_SIZES = (32, 128, 512, 1024, 4096, 8192, 16384, 65536)   # the guide's S1-S8
-# bandwidth columns of the summary: (size field, header); sizes are the library's
-# own API constants, so they do not depend on the system
+# Bandwidth columns of the summary: (size field, header). Values come from the
+# external-size and KEX-bandwidth catalogs, not the system's timing records.
 SIZE_COLS = {"kem": [("pk_bytes", "public key (B)"), ("ct_bytes", "ciphertext (B)")],
              "sign": [("pk_bytes", "public key (B)"), ("signature_bytes", "signature (B)")],
-             "kex": [("total_msg_bytes", "transferred (B)")]}
+             "kex": [("bandwidth_bytes", "bandwidth (bytes)")]}
 OPS = {"kem": ["keygen", "enc", "dec"], "sign": ["keygen", "sign", "verify"], "kex": ["exchange"],
        "hash": ["hash_32", "hash_1024", "hash_65536"]}
 
@@ -159,6 +159,30 @@ class Run:
         with (ROOT / "data/parameters.csv").open(encoding="utf-8") as f:
             for row in csv.DictReader(f, delimiter=";"):
                 self.params[row["ID"]].append(row)
+        self.kex_bandwidth = {}
+        with (ROOT / "performance/kex_bandwidth.csv").open(encoding="utf-8") as f:
+            for row in csv.DictReader((line for line in f if not line.startswith("#")),
+                                      delimiter=";"):
+                key = row["ID"], row["Instance"]
+                if key in self.kex_bandwidth:
+                    raise ValueError(f"duplicate KEX bandwidth entry: {key}")
+                self.kex_bandwidth[key] = {
+                    "pk_a": int(row["PkABytes"]), "pk_b": int(row["PkBBytes"]),
+                    "messages": int(row["ProtocolMessageBytes"]),
+                }
+        self.external_sizes = {}
+        with (ROOT / "performance/external_sizes.csv").open(encoding="utf-8") as f:
+            for row in csv.DictReader((line for line in f if not line.startswith("#")),
+                                      delimiter=";"):
+                key = row["ID"], row["Instance"]
+                if key in self.external_sizes:
+                    raise ValueError(f"duplicate external-size entry: {key}")
+                self.external_sizes[key] = {
+                    "pk": int(row["PublicKeyBytes"]),
+                    "ct": int(row["CiphertextBytes"]) if row["CiphertextBytes"] else None,
+                    "sig": int(row["SignatureBytes"]) if row["SignatureBytes"] else None,
+                    "basis": row["Basis"],
+                }
 
 
 OUT = ROOT / "performance"
@@ -392,28 +416,28 @@ def summary(run: Run, out: Path, arch: str):
              "Independent measurements of the NGCC Round 1 implementations on one "
              f"{env.get('cpu_model', 'x86-64')} core ({clock_text(env)}).", "",
              "- **Cycles** are the mean of all timed calls in five trials, normally with each trial in a fresh process.",
-             "- **Symmetric %**, in parentheses after each public-key cycle count, is the measured share of an operation spent specifically in the ICCS placeholder "
-             "functions (`pseudohash`, `pseudoXOF`, `sm3hash`). It excludes the ICCS DRNG and candidates' own "
-             "hash primitives, so a low value does not necessarily mean little symmetric-cryptography work; see "
-             "the [symmetric cryptography survey](symmetric-survey.md). `(??%)` means that the candidate uses "
-             "its own symmetric primitives and no ICCS-facing backend was measured.",
+             "- **Symmetric %** is the cycle share in ICCS placeholder hashes, excluding the DRNG "
+             "and candidates' own hashes. `(??%)` means no ICCS-facing backend was measured. "
+             "See the [symmetric survey](symmetric-survey.md).",
              "- Each instance links to its **performance report** with KAT status, all measured implementations, "
              "sizes, memory proxies, primitive profiles, and raw-evidence references.",
              f"- See [method and limitations]({method_page_path(out).name}). These are independent measurements, "
              "not submitter self-assessments or NICCS results.",
              "- **Notation:** `–` means not measured, `n=` marks fewer than 100 timed calls, and ⚠ marks an instance "
              "whose submitted KAT vectors are not reproduced by the submitted code.",
-             "- **Sizes** in bytes (public key, ciphertext, signature; for key exchange, the total transferred "
-             "in all protocol messages) are the implementation's own API constants and do not depend on the system.",
-             ("- **Hash rows** give three message sizes; each parenthesized value is the candidate's cycles divided "
-              "by those of the ICCS `pseudoXOF` with the same output width and message length, timed the same way "
-              "([ICCS helpers](#iccs-hash-helpers)). It is a relative speed, not an estimate of a production "
-              "replacement." if run.baseline else
+             "- **Sizes** use a separate catalog, not timing-record buffer sizes. `≈` marks a "
+             "nominal variable-length signature; other variable signatures use their maximum.",
+             "- **KEX bandwidth** counts protocol messages plus required public keys once. KEM "
+             "public-key size is listed separately from ciphertext size. Certificates and "
+             "transport framing are excluded; see the [size audit](EXTERNAL_SIZE_AUDIT.md) "
+             "for discrepancies and AFS-KEX's API mapping.",
+             ("- **Hash rows** show three message sizes. Parentheses give cycles relative to the "
+              "same-width, same-length ICCS `pseudoXOF` ([helper timings](#iccs-hash-helpers)), "
+              "not a production replacement estimate." if run.baseline else
               "- **Hash rows** give three message sizes; the parenthesized 32-byte value is relative to an "
               "exact-shape measured `pseudoXOF` call, not an estimate of a production replacement."),
-             "- **Scope:** the table keeps reference parameter sets, suppressing a non-ICCS backend only when an "
-             "ICCS-facing backend of the same candidate was measured. Notes flag important caveats; additional "
-             "measured variants remain on the linked instance reports.", ""]
+             "- **Scope:** reference sets are shown. When both ICCS and non-ICCS backends were "
+             "measured, the non-ICCS one stays on the candidate report; notes flag caveats.", ""]
     for cat, title in CATS:
         rows = []
         for cand in sorted({c for (c, l) in run.records if c.startswith(cat)} |
@@ -437,9 +461,21 @@ def summary(run: Run, out: Path, arch: str):
                                  pct(p["hash_share"]) if p and "hash_share" in p else None)
                         cells.append(pk_cell(recs.get(op), share))
                 sizes = next((r["sizes"] for r in recs.values() if r.get("sizes")), {})
-                cells += [(str(sizes[k]) if k == "total_msg_bytes" and sizes.get(k) == 0 else
-                           str(sizes[k]) if sizes.get(k) else "–")
-                          for k, _ in SIZE_COLS.get(cat, [])]
+                if cat == "kex":
+                    bandwidth = run.kex_bandwidth[cand, label]
+                    cells += [str(bandwidth["messages"] + bandwidth["pk_a"] + bandwidth["pk_b"])]
+                elif cat == "kem":
+                    external = run.external_sizes[cand, label]
+                    cells += [str(external["pk"]), str(external["ct"])]
+                elif cat == "sign":
+                    external = run.external_sizes[cand, label]
+                    signature = str(external["sig"])
+                    if external["basis"] == "nominal-variable":
+                        signature = "≈" + signature
+                    cells += [str(external["pk"]), signature]
+                else:
+                    cells += [str(sizes[k]) if sizes.get(k) else "–"
+                              for k, _ in SIZE_COLS.get(cat, [])]
                 variant = " (AVX2)" if label.endswith("-avx2") else ""
                 status = entry.get("kat")
                 if status and status != "PASS":
@@ -574,9 +610,32 @@ def candidate_page(run: Run, cand: str, out: Path, arch: str):
     if cat != "hash":
         L += ["## 6. Transmission and storage overhead", ""]
         if cat == "kex":
-            L += ["| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |",
-                  "|---|---|---|---|---|---|"]
+            L += ["Bandwidth counts all specified protocol messages and each required public key "
+                  "once. Public keys are transmitted bytes too. Certificates and transport framing "
+                  "are excluded. The published raw timing records are unchanged.", ""]
+            if cand == "kex-02":
+                L += ["AFS-KEX Figure 3 sends fresh composite keys in passes 1 and 2. Its specified "
+                      "protocol-message totals are 3,136/6,080/12,288 bytes; the submitted API "
+                      "instead puts those keys in pre-distributed public-key buffers and sends "
+                      "1,568/2,944/6,016 bytes as protocol messages. Both arrangements give the "
+                      "same bandwidth totals. Separately, the "
+                      "submitted pass 4 emits nothing but does not assign its output length, so the "
+                      "benchmark's capacity-initialized length creates a phantom raw message. "
+                      "[The size audit](../performance/EXTERNAL_SIZE_AUDIT.md) explains the accounting.", ""]
+            elif cand in ("kex-01", "kex-06"):
+                L += ["Only the responder's long-term public key is required; this exchange does not "
+                      "authenticate the initiator as a mutually authenticated protocol would.", ""]
+            elif cand == "kex-08":
+                L += ["NIIKE sends no separate protocol message but requires both public keys. The specification "
+                      "lists 4,030/8,943-byte keys, while the submitted external encodings are "
+                      "4,160/8,960 bytes; this table uses the latter.", ""]
+            L += ["| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |",
+                  "|---|---|---|---|---|---|---|---|"]
         else:
+            L += ["External public-key, ciphertext and signature sizes follow the curated "
+                  "`performance/external_sizes.csv` catalog; secret-key and shared-secret "
+                  "lengths remain API figures. See "
+                  "[the size audit](../performance/EXTERNAL_SIZE_AUDIT.md) for disagreements.", ""]
             L += ["| instance | public key | secret key | " + ("ciphertext | shared secret |" if cat == "kem" else "signature |"),
                   "|---|---|---|---|" + ("---|" if cat == "kem" else "")]
         for l in labels:
@@ -586,14 +645,30 @@ def candidate_page(run: Run, cand: str, out: Path, arch: str):
                 continue
             s = r["sizes"]
             if cat == "kem":
-                L.append(f"| `{l}` | {s.get('pk_bytes')} | {s.get('sk_bytes')} | {s.get('ct_bytes')} | {s.get('ss_bytes')} |")
+                external = run.external_sizes[cand, l]
+                L.append(f"| `{l}` | {external['pk']} | {s.get('sk_bytes')} | "
+                         f"{external['ct']} | {s.get('ss_bytes')} |")
             elif cat == "sign":
-                L.append(f"| `{l}` | {s.get('pk_bytes')} | {s.get('sk_bytes')} | {s.get('signature_bytes')} |")
+                external = run.external_sizes[cand, l]
+                qualifier = " ≈ nominal" if external["basis"] == "nominal-variable" else \
+                            " (maximum)" if external["basis"] == "maximum-variable" else ""
+                L.append(f"| `{l}` | {external['pk']} | {s.get('sk_bytes')} | "
+                         f"{external['sig']}{qualifier} |")
             else:
                 msgs = [s[k] for k in sorted((k for k in s if re.match(r"msg\d+_bytes", k)), key=lambda k: int(k[3:-6]))]
+                bandwidth = run.kex_bandwidth[cand, l]
+                messages = bandwidth["messages"]
+                bandwidth_bytes = messages + bandwidth["pk_a"] + bandwidth["pk_b"]
                 L.append(f"| `{l}` | {r.get('kex', {}).get('kex_passes')} | {' / '.join(map(str, msgs))} | "
-                         f"{s.get('total_msg_bytes')} | {s.get('pk_bytes')} / {s.get('sk_bytes')} | {s.get('ss_actual_bytes', s.get('ss_bytes'))} |")
+                         f"{messages} | {bandwidth['pk_a']} / {bandwidth['pk_b']} | "
+                         f"{bandwidth_bytes} | {s.get('sk_bytes')} | "
+                         f"{s.get('ss_actual_bytes', s.get('ss_bytes'))} |")
         L.append("")
+        if cat == "sign" and any(run.external_sizes[cand, l]["basis"] == "nominal-variable"
+                                 for l in labels):
+            L += ["The submitted signature API reports a buffer capacity, not a fixed transmitted "
+                  "length; the nominal figure above is the specification's representative size, "
+                  "and actual signatures vary.", ""]
     # share of the ICCS placeholder functions
     if cat != "hash":
         sv = run.survey.get(cand, {})

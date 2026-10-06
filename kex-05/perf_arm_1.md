@@ -101,11 +101,13 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `LoomKEX-128` | 4 | 792 / 776 / 1235 / 1235 | 4038 | 1264 / 2288 | 16 |
-| `LoomKEX-256` | 4 | 1352 / 1384 / 2485 / 2485 | 7706 | 1952 / 3680 | 32 |
-| `LoomKEX-512` | 4 | 2952 / 3016 / 5101 / 5101 | 16170 | 3648 / 7104 | 64 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `LoomKEX-128` | 4 | 792 / 776 / 1235 / 1235 | 4038 | 1264 / 1264 | 6566 | 2288 | 16 |
+| `LoomKEX-256` | 4 | 1352 / 1384 / 2485 / 2485 | 7706 | 1952 / 1952 | 11610 | 3680 | 32 |
+| `LoomKEX-512` | 4 | 2952 / 3016 / 5101 / 5101 | 16170 | 3648 / 3648 | 23466 | 7104 | 64 |
 
 ## Symmetric primitives
 

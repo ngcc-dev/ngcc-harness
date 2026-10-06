@@ -65,11 +65,15 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
+External public-key, ciphertext and signature sizes follow the curated `performance/external_sizes.csv` catalog; secret-key and shared-secret lengths remain API figures. See [the size audit](../performance/EXTERNAL_SIZE_AUDIT.md) for disagreements.
+
 | instance | public key | secret key | signature |
 |---|---|---|---|
-| `Sigurd-128` | 112 | 80 | 62868 |
-| `Sigurd-256` | 212 | 128 | 137412 |
-| `Sigurd-512` | 435 | 256 | 494532 |
+| `Sigurd-128` | 112 | 80 | 25108 ≈ nominal |
+| `Sigurd-256` | 212 | 128 | 74756 ≈ nominal |
+| `Sigurd-512` | 435 | 256 | 282692 ≈ nominal |
+
+The submitted signature API reports a buffer capacity, not a fixed transmitted length; the nominal figure above is the specification's representative size, and actual signatures vary.
 
 ## Symmetric primitives
 

@@ -100,11 +100,15 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `AFS_KEX_C128` | 4 | 768 / 784 / 16 / 1568 | 3136 | 1568 / 3170 | 16 |
-| `AFS_KEX_C256` | 4 | 1440 / 1472 / 32 / 2944 | 5888 | 3136 / 6338 | 32 |
-| `AFS_KEX_C512` | 4 | 2944 / 3008 / 64 / 6016 | 12032 | 6272 / 12674 | 64 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+AFS-KEX Figure 3 sends fresh composite keys in passes 1 and 2. Its specified protocol-message totals are 3,136/6,080/12,288 bytes; the submitted API instead puts those keys in pre-distributed public-key buffers and sends 1,568/2,944/6,016 bytes as protocol messages. Both arrangements give the same bandwidth totals. Separately, the submitted pass 4 emits nothing but does not assign its output length, so the benchmark's capacity-initialized length creates a phantom raw message. [The size audit](../performance/EXTERNAL_SIZE_AUDIT.md) explains the accounting.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `AFS_KEX_C128` | 4 | 768 / 784 / 16 / 1568 | 3136 | 784 / 784 | 4704 | 3170 | 16 |
+| `AFS_KEX_C256` | 4 | 1440 / 1472 / 32 / 2944 | 6080 | 1568 / 1568 | 9216 | 6338 | 32 |
+| `AFS_KEX_C512` | 4 | 2944 / 3008 / 64 / 6016 | 12288 | 3136 / 3136 | 18560 | 12674 | 64 |
 
 ## Symmetric primitives
 

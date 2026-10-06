@@ -179,17 +179,19 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `NEV_AKE_512_769` | 2 | 1230 / 1230 | 2460 | 615 / 1246 | 16 |
-| `NEV_AKE_512_769_C` | 2 | 1127 / 1127 | 2254 | 615 / 1246 | 16 |
-| `NEV_AKE_512_1409` | 2 | 1344 / 1344 | 2688 | 672 / 1360 | 16 |
-| `NEV_AKE_1024_769` | 2 | 2458 / 2458 | 4916 | 1229 / 2490 | 32 |
-| `NEV_AKE_1024_769_C` | 2 | 2253 / 2253 | 4506 | 1229 / 2490 | 32 |
-| `NEV_AKE_1024_1409` | 2 | 2688 / 2688 | 5376 | 1344 / 2720 | 32 |
-| `NEV_AKE_2048_769` | 2 | 4916 / 4916 | 9832 | 2458 / 4980 | 64 |
-| `NEV_AKE_2048_769_C` | 2 | 4506 / 4506 | 9012 | 2458 / 4980 | 64 |
-| `NEV_AKE_2048_1409` | 2 | 5376 / 5376 | 10752 | 2688 / 5440 | 64 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `NEV_AKE_512_769` | 2 | 1230 / 1230 | 2460 | 615 / 615 | 3690 | 1246 | 16 |
+| `NEV_AKE_512_769_C` | 2 | 1127 / 1127 | 2254 | 615 / 615 | 3484 | 1246 | 16 |
+| `NEV_AKE_512_1409` | 2 | 1344 / 1344 | 2688 | 672 / 672 | 4032 | 1360 | 16 |
+| `NEV_AKE_1024_769` | 2 | 2458 / 2458 | 4916 | 1229 / 1229 | 7374 | 2490 | 32 |
+| `NEV_AKE_1024_769_C` | 2 | 2253 / 2253 | 4506 | 1229 / 1229 | 6964 | 2490 | 32 |
+| `NEV_AKE_1024_1409` | 2 | 2688 / 2688 | 5376 | 1344 / 1344 | 8064 | 2720 | 32 |
+| `NEV_AKE_2048_769` | 2 | 4916 / 4916 | 9832 | 2458 / 2458 | 14748 | 4980 | 64 |
+| `NEV_AKE_2048_769_C` | 2 | 4506 / 4506 | 9012 | 2458 / 2458 | 13928 | 4980 | 64 |
+| `NEV_AKE_2048_1409` | 2 | 5376 / 5376 | 10752 | 2688 / 2688 | 16128 | 5440 | 64 |
 
 ## Symmetric primitives
 

@@ -419,33 +419,35 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `CreTAKE-K2K-PLAC128` | 2 | 1170 / 1280 | 2450 | 530 / 1570 | 32 |
-| `CreTAKE-K2K-PLAC256` | 2 | 2340 / 2560 | 4900 | 1060 / 3140 | 64 |
-| `CreTAKE-K2K-PLAC512` | 2 | 4676 / 4608 | 9284 | 2116 / 6276 | 128 |
-| `CreTAKE-K2K-PLAC512Star` | 2 | 5492 / 5428 | 10920 | 2522 / 6682 | 128 |
-| `CreTAKE-K2K-ZEN128` | 2 | 1127 / 1024 | 2151 | 615 / 1303 | 32 |
-| `CreTAKE-K2K-ZEN256` | 2 | 2253 / 2048 | 4301 | 1229 / 2605 | 64 |
-| `CreTAKE-K2K-ZEN512` | 2 | 4506 / 4096 | 8602 | 2458 / 5210 | 128 |
-| `CreTAKE-K2S-PLAC128-BiT128` | 2 | 530 / 2784 | 3314 | 1048 / 1864 | 32 |
-| `CreTAKE-K2S-PLAC256-BiT256` | 2 | 1060 / 6016 | 7076 | 2144 / 4160 | 64 |
-| `CreTAKE-K2S-PLAC512-BiT512` | 2 | 2116 / 11815 | 13931 | 5056 / 9024 | 128 |
-| `CreTAKE-K2S-ZEN128-BiT128` | 2 | 615 / 2528 | 3143 | 1048 / 1864 | 32 |
-| `CreTAKE-K2S-ZEN256-BiT256` | 2 | 1229 / 5504 | 6733 | 2144 / 4160 | 64 |
-| `CreTAKE-K2S-ZEN512-BiT512` | 2 | 2458 / 10791 | 13249 | 5056 / 9024 | 128 |
-| `CreTAKE-S2K-BiT128-PLAC128` | 2 | 2674 / 640 | 3314 | 1048 / 1864 | 32 |
-| `CreTAKE-S2K-BiT128-ZEN128` | 2 | 2631 / 512 | 3143 | 1048 / 1864 | 32 |
-| `CreTAKE-S2K-BiT256-PLAC256` | 2 | 5796 / 1280 | 7076 | 2144 / 4160 | 64 |
-| `CreTAKE-S2K-BiT256-ZEN256` | 2 | 5709 / 1024 | 6733 | 2144 / 4160 | 64 |
-| `CreTAKE-S2K-BiT512-PLAC512` | 2 | 11371 / 2560 | 13931 | 5056 / 9024 | 128 |
-| `CreTAKE-S2K-BiT512-ZEN512` | 2 | 11201 / 2048 | 13249 | 5056 / 9024 | 128 |
-| `CreTAKE-S2S-BiT128-ePLAC128` | 2 | 2034 / 2144 | 4178 | 1048 / 1864 | 32 |
-| `CreTAKE-S2S-BiT128-eZEN128` | 2 | 2119 / 2016 | 4135 | 1048 / 1864 | 32 |
-| `CreTAKE-S2S-BiT256-ePLAC256` | 2 | 4516 / 4736 | 9252 | 2144 / 4160 | 64 |
-| `CreTAKE-S2S-BiT256-eZEN256` | 2 | 4685 / 4480 | 9165 | 2144 / 4160 | 64 |
-| `CreTAKE-S2S-BiT512-ePLAC512` | 2 | 8811 / 9255 | 18066 | 5056 / 9024 | 128 |
-| `CreTAKE-S2S-BiT512-eZEN512` | 2 | 9153 / 8743 | 17896 | 5056 / 9024 | 128 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `CreTAKE-K2K-PLAC128` | 2 | 1170 / 1280 | 2450 | 530 / 530 | 3510 | 1570 | 32 |
+| `CreTAKE-K2K-PLAC256` | 2 | 2340 / 2560 | 4900 | 1060 / 1060 | 7020 | 3140 | 64 |
+| `CreTAKE-K2K-PLAC512` | 2 | 4676 / 4608 | 9284 | 2116 / 2116 | 13516 | 6276 | 128 |
+| `CreTAKE-K2K-PLAC512Star` | 2 | 5492 / 5428 | 10920 | 2522 / 2522 | 15964 | 6682 | 128 |
+| `CreTAKE-K2K-ZEN128` | 2 | 1127 / 1024 | 2151 | 615 / 615 | 3381 | 1303 | 32 |
+| `CreTAKE-K2K-ZEN256` | 2 | 2253 / 2048 | 4301 | 1229 / 1229 | 6759 | 2605 | 64 |
+| `CreTAKE-K2K-ZEN512` | 2 | 4506 / 4096 | 8602 | 2458 / 2458 | 13518 | 5210 | 128 |
+| `CreTAKE-K2S-PLAC128-BiT128` | 2 | 530 / 2784 | 3314 | 530 / 1048 | 4892 | 1864 | 32 |
+| `CreTAKE-K2S-PLAC256-BiT256` | 2 | 1060 / 6016 | 7076 | 1060 / 2144 | 10280 | 4160 | 64 |
+| `CreTAKE-K2S-PLAC512-BiT512` | 2 | 2116 / 11815 | 13931 | 2116 / 5056 | 21103 | 9024 | 128 |
+| `CreTAKE-K2S-ZEN128-BiT128` | 2 | 615 / 2528 | 3143 | 615 / 1048 | 4806 | 1864 | 32 |
+| `CreTAKE-K2S-ZEN256-BiT256` | 2 | 1229 / 5504 | 6733 | 1229 / 2144 | 10106 | 4160 | 64 |
+| `CreTAKE-K2S-ZEN512-BiT512` | 2 | 2458 / 10791 | 13249 | 2458 / 5056 | 20763 | 9024 | 128 |
+| `CreTAKE-S2K-BiT128-PLAC128` | 2 | 2674 / 640 | 3314 | 1048 / 530 | 4892 | 1864 | 32 |
+| `CreTAKE-S2K-BiT128-ZEN128` | 2 | 2631 / 512 | 3143 | 1048 / 615 | 4806 | 1864 | 32 |
+| `CreTAKE-S2K-BiT256-PLAC256` | 2 | 5796 / 1280 | 7076 | 2144 / 1060 | 10280 | 4160 | 64 |
+| `CreTAKE-S2K-BiT256-ZEN256` | 2 | 5709 / 1024 | 6733 | 2144 / 1229 | 10106 | 4160 | 64 |
+| `CreTAKE-S2K-BiT512-PLAC512` | 2 | 11371 / 2560 | 13931 | 5056 / 2116 | 21103 | 9024 | 128 |
+| `CreTAKE-S2K-BiT512-ZEN512` | 2 | 11201 / 2048 | 13249 | 5056 / 2458 | 20763 | 9024 | 128 |
+| `CreTAKE-S2S-BiT128-ePLAC128` | 2 | 2034 / 2144 | 4178 | 1048 / 1048 | 6274 | 1864 | 32 |
+| `CreTAKE-S2S-BiT128-eZEN128` | 2 | 2119 / 2016 | 4135 | 1048 / 1048 | 6231 | 1864 | 32 |
+| `CreTAKE-S2S-BiT256-ePLAC256` | 2 | 4516 / 4736 | 9252 | 2144 / 2144 | 13540 | 4160 | 64 |
+| `CreTAKE-S2S-BiT256-eZEN256` | 2 | 4685 / 4480 | 9165 | 2144 / 2144 | 13453 | 4160 | 64 |
+| `CreTAKE-S2S-BiT512-ePLAC512` | 2 | 8811 / 9255 | 18066 | 5056 / 5056 | 28178 | 9024 | 128 |
+| `CreTAKE-S2S-BiT512-eZEN512` | 2 | 9153 / 8743 | 17896 | 5056 / 5056 | 28008 | 9024 | 128 |
 
 ## Symmetric primitives
 

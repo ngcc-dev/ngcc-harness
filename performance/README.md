@@ -78,6 +78,22 @@ cycles and time per operation, memory proxies, data sizes (and KEX messages
 and passes), and an index of the raw evidence. It also gives the share of each
 operation spent in `pseudohash`, `pseudoXOF`, `sm3hash` and the ICCS DRNG.
 
+For key exchange, `kex_bandwidth.csv` calculates bandwidth from specified
+protocol-message bytes plus each required public key once. These public keys
+are transmitted bytes. KEM public-key size is reported separately:
+encapsulation assumes the recipient's key is already available. Certificates,
+identities supplied out of band, and transport framing are not counted. The
+raw benchmark records are preserved. AFS-KEX specifies fresh composite keys in the first two
+passes but pre-distributes them in its submitted API; either arrangement has
+the same bandwidth. Its fourth pass emits no message but leaves its
+output-length parameter unchanged, creating a phantom raw benchmark message.
+
+KEM public-key/ciphertext and signature public-key/signature sizes come from
+`external_sizes.csv`, a separate catalog of the frozen submissions' external
+formats, not from the timing records or benchmark allocation sizes. The
+[external-size audit](EXTERNAL_SIZE_AUDIT.md) identifies variable-length
+signatures and discrepancies between specified sizes and submitted encodings.
+
 Timing uses one performance core with turbo off, the `performance` governor,
 SMT off and the hardware cycle counter (`perf_event_paranoid` ≤ 2). Each
 operation is calibrated with one call, then measured in five trials, normally
@@ -175,6 +191,9 @@ log of instances timed without passing their KATs to runs built before
 | `summary_notes.csv` | brief per-instance caveats shown in the summary table |
 | `symmetric_survey.csv` | ICCS helper usage per public-key candidate |
 | `security_targets.csv` | explicit 128/256/512 NGCC comparison target for every measured instance; blank marks a supplementary parameter set |
+| `kex_bandwidth.csv` | per-instance protocol-message bytes and required public keys used to calculate bandwidth |
+| `external_sizes.csv` | per-instance KEM/signature external sizes, independently curated from the submissions |
+| `EXTERNAL_SIZE_AUDIT.md` | size-accounting rules and frozen specification/encoding disagreements |
 | `smoke.py`, `Makefile` | optimized (AVX2) builds of four families and a no-record smoke test |
 | `kem-35.mk` | Scloud+ AVX2 and NEON build rules |
 | `source_catalog.csv`, `import_sources.py`, `import_dove.py`, `catalog.py` | source provenance (below) |

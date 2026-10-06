@@ -67,11 +67,13 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
+External public-key, ciphertext and signature sizes follow the curated `performance/external_sizes.csv` catalog; secret-key and shared-secret lengths remain API figures. See [the size audit](../performance/EXTERNAL_SIZE_AUDIT.md) for disagreements.
+
 | instance | public key | secret key | signature |
 |---|---|---|---|
-| `Tins128` | 51 | 32 | 3284 |
-| `Tins256` | 98 | 64 | 13012 |
-| `Tins512` | 195 | 128 | 51187 |
+| `Tins128` | 51 | 32 | 3284 (maximum) |
+| `Tins256` | 98 | 64 | 13012 (maximum) |
+| `Tins512` | 195 | 128 | 51187 (maximum) |
 
 ## Symmetric primitives
 

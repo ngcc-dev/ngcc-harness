@@ -103,12 +103,14 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `TriQ-KEX-128` | 2 | 6148 / 8180 | 14328 | 2054 / 2134 | 16 |
-| `TriQ-KEX-256` | 2 | 18808 / 24952 | 43760 | 6328 / 6488 | 32 |
-| `TriQ-KEX-384` | 2 | 36598 / 48678 | 85276 | 12255 / 12495 | 48 |
-| `TriQ-KEX-512` | 2 | 59096 / 78648 | 137744 | 19768 / 20088 | 64 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `TriQ-KEX-128` | 2 | 6148 / 8180 | 14328 | 2054 / 2054 | 18436 | 2134 | 16 |
+| `TriQ-KEX-256` | 2 | 18808 / 24952 | 43760 | 6328 / 6328 | 56416 | 6488 | 32 |
+| `TriQ-KEX-384` | 2 | 36598 / 48678 | 85276 | 12255 / 12255 | 109786 | 12495 | 48 |
+| `TriQ-KEX-512` | 2 | 59096 / 78648 | 137744 | 19768 / 19768 | 177280 | 20088 | 64 |
 
 ## Symmetric primitives
 

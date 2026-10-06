@@ -89,11 +89,15 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `ADKEX-128` | 2 | 1600 / 800 | 2400 | 800 / 1600 | 32 |
-| `ADKEX-256` | 2 | 3168 / 1600 | 4768 | 1568 / 3136 | 32 |
-| `ADKEX-512` | 2 | 6528 / 3136 | 9664 | 3392 / 6784 | 64 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+Only the responder's long-term public key is required; this exchange does not authenticate the initiator as a mutually authenticated protocol would.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `ADKEX-128` | 2 | 1600 / 800 | 2400 | 0 / 800 | 3200 | 1600 | 32 |
+| `ADKEX-256` | 2 | 3168 / 1600 | 4768 | 0 / 1568 | 6336 | 3136 | 32 |
+| `ADKEX-512` | 2 | 6528 / 3136 | 9664 | 0 / 3392 | 13056 | 6784 | 64 |
 
 ## Symmetric primitives
 

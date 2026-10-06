@@ -108,13 +108,17 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `MAMBA-NIKE-128` | 1 | 1568 | 1568 | 1184 / 3232 | 32 |
-| `MAMBA-NIKE-192` | 1 | 1568 | 1568 | 1312 / 3360 | 32 |
-| `MAMBA-NIKE-256` | 1 | 1568 | 1568 | 1312 / 3360 | 32 |
-| `MAMBA-NIKE-384` | 1 | 3360 | 3360 | 2848 / 6944 | 48 |
-| `MAMBA-NIKE-512` | 1 | 3360 | 3360 | 2848 / 6944 | 64 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+Only the responder's long-term public key is required; this exchange does not authenticate the initiator as a mutually authenticated protocol would.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `MAMBA-NIKE-128` | 1 | 1568 | 1568 | 0 / 1184 | 2752 | 3232 | 32 |
+| `MAMBA-NIKE-192` | 1 | 1568 | 1568 | 0 / 1312 | 2880 | 3360 | 32 |
+| `MAMBA-NIKE-256` | 1 | 1568 | 1568 | 0 / 1312 | 2880 | 3360 | 32 |
+| `MAMBA-NIKE-384` | 1 | 3360 | 3360 | 0 / 2848 | 6208 | 6944 | 48 |
+| `MAMBA-NIKE-512` | 1 | 3360 | 3360 | 0 / 2848 | 6208 | 6944 | 64 |
 
 ## Symmetric primitives
 

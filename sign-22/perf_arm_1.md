@@ -100,16 +100,20 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
+External public-key, ciphertext and signature sizes follow the curated `performance/external_sizes.csv` catalog; secret-key and shared-secret lengths remain API figures. See [the size audit](../performance/EXTERNAL_SIZE_AUDIT.md) for disagreements.
+
 | instance | public key | secret key | signature |
 |---|---|---|---|
-| `Rhyme-SHAKE-128` | 800 | 11072 | 5156 |
-| `Rhyme-SHAKE-256` | 1824 | 22336 | 10308 |
-| `Rhyme-SHAKE-384` | 2720 | 45760 | 14436 |
-| `Rhyme-SHAKE-512` | 3872 | 44864 | 20612 |
-| `Rhyme-SM3-128` | 800 | 11072 | 5156 |
-| `Rhyme-SM3-256` | 1824 | 22336 | 10308 |
-| `Rhyme-SM3-384` | 2720 | 45760 | 14436 |
-| `Rhyme-SM3-512` | 3872 | 44864 | 20612 |
+| `Rhyme-SHAKE-128` | 800 | 11072 | 1483 ≈ nominal |
+| `Rhyme-SHAKE-256` | 1824 | 22336 | 3258 ≈ nominal |
+| `Rhyme-SHAKE-384` | 2720 | 45760 | 4743 ≈ nominal |
+| `Rhyme-SHAKE-512` | 3872 | 44864 | 7002 ≈ nominal |
+| `Rhyme-SM3-128` | 800 | 11072 | 1483 ≈ nominal |
+| `Rhyme-SM3-256` | 1824 | 22336 | 3258 ≈ nominal |
+| `Rhyme-SM3-384` | 2720 | 45760 | 4743 ≈ nominal |
+| `Rhyme-SM3-512` | 3872 | 44864 | 7002 ≈ nominal |
+
+The submitted signature API reports a buffer capacity, not a fixed transmitted length; the nominal figure above is the specification's representative size, and actual signatures vary.
 
 ## Symmetric primitives
 

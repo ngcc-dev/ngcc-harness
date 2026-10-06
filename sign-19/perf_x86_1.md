@@ -185,28 +185,30 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
+External public-key, ciphertext and signature sizes follow the curated `performance/external_sizes.csv` catalog; secret-key and shared-secret lengths remain API figures. See [the size audit](../performance/EXTERNAL_SIZE_AUDIT.md) for disagreements.
+
 | instance | public key | secret key | signature |
 |---|---|---|---|
-| `Phoenix-SHAKE-128f` | 32 | 64 | 13670 |
-| `Phoenix-SHAKE-128s` | 32 | 64 | 6258 |
-| `Phoenix-SHAKE-192f` | 48 | 96 | 30766 |
-| `Phoenix-SHAKE-192s` | 48 | 96 | 13332 |
-| `Phoenix-SHAKE-256f` | 64 | 128 | 44906 |
-| `Phoenix-SHAKE-256s` | 64 | 128 | 24618 |
-| `Phoenix-SHAKE-384f` | 96 | 192 | 88442 |
-| `Phoenix-SHAKE-384s` | 96 | 192 | 54726 |
-| `Phoenix-SHAKE-512f` | 128 | 256 | 138454 |
-| `Phoenix-SHAKE-512s` | 128 | 256 | 98476 |
-| `Phoenix-SM3-128f` | 32 | 64 | 13670 |
-| `Phoenix-SM3-128s` | 32 | 64 | 6258 |
-| `Phoenix-SM3-192f` | 48 | 96 | 30766 |
-| `Phoenix-SM3-192s` | 48 | 96 | 13332 |
-| `Phoenix-SM3-256f` | 64 | 128 | 44906 |
-| `Phoenix-SM3-256s` | 64 | 128 | 24618 |
-| `Phoenix-SM3-384f` | 96 | 192 | 88442 |
-| `Phoenix-SM3-384s` | 96 | 192 | 54726 |
-| `Phoenix-SM3-512f` | 128 | 256 | 138454 |
-| `Phoenix-SM3-512s` | 128 | 256 | 98476 |
+| `Phoenix-SHAKE-128f` | 32 | 64 | 13670 (maximum) |
+| `Phoenix-SHAKE-128s` | 32 | 64 | 6258 (maximum) |
+| `Phoenix-SHAKE-192f` | 48 | 96 | 30766 (maximum) |
+| `Phoenix-SHAKE-192s` | 48 | 96 | 13332 (maximum) |
+| `Phoenix-SHAKE-256f` | 64 | 128 | 44906 (maximum) |
+| `Phoenix-SHAKE-256s` | 64 | 128 | 24618 (maximum) |
+| `Phoenix-SHAKE-384f` | 96 | 192 | 88442 (maximum) |
+| `Phoenix-SHAKE-384s` | 96 | 192 | 54726 (maximum) |
+| `Phoenix-SHAKE-512f` | 128 | 256 | 138454 (maximum) |
+| `Phoenix-SHAKE-512s` | 128 | 256 | 98476 (maximum) |
+| `Phoenix-SM3-128f` | 32 | 64 | 13670 (maximum) |
+| `Phoenix-SM3-128s` | 32 | 64 | 6258 (maximum) |
+| `Phoenix-SM3-192f` | 48 | 96 | 30766 (maximum) |
+| `Phoenix-SM3-192s` | 48 | 96 | 13332 (maximum) |
+| `Phoenix-SM3-256f` | 64 | 128 | 44906 (maximum) |
+| `Phoenix-SM3-256s` | 64 | 128 | 24618 (maximum) |
+| `Phoenix-SM3-384f` | 96 | 192 | 88442 (maximum) |
+| `Phoenix-SM3-384s` | 96 | 192 | 54726 (maximum) |
+| `Phoenix-SM3-512f` | 128 | 256 | 138454 (maximum) |
+| `Phoenix-SM3-512s` | 128 | 256 | 98476 (maximum) |
 
 ## Symmetric primitives
 

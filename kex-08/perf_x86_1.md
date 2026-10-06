@@ -65,10 +65,14 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `NIIKE-lv128` | 0 | 0 / 0 / 0 | 0 | 4160 / 196 | 64 |
-| `NIIKE-lv256` | 0 | 0 / 0 / 0 | 0 | 8960 / 336 | 128 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+NIIKE sends no separate protocol message but requires both public keys. The specification lists 4,030/8,943-byte keys, while the submitted external encodings are 4,160/8,960 bytes; this table uses the latter.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `NIIKE-lv128` | 0 | 0 / 0 / 0 | 0 | 4160 / 4160 | 8320 | 196 | 64 |
+| `NIIKE-lv256` | 0 | 0 / 0 / 0 | 0 | 8960 / 8960 | 17920 | 336 | 128 |
 
 ## Symmetric primitives
 

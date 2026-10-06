@@ -94,11 +94,13 @@ Static memory is approximated by the library's loadable ELF segments; peak memor
 
 ## 6. Transmission and storage overhead
 
-| instance | passes | messages (bytes) | total | long-term pk / sk | shared secret |
-|---|---|---|---|---|---|
-| `DKEX-128` | 3 | 800 / 3188 / 2420 | 6408 | 1312 / 2560 | 32 |
-| `DKEX-256` | 3 | 1568 / 6195 / 4627 | 12390 | 2592 / 4896 | 32 |
-| `DKEX-512` | 3 | 3392 / 7699 / 4627 | 15718 | 2592 / 4896 | 64 |
+Bandwidth counts all specified protocol messages and each required public key once. Public keys are transmitted bytes too. Certificates and transport framing are excluded. The published raw timing records are unchanged.
+
+| instance | passes | messages (bytes; raw API) | protocol-message bytes | public key A / B | bandwidth (bytes) | long-term sk (API cap) | shared secret |
+|---|---|---|---|---|---|---|---|
+| `DKEX-128` | 3 | 800 / 3188 / 2420 | 6408 | 1312 / 1312 | 9032 | 2560 | 32 |
+| `DKEX-256` | 3 | 1568 / 6195 / 4627 | 12390 | 2592 / 2592 | 17574 | 4896 | 32 |
+| `DKEX-512` | 3 | 3392 / 7699 / 4627 | 15718 | 2592 / 2592 | 20902 | 4896 | 64 |
 
 ## Symmetric primitives
 
