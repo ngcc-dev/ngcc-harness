@@ -158,9 +158,10 @@ The decoder, concretely:
   table**: `poly.c:26 llr_table[]` holds 256 int64 entries and `poly.c:332` does
   `llr[i] = llr_table[centered + RATIO - 1]`, i.e. the LLR is a pure lookup on
   the centred coefficient value of c_m, with "0 modulated to −q/4, 1 to +q/4".
-  The table is therefore data-independent, so the LLR computation is
-  constant-time; but the table's derivation from e_vir is not reproducible from
-  the spec (see below).
+  The table contents are fixed, but the address is indexed by the decrypted
+  coefficient. The lookup is therefore a secret-dependent cache access, not a
+  constant-time LLR computation; the table's derivation from e_vir is also not
+  reproducible from the spec (see below).
 
 Agreements:
 - Every Table 3 parameter I sampled matches `params.h` across all five

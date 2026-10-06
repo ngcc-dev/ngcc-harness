@@ -68,6 +68,22 @@ open about this (§1, §3.3) and calls it a deliberate trade for aggressive comp
 but it is far outside the usual ≤2^-128 KEM convention and is a property an evaluator
 should weigh separately from the security claims.
 
+**Reproduced (`kex-05-1`).** A deterministic search using the submitted optimized
+whole-AKE implementation found an honest LoomKEX-256 exchange that aborts pass 3 at
+trial 136129. The separately submitted scalar reference implementation produces the
+identical keys, states, pass-1/pass-2 messages and `-3` rigid-decapsulation failure.
+See [`../security/LOOM_FAILURE_SEARCH.md`](../security/LOOM_FAILURE_SEARCH.md) and the
+saved complete witness.
+
+**State-rollback key recovery (`kex-05-2`).** The proof's one-observation-per-ephemeral-key
+condition is not intrinsic to the serialized-state API. Restoring the same pass-1 state around
+chosen pass-2 calls gives a reusable decoder-boundary oracle. A complete exploit recovers all
+1,024 LoomKEX-256 ephemeral-secret coefficients in 4,532 pass-3 queries, decapsulates an
+honest responder ciphertext, and predicts the final AKE shared secret. This result is explicitly
+conditional on snapshot rollback, state cloning, or concurrent evaluation; a strictly linear
+deployment that irrevocably commits the first accepted query is not broken by this witness.
+The public witness is built by the [`exploit` Makefile target](Makefile).
+
 ## Pseudocode
 
 ### Loom-KEM: IND-CPAF ("rigid") KEM over the MLWR PKE (Algorithms 7–9)
