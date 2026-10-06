@@ -1171,7 +1171,7 @@ if [ -z "$only" ] || [ "$only" = kem-32 ]; then
 fi
 
 echo
-echo "== kem-34-1 / kem-34-2 / kem-34-3 / kem-34-4 Rudraksh2 findings (Medium / Low) =="
+echo "== kem-34-1 / kem-34-2 / kem-34-3 / kem-34-4 Rudraksh2 findings (Medium / Low / Info) =="
 run_target kem-34 "kem-34-1" make -C kem-34 reproduce-message-space
 run_target kem-34 "kem-34-2/kem-34-4" make -C kem-34 reproduce-parameters
 run_target kem-34 "kem-34-3" make -C kem-34 reproduce-length-read
@@ -1281,6 +1281,30 @@ echo "== external DRBG used as a deterministic protocol expander (Low) =="
 run_target kem-01 "kem-01-3" python3 security/rbg_protocol_dependency.py --report-id kem-01-3
 run_target sign-01 "sign-01-7" python3 security/rbg_protocol_dependency.py --report-id sign-01-7
 run_target kem-06 "kem-06-5" python3 security/rbg_protocol_dependency.py --report-id kem-06-5
+echo
+echo "== 2026-10-06 implementation findings =="
+run_target kem-06 "kem-06-6" python3 kem-06/reproduce_short_ciphertext.py
+run_target kem-07 "kem-07-4" python3 kem-07/reproduce_short_ciphertext.py
+run_target kem-24 "kem-24-2" python3 kem-24/reproduce_implementation_findings.py --report-id kem-24-2
+run_target kem-02 "kem-02-7" python3 kem-02/reproduce_ecc_tail.py
+run_target kem-10 "kem-10-5" python3 kem-10/reproduce_implementation_findings.py --report-id kem-10-5
+run_target kem-10 "kem-10-6" python3 kem-10/reproduce_implementation_findings.py --report-id kem-10-6
+run_target sign-08 "sign-08-3" python3 sign-08/reproduce_expanda_mismatch.py
+run_target kex-03 "kex-03-6" python3 kex-03/reproduce_kat_interop.py
+run_target kex-03 "kex-03-7" python3 kex-03/reproduce_k2k_prefix.py
+run_target sign-08 "sign-08-4" python3 sign-08/reproduce_secret_seed_width.py
+run_target sign-29 "sign-29-3" python3 sign-29/reproduce_implementation_findings.py --report-id sign-29-3
+run_target sign-29 "sign-29-3" sh sign-29/reproduce_path_overflow.sh
+run_target sign-29 "sign-29-4" python3 sign-29/reproduce_implementation_findings.py --report-id sign-29-4
+run_target sign-29 "sign-29-5" python3 sign-29/reproduce_implementation_findings.py --report-id sign-29-5
+run_target sign-29 "sign-29-6" python3 sign-29/reproduce_implementation_findings.py --report-id sign-29-6
+run_target sign-22 "sign-22-5" sh sign-22/reproduce_encoder_bound.sh
+run_target sign-19 "sign-19-2" python3 sign-19/reproduce_avx2_findings.py --report-id sign-19-2
+run_target sign-19 "sign-19-3" python3 sign-19/reproduce_avx2_findings.py --report-id sign-19-3
+run_target kem-30 "kem-30-3" python3 kem-30/reproduce_interop.py
+run_target sign-26 "sign-26-3" python3 sign-26/reproduce_failed_split.py
+echo
+echo "== external DRBG used as a deterministic protocol expander (continued) =="
 run_target kem-07 "kem-07-3" python3 security/rbg_protocol_dependency.py --report-id kem-07-3
 run_target kem-10 "kem-10-4" python3 security/rbg_protocol_dependency.py --report-id kem-10-4
 run_target sign-12 "sign-12-4" python3 security/rbg_protocol_dependency.py --report-id sign-12-4
@@ -1293,6 +1317,29 @@ run_target sign-32 "sign-32-4" python3 security/rbg_protocol_dependency.py --rep
 run_target kem-36 "kem-36-8" python3 security/rbg_protocol_dependency.py --report-id kem-36-8
 run_target kem-38 "kem-38-7" python3 security/rbg_protocol_dependency.py --report-id kem-38-7
 run_target kem-40 "kem-40-3" python3 security/rbg_protocol_dependency.py --report-id kem-40-3
+run_target kem-02 "kem-02-8" python3 kem-02/reproduce_sm3_cv_ceiling.py
+run_target kem-15 "kem-15-3" python3 kem-15/reproduce_fips202_unseeded_rng.py
+run_target kem-19 "kem-19-2" python3 kem-19/reproduce_seed_ceiling.py
+run_target kem-32 "kem-32-3" python3 kem-32/reproduce_bridge_seed_ceiling.py
+run_target kem-40 "kem-40-5" python3 kem-40/reproduce_truncated_encryption_seed.py
+run_target sign-10 "sign-10-3" python3 sign-10/reproduce_target_width.py
+run_target sign-15 "sign-15-13" bash sign-15/reproduce_512_nonce_overlap.sh
+run_target sign-19 "sign-19-4" python3 sign-19/certify_sm3_prehash.py
+run_target sign-19 "sign-19-5" python3 sign-19/reproduce_sm3_prf_disclosure.py
+run_target sign-19 "sign-19-6" python3 sign-19/certify_sm3_digest_overread.py
+run_target sign-22 "sign-22-6" sh sign-22/reproduce_long_message.sh
+run_target sign-24 "sign-24-2" bash sign-24/reproduce_zero_zeta.sh
+if [ "$only" = sign-24 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target sign-24 "sign-24-2" python3 sign-24/reproduce_natural_zero.py
+elif [ -z "$only" ]; then
+    echo "SKIP   sign-24 sign-24-2 natural replay (run tools/reproduce.sh sign-24 or set NGCC_SLOW=1)"
+    skipped=$((skipped + 1))
+fi
+run_target sign-29 "sign-29-7" python3 sign-29/certify_public_tree_source.py
+run_target sign-29 "sign-29-7" sh sign-29/reproduce_public_tree_witness.sh
+run_target sign-30 "sign-30-3" python3 sign-30/certify_shake_capacity.py
+run_target sign-31 "sign-31-7" python3 sign-31/certify_salt_bound.py
+run_target sign-34 "sign-34-5" python3 sign-34/reproduce_prehash_ceiling.py
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
