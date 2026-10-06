@@ -75,7 +75,7 @@ identical keys, states, pass-1/pass-2 messages and `-3` rigid-decapsulation fail
 See [`../security/LOOM_FAILURE_SEARCH.md`](../security/LOOM_FAILURE_SEARCH.md) and the
 saved complete witness.
 
-**State-rollback key recovery (`kex-05-2`).** The proof's one-observation-per-ephemeral-key
+**Ephemeral-key reuse (`kex-05-2`).** The proof's one-observation-per-ephemeral-key
 condition is not intrinsic to the serialized-state API. Restoring the same pass-1 state around
 chosen pass-2 calls gives a reusable decoder-boundary oracle. A complete exploit recovers all
 1,024 LoomKEX-256 ephemeral-secret coefficients in 4,532 pass-3 queries, decapsulates an

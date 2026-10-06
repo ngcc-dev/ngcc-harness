@@ -129,7 +129,7 @@ Checked original reference source for each parameter label: `parameters.h`/`inst
 
 Agreements:
 - Parameter spot-check (sampled: λ, ℓ_wit, τ, w_grind, T_open, |σ| for
-  Lynxer-160s/160f/256s/384s, i.e. 4 of 8 sets): `Lynxer-160s/parameters.h`
+  Lynxer-160s/160f/256s/384s, i.e. 4 of 8 sets): `Implementations/Reference_Implementation/Lynxer-160s/parameters.h`
   gives `CSP 160, LENWIT 480, TAU 14, POW_LEVEL 6, T_OPEN 129, SIG_SIZE 4607`
   and the 160f/256s/384s blocks give `(21,8,139,5801)`, `(22,12,224,12191)`,
   `(34,10,332,27495)` — all identical to spec Table 5.
