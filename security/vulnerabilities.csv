@@ -123,9 +123,10 @@ kem-24-1;Confirmed;review;Encryption omits the specified rounding constant
 kem-24-2;Confirmed;static;Unvalidated ciphertext length bypasses or overruns comparison
 kem-25-1;Proof gap;static;Compressed NEV sets omit the implicit rejection required by their security argument
 kem-26-1;Confirmed;runtime+static;Fixed-weight parity falsifies the DQCSD and JPCI assumptions
-kem-26-2;Confirmed;runtime;NSS-HQC-256 fails honest decapsulation near 10^-4
+kem-26-2;Probable;runtime;NSS-HQC-256 failures enable reported equivalent-key recovery
 kem-26-3;Confirmed;runtime;Ephemeral syndrome decoding misses the 256-, 384-, and 512-bit targets
 kem-26-4;Confirmed;runtime;A 256-bit decryption sub-seed caps NSS-HQC-384 and -512
+kem-26-5;Probable;runtime+static;RS-decoder timing reportedly recovers an NSS-HQC-128 key
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
 kem-28-1;Confirmed;runtime;Noncanonical ciphertext encoding defeats IND-CCA security
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break

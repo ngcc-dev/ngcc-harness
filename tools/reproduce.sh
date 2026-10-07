@@ -312,9 +312,10 @@ echo "== kem-22-1 Mithril: honest shared-secret mismatch (Medium) =="
 run_target kem-22 "kem-22-1" make -C kem-22 exploit-decoder
 
 echo
-echo "== kem-26-1 / kem-26-2 NSS-HQC: parity distinguisher and honest failure (Medium) =="
+echo "== kem-26-1 / kem-26-2 / kem-26-5 NSS-HQC: parity, failure oracle, and decoder timing (Medium / Critical Probable) =="
 run_target kem-26 "kem-26-1" python3 kem-26/reproduce_parity.py
 run_target kem-26 "kem-26-2" python3 kem-26/reproduce_failure.py
+run_target kem-26 "kem-26-5" sh kem-26/reproduce_rs_decoder_iterations.sh
 
 echo
 echo "== kem-25-1 NEV: compressed-set rejection mismatch (Medium Proof gap) =="
