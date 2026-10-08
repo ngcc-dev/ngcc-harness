@@ -1172,6 +1172,14 @@ if [ -z "$only" ] || [ "$only" = kem-32 ]; then
 fi
 
 echo
+echo "== kem-32-4 QCTM: folded ordinary-Goppa quotient (Medium) =="
+if [ "$only" = kem-32 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target kem-32 "kem-32-4" sh kem-32/reproduce_folded_quotient.sh
+else
+    echo "SKIP   kem-32 kem-32-4 archive audit (request kem-32 or set NGCC_SLOW=1)"
+fi
+
+echo
 echo "== kem-34-1 / kem-34-2 / kem-34-3 / kem-34-4 Rudraksh2 findings (Medium / Low / Info) =="
 run_target kem-34 "kem-34-1" make -C kem-34 reproduce-message-space
 run_target kem-34 "kem-34-2/kem-34-4" make -C kem-34 reproduce-parameters
