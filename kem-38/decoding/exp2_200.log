@@ -1,0 +1,25 @@
+=== n=200 k=100 k1=50 k2=50
+A. single-pair tests (true pair with true ratio | false pair with random ratio)
+   kind         dim C sh{i,j}   dim Cp sh{i,j}    dim C pu{i,j}  dim {c_i=l c_j}   sq {c_i=l c_j}     sq C sh{i,j}    sq Cp sh{i,j}        dim C∩J1C
+   true   191,  87               98               98              100               99              199              198              198               99
+   true    77,  11               98               98              100               99              199              198              198               99
+   true   181, 156               98               98              100               99              199              198              198               99
+   false  142, 119               98               98              100               99              199              198              198               99
+   false   29,  96               98               98              100               99              199              198              198               99
+   false  109, 184               98               98              100               99              199              198              198               99
+   per-pair cost of the cheapest test (one rank): 0.175s; all C(200,2)*432 (pair,ratio) triples = 8.597e+06
+B. rank of m known true pair functionals + 1 candidate (true | false), rank on C and dim C∩J_mC
+   m=   1: rank(known)=   1  +true ->    2   +false ->    2   (signal iff ranks differ; dim C∩J_mC = k - rank = 99)
+   m=   2: rank(known)=   2  +true ->    3   +false ->    3   (signal iff ranks differ; dim C∩J_mC = k - rank = 98)
+   m=  25: rank(known)=  25  +true ->   26   +false ->   26   (signal iff ranks differ; dim C∩J_mC = k - rank = 75)
+   m=  48: rank(known)=  48  +true ->   49   +false ->   49   (signal iff ranks differ; dim C∩J_mC = k - rank = 52)
+   m=  49: rank(known)=  49  +true ->   50   +false ->   50   (signal iff ranks differ; dim C∩J_mC = k - rank = 51)
+   m=  50: rank(known)=  50  +true ->   50   +false ->   51   (signal iff ranks differ; dim C∩J_mC = k - rank = 50)
+   m=  51: rank(known)=  50  +true ->   50   +false ->   51   (signal iff ranks differ; dim C∩J_mC = k - rank = 50)
+   m=  55: rank(known)=  50  +true ->   50   +false ->   51   (signal iff ranks differ; dim C∩J_mC = k - rank = 50)
+C. codeword-level test dim(s*Q ∩ s'*Q), Q = C^perp: two secret S-words | two random Q-words; and primal T-words in C
+   (S,S) | (Q,Q) | (T,T) | (C,C): [(1, 1, 1, 1), (1, 1, 1, 1), (1, 1, 1, 1)]
+D. pairs recovered by ratio matching from r structured words (true found / false positives)
+   r=2: from (u,u)D words of C: (99, 24);  from (x,-x)D' words of C^perp: (99, 32)
+   r=3: from (u,u)D words of C: (98, 0);  from (x,-x)D' words of C^perp: (100, 0)
+   r=4: from (u,u)D words of C: (99, 0);  from (x,-x)D' words of C^perp: (100, 0)

@@ -22,6 +22,8 @@ demonstrated.
 The vulnerability inventory retains withdrawn IDs so citations remain stable;
 `Withdrawn` entries are historical evaluation records, not active findings.
 
+Supporting UVW design analyses (no additional finding IDs): [UVW-Sign](../sign-32/decoding_analysis.md) and [UVW-KEM](../kem-38/decoding_analysis.md).
+
 Additional focused validators and runtime witnesses are:
 
 ```sh

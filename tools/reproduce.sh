@@ -133,6 +133,10 @@ echo "== hash-02-4 AXIS: digest alignment preimage bound (Critical Probable) =="
 run_target hash-02 "hash-02-4" bash hash-02/reproduce_preimage_alignment.sh
 
 echo
+echo "== hash-03-1 C Hash: backward-tree second-preimage bound (Critical Probable) =="
+run_target hash-03 "hash-03-1" python3 hash-03/reproduce_backward_tree.py
+
+echo
 echo "== hash-05-3 uHash: partial-byte padding collisions (Critical) =="
 run_target hash-05 "hash-05-3" make -C hash-05 reproduce
 
