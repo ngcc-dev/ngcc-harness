@@ -21,6 +21,7 @@ hash-10-3;Confirmed;review;The specification, examples and RTL define incompatib
 hash-10-4;Confirmed;runtime;C implementations hash storage bits outside partial-byte messages
 hash-10-5;Confirmed;review;C input-length conversion and padding arithmetic are unchecked
 hash-11-1;Confirmed;review;Secret state indexes AES T-tables
+hash-11-2;Confirmed;runtime;Garnet-1024a omits the specified rate-state feed-forward
 hash-12-1;Confirmed;runtime;Cross-profile 512-bit output relation
 hash-13-1;Confirmed;review;Long messages reduce JuziHash-1024 second-preimage security below 1024 bits
 hash-14-1;Confirmed;runtime;Laurus loses its function-domain separation at c=1024
@@ -42,11 +43,11 @@ hash-24-3;Confirmed;runtime;QSH admits full-mode free-start and low-cost semi-fr
 hash-25-1;Confirmed;runtime;Allocation failure reports success without writing a digest
 hash-26-1;Confirmed;runtime;An invariant subspace reduces CHIME collision bounds to 64 and 160 bits
 hash-27-1;Confirmed;review;Secret state indexes an eight-bit substitution table
-hash-30-1;Lead;static;A conditional iterative trail gives a 2^384 full-round collision estimate
+hash-30-1;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-31-1;Confirmed;runtime;Cross-domain distinguisher between ZC-1536-512 and ZC-1536-768
-hash-31-2;Lead;static;A conditional iterative trail gives a 2^384 full-round collision estimate
+hash-31-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-32-1;Confirmed;static;The specified and implemented ZC-EDMC mappings differ
-hash-32-2;Lead;static;A conditional iterative trail gives a 2^384 full-round collision estimate
+hash-32-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-34-1;Probable;runtime;A four-block reset prefix gives second preimages below the required levels
 hash-34-2;Confirmed;runtime;Short-message checksum cancellation defeats the stated length-extension argument
 hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multiplication

@@ -233,14 +233,19 @@ run_target hash-26 "hash-26-1" make -C hash-26 reproduce
 run_target hash-26 "hash-26-1-capacity" python3 hash-26/reproduce_capacity_match.py
 
 echo
+echo "== hash-11-2 Garnet: omitted rate-state feed-forward (Medium / Confirmed) =="
+run_target hash-11 "hash-11-2" python3 hash-11/reproduce_dm_feedforward.py
+
+echo
 echo "== hash-31-1 ZC-DMC: cross-domain distinguisher =="
 run_target hash-31 "hash-31-1" make -C hash-31 exploit
 
 echo
-echo "== hash-30-1 / hash-31-2 / hash-32-2 ZC: conditional iterative trail (High Lead) =="
+echo "== hash-30-1 / hash-31-2 / hash-32-2 ZC: conditional iterative trail (Critical Lead) =="
 if [ -z "$only" ] || [ "$only" = hash-30 ] ||
    [ "$only" = hash-31 ] || [ "$only" = hash-32 ]; then
     python3 security/zc_iterative_differential.py || fail=$((fail + 1))
+    python3 security/zc_message_modification.py || fail=$((fail + 1))
 fi
 
 echo
