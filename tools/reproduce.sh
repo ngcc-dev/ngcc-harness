@@ -129,6 +129,10 @@ echo "== hash-02-3 AXIS: invertible state bounds second-preimage security (Criti
 run_target hash-02 "hash-02-3" make -C hash-02 reproduce-inverse
 
 echo
+echo "== hash-02-4 AXIS: digest alignment preimage bound (Critical Probable) =="
+run_target hash-02 "hash-02-4" bash hash-02/reproduce_preimage_alignment.sh
+
+echo
 echo "== hash-05-3 uHash: partial-byte padding collisions (Critical) =="
 run_target hash-05 "hash-05-3" make -C hash-05 reproduce
 
@@ -226,6 +230,7 @@ run_target hash-34 "hash-34-2" python3 hash-34/reproduce_two_query_relation.py
 echo
 echo "== hash-26-1 CHIME: invariant-subspace collision bounds =="
 run_target hash-26 "hash-26-1" make -C hash-26 reproduce
+run_target hash-26 "hash-26-1-capacity" python3 hash-26/reproduce_capacity_match.py
 
 echo
 echo "== hash-31-1 ZC-DMC: cross-domain distinguisher =="

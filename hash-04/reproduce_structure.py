@@ -10,6 +10,7 @@ SETS = (
 )
 A = ((-2, 1), (4, -3))
 B = ((-5, 2), (-6, 2))
+Q = ((9, 14), (14, 22))
 
 
 def det(matrix):
@@ -31,6 +32,9 @@ assert det(A) == 2
 assert det(B) == 2
 assert det(subtract(A, B)) == -5
 assert det(subtract(multiply(A, B), multiply(B, A))) == 2
+assert det(Q) == 2
+assert multiply(A, Q)[0][1] == multiply(A, Q)[1][0]
+assert multiply(B, Q)[0][1] == multiply(B, Q)[1][0]
 
 for name, prime, sample_exponent in SETS:
     fiber_size = prime * (prime * prime - 1)
@@ -40,11 +44,33 @@ for name, prime, sample_exponent in SETS:
     # x=t(t-1)/(2N).  x>1/2-2^-191 here, so the collision probability exceeds
     # 1-exp(-1/2), approximately 0.393469.
     exponent = Fraction(samples * (samples - 1), 2 * fiber_size)
-    assert exponent > Fraction(49, 100)
+    assert exponent > Fraction(99, 200)
     print(
         f"CONFIRMED hash-04-1 {name}: determinant fiber has "
         f"{fiber_size.bit_length()}-bit cardinality bound; "
         f"2^{sample_exponent} samples give collision probability >0.39"
+    )
+    # For a fixed-length palindrome, H(M)Q is symmetric with determinant 2^(L+1).
+    # Since p = 7 mod 8, -2^(L+1) is a nonsquare, and the exact number of
+    # symmetric 2x2 matrices with this determinant is p^2-p.
+    palindrome_exponent = 128 if name == "CHAMP-512" else 256
+    palindrome_length = 544 if name == "CHAMP-512" else 1056
+    assert prime % 8 == 7
+    palindrome_image = prime * prime - prime
+    palindrome_samples = 1 << palindrome_exponent
+    palindrome_bound = Fraction(
+        palindrome_samples * (palindrome_samples - 1), 2 * palindrome_image
+    )
+    assert palindrome_bound > Fraction(99, 200)
+    repeated_inputs = Fraction(
+        palindrome_samples * (palindrome_samples - 1),
+        2 * (1 << ((palindrome_length + 1) // 2)),
+    )
+    assert repeated_inputs < Fraction(1, 1 << 17)
+    print(
+        f"CONFIRMED hash-04-1 {name}: palindrome image <= p^2-p; "
+        f"2^{palindrome_exponent} samples give collision probability >0.39 "
+        f"with repeated-input probability <2^-17"
     )
 
 print(
