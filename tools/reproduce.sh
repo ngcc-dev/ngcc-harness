@@ -219,6 +219,11 @@ echo "== hash-25-1 TaiChi: allocation failure falsely reports success (Low) =="
 run_target hash-25 "hash-25-1" make -C hash-25 exploit
 
 echo
+echo "== hash-34-1/-2 WChain: reset prefix and short-message relation (Critical Probable / Medium Confirmed) =="
+run_target hash-34 "hash-34-1" python3 hash-34/reproduce_reset_prefix.py
+run_target hash-34 "hash-34-2" python3 hash-34/reproduce_two_query_relation.py
+
+echo
 echo "== hash-26-1 CHIME: invariant-subspace collision bounds =="
 run_target hash-26 "hash-26-1" make -C hash-26 reproduce
 
