@@ -11,11 +11,11 @@ HERE = Path(__file__).resolve().parent
 # Submitted DFR exponents from Table 1; Prime uses a different ring and is not
 # part of the structural matrix certificate below.
 SETS = (
-    (648, 146.79, 128),
-    (768, 185.56, 192),
-    (1024, 190.48, 256),
-    (1536, 195.50, 384),
-    (2048, 204.10, 512),
+    (648, 146.79, 128, 320),
+    (768, 185.56, 192, 384),
+    (1024, 190.48, 256, 512),
+    (1536, 195.50, 384, 768),
+    (2048, 204.10, 512, 1024),
 )
 
 
@@ -33,10 +33,10 @@ def reduce_monomial(degree, n):
     return out
 
 
-def block_gram(n):
+def block_gram(n, offset):
     rng = random.Random(1)
     public = [rng.randint(-3, 3) for _ in range(n)]
-    indices = list(range(8)) + list(range(n // 2, n // 2 + 8))
+    indices = list(range(8)) + list(range(offset, offset + 8))
     position = {value: i for i, value in enumerate(indices)}
     rows = [[0.0] * n for _ in range(16)]
     for column in range(n):
@@ -79,18 +79,24 @@ def jacobi_eigenvalues(matrix):
 def main():
     pdf = subprocess.run(["pdftotext", "-layout", str(HERE / "kem-14-spec.pdf"), "-"],
                          check=True, stdout=subprocess.PIPE, text=True).stdout
-    for n, dfr, target in SETS:
+    for n, dfr, target, offset in SETS:
         assert str(n) in pdf and f"{dfr:.2f}" in pdf
+        source = (HERE / "Implementations and Test_Vectors" / "Implementations"
+                  / "Reference_Implementation" / f"DTRU-{n}" / "poly.c").read_text()
+        source_offset = "320" if n == 648 else "DTRU_N / 2"
+        assert f"tmp_mp[j + 8] = cf->coeffs[8 * i + j + {source_offset}]" in source
         proof_bits = dfr - 80
         assert proof_bits < target
-        gram = block_gram(n)
-        correlations = [gram[i][i + 8] /
-                        sqrt(gram[i][i] * gram[i + 8][i + 8]) for i in range(8)]
+        gram = block_gram(n, offset)
+        pairs = ([(i, i + 12) for i in range(4)] if n == 648
+                 else [(i, i + 8) for i in range(8)])
+        correlations = [gram[i][j] / sqrt(gram[i][i] * gram[j][j])
+                        for i, j in pairs]
         mean_diag = sum(gram[i][i] for i in range(16)) / 16
         eigen = [value / mean_diag for value in jacobi_eigenvalues(gram)]
         assert max(correlations) < -0.60
-        assert eigen[0] < 0.35 and eigen[-1] > 1.70
-        print(f"DTRU-{n}: paired-correlation={sum(correlations)/8:.3f} "
+        assert eigen[0] < 0.36 and eigen[-1] > 1.70
+        print(f"DTRU-{n}: offset={offset} paired-correlation={sum(correlations)/len(correlations):.3f} "
               f"spectrum={eigen[0]:.3f}..{eigen[-1]:.3f} "
               f"submitted-proof-at-2^80=2^-{proof_bits:.2f} < 2^-{target}")
     print("PROOF GAP kem-14-4 CONFIRMED: ring pairing refutes the submitted independence model")
