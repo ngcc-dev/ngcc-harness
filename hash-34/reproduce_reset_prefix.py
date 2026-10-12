@@ -3,6 +3,10 @@
 
 from hashlib import sha256
 from pathlib import Path
+import os
+import shutil
+import subprocess
+import tempfile
 
 
 ROOT = Path(__file__).resolve().parent
@@ -90,5 +94,18 @@ prefix = b"".join(block.to_bytes(4, "big") for block in (x, y, y, x))
 for message in (b"", b"a", b"abc", b"abcd", b"WChain reset test"):
     assert model_hash(prefix + message) == model_hash(message)
 
-print("STRUCTURAL hash-34-1 CONFIRMED: source paths and reduced-width reset prefix")
+print("STRUCTURAL hash-34-1 CONFIRMED: source paths and reduced-width reset prefix", flush=True)
+compiler = shutil.which(os.environ.get("CC", "cc"))
+if compiler:
+    with tempfile.TemporaryDirectory(prefix="wchain-palindrome-") as build_dir:
+        binary = Path(build_dir) / "palindrome"
+        subprocess.run(
+            [compiler, "-std=c11", "-O2", "-DWCHAIN_NO_MAIN", "-DWCHAIN_DISABLE_SIMD",
+             "-I", str(SOURCE.parent), str(SOURCE),
+             str(ROOT / "reproduce_palindrome_fullsize.c"), "-o", str(binary)],
+            check=True,
+        )
+        subprocess.run([str(binary)], check=True)
+else:
+    print("FULL-WIDTH palindrome: NOT CHECKED (no C compiler)")
 print("FULL-SIZE hash-34-1 NOT RUN: birthday-like matching remains an assumption")
