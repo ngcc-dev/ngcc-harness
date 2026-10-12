@@ -658,6 +658,10 @@ echo "== kex-05-3 Loom: byte-identical Shuttle authentication module (Critical) 
 run_target kex-05 "kex-05-3" python3 kex-05/validate_shuttle_embedding.py
 
 echo
+echo "== kex-05-5 Loom: lossless shifted-MLWR reduction (Medium Proof gap) =="
+run_target kex-05 "kex-05-5" python3 security/reproduce_shifted_mlwr_toy.py
+
+echo
 echo "== kex-08-1 NIIKE: raw shared-invariant distinguisher (Critical) =="
 if [ -z "$only" ] || [ "$only" = kex-08 ]; then
     if [ -n "${NIIKE_PYTHON:-}" ] && $NIIKE_PYTHON -c 'import sage.all' >/dev/null 2>&1; then
@@ -1366,6 +1370,7 @@ fi
 run_target sign-29 "sign-29-7" python3 sign-29/certify_public_tree_source.py
 run_target sign-29 "sign-29-7" sh sign-29/reproduce_public_tree_witness.sh
 run_target sign-30 "sign-30-3" python3 sign-30/certify_shake_capacity.py
+run_target sign-30 "sign-30-4" python3 sign-30/reproduce_invariant_estimate.py
 run_target sign-31 "sign-31-7" python3 sign-31/certify_salt_bound.py
 run_target sign-34 "sign-34-5" python3 sign-34/reproduce_prehash_ceiling.py
 

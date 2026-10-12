@@ -207,6 +207,7 @@ kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-s
 kex-05-2;Confirmed;runtime;Ephemeral-key reuse recovers the complete Loom-KEM secret key
 kex-05-3;Confirmed;runtime+static;Shuttle signing-key leakage enables permanent responder impersonation
 kex-05-4;Confirmed;static;Loom's ICCS build uses the external DRBG as an XOF
+kex-05-5;Proof gap;static;A pre-rounding shift is not losslessly reducible to standard MLWR
 kex-06-1;Confirmed;static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
 kex-06-2;Lead;runtime;Static-key reconciliation admits an active reaction-recovery path
 kex-06-3;Proof gap;static;Reconciliation leakage makes the passive-security bound vacuous
@@ -347,6 +348,7 @@ sign-29-7;Confirmed;runtime+static;Public-salt GGM expansion exposes the complet
 sign-30-1;Confirmed;runtime;The normal build deterministically exposes every signing key
 sign-30-2;Confirmed;runtime;The specified 128-bit round seeds permit collision-accumulation forgeries
 sign-30-3;Confirmed;static;SHAKE256 capacity limits TRINE-512 transcript collision security
+sign-30-4;Lead;static;TRINE-512's invariant-attack estimate falls about 5.5 bits below target
 sign-31-1;Confirmed;static;A 512-bit prehash caps forgery security at 256 bits
 sign-31-2;Confirmed;review;Secret-dependent echelon pivots during signing
 sign-31-3;Confirmed;runtime;Allocation failure reuses a stale message representative
