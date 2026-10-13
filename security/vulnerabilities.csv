@@ -153,7 +153,7 @@ kem-32-5;Lead;review;Reported structural key recovery for QCTM256 and QCTM512
 kem-33-1;Confirmed;runtime;Decapsulation re-expands the private seed with a variable-length sampler
 kem-33-2;Confirmed;review;Decryption multiplication traverses secret support positions
 kem-33-3;Confirmed;runtime+static;The optimized API generates predictable keys and encapsulations
-kem-34-1;Proof gap;runtime;Rudraksh2-128 leaves only a 2^64-query Grover margin
+kem-34-1;Proof gap;runtime;Rudraksh2-128 has a 2^64-iteration generic search before oracle costs
 kem-34-2;Confirmed;runtime;Cortex-M4 uses an incompatible Minal decoder constant
 kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer lengths
 kem-34-4;Confirmed;runtime;Rudraksh2-II's modulus cannot support its specified NTT
@@ -186,14 +186,16 @@ kem-40-3;Confirmed;static;YuanYang resets the external DRBG for deterministic en
 kem-40-4;Confirmed;static;Dead even-rounding corrections invalidate the submitted failure estimates
 kem-40-5;Confirmed;static;Truncated encryption seed permits a 2^440 challenge-key distinguisher at the 512-bit level
 kem-41-1;Proof gap;runtime;The numerical DFR model averages over messages while the proof assumes worst-case correctness
-kex-01-1;Confirmed;review;The stated no-matching-session theorem is false for responder sessions
+kex-01-1;Confirmed;review;The stated no-matching-session theorem admits trivial distinguishers
 kex-01-2;Confirmed;runtime;ADKEX-512 silently derives different keys in honest sessions
 kex-01-3;Confirmed;runtime;Incoming message lengths are ignored before fixed-size reads
+kex-01-4;Confirmed;runtime;A copied certified responder key permits identity misbinding
 kex-02-1;Confirmed;runtime;The ephemeral key is generated once as long-term state
 kex-02-2;Confirmed;review;Secret-derived decryption coefficients take a sign branch
 kex-02-3;Confirmed;runtime;Leaking one in-session encapsulated key permits initiator impersonation
 kex-02-4;Confirmed;runtime;A copied certified public key enables an unknown-key-share
 kex-02-5;Confirmed;runtime;An unauthenticated responder observes decapsulation failures
+kex-02-6;Proof gap;static;Failure terms make the stated QROM bounds non-tight
 kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret to 64 bits
 kex-03-2;Confirmed;runtime+static;Omitting signatures from the KDF breaks transcript matching
 kex-03-3;Confirmed;runtime+static;The generic double-key KEM fails its claimed first-key CCA game
@@ -201,13 +203,16 @@ kex-03-4;Confirmed;runtime;Initiator length-unit error removes the NAXOS long-te
 kex-03-5;Confirmed;runtime;Ignored KEX message lengths cause pre-authentication out-of-bounds reads
 kex-03-6;Confirmed;static;POLARLAC reference and optimized vectors derive different shared secrets
 kex-03-7;Confirmed;static;K2K-PLAC512 encryption coins depend on only 128 message bits
+kex-03-8;Proof gap;static;Generic QROM reduction terms give loose one-query bounds
 kex-04-1;Confirmed;runtime;DKEX-512 silently derives different keys in honest sessions
 kex-04-2;Confirmed;runtime;DKEX ignores input lengths before fixed-size reads
+kex-04-3;Confirmed;runtime+static;DKEX-512 authentication has only a 256-bit key-generation space
 kex-05-1;Confirmed;runtime;The specified decryption-failure rate causes honest-session aborts
 kex-05-2;Confirmed;runtime;Ephemeral-key reuse recovers the complete Loom-KEM secret key
 kex-05-3;Confirmed;runtime+static;Shuttle signing-key leakage enables permanent responder impersonation
 kex-05-4;Confirmed;static;Loom's ICCS build uses the external DRBG as an XOF
 kex-05-5;Proof gap;static;A pre-rounding shift is not losslessly reducible to standard MLWR
+kex-05-6;Confirmed;static;A corrupted peer can impersonate into a fresh no-match session
 kex-06-1;Confirmed;static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
 kex-06-2;Lead;runtime;Static-key reconciliation admits an active reaction-recovery path
 kex-06-3;Proof gap;static;Reconciliation leakage makes the passive-security bound vacuous
@@ -303,7 +308,7 @@ sign-19-3;Confirmed;static;AVX2 SM3 chain and tree hashes omit the public seed
 sign-19-4;Confirmed;static;A 256-bit SM3 prehash caps message-retargeting security
 sign-19-5;Confirmed;runtime;Every high-level SM3 signature exposes part of `SK.prf`
 sign-19-6;Confirmed;static;Reference high-level SM3 hashes copy past their digest buffers
-sign-20-1;Proof gap;static;Qingluan-128's own quantum accounting falls below the 80-bit target
+sign-20-1;Proof gap;static;Qingluan-128's quantum accounting omits complete attack costs
 sign-20-2;Confirmed;runtime;DRBG rollback is outside the security model, so the reported witness recovery is not an attack
 sign-20-3;Confirmed;runtime+static;Nested SM3 multicollisions give sub-target message binding for QingLuan-384 and -512
 sign-20-4;Confirmed;runtime;Signing re-expands the secret through a variable-work sampler

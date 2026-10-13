@@ -623,6 +623,7 @@ if [ -z "$only" ] || [ "$only" = kex-01 ]; then
     make -C kex-01 reproduce-truncated || fail=$((fail + 1))
     make -C kex-01 clean-reproducers || fail=$((fail + 1))
 fi
+run_target kex-01 "kex-01-4" python3 kex-01/reproduce_identity_alias.py
 
 echo
 echo "== kex-03-2 / kex-03-3 CreTAKE: transcript and double-key KEM binding (Critical / High) =="
@@ -635,6 +636,7 @@ run_target kex-04 "kex-04-1" python3 kex-04/reproduce_correctness.py
 echo
 echo "== kex-04-2 DKEX: ignored input lengths permit fixed-size over-reads (Low) =="
 run_target kex-04 "kex-04-2" make -C kex-04 reproduce-truncated
+run_target kex-04 "kex-04-3" python3 kex-04/reproduce_signature_seed_cap.py
 
 echo
 echo "== kex-05-2 LoomKEX-256: ephemeral-key reuse recovery (High) =="
@@ -660,6 +662,7 @@ run_target kex-05 "kex-05-3" python3 kex-05/validate_shuttle_embedding.py
 echo
 echo "== kex-05-5 Loom: lossless shifted-MLWR reduction (Medium Proof gap) =="
 run_target kex-05 "kex-05-5" python3 security/reproduce_shifted_mlwr_toy.py
+run_target kex-05 "kex-05-6" python3 kex-05/reproduce_freshness_corruption.py
 
 echo
 echo "== kex-08-1 NIIKE: raw shared-invariant distinguisher (Critical) =="
@@ -925,7 +928,7 @@ echo "== sign-18-5 Origami: public-key-only signature forgery (Critical) =="
 run_target sign-18 "sign-18-5" python3 sign-18/reproduce_public_forgery.py
 
 echo
-echo "== sign-20-1 Qingluan-128: quantum-accounting proof gap (Medium) =="
+echo "== sign-20-1 Qingluan-128: incomplete quantum-cost accounting (Info) =="
 run_target sign-20 "sign-20-1" python3 sign-20/reproduce_quantum_accounting.py
 
 echo
@@ -1203,7 +1206,7 @@ else
 fi
 
 echo
-echo "== kem-34-1 / kem-34-2 / kem-34-3 / kem-34-4 Rudraksh2 findings (Medium / Low / Info) =="
+echo "== kem-34-1 / kem-34-2 / kem-34-3 / kem-34-4 Rudraksh2 findings (Info / Low) =="
 run_target kem-34 "kem-34-1" make -C kem-34 reproduce-message-space
 run_target kem-34 "kem-34-2/kem-34-4" make -C kem-34 reproduce-parameters
 run_target kem-34 "kem-34-3" make -C kem-34 reproduce-length-read
@@ -1256,8 +1259,9 @@ elif [ -z "$only" ]; then
 fi
 
 echo
-echo "== kex-02-3 / kex-02-4 / kex-02-5 AFS-KEX protocol findings =="
+echo "== kex-02-3..6 AFS-KEX protocol findings and informational QROM bound =="
 run_target kex-02 "kex-02-3/kex-02-4/kex-02-5" make -C kex-02 reproduce-protocol-findings
+run_target kex-02 "kex-02-6" python3 kex-02/reproduce_failure_bound.py
 
 echo
 echo "== sign-05-4 / sign-05-5 Chinith constraint-system findings =="
@@ -1324,6 +1328,7 @@ run_target kem-10 "kem-10-6" python3 kem-10/reproduce_implementation_findings.py
 run_target sign-08 "sign-08-3" python3 sign-08/reproduce_expanda_mismatch.py
 run_target kex-03 "kex-03-6" python3 kex-03/reproduce_kat_interop.py
 run_target kex-03 "kex-03-7" python3 kex-03/reproduce_k2k_prefix.py
+run_target kex-03 "kex-03-8" python3 kex-03/reproduce_proof_bound.py
 run_target sign-08 "sign-08-4" python3 sign-08/reproduce_secret_seed_width.py
 run_target sign-29 "sign-29-3" python3 sign-29/reproduce_implementation_findings.py --report-id sign-29-3
 run_target sign-29 "sign-29-3" sh sign-29/reproduce_path_overflow.sh
