@@ -936,6 +936,10 @@ echo "== sign-18-5 Origami: public-key-only signature forgery (Critical) =="
 run_target sign-18 "sign-18-5" python3 sign-18/reproduce_public_forgery.py
 
 echo
+echo "== sign-18-6 Origami: natural tail-zone signing aborts (Low) =="
+run_target sign-18 "sign-18-6" python3 sign-18/reproduce_tail_abort.py
+
+echo
 echo "== sign-20-1 Qingluan-128: incomplete quantum-cost accounting (Info) =="
 run_target sign-20 "sign-20-1" python3 sign-20/reproduce_quantum_accounting.py
 
