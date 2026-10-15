@@ -867,6 +867,14 @@ echo "== sign-09-1 DOVE: unauthenticated salt (Medium) =="
 run_target sign-09 "sign-09-1" make -C sign-09 exploit
 
 echo
+echo "== sign-09-2 DOVE: search assumption used as key indistinguishability (Medium Proof gap) =="
+run_target sign-09 "sign-09-2" python3 sign-09/reproduce_search_decision_gap.py
+
+echo
+echo "== sign-09-3 DOVE: out-of-bounds API reads (Low) =="
+run_target sign-09 "sign-09-3" sh sign-09/reproduce_input_lengths.sh
+
+echo
 echo "== sign-15-2 MORNING-ATLAS: ignored hint padding violates SUF-CMA (High) =="
 for l in sign-15/lib/*.so; do
     run sign-15 "sign-15-2" CONFIRMED sig-hint-padding "$l"
