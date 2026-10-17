@@ -164,7 +164,7 @@ echo "== hash-12-1 Iphe: cross-profile output relation (Medium) =="
 run_target hash-12 "hash-12-1" make -C hash-12 exploit
 
 echo
-echo "== hash-04-1 / hash-04-2 CHAMP: determinant-fiber bound and projective lead (Critical / Low Lead) =="
+echo "== hash-04-1 / hash-04-2 CHAMP: determinant-fiber bound and subgroup collision lead (Critical / Critical Lead) =="
 run_target hash-04 "hash-04-1/hash-04-2" python3 hash-04/reproduce_structure.py
 
 echo "== hash-04-3 / hash-04-4 CHAMP: square-root preimages and full-size writes =="
@@ -288,7 +288,7 @@ echo "== kem-02-6 Amoeba: pre-FO decoder-oracle key recovery (Critical) =="
 run_target kem-02 "kem-02-6" make -C kem-02 exploit-dfo-key-recovery
 
 echo
-echo "== kem-03-2 BAG-Loong: rejection key omits received ciphertext (High) =="
+echo "== kem-03-2 BAG-Loong: rejection key omits received ciphertext (Medium) =="
 run_target kem-03 "kem-03-2" python3 kem-03/reproduce_rejection_key.py kem-03/lib/libBAG-Loong-128.so
 
 echo
@@ -1395,6 +1395,50 @@ run_target sign-30 "sign-30-3" python3 sign-30/certify_shake_capacity.py
 run_target sign-30 "sign-30-4" python3 sign-30/reproduce_invariant_estimate.py
 run_target sign-31 "sign-31-7" python3 sign-31/certify_salt_bound.py
 run_target sign-34 "sign-34-5" python3 sign-34/reproduce_prehash_ceiling.py
+
+echo
+echo "== 2026-10-17 systematic-review findings =="
+run_target hash-04 "hash-04-2" python3 hash-04/reproduce_subgroup_certificates.py
+run_target hash-05 "hash-05-4" python3 hash-05/reproduce_final_counter_extension.py
+run_target hash-14 "hash-14-1" python3 hash-14/reproduce_named_xof_prefix.py
+run_target hash-19 "hash-19-2" python3 hash-19/reproduce_768_1024_relation.py
+run_target kem-01 "kem-01-1" sh kem-01/reproduce_avx2_retention.sh
+run_target kem-09 "kem-09-4" python3 kem-09/reproduce_rejection_reencryption.py
+run_target kem-18 "kem-18-4" python3 kem-18/reproduce_rejection_reencryption.py
+run_target kem-21 "kem-21-2" sh kem-21/reproduce_sigma_ceiling.sh
+run_target kem-33 "kem-33-4" sh kem-33/reproduce_opt_partial_compare.sh
+run_target kex-03 "kex-03-1" sh kex-03/reproduce_k2k_wpfs.sh
+run_target kex-03 "kex-03-10" python3 kex-03/reproduce_copied_key_alias.py
+run_target kex-03 "kex-03-9" sh kex-03/reproduce_bit_oracle_recovery.sh
+run_target kex-04 "kex-04-4/kex-04-5" python3 kex-04/reproduce_reflection_and_alias.py
+run_target kex-05 "kex-05-7" python3 kex-05/reproduce_constant_identity_misbinding.py
+run_target kex-05 "kex-05-8" python3 kex-05/reproduce_lifting_prf_reuse.py
+run_target kex-06 "kex-06-1" sh kex-06/reproduce_ephemeral_seed.sh
+run_target kex-07 "kex-07-1" python3 kex-07/reproduce_uks.py
+run_target kex-08 "kex-08-5" python3 kex-08/reproduce_exponent_reaction_oracle.py
+run_target kex-09 "kex-09-3" python3 kex-09/reproduce_copied_key_uks.py
+run_target sign-01 "sign-01-9" python3 sign-01/reproduce_kdf_length_overflow.py
+run_target sign-02 "sign-02-3" sh sign-02/reproduce_seed_collision.sh
+run_target sign-06 "sign-06-2" sh sign-06/reproduce_signing_key_root.sh
+run_target sign-06 "sign-06-6" sh sign-06/reproduce_absorb_compression.sh
+run_target sign-07 "sign-07-5" python3 sign-07/reproduce_message_length_overflow.py
+run_target sign-10 "sign-10-4" python3 sign-10/reproduce_signature_leak.py
+run_target sign-13 "sign-13-3" python3 sign-13/reproduce_ggm_multitarget.py tree
+run_target sign-13 "sign-13-4" python3 sign-13/reproduce_ggm_multitarget.py leaf
+run_target sign-15 "sign-15-7" sh sign-15/reproduce_atlas192_mask_leak.sh
+run_target sign-20 "sign-20-5-signing" sh sign-20/reproduce_signing_cv.sh
+run_target sign-22 "sign-22-7" python3 sign-22/certify_smoothing_budget.py
+run_target sign-23 "sign-23-3" sh sign-23/reproduce_seed_collision.sh
+run_target sign-25 "sign-25-4" python3 sign-25/reproduce_encoding_aliases.py
+run_target sign-26 "sign-26-4" python3 sign-26/reproduce_encoding_aliases.py
+run_target sign-27 "sign-27-6" python3 sign-27/reproduce_coefficient_high_bits.py
+run_target sign-29 "sign-29-3" python3 sign-29/reproduce_appended_bytes.py
+run_target sign-30 "sign-30-5" python3 sign-30/reproduce_response_scaling.py
+run_target sign-32 "sign-32-3 UVW-256" sh sign-32/reproduce_uvw256_pair_recovery.sh
+run_target sign-33 "sign-33-7" python3 sign-33/reproduce_boundary_forgery.py
+run_target sign-33 "sign-33-8" python3 sign-33/reproduce_padding_nibble.py
+run_target sign-34 "sign-34-4" sh sign-34/reproduce_delta2_selection.sh
+run_target sign-34 "sign-34-6" python3 sign-34/certify_theta_constant.py
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
