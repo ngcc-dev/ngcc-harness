@@ -330,6 +330,7 @@ sign-23-1;Confirmed;runtime;Reversed transition leaks Shuttle's signing key
 sign-23-2;Confirmed;static;Shuttle's ICCS build uses the external DRBG as an XOF
 sign-24-1;Confirmed;runtime;Chunked Reed–Solomon encoding reveals the signing witness
 sign-24-2;Confirmed;runtime;Zero 16-bit challenge exposes the signing witness
+sign-24-3;Confirmed;static;Signing rebuilds the public state with secret-dependent control flow
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
 sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
 sign-25-3;Confirmed;runtime;Detached compact challenge enables one-query message-retargeting forgeries
@@ -346,6 +347,7 @@ sign-28-2;Confirmed;runtime;The reference verifier ignores required BAVC opening
 sign-28-3;Confirmed;static;The implementations omit the Hash4 step required by the proof
 sign-28-4;Confirmed;static;Reference universal hashing reads beyond an eight-byte stack buffer
 sign-28-5;Confirmed;runtime;An undocumented exported helper generates keys from a public constant
+sign-28-6;Confirmed;static;Witness-position expansion branches on the long-term secret
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-29-2;Confirmed;static;Deterministic TINS expansion depends on the external DRBG
 sign-29-3;Confirmed;runtime+static;Unchecked signature length overflows the verifier's path buffer

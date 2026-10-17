@@ -1011,6 +1011,10 @@ echo "== sign-28-5 SYDO: undocumented helper uses a public RNG seed (Medium) =="
 run_target sign-28 "sign-28-5" make -C sign-28 reproduce-fixed-rng
 
 echo
+echo "== sign-28-6 SYDO: secret-dependent witness-position writes (Low) =="
+run_target sign-28 "sign-28-6" python3 sign-28/reproduce_secret_branch.py
+
+echo
 echo "== sign-19-1 Phoenix: reference/AVX2 signature interoperability failure (Low) =="
 run_target sign-19 "sign-19-1" python3 sign-19/reproduce_interop.py
 
@@ -1378,6 +1382,7 @@ run_target sign-19 "sign-19-5" python3 sign-19/reproduce_sm3_prf_disclosure.py
 run_target sign-19 "sign-19-6" python3 sign-19/certify_sm3_digest_overread.py
 run_target sign-22 "sign-22-6" sh sign-22/reproduce_long_message.sh
 run_target sign-24 "sign-24-2" bash sign-24/reproduce_zero_zeta.sh
+run_target sign-24 "sign-24-3" python3 sign-24/reproduce_secret_branch.py
 if [ "$only" = sign-24 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
     run_target sign-24 "sign-24-2" python3 sign-24/reproduce_natural_zero.py
 elif [ -z "$only" ]; then
