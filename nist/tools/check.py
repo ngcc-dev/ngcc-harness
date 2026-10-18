@@ -123,9 +123,9 @@ def main() -> int:
             if (row.get("candidate_status") != "withdrawn" or row.get("package_round") != "2"
                     or row.get("spec_label") != "Round 2 PDF" or row.get("archive_label") != "Round 2 ZIP"):
                 problems.append("candidates.csv: HAWK must identify its withdrawn Round 2 fallback")
-        elif (row.get("candidate_status") != "round-3 candidate" or row.get("package_round") != "3"
+        elif (row.get("candidate_status") != "On-Ramp Round 3 candidate" or row.get("package_round") != "3"
               or row.get("spec_label") != "PDF" or row.get("archive_label") != "ZIP"):
-            problems.append(f"candidates.csv:{line}: {scheme} must be a Round 3 candidate")
+            problems.append(f"candidates.csv:{line}: {scheme} must be a On-Ramp Round 3 candidate")
 
     finding_rows = rows(ROOT / "findings.csv", FINDING_FIELDS, problems)
     reproducer_rows = rows(ROOT / "reproducers.csv", REPRODUCER_FIELDS, problems)
@@ -213,6 +213,11 @@ def main() -> int:
         for column in ("Severity", "Status", "Layer", "Discovery", "Remediation", "Credit"):
             if field(text, column) != row[column]:
                 problems.append(f"reports/{identifier}.md: {column} differs from inventory")
+        for report_field, csv_field in (("Affected", "Scope"), ("Exploitation", "Exploitation")):
+            if field(text, report_field) != row[csv_field]:
+                problems.append(
+                    f"reports/{identifier}.md: {report_field} differs from inventory {csv_field}"
+                )
         if (not field(text, "Affected") or not field(text, "Exploitation")
                 or not field(text, "Credit") or not field(text, "Date")):
             problems.append(f"reports/{identifier}.md: incomplete metadata")
@@ -329,7 +334,12 @@ def main() -> int:
         problems.append("missing LICENSE.md rights-status notice")
     else:
         license_text = license_path.read_text(encoding="utf-8")
-        for needle in ("currently grants no additional licence", "upstream notices and licence terms"):
+        for needle in (
+            "currently grants no additional licence",
+            "upstream notices and licence terms",
+            "SDitH/kat/cat1_fast.tsv",
+            "PQCsignKAT_147.rsp",
+        ):
             if needle not in license_text:
                 problems.append(f"LICENSE.md: missing rights-status text {needle!r}")
 

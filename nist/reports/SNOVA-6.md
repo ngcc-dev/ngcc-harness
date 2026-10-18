@@ -3,7 +3,7 @@
 Severity: Low
 Status: Confirmed
 Layer: Implementation
-Affected: All 18 submitted Round-3 q=16 reference API variants (nine K/B/S choices times SHAKE/AES) when verification is the process's first SNOVA operation
+Affected: All 18 submitted On-Ramp Round 3 q=16 reference API variants (nine K/B/S choices times SHAKE/AES) when verification is the process's first SNOVA operation
 Discovery: Trivial
 Exploitation: End-to-end correctness and availability failure; valid input is rejected and no forgery is produced
 Remediation: Local

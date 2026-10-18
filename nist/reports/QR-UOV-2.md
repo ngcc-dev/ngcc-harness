@@ -3,7 +3,7 @@
 **Severity:** Low
 **Status:** Proof gap
 **Layer:** Design
-**Affected:** Round-3 main q=127, delta=2 parameter sets in categories 1, 3, and 5
+**Affected:** On-Ramp Round 3 main q=127, delta=2 parameter sets in categories 1, 3, and 5
 **Discovery:** Moderate
 **Exploitation:** proof/model gap; no forgery or key-recovery attack
 **Remediation:** Moderate

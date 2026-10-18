@@ -12,7 +12,7 @@ Date: 2026-10-18
 
 ## Result
 
-The Round-3 specification prices the uov-Ip direct forgery at about `2^146`
+The On-Ramp Round 3 specification prices the uov-Ip direct forgery at about `2^146`
 binary gates using hybrid Wiedemann-XL on the Thomae–Wolf-reduced system
 (§4.2, physical p.24). It does not analyze Furue and Kudo's Polynomial XL
 (PXL), whose elimination is performed over a polynomial ring before guessing

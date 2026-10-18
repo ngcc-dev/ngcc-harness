@@ -8,7 +8,7 @@ The primary sources are the [call for proposals](https://csrc.nist.gov/csrc/medi
 (September 2022, October 2022 IP-delivery update; local
 `NIST-call-for-proposals.pdf`) and [API notes](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/example%20file/api-notes-pqc-dig-sig-page.pdf)
 (local `NIST-API-notes.pdf`). Package versions are the current links on the
-[Round 3 page](https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures),
+[On-Ramp Round 3 page](https://csrc.nist.gov/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures),
 except HAWK, whose withdrawal and Round 2 fallback are documented separately.
 
 ## Security properties and categories

@@ -22,7 +22,7 @@ Ratings describe cryptanalytic impact on the **affected scheme and parameters**:
 |---|---|
 | Critical | Full key recovery or general forgery invalidates the intended security target; state query/work requirements and whether demonstrated or estimated. |
 | High | A serious failure short of a required-property break: for example, a well-supported recovery/forgery path with one material gap, an end-to-end side-channel recovery without an explicit resistance claim, or failure of a claimed SUF-CMA property when EUF-CMA remains intact. |
-| Medium | Confirmed repeated or measured leakage without recovery, a material constant-time rewrite, or a substantive binding/robustness defect whose attack consequence is unresolved. |
+| Medium | Confirmed repeated or measured leakage without recovery, a material constant-time rewrite, a demonstrated failure of an unclaimed stronger security property such as SUF-CMA, or a substantive binding/robustness defect whose attack consequence is unresolved. |
 | Low | Source-level secret dependence without a measured channel when a local repair is known, or another narrow security-relevant robustness/API weakness. |
 | Informational | Historical context, a withdrawn claim, or an observation without an established attack on the evaluated submission version. |
 
@@ -158,7 +158,10 @@ Malleability tests distinguish (1) a modified signed message that verifies to
 the same message, which is relevant to SUF-CMA or canonical encoding, from (2)
 a modification that verifies to a different message, which is a direct
 EUF-CMA concern. Sampled mutation, truncation, extension, zero-input, and
-wrong-key tests provide negative evidence only for the tested cases. Failure
-of a claimed SUF-CMA property is normally High because NIST requires EUF-CMA
-and treats stronger properties as additional claims; an EUF-CMA forgery is
-Critical when it defeats the claimed category.
+wrong-key tests provide negative evidence only for the tested cases. A
+demonstrated efficient transformation of a valid signature into a distinct
+valid signature on the same message is normally Medium even when the
+submission does not claim SUF-CMA: it is an end-to-end break of a commonly
+used additional signature property, while leaving NIST's required EUF-CMA
+target intact. Failure of an explicit SUF-CMA claim is normally High. An EUF-CMA
+forgery is Critical when it defeats the claimed category.

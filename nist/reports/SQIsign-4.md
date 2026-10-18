@@ -3,7 +3,7 @@
 Severity: Low
 Status: Lead
 Layer: Design
-Affected: Round-3 p324_3, p500_27, and p664_17 concrete-security claims
+Affected: On-Ramp Round 3 p324_3, p500_27, and p664_17 concrete-security claims
 Discovery: Moderate
 Exploitation: Model-dependent projected margin; no end-to-end attack at the claimed cost
 Remediation: Architectural
@@ -25,7 +25,7 @@ stored j-invariants.
 The specification models a memory-`w` attack as generating at least
 `sqrt(p/w)` j-invariants and assigns each generated value `2^c_j` binary
 operations, where `c_j` is 27.3, 29.8, or 31.4.  At the submitted caps, using
-the exact Round-3 primes gives 150.09, 222.18, and 285.44 bits of work.  These
+the exact On-Ramp Round 3 primes gives 150.09, 222.18, and 285.44 bits of work.  These
 are above NIST's 143-, 207-, and 272-gate category thresholds and agree with
 the specification's rounded 149.8, 221.8, and 285.4 figures.
 
@@ -54,7 +54,7 @@ metric, but it also yields positive margins.
 
 Wesolowski's own rough Section 4.1 model in
 [ePrint 2026/1486](https://eprint.iacr.org/2026/1486) supplies a second caveat.
-Re-evaluated at the exact Round-3 primes, it gives approximately `2^135.6`,
+Re-evaluated at the exact On-Ramp Round 3 primes, it gives approximately `2^135.6`,
 `2^203.4`, and `2^264.1` Fp2 operations using `2^117.3`, `2^178.9`, and
 `2^234.7` entries.  Charging `log2(p)^2` bit operations per Fp2 operation raises
 the work to 152.3, 221.4, and 282.9 bits.  This is another explicit cost-model

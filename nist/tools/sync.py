@@ -176,13 +176,36 @@ def source_state(source: Path) -> tuple[str, str]:
     return revision, status
 
 
+def validate_tracked_inputs(source: Path, manifest: list[dict[str, str]]) -> None:
+    """Refuse to publish any filesystem input absent from the source revision."""
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(source), "ls-files", "-z"],
+            check=True, capture_output=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as error:
+        raise SystemExit(f"cannot enumerate tracked source inputs: {error}") from error
+    tracked = {
+        entry.decode("utf-8") for entry in result.stdout.split(b"\0") if entry
+    }
+    imported = {
+        row["SourcePath"] for row in manifest
+        if not row["SourcePath"].startswith("content-digest:")
+    }
+    missing = sorted(imported - tracked)
+    if missing:
+        raise SystemExit(
+            "refusing untracked publication input(s): " + ", ".join(missing)
+        )
+
+
 def candidates(source: Path) -> bytes:
     submissions = json.loads((source / "data/submissions.json").read_text(encoding="utf-8"))
     by_scheme = {row["scheme"]: row for row in submissions}
     if set(by_scheme) != set(SCHEMES):
         raise SystemExit("data/submissions.json does not contain exactly the nine expected schemes")
     rows: list[dict[str, str]] = []
-    round3_page = "https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures"
+    round3_page = "https://csrc.nist.gov/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures"
     for order, scheme in enumerate(SCHEMES, 1):
         item = by_scheme[scheme]
         withdrawn = scheme == "HAWK"
@@ -190,7 +213,7 @@ def candidates(source: Path) -> bytes:
             "order": str(order),
             "family": FAMILIES[scheme],
             "scheme": scheme,
-            "candidate_status": "withdrawn" if withdrawn else "round-3 candidate",
+            "candidate_status": "withdrawn" if withdrawn else "On-Ramp Round 3 candidate",
             "package_round": str(item["round"]),
             "candidate_page": round3_page,
             "spec_label": "Round 2 PDF" if withdrawn else "PDF",
@@ -588,7 +611,8 @@ def main() -> int:
             "source worktree or index is dirty; commit it first or pass --allow-dirty "
             "only for an intentionally reviewed content-addressed snapshot"
         )
-    outputs, _ = desired_outputs(source)
+    outputs, manifest = desired_outputs(source)
+    validate_tracked_inputs(source, manifest)
     revision_after, status_after = source_state(source)
     if revision_after != revision_before or status_after != status_before:
         raise SystemExit("source Git state changed while the publication snapshot was generated")

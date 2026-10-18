@@ -3,7 +3,7 @@
 Severity: Low
 Status: Confirmed
 Layer: Implementation
-Affected: The three Round-3 l=2 alternative parameter sets; recommended l=4 and l=5 sets are unaffected
+Affected: The three On-Ramp Round 3 l=2 alternative parameter sets; recommended l=4 and l=5 sets are unaffected
 Discovery: Moderate
 Exploitation: End-to-end public-key-substitution witness against a claimed BUFF property; no EUF-CMA forgery under a challenger-supplied key
 Remediation: Local

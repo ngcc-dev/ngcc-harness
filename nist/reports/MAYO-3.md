@@ -3,7 +3,7 @@
 Severity: Low
 Status: Lead
 Layer: Design
-Affected: Round-3 MAYO2 concrete Category-1 estimate
+Affected: On-Ramp Round 3 MAYO2 concrete Category-1 estimate
 Discovery: Non-trivial
 Exploitation: Published heuristic direct-forgery cost model; no attack execution or experiments
 Remediation: Moderate
@@ -14,11 +14,11 @@ Date: 2026-10-18
 
 Ostuzzi's September 2026 paper
 [Geometric Forgeries: Structural Cryptanalysis of MAYO](https://eprint.iacr.org/2026/2247)
-gives a new structural direct-forgery strategy for Round-3 MAYO. Its Table 6
+gives a new structural direct-forgery strategy for On-Ramp Round 3 MAYO. Its Table 6
 reports 140 bits for MAYO2, against the submitters' Category-1 target of 143
 bit operations. An independent reimplementation of the paper's Theorems 1 and
 3 and Section 7.2 dimension model reproduced the estimate as `2^140.8` bit
-operations. The same reimplementation reproduced all four printed Round-3
+operations. The same reimplementation reproduced all four printed On-Ramp Round 3
 figures to within 0.8 bit.
 
 The paper's result depends on how a field operation and per-guess work are
@@ -42,7 +42,7 @@ exponent from 2.81 to 3: the corresponding value is 142.9.
 ## Specialization-cost sensitivity
 
 The paper author's generic baseline charges a per-guess specialization cost,
-but the structural Round-3 model omits that cost. Applying the same generic
+but the structural On-Ramp Round 3 model omits that cost. Applying the same generic
 specialization formula to the structural schedule raises the estimate to 145.1
 under the paper convention and 146.3 under the submission convention. The
 optimizing block schedule also changes from four blocks of size two to two
@@ -78,7 +78,7 @@ of per-guess specialization would determine whether the lead survives.
 python3 MAYO/reproduce_mayo_3.py
 ```
 
-The deterministic standard-library script pins the Round-3 specification,
+The deterministic standard-library script pins the On-Ramp Round 3 specification,
 recomputes the selected dimensions, verifies the exact specialization
 operation count, and checks all five estimates above from the independently
 verified cost certificates. It records the verified full-paper SHA-256. It is

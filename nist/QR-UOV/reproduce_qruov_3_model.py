@@ -1,7 +1,7 @@
 """Public QR-UOV model used by reproduce_qruov_3.py.
 
 This implements the public operations needed for the witness directly from the
-Round-3 specification.  It is independently checked against the submitted
+On-Ramp Round 3 specification.  It is independently checked against the submitted
 verifier by the reproducer's final open operation.
 """
 

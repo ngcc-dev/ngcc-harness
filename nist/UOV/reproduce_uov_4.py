@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute the Round-3 UOV truncated-ring/wedge RAM-gate margins."""
+"""Recompute the On-Ramp Round 3 UOV truncated-ring/wedge RAM-gate margins."""
 
 from functools import lru_cache
 from math import comb, log2

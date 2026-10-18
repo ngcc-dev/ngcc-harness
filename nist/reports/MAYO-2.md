@@ -3,7 +3,7 @@
 **Severity:** Low
 **Status:** Proof gap
 **Layer:** Design
-**Affected:** Round-3 MAYO1, MAYO2, MAYO3 and MAYO5 security reduction
+**Affected:** On-Ramp Round 3 MAYO1, MAYO2, MAYO3 and MAYO5 security reduction
 **Discovery:** Moderate
 **Exploitation:** proof/model limitation; no forgery or key-recovery attack
 **Remediation:** Moderate
@@ -12,7 +12,7 @@
 
 ## Bound and scope
 
-Theorem 1 of the Round-3 specification (§5.2, physical p.28) proves a ROM
+Theorem 1 of the On-Ramp Round 3 specification (§5.2, physical p.28) proves a ROM
 EUF-CMA bound only under `Qs*B < 1`, where `Qs` is the number of signing
 queries and
 

@@ -3,7 +3,7 @@
 Severity: Low
 Status: Proof gap
 Layer: Design
-Affected: QROM security claim for all twelve Round-3 FAEST and FAEST-EM parameter sets
+Affected: QROM security claim for all twelve On-Ramp Round 3 FAEST and FAEST-EM parameter sets
 Discovery: Moderate
 Exploitation: Cost/model gap in the concrete reduction; no forgery or key-recovery attack
 Remediation: Moderate

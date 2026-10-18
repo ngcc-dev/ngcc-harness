@@ -7,7 +7,7 @@ Affected: Withdrawn SNOVA portion of the 2026/298 analysis; no current-version v
 Discovery: Non-trivial
 Exploitation: None; the authors withdrew the SNOVA complexity evaluation
 Remediation: None
-Credit: Original analysis and withdrawal by Hiroki Furue and Yasuhiko Ikematsu; Round-3 scope reassessment by Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
+Credit: Original analysis and withdrawal by Hiroki Furue and Yasuhiko Ikematsu; On-Ramp Round 3 scope reassessment by Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
 Date: 2026-10-18
 
 This entry prevents a superseded public announcement from being counted as an
@@ -17,7 +17,7 @@ Furue and Ikematsu's February 2026 [pqc-forum announcement](https://groups.googl
 
 On June 18, 2026, the authors explicitly withdrew the SNOVA complexity analysis because an additional kernel invalidated the evaluation. The same thread links the revised [ePrint 2026/298](https://eprint.iacr.org/2026/298), whose history records revisions through June 8, 2026. Its UOV results are separate from the withdrawn SNOVA assessment; withdrawal of the latter does not retract the whole paper.
 
-The [Round-3 SNOVA specification](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/SNOVA_specifications.pdf), §5.3.6, discusses p^l-truncated attacks and the extra-kernel issue. Its proposed handling and security margins are submitter analysis; they are not substituted here for an independent current-version attack.
+The [On-Ramp Round 3 SNOVA specification](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/SNOVA_specifications.pdf), §5.3.6, discusses p^l-truncated attacks and the extra-kernel issue. Its proposed handling and security margins are submitter analysis; they are not substituted here for an independent current-version attack.
 
 This report has no exploit, no reproduced forgery or key recovery, and no current loss-of-security rating. It must not be aggregated with [SNOVA-2](/nist/reports/SNOVA-2.html) as two confirmed successful wedge-like attacks. The correct reproducible evidence is the dated claim followed by its author's dated correction, retained through [security/harvests.jsonl](https://github.com/ngcc-dev/ngcc-harness/blob/main/nist/security/harvests.jsonl), rather than a program that prints the original withdrawn complexity.
 

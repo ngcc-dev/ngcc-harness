@@ -1,4 +1,4 @@
-# SNOVA-1 — Critical: biased vinegar sampling in six Round-3 alternative parameter sets
+# SNOVA-1 — Critical: biased vinegar sampling in six On-Ramp Round 3 alternative parameter sets
 
 Severity: Critical
 Status: Confirmed
@@ -23,8 +23,8 @@ NIST's allowed chosen-message bound; see [NIST rules](https://github.com/ngcc-de
 
 Beullens and Hess disclosed the attack on September 22, 2026, clarified the alternative-only scope on September 23, and the SNOVA team announced corrected specification, reference and Sage code on September 28. The team explicitly kept the NIST submission unchanged. [Primary forum thread](https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/cb-JmKUKRSY).
 
-In that announcement the authors state that the first version was found
-independently by the `gpt-5.6-sol` AI system, after which they verified it,
+In their September 22 post, Beullens and Hess state that the first version was
+found independently by the `gpt-5.6-sol` AI system, after which they verified it,
 made small improvements, and wrote up the attack. The paper separately
 discloses substantial AI assistance in proposing and deriving key parts and
 generating experimental code. The human authors take responsibility for the

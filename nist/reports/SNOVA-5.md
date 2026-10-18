@@ -3,7 +3,7 @@
 Severity: Low
 Status: Confirmed
 Layer: Side-channel
-Affected: All 18 submitted Round-3 q=16 reference API variants (nine sets times SHAKE/AES); the public harness harness builds these reference implementations
+Affected: All 18 submitted On-Ramp Round 3 q=16 reference API variants (nine sets times SHAKE/AES); the harness builds these reference implementations
 Discovery: Moderate
 Exploitation: Unproven; source-level address/control-flow leakage with no timing measurement, secret recovery, or forgery
 Remediation: Local

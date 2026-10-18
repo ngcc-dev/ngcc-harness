@@ -3,7 +3,7 @@
 Severity: Low
 Status: Confirmed
 Layer: Design
-Affected: Round-3 FAEST and FAEST-EM short/fast pairs at 128, 192, and 256 bits when one key signs the same message in both profiles with the same rho
+Affected: On-Ramp Round 3 FAEST and FAEST-EM short/fast pairs at 128, 192, and 256 bits when one key signs the same message in both profiles with the same rho
 Discovery: Non-trivial
 Exploitation: End-to-end key recovery and fresh-message forgery under same-key, same-message, cross-profile signing with repeated rho
 Remediation: Local

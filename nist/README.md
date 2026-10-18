@@ -9,7 +9,7 @@ and every publishable finding witness.
 
 `candidates.csv` links each candidate to the official NIST page, specification
 PDF, and submission ZIP. HAWK is marked withdrawn and links to its last
-NIST-hosted Round 2 package because NIST publishes no Round 3 HAWK package.
+NIST-hosted Round 2 package because NIST publishes no On-Ramp Round 3 HAWK package.
 Archive and specification hashes pin those official files.
 
 `findings.csv` is the machine-readable report index. `reports/<ID>.md` holds

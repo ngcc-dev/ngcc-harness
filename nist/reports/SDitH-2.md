@@ -3,7 +3,7 @@
 Severity: Low
 Status: Confirmed
 Layer: Design
-Affected: Round-3 specification Algorithm 12 for every submitted parameter set; submitted implementation and KATs are internally consistent
+Affected: On-Ramp Round 3 specification Algorithm 12 for every submitted parameter set; submitted implementation and KATs are internally consistent
 Discovery: Trivial
 Exploitation: Literal-spec interoperability failure; honest signatures are rejected; forgery impact was not analyzed
 Remediation: Local

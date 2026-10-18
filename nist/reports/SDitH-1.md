@@ -3,7 +3,7 @@
 **Severity:** Low
 **Status:** Confirmed
 **Layer:** Side-channel
-**Affected:** Round-3 portable reference key generation and signing; all 12 parameter sets, including repository KAT builds
+**Affected:** On-Ramp Round 3 portable reference key generation and signing; all 12 parameter sets, including repository KAT builds
 **Discovery:** Trivial
 **Exploitation:** source/object-only; no measured channel or key recovery
 **Remediation:** Local

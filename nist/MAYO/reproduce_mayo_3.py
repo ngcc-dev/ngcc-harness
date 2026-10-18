@@ -2,7 +2,7 @@
 """Check the verified MAYO2 structural-forgery cost certificate.
 
 This is a self-contained check of the selected schedules obtained by the
-independent exhaustive reimplementation of Ostuzzi's Round-3 model.  It does
+independent exhaustive reimplementation of Ostuzzi's On-Ramp Round 3 model.  It does
 not repeat that optimizer (whose Gröbner-basis subcosts require
 CryptographicEstimators), validate the paper's heuristics, or execute an
 attack.
@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent
 SPEC_SHA256 = "1fc7561dc8ffdbe36c101b985266e4d3c8aa88fa580e18ead215a80ac7bb371f"
 PAPER_SHA256 = "193b99524174f4a16963bb18667268adbcdf0f14e5dde4b49ac33a6be3a986d2"
 
-# Round-3 MAYO2 dimensions and the independently selected geometric-forgery
+# On-Ramp Round 3 MAYO2 dimensions and the independently selected geometric-forgery
 # schedule.  The relations are Theorems 1 and 3 and Section 7.2 of ePrint
 # 2026/2247: u=2*kappa+a, r=kappa*a-a(a-1)/2, and
 # w=min(m,u+r+kappa+a).

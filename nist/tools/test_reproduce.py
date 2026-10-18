@@ -25,6 +25,20 @@ if FETCH_SPEC is None or FETCH_SPEC.loader is None:  # pragma: no cover
     raise RuntimeError("cannot load fetch_submissions.py")
 FETCH = importlib.util.module_from_spec(FETCH_SPEC)
 FETCH_SPEC.loader.exec_module(FETCH)
+SYNC_SPEC = importlib.util.spec_from_file_location(
+    "nist_sync", PACKAGE / "tools/sync.py",
+)
+if SYNC_SPEC is None or SYNC_SPEC.loader is None:  # pragma: no cover
+    raise RuntimeError("cannot load sync.py")
+SYNC = importlib.util.module_from_spec(SYNC_SPEC)
+SYNC_SPEC.loader.exec_module(SYNC)
+SNOVA_SPEC = importlib.util.spec_from_file_location(
+    "nist_snova_6", PACKAGE / "SNOVA/reproduce_snova_6.py",
+)
+if SNOVA_SPEC is None or SNOVA_SPEC.loader is None:  # pragma: no cover
+    raise RuntimeError("cannot load reproduce_snova_6.py")
+SNOVA = importlib.util.module_from_spec(SNOVA_SPEC)
+SNOVA_SPEC.loader.exec_module(SNOVA)
 
 
 class FakeResponse:
@@ -96,6 +110,77 @@ class DispatcherTests(unittest.TestCase):
                     FETCH.fetch("https://example.invalid/candidate.zip", target, "0" * 64, 3)
             self.assertFalse(target.exists())
             self.assertFalse(target.with_suffix(".zip.part").exists())
+
+    def test_reset_directory_removes_stale_tree(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "extracted" / "SQIsign"
+            target.mkdir(parents=True)
+            (target / "stale.txt").write_text("stale\n", encoding="utf-8")
+            FETCH.reset_directory(target)
+            self.assertTrue(target.is_dir())
+            self.assertEqual(list(target.iterdir()), [])
+
+    def test_reset_directory_unlinks_symlink_without_touching_victim(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            victim = root / "victim"
+            victim.mkdir()
+            marker = victim / "keep.txt"
+            marker.write_text("keep\n", encoding="utf-8")
+            target = root / "extracted"
+            target.symlink_to(victim, target_is_directory=True)
+            FETCH.reset_directory(target)
+            self.assertFalse(target.is_symlink())
+            self.assertTrue(target.is_dir())
+            self.assertEqual(marker.read_text(encoding="utf-8"), "keep\n")
+
+    def test_sync_rejects_imported_untracked_input(self) -> None:
+        manifest = [{
+            "SourcePath": "SQIsign/analysis/ignored.py",
+            "SourceSHA256": "0" * 64,
+            "OutputPath": "SQIsign/analysis/ignored.py",
+            "OutputSHA256": "0" * 64,
+        }]
+        tracked = subprocess.CompletedProcess(
+            ["git", "ls-files"], 0, stdout=b"README.md\0", stderr=b"",
+        )
+        with mock.patch.object(SYNC.subprocess, "run", return_value=tracked):
+            with self.assertRaisesRegex(SystemExit, "refusing untracked publication input"):
+                SYNC.validate_tracked_inputs(Path("/source"), manifest)
+
+    def test_snova_children_use_isolated_python(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            library = root / "SNOVA/lib/test.so"
+            library.parent.mkdir(parents=True)
+            library.write_bytes(b"test library")
+            work = root / "work"
+            work.mkdir()
+            commands: list[list[str]] = []
+
+            def fake_run(command, **unused):
+                commands.append(command)
+                if "--child-verify" in command:
+                    case = Path(command[-1])
+                    case.joinpath("verify.json").write_text(
+                        '{"first_rc": -1, "first_message_matches": false, '
+                        '"second_rc": 0, "second_message_matches": true}\n',
+                        encoding="utf-8",
+                    )
+                return subprocess.CompletedProcess(command, 0, "", "")
+
+            original_root = SNOVA.ROOT
+            SNOVA.ROOT = root
+            try:
+                with mock.patch.object(SNOVA.subprocess, "run", side_effect=fake_run):
+                    SNOVA.run_one(
+                        {"parameter": "test", "library": "SNOVA/lib/test.so"}, work,
+                    )
+            finally:
+                SNOVA.ROOT = original_root
+            self.assertEqual(len(commands), 2)
+            for command in commands:
+                self.assertEqual(command[1], "-I")
 
     def test_build_failure_is_failure(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

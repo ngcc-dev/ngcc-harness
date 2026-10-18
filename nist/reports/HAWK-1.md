@@ -14,8 +14,8 @@ Date: 2026-10-18
 The Anthropic attack compromises HAWK's proposed security margins and recovers
 a working equivalent signing key from public information. The HAWK team
 confirmed the improvement and withdrew the candidate on **29 July 2026**;
-NIST confirmed the withdrawal that day. The current [NIST Round 3
-page](https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures)
+NIST confirmed the withdrawal that day. The current [NIST On-Ramp Round 3
+page](https://csrc.nist.gov/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures)
 links that announcement and marks HAWK withdrawn. The announcement,
 confirmation and dates are in the [primary pqc-forum
 thread](https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/2r2u6SbHun4).
@@ -25,12 +25,12 @@ that all its parameter sizes have a cheap practical attack.
 ## Affected version and attacker access
 
 The evaluated package is NIST's **Round 2 HAWK v1.1, 5 February 2025**,
-because the Round 3 page supplies no HAWK package. See the pinned
+because the On-Ramp Round 3 page supplies no HAWK package. See the pinned
 [provenance](https://github.com/ngcc-dev/ngcc-harness/blob/main/nist/HAWK/provenance.json), [specification](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-2/spec-files/hawk-spec-round2-web.pdf), and
 [external parameter inventory](https://github.com/ngcc-dev/ngcc-harness/blob/main/nist/HAWK/parameters.csv). The structural result covers
 HAWK-256, HAWK-512 and HAWK-1024. HAWK-256 is a challenge set with no NIST
 category; HAWK-512 and HAWK-1024 claimed categories 1 and 5 respectively.
-This is not an assertion that a separate Round 3 HAWK implementation was
+This is not an assertion that a separate On-Ramp Round 3 HAWK implementation was
 downloaded or tested here.
 
 The attacker needs the public key, not a signing oracle, leaked randomness,
@@ -119,9 +119,8 @@ Passing ordinary KATs is compatible with this finding:
 functional agreement does not restore the lost security margin.
 
 Retrieval statuses, times, URLs and artifact hashes are recorded in
-[the append-only harvest log](https://github.com/ngcc-dev/ngcc-harness/blob/main/nist/security/harvests.jsonl); operational details
-are in security/README.md (`security/README.md`). No candidate source is
-patched by this report. Withdrawal is the published disposition; there is
+[the append-only harvest log](https://github.com/ngcc-dev/ngcc-harness/blob/main/nist/security/harvests.jsonl). No candidate source
+is patched by this report. Withdrawal is the published disposition; there is
 no reviewed fixed HAWK variant in this pinned study.
 
 ## Harness reproduction

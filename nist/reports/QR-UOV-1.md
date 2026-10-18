@@ -3,7 +3,7 @@
 **Severity:** Medium
 **Status:** Confirmed
 **Layer:** Side-channel
-**Affected:** Round-3 reference, optimized, and AVX2 signing implementations; all parameter sets
+**Affected:** On-Ramp Round 3 reference, optimized, and AVX2 signing implementations; all parameter sets
 **Discovery:** Moderate
 **Exploitation:** source-only; no measured timing/cache channel or key recovery
 **Remediation:** Moderate

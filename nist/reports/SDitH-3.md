@@ -3,7 +3,7 @@
 Severity: Informational
 Status: Confirmed
 Layer: Design
-Affected: All 12 Round-3 parameter sets when two signatures on different messages reuse the root seed and the salt bits retained by TweakSalt; runtime witness uses cat1_fast
+Affected: All 12 On-Ramp Round 3 parameter sets when two signatures on different messages reuse the root seed and the salt bits retained by TweakSalt; runtime witness uses cat1_fast
 Discovery: Non-trivial
 Exploitation: End-to-end key reconstruction and fresh-message forgery under one repeated signing-RNG output
 Remediation: Local

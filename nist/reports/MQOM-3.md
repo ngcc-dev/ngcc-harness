@@ -3,7 +3,7 @@
 **Severity:** Low
 **Status:** Proof gap
 **Layer:** Design
-**Affected:** Nine Round-3 correlated-tree (`-ct`) parameter sets; one-tree (`-ot`) sets are excluded
+**Affected:** Nine On-Ramp Round 3 correlated-tree (`-ct`) parameter sets; one-tree (`-ot`) sets are excluded
 **Discovery:** Moderate
 **Exploitation:** proof/model gap in the PGOW-to-standard-MQ justification; no forgery or key recovery
 **Remediation:** Moderate

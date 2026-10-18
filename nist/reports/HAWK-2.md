@@ -52,9 +52,9 @@ from a non-restarting one. That proof argument does not establish that a local
 timing trace is key-independent, but it materially limits what can be inferred
 from the mere existence of retries.
 
-The direct consequence boundary is Low under the classification methodology in
-`security/methodology.md` (`security/methodology.md`): this is source-level
-secret dependence without a measured channel or recovery map. Strict removal
+The direct consequence boundary is Low under this study's classification
+methodology: this is source-level secret dependence without a measured channel
+or recovery map. Strict removal
 would require fixed-work batching and mask-selection among complete signing
 attempts, a material implementation change, but remediation cost alone does not
 raise the severity. Unlike QR-UOV's finer pivot trace, the observed predicate
@@ -65,6 +65,7 @@ primary NIST security property is shown to fail.
 
 ```sh
 python3 HAWK/reproduce_hawk_2.py
+make -C HAWK libs
 python3 HAWK/survey_runtime.py
 ```
 

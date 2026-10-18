@@ -3,7 +3,7 @@
 Severity: Informational
 Status: Confirmed
 Layer: Design
-Affected: All 18 Round-3 CT and OT parameter sets when two different messages reuse the same mseed and the salt prefix retained by TweakSalt; retained runtime witnesses use MQOM3-L1-gf16-fast-ct and MQOM3-L1-gf16-fast-ot
+Affected: All 18 On-Ramp Round 3 CT and OT parameter sets when two different messages reuse the same mseed and the salt prefix retained by TweakSalt; retained runtime witnesses use MQOM3-L1-gf16-fast-ct and MQOM3-L1-gf16-fast-ot
 Discovery: Non-trivial
 Exploitation: End-to-end key recovery under a repeated signer-RNG output outside EUF-CMA
 Remediation: Local

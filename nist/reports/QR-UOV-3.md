@@ -3,7 +3,7 @@
 Severity: Informational
 Status: Confirmed
 Layer: Design
-Affected: All Round-3 parameter sets by the common construction; runtime forgeries use 1q127L3-shake and 3q127L3-shake
+Affected: All On-Ramp Round 3 parameter sets by the common construction; runtime forgeries use 1q127L3-shake and 3q127L3-shake
 Discovery: Non-trivial
 Exploitation: End-to-end fresh-message forgery after one exact signing-RNG repetition
 Remediation: Local

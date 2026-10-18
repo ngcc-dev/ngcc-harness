@@ -11,7 +11,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 SPEC_SHA256 = "1fc7561dc8ffdbe36c101b985266e4d3c8aa88fa580e18ead215a80ac7bb371f"
 
-# name: (n, m, o, k, q), from the Round-3 specification and submitted constants.
+# name: (n, m, o, k, q), from the On-Ramp Round 3 specification and submitted constants.
 PARAMETERS = {
     "MAYO1": (88, 80, 8, 10, 16),
     "MAYO2": (86, 64, 13, 5, 16),

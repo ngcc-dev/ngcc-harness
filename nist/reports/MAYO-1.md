@@ -4,7 +4,7 @@
 **Status:** Confirmed
 **Layer:** Side-channel
 **Discovery:** Moderate
-**Affected:** submitted Round 3 portable reference signer, MAYO-1, MAYO-2, MAYO-3 and MAYO-5
+**Affected:** submitted On-Ramp Round 3 portable reference signer, MAYO-1, MAYO-2, MAYO-3 and MAYO-5
 **Remediation:** Local
 **Credit:** Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
 **Exploitation:** pinned-source data-flow witness; no measured channel, key recovery, or forgery
@@ -14,7 +14,7 @@
 
 The finding applies to the submitted portable reference signer for MAYO-1,
 MAYO-2, MAYO-3 and MAYO-5. The retained evaluation builds the common code once
-per parameter set. The Round 3 specification, §3, says the C implementations
+per parameter set. The On-Ramp Round 3 specification, §3, says the C implementations
 “avoid secret-dependent data indexing and secret-dependent control flow.”  It
 also says, more narrowly, that revealing whether the solver must restart is
 acceptable.  This report records the concrete exception to the broad claim; it
@@ -90,6 +90,7 @@ or forgery.
 The functional control is:
 
 ```sh
+make -C MAYO libs
 python3 MAYO/survey_runtime.py
 ```
 

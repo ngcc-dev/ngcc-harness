@@ -4,7 +4,7 @@ import argparse, concurrent.futures, hashlib, html.parser, json, pathlib, shutil
 import requests
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE = 'https://csrc.nist.gov'
-PAGE = BASE + '/Projects/pqc-dig-sig/round-3-additional-signatures'
+PAGE = BASE + '/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures'
 NAMES = ['FAEST','HAWK','MAYO','MQOM','QR-UOV','SDitH','SNOVA','SQIsign','UOV']
 class Rows(html.parser.HTMLParser):
     def __init__(self): super().__init__(); self.rows=[]; self.row=None; self.link=None
@@ -53,6 +53,14 @@ def digest(path):
         for b in iter(lambda:f.read(1024*1024),b''):h.update(b)
     return h.hexdigest()
 
+def reset_directory(path):
+    """Replace one fixed work directory without following a symlink."""
+    if path.is_symlink() or (path.exists() and not path.is_dir()):
+        path.unlink()
+    elif path.is_dir():
+        shutil.rmtree(path)
+    path.mkdir(parents=True)
+
 def process(name,row,round_no,page,expected=None):
     links=row['links']; archive=next(u for t,u in links if t.lower() == 'zip file')
     spec=next(u for t,u in links if 'specification' in t.lower())
@@ -70,16 +78,18 @@ def process(name,row,round_no,page,expected=None):
         if spec_sha!=expected['spec_sha256']:
             raise ValueError(f'{name}: specification differs from pinned provenance')
     # Keep a complete ignored extraction for vector/provenance work. Reject unsafe paths.
-    extracted=ROOT/'.cache/extracted'/name; extracted.mkdir(parents=True,exist_ok=True)
+    extracted=ROOT/'.cache/extracted'/name
     with zipfile.ZipFile(zip_path) as z:
         for member in z.infolist():
             p=pathlib.PurePosixPath(member.filename)
             if p.is_absolute() or '..' in p.parts: raise ValueError(f'unsafe ZIP path: {p}')
             if stat.S_ISLNK(member.external_attr >> 16): raise ValueError(f'symlink in ZIP: {p}')
+        reset_directory(extracted)
         z.extractall(extracted)
     # Only source/build/documentation files; PDFs are represented by the canonical spec.
     suffixes={'.c','.h','.cc','.cpp','.hpp','.hh','.s','.asm','.inc','.in','.cmake','.py','.sh','.pl','.sage','.rs','.toml','.mk','.mak','.md','.txt','.ipp','.tcc','.macros','.inl','.j2','.scala','.supp','.sha256'}
     count=0
+    reset_directory(target/'submission')
     for source in extracted.rglob('*'):
         if not source.is_file(): continue
         rel=source.relative_to(extracted)
@@ -90,7 +100,7 @@ def process(name,row,round_no,page,expected=None):
         if source.suffix.lower() not in suffixes and not special:continue
         if source.suffix.lower()=='.txt' and not special and (source.stat().st_size>1024*1024 or any(w in low for w in ['kat','test_vector','testvector'])):continue
         dest=target/'submission'/rel; dest.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(source,dest); count+=1
-    result={'scheme':name,'round':round_no,'status':'withdrawn; last NIST-hosted Round 2 package' if name=='HAWK' else 'Round 3 candidate','page':page,'archive_url':archive,'archive_bytes':zip_path.stat().st_size,'archive_sha256':archive_sha,'spec_url':spec,'spec_path':str(spec_path.relative_to(ROOT)),'spec_sha256':spec_sha,'source_files':count}
+    result={'scheme':name,'round':round_no,'status':'withdrawn; last NIST-hosted Round 2 package' if name=='HAWK' else 'On-Ramp Round 3 candidate','page':page,'archive_url':archive,'archive_bytes':zip_path.stat().st_size,'archive_sha256':archive_sha,'spec_url':spec,'spec_path':str(spec_path.relative_to(ROOT)),'spec_sha256':spec_sha,'source_files':count}
     print(f'{name}: {zip_path.stat().st_size} bytes, {count} retained files',flush=True)
     # The public fetch leaves checked-in provenance pins unchanged.
     return result
@@ -117,7 +127,7 @@ def main():
             row=next(r for r in rows if r['text'].split() and r['text'].split()[0]==name)
             round_no=3; page=PAGE
             if not any('.zip' in u.lower() for _,u in row['links']):
-                if name!='HAWK': raise ValueError(f'no Round 3 ZIP for {name}')
+                if name!='HAWK': raise ValueError(f'no On-Ramp Round 3 ZIP for {name}')
                 row=next(r for r in oldrows if r['text'].split() and r['text'].split()[0]==name);round_no=2;page=oldpage
             tasks.append(pool.submit(process,name,row,round_no,page))
         results=[f.result() for f in concurrent.futures.as_completed(tasks)]

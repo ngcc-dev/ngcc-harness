@@ -99,7 +99,7 @@ def main() -> int:
     result = {
         "format": "SNOVA-5-source-certificate-v1",
         "status": "PASS",
-        "scope": "18 submitted Round-3 reference q=16 implementations",
+        "scope": "18 submitted On-Ramp Round 3 reference q=16 implementations",
         "reference_files": checked,
         "table_address_controls": table_address_controls,
         "branch_trace_controls": {"direct_pivot": direct_trace, "row_swap": swap_trace},

@@ -3,7 +3,7 @@
 **Severity:** Low
 **Status:** Confirmed
 **Layer:** Side-channel
-**Affected:** Round-3 portable `RIJNDAEL_TABLE` backend; all 18 parameter sets on non-constant-time table hardware
+**Affected:** On-Ramp Round 3 portable `RIJNDAEL_TABLE` backend; all 18 parameter sets on non-constant-time table hardware
 **Discovery:** Trivial
 **Exploitation:** source-only; no measured channel or key recovery
 **Remediation:** Local

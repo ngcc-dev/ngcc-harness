@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BUFF-property witnesses for MAYO Round 3 (spec-level, verified with the
+"""BUFF-property witnesses for MAYO On-Ramp Round 3 (spec-level, verified with the
 submitted reference library loaded read-only through the shared harness ABI).
 
 Usage: python3 -I mayo_buff.py <repo-root> <mayo_1|mayo_2|mayo_3|mayo_5> [trials]
@@ -9,7 +9,7 @@ Witnesses (all checked with the reference library's crypto_sign_open):
                such that sig stays valid under pk' for whatever message it signs.
   S-DEO      : given (pk, M1, sig), build pk' under which sig is valid for M2 != M1.
   MBS        : build a (malicious) pk' and ONE sig valid for two chosen messages
-               M1 != M2 (uses the Round-3 linear term L(Lambda, s)).
+               M1 != M2 (uses the On-Ramp Round 3 linear term L(Lambda, s)).
 Only P3 (the part of cpk after seed_pk) is changed; it enters P*(s) linearly.
 """
 import ctypes, hashlib, json, os, sys

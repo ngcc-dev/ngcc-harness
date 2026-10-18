@@ -105,7 +105,7 @@ def run_one(entry: dict, work: Path) -> dict:
     library = ROOT / entry["library"]
     case = work / entry["parameter"]
     case.mkdir()
-    command = [sys.executable, str(Path(__file__).resolve())]
+    command = [sys.executable, "-I", str(Path(__file__).resolve())]
     generated = subprocess.run(
         [*command, "--child-generate", str(library), str(case)],
         cwd=ROOT, capture_output=True, text=True,

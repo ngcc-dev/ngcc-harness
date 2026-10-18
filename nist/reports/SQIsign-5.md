@@ -37,7 +37,7 @@ bound on forgery probability. The separate final min-entropy term is
 
 At `q = 2^lambda` and `s = 2^64`, its base-2 logarithm is approximately
 `-98.8`, `-188.4`, and `-270.0` for the three parameter sets. It therefore
-remains small under the Round-3 primes and does not repair this
+remains small under the On-Ramp Round 3 primes and does not repair this
 statistical-distance loss.
 
 The theorem is stated only in the classical ROM and is accompanied by a proof
@@ -61,7 +61,7 @@ python3 SQIsign/reproduce_sqisign_5.py
 
 The deterministic script checks the pinned specification and NIST baseline,
 computes the exact first integer `q` that makes the term at least one, and
-checks the final min-entropy term for every Round-3 prime.  It is a proof-bound
+checks the final min-entropy term for every On-Ramp Round 3 prime.  It is a proof-bound
 calculation, not an attack.
 
 ## Harness reproduction

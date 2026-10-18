@@ -1,6 +1,6 @@
-# SQIsign-1 — Informational: distinct response encodings verify for the same message
+# SQIsign-1 — Medium: distinct response encodings verify for the same message
 
-Severity: Informational
+Severity: Medium
 Status: Confirmed
 Layer: Design
 Affected: p324_3, p500_27, and p664_17
@@ -33,7 +33,10 @@ a valid signature can be transformed into another valid signature on the same
 message by changing the auxiliary isogeny or its non-unique two-dimensional
 representation. SQIsign claims EUF-CMA security (§8.1), and the NIST call asks
 for existential unforgeability. Re-signing an already signed message does not
-win EUF-CMA, and no strong-unforgeability claim is violated.
+win EUF-CMA, and no strong-unforgeability claim is violated. The rating is
+nevertheless Medium because the public transformation is an end-to-end
+SUF-CMA break across every parameter set. Applications and protocols that
+require signature uniqueness cannot infer it from raw SQIsign signatures.
 
 The encoding and verification path matches the specification:
 

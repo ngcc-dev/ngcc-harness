@@ -3,16 +3,16 @@
 Severity: Informational
 Status: Confirmed
 Layer: Design
-Affected: Legacy Round-2 parameters; current Round-3 applicability is not established
+Affected: Legacy Round-2 parameters; current On-Ramp Round 3 applicability is not established
 Discovery: Non-trivial
 Exploitation: Published candidate-specific cost estimates; no local full attack or current-key recovery
 Remediation: None
-Credit: Original cryptanalysis by Maxime Bros, Thai Hung Le, Jacob Lichtinger, Brice Minaud, Ray Perlner, Daniel Smith-Tone, and Cristian Valenzuela; Round-3 applicability reassessment by Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
+Credit: Original cryptanalysis by Maxime Bros, Thai Hung Le, Jacob Lichtinger, Brice Minaud, Ray Perlner, Daniel Smith-Tone, and Cristian Valenzuela; On-Ramp Round 3 applicability reassessment by Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
 Date: 2026-10-18
 
 The published estimates are High against the affected Round-2 parameter
 claims. This report rates the record Informational because applicability
-to the pinned Round-3 version is not established. Confirmed status rests on
+to the pinned On-Ramp Round 3 version is not established. Confirmed status rests on
 the primary paper and the SNOVA team's acknowledgement, not a local cost
 reproduction.
 
@@ -24,7 +24,7 @@ A separate warning is essential when reading the history. Ran's original May 202
 
 The [pinned v3.0 specification](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/SNOVA_specifications.pdf), §1.9.3 and §5.3.5, changes the parameter framework: r is independent of l and m1 is independent of o. Its Table 5 recommends different seven-component tuples `(v,o,q,l,r,m1,m2)`; Table 6 also discusses alternatives. The old four-component example does not identify any current recommended instance. The specification explicitly analyzes wedge attacks, including projection, and cites this work. Those changes establish version and parameter differences; they do not independently validate every new security estimate.
 
-There is no local full wedge-attack reproduction or demonstrated current-key recovery behind this report. The scheme KATs test functional compatibility and do not test wedge-attack resistance. Future reproduction must pin the attacked Round-2 package and field representation, include the block-ring corrections, state the cost/memory model, and compare the resulting oil subspace or a new-message forgery against a control. Running a generic UOV estimator with Round-3 labels would not reproduce the published attack.
+There is no local full wedge-attack reproduction or demonstrated current-key recovery behind this report. The scheme KATs test functional compatibility and do not test wedge-attack resistance. Future reproduction must pin the attacked Round-2 package and field representation, include the block-ring corrections, state the cost/memory model, and compare the resulting oil subspace or a new-message forgery against a control. Running a generic UOV estimator with On-Ramp Round 3 labels would not reproduce the published attack.
 
 Primary-source retrievals and failures are retained in [security/harvests.jsonl](https://github.com/ngcc-dev/ngcc-harness/blob/main/nist/security/harvests.jsonl); run `python3 security/harvest.py --list` to locate the registered wedge sources. [SNOVA-1](/nist/reports/SNOVA-1.html) is a distinct current-version sampling issue and must not be conflated with this historical key-only structural attack.
 
