@@ -1404,7 +1404,9 @@ run_target hash-14 "hash-14-1" python3 hash-14/reproduce_named_xof_prefix.py
 run_target hash-19 "hash-19-2" python3 hash-19/reproduce_768_1024_relation.py
 run_target kem-01 "kem-01-1" sh kem-01/reproduce_avx2_retention.sh
 run_target kem-09 "kem-09-4" python3 kem-09/reproduce_rejection_reencryption.py
+run_target kem-09 "kem-09-4" sh kem-09/reproduce_pco_key_recovery.sh
 run_target kem-18 "kem-18-4" python3 kem-18/reproduce_rejection_reencryption.py
+run_target kem-18 "kem-18-4" sh kem-18/reproduce_pco_key_recovery.sh
 run_target kem-21 "kem-21-2" sh kem-21/reproduce_sigma_ceiling.sh
 run_target kem-33 "kem-33-4" sh kem-33/reproduce_opt_partial_compare.sh
 run_target kex-03 "kex-03-1" sh kex-03/reproduce_k2k_wpfs.sh
