@@ -1,0 +1,133 @@
+{
+  "id": "SNOVA-LPN",
+  "repository": "https://github.com/WardBeullens/SNOVA_LPN_Attack",
+  "commit": "553f28040fd325892f3003afc5833d5e6f0b7b58",
+  "archive_url": "https://codeload.github.com/WardBeullens/SNOVA_LPN_Attack/tar.gz/553f28040fd325892f3003afc5833d5e6f0b7b58",
+  "archive_bytes": 48780,
+  "archive_sha256": "5d53f5fa13906a06d5c993a8953b83b612a64b44c9979bff3b896ebd20c74fa1",
+  "files_sha256": {
+    "README.md": "65b83eb8354e8448dfcf296836681333a4fe37c6e07a60b7b4a563f46a483902",
+    "verify.sh": "cc40b870d8bb87d1418bf17b859a466cedba2427fc012bcc804f3c03cc00e831",
+    "progress.py": "5bbcc5b0fcf75581fb5aaa68034eef6edcdb3a0b29b41a1f0d2fc496bbac867b",
+    "snova_round3_odd_recovery.py": "52e27d0ef8f03e18096095d6f09fb3d5bb8b81ad9edd459f38e9b02914efaf76",
+    "snova_round3_odd_bkw.cpp": "170426182a350eca7549dc9807752ba95fa5b6fa99f1ca1fe14bf5f9a2476c6b",
+    "Makefile": "2eb621c634004e7bd427d91a8e13fa49d23581b4ef54c1d83487a7e41d54c7df",
+    "check_generic_lf22_synthetic.py": "afb92d2b5efaf4dce6a74b68dc6c35c26eac6cded2c82c4c02b46b5ebf7c9523",
+    "snova_round3_odd_collector.c": "aad4ac44ebd191ac37a9d50f2ae1b5daddacdfa42640c33cb2c8e438869790bc",
+    "prepare_official_source.sh": "a94a134bc7aeff425380d280c40ef11fb05fff5eb37724784057dd0f66b4d588"
+  },
+  "official_source": {
+    "repository": "https://github.com/PQCLAB-SNOVA/SNOVA",
+    "commit": "9b29c1e332cbd85757c8d6362a57b9a8c8298a38",
+    "archive_url": "https://codeload.github.com/PQCLAB-SNOVA/SNOVA/tar.gz/9b29c1e332cbd85757c8d6362a57b9a8c8298a38",
+    "archive_bytes": 999156,
+    "archive_sha256": "97ee13221ed7f69606fb26c01b226c968bd254bbf1a8130689d58204534b971d"
+  },
+  "scope": "Author artifact attacks Round3 odd-prime alternative SNOVA parameters; it does not demonstrate key recovery for the18 recommended q16 APIs.",
+  "source_review": [
+    "No upstream shell scripts or Git clone/checkout are executed by local verify/sample modes.",
+    "BKW solver reads supplied sample files, forks bounded row workers, and writes results below its explicit output directory; it has no network fetch or command execution.",
+    "Synthetic driver deterministically generates q19,q13,q11 LPN shards, requires exact recovered rows, shared grouping count, pair accounting, and one-harmonic decoding.",
+    "Small-source sample mode explicitly compiles original pinned C reference files and an author collector copy whose external entropy read is replaced by fixed bytes00..2f and time() by a fixed local shim; signing/verification algorithms and the pinned files remain unchanged.",
+    "Full recipe uses reviewed upstream Python orchestration and Makefile only on disposable cached source copies; its validation-only source hook imports recovered T12; it is not needed or used for public-key/signature verification."
+  ],
+  "local_execution": {
+    "artifact_commit": "553f28040fd325892f3003afc5833d5e6f0b7b58",
+    "mode": "sample",
+    "full_equivalent_key_recovery": false,
+    "solver_self_test": "GENERIC_LF2_LF2_SELF_TEST: PASS",
+    "synthetic_regression": "GENERIC_LF2_LF2_SYNTHETIC_REGRESSION: PASS",
+    "compiler": "c++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "fftw3f": "3.3.10",
+    "honest_signer_self_test": "STOCK_NIST_API_SELFTEST: YES",
+    "generate": "RAW_GENERATION_COMPLETE worker=0 pairs=64 eligible=64",
+    "extract": "LPN_EXTRACTION_COMPLETE worker=0 raw_pairs=64 records=64",
+    "sample_count": 64,
+    "deterministic_time": 1700000000,
+    "witnesses": {
+      "pk.bin": {
+        "bytes": 699,
+        "sha256": "bfbd63ae524aa6153bed1be918198595e5ae1e665a93f393d1c8ccccbc2d4ce9"
+      },
+      "raw.bin": {
+        "bytes": 28736,
+        "sha256": "f9c0d52dfd5f6230b0cc4dc096e8810699421d3ff0e20bae9df0325775245e85"
+      },
+      "lpn.bin": {
+        "bytes": 7104,
+        "sha256": "3d673a41a15ceed6d9913626bf9e3d89fb68067f6afc5aa0ecf9ce99c0ffda85"
+      }
+    },
+    "official_source_commit": "9b29c1e332cbd85757c8d6362a57b9a8c8298a38",
+    "honest_source_files_sha256": {
+      "snova_ref.c": "97d78a95b9e64b26564df9a2ac243f1cb219634b681aafe48bc101ed7d135b05",
+      "symmetric_ref.c": "758a7cf6e9ed504beeaf8e8b7cdf666a7273824f10fad838f4d0f64c25338f73",
+      "rng.c": "c63f7ebca73763e50d41b2ea28142df3fc9d40c342e18c1b5c11a1b8677b57db",
+      "sign.c": "88a19679c400a23cdd48e6fcb4cf8a49e187211474822c52cced02a1242710df",
+      "aes.c": "3fecf7a41ab454e0259e075aef7569a0c351a66ba46ff91d98b027a741c68474"
+    },
+    "status": "PASS",
+    "limitations": [
+      "The q19 small witness contains64honest, independently verified message/signature pairs and extracted LPN records. It does not recover their signing key.",
+      "Synthetic solver regression recovers planted rows for q19/q13/q11; it does not establish full real-signature equivalent-key recovery.",
+      "Pinned upstream signer files differ from the NIST archive generic implementation; sampler applicability to the local archive is tested separately by SNOVA/reproduce_snova_1.py.",
+      "The full9million/16.5million/180million signature experiments were not run locally."
+    ],
+    "local_nist_sampler_comparison": {
+      "path": "SNOVA/submission/SNOVA_Round3/Additional_Implementations/generic/snova_ref.c",
+      "function": "expand_gf",
+      "equal_after_whitespace_removal": true,
+      "normalized_sha256": "ca931189448595c5e07a041448fba29e52edf90eb96f12b5164bc47a0d85818e"
+    },
+    "collector_adaptation": "Only seed_official_drbg entropy read replaced by bytes00..2f; domain mixing unchanged; time()=1700000000.",
+    "collector_adapted_sha256": "6620c5fdc2ec62f0599198e9615dc86d4833c27ca8ae64cd2cf952bb83fde6a0",
+    "recorded_witness_match": true,
+    "deterministic_repeat_count": 2
+  },
+  "full_experiment_defaults": {
+    "A": {
+      "profile": "SNOVA_I_19_4x6",
+      "signatures": 9000000,
+      "first_pair_limit": 25000000,
+      "terminal_pair_limit": 120000000,
+      "recovery_jobs": 27,
+      "fft_threads": 1,
+      "signature_bytes": 413,
+      "raw_pairs_bytes": 4005000256,
+      "author_recommended_ram_gib": 16
+    },
+    "B": {
+      "profile": "SNOVA_I_13_4x4",
+      "signatures": 16500000,
+      "first_pair_limit": 65000000,
+      "terminal_pair_limit": 35000000,
+      "recovery_jobs": 27,
+      "fft_threads": 1,
+      "signature_bytes": 255,
+      "raw_pairs_bytes": 4735500256,
+      "author_recommended_ram_gib": 32
+    },
+    "C": {
+      "profile": "SNOVA_III_11_4x6",
+      "signatures": 9000000,
+      "first_pair_limit": 42000000,
+      "terminal_pair_limit": 50000000,
+      "recovery_jobs": 32,
+      "fft_threads": 1,
+      "signature_bytes": 478,
+      "raw_pairs_bytes": 4590000256,
+      "author_recommended_ram_gib": 10
+    },
+    "D": {
+      "profile": "SNOVA_III_19_4x6",
+      "signatures": 180000000,
+      "first_pair_limit": 65000000,
+      "terminal_pair_limit": 35000000,
+      "recovery_jobs": 6,
+      "fft_threads": 4,
+      "signature_bytes": 567,
+      "raw_pairs_bytes": 107820000256,
+      "author_recommended_ram_gib": 115
+    }
+  }
+}
