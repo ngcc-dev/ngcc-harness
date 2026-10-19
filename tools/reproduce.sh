@@ -1439,6 +1439,7 @@ run_target sign-30 "sign-30-5" python3 sign-30/reproduce_response_scaling.py
 run_target sign-32 "sign-32-3 UVW-256" sh sign-32/reproduce_uvw256_pair_recovery.sh
 run_target sign-33 "sign-33-7" python3 sign-33/reproduce_boundary_forgery.py
 run_target sign-33 "sign-33-8" python3 sign-33/reproduce_padding_nibble.py
+run_target sign-33 "sign-33-9" python3 sign-33/reproduce_wedge_estimate.py
 run_target sign-34 "sign-34-4" sh sign-34/reproduce_delta2_selection.sh
 run_target sign-34 "sign-34-6" python3 sign-34/certify_theta_constant.py
 

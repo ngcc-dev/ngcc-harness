@@ -1,94 +1,138 @@
-# SQIsign-4 — Low: free-memory attack extrapolation falls below category targets
+# SQIsign-4 — Low: validated free-memory attack model falls below category targets
 
 Severity: Low
 Status: Lead
 Layer: Design
 Affected: On-Ramp Round 3 p324_3, p500_27, and p664_17 concrete-security claims
-Discovery: Moderate
-Exploitation: Model-dependent projected margin; no end-to-end attack at the claimed cost
+Discovery: Hard
+Exploitation: Validated finite-size cost model with exponential memory; no full-scale attack at the claimed cost
 Remediation: Architectural
-Credit: Original attack by Benjamin Wesolowski; independent parameter extrapolation and cost-model reassessment by Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
+Credit: Original attack by Benjamin Wesolowski; conjugate-isogeny lattice analysis by Yves Aubry, Roger Oyono, and Christelle Vincent; unconditional asymptotic analyses by Yi Ouyang, Wei Wei, Zheng Xu, and Jose Luis Delgado; finite-size validation and On-Ramp evaluation by Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
 Date: 2026-10-18
 
-SQIsign's pinned [specification](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/sqisign_specification.pdf) incorporates the new
-`p^(1/3+o(1))` supersingular endomorphism-ring attack.  Section 1.1 (physical
-pp. 4–5) calls its concrete implications uncertain, notes its exponential
-memory, and describes the parameters as a middle-of-the-road choice. The
-submitters say they are optimistic that the parameters meet or surpass NIST's
-targets, barring improvements such as a memory-free `p^(1/3+o(1))` attack;
-they do not say that the current parameters would fail. Section 8.2.1.2
-(physical pp. 108–109) uses fixed memory caps of `2^80`, `2^120`, and `2^160`
-stored j-invariants.
+SQIsign's pinned [specification](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/sqisign_specification.pdf) incorporates the
+`p^(1/3+o(1))` supersingular endomorphism-ring attack. Section 1.1 (physical
+pp. 4--5) calls its concrete implications uncertain, notes its exponential
+memory, and describes the parameters as a middle-of-the-road choice. Section
+8.2.1.2 (physical pp. 108--109) caps the attack at `2^80`, `2^120`, and
+`2^160` stored j-invariants.
 
-## The model-dependent shortfall
+## Validated finite-size model
 
-The specification models a memory-`w` attack as generating at least
-`sqrt(p/w)` j-invariants and assigns each generated value `2^c_j` binary
-operations, where `c_j` is 27.3, 29.8, or 31.4.  At the submitted caps, using
-the exact On-Ramp Round 3 primes gives 150.09, 222.18, and 285.44 bits of work.  These
-are above NIST's 143-, 207-, and 272-gate category thresholds and agree with
-the specification's rounded 149.8, 221.8, and 285.4 figures.
+The new review validates the attack's two main finite-size ingredients.
+Isogenies from `E` to its Frobenius conjugate of degree below `p/4` lie in a
+rank-three lattice whose degree-form determinant is `p/4`. The expected count
+through degree `D` is
 
-If the same lower-bound formula is extrapolated to `w = p^(1/3)` and memory is
-free, its time exponent becomes `log2(p)/3 + c_j`:
+```text
+(4*pi/(3*zeta(3))) * D^(3/2) / sqrt(p)
+  = 3.484685... * D^(3/2) / sqrt(p).
+```
 
-| parameter | free-memory work | category target | shortfall | stored entries |
-|---|---:|---:|---:|---:|
-| p324_3 | 135.83 | 143 | 7.17 | `2^108.53` |
-| p500_27 | 198.05 | 207 | 8.95 | `2^168.25` |
-| p664_17 | 254.10 | 272 | 17.90 | `2^222.70` |
+Exact Sage experiments at all three submitted primes match this count within
+about five percent at the well-populated radii. They also reproduce the
+`(p/2)^(1/3)` upper bound from [Aubry, Oyono and
+Vincent](https://arxiv.org/abs/2607.14624); the measured median shortest
+degree is 0.39--0.44 times that bound.
 
-This is the concrete-margin lead.  It is an uncapped, free-random-access-memory
-extrapolation of a bound that the specification states only for its considered
-parameter range.  The listed memory is in stored field elements, not bits.
+The success model counts every way that a short degree can split between the
+two smooth-degree tables, including the measured multiplication-table loss.
+Across the nonzero p324_3 and p500_27 test points, its predicted success
+probability agrees with exact conjugate-isogeny samples within about 0.5 bit,
+with mixed sign. Small real-isogeny toy runs give similar agreement. These
+tests cover the free-memory operating region. At the submitted memory caps,
+the relevant maximum degrees are about 28, 47 and 62 bits below the natural
+lattice radius and probe rare tails beyond the sampled range. The capped
+results therefore retain that extrapolation. The p664_17 end-to-end validation
+timed out, adding a separate Level-V gap.
 
-## Memory and cost-model caveats
+## Concrete costs
 
-The conclusion reverses when memory access is charged.  As an explicit
-sensitivity test, charging `w^(1/3)` binary operations per generated
-j-invariant raises the optimized exponents to 144.71, 224.34, and 296.94,
-above all three targets.  NIST's call §4.B.3 (physical p. 16) permits category
-comparisons to account for the cost of accessing extremely large memory.  The
-specification's hard cap is its own concrete convention rather than a NIST
-metric, but it also yields positive margins.
+The table gives base-2 work exponents. “Specification” charges each generated
+table entry `log2(B)^2 log2(p)^2` bit operations, as in Remark 8.2.1.
+“One Fp2 multiplication” charges the explicit circuit cost of one field
+multiplication per entry; it is a sensitivity convention, not a lower bound on
+full entry generation. `log2(p)^2` is a still more optimistic per-entry
+sensitivity. Ranges show the result without and with charged modular
+polynomial precomputation.
 
-Wesolowski's own rough Section 4.1 model in
-[ePrint 2026/1486](https://eprint.iacr.org/2026/1486) supplies a second caveat.
-Re-evaluated at the exact On-Ramp Round 3 primes, it gives approximately `2^135.6`,
-`2^203.4`, and `2^264.1` Fp2 operations using `2^117.3`, `2^178.9`, and
-`2^234.7` entries.  Charging `log2(p)^2` bit operations per Fp2 operation raises
-the work to 152.3, 221.4, and 282.9 bits.  This is another explicit cost-model
-choice rather than a lower bound on an Fp2 operation, but under it the concrete
-model does not demonstrate a category shortfall.  The reproducer calibrates its
-implementation of the model to within 2.3 bits of the paper's printed examples.
+| Resource convention | p324_3 | p500_27 | p664_17 |
+|---|---:|---:|---:|
+| Specification cost, at submitted memory cap | 150.69 | 222.90 | 286.32 |
+| One Fp2 multiplication, at cap | 143.28--143.47 | 214.10--214.26 | 276.45--276.80 |
+| `log2(p)^2` per entry, at cap | **140.20--140.48** | 211.28--211.48 | 273.78--274.17 |
+| Specification cost, free memory | **137.50** | **199.98--199.99** | **255.84--256.17** |
+| Free-memory table entries | `2^109.90` | `2^169.88` | `2^223.80` |
+| Charge `w^(1/3)` per entry | 145.72--146.76 | 225.40--226.52 | 298.13--299.07 |
+| NIST category target | 143 | 207 | 272 |
 
-The paper also makes clear that its asymptotic result is conditional on a
-smoothness heuristic, carries a superpolynomial overhead hidden in the
-`o(1)` exponent, and needs high memory. Its abstract says that the impact on
-concrete parameters remains to be clarified. The table above is therefore a
-cost-model extrapolation, not a consequence that the paper claims for these
-three parameter sets.
+The free-memory shortfall is therefore 5.50, 7.02 and 15.83--16.16 bits. It
+is now supported by lattice and success-probability experiments rather than a
+direct `p/3` exponent substitution.
 
-## Classification and limits
+The Level-I result at the submitted cap depends on entry generation cost. The
+attack crosses the 143-bit target if an entry costs only `log2(p)^2` bit
+operations, while charging one Fp2 multiplication leaves 0.28--0.47 bit and
+the specification's Cantor--Zassenhaus analysis leaves 7.69 bits. At the
+optimized Level-I point, reaching the category boundary requires roughly
+`2^19.4` bit operations per entry. Known root-finding and field arithmetic are
+more expensive; the specification uses approximately `2^27.3`. This is a
+sensitivity boundary, not an implemented below-target attack.
 
-This is Low / Lead because the free-memory arithmetic is below every target,
-but no accepted resource accounting establishes an attack below a claimed
-category.  No attack implementation was run at scale, the hidden `o(1)` cost
-is material, and both alternative cost models above retain positive margins:
-one charges memory access, while the other charges bit operations for each Fp2
-operation. The specification itself acknowledges this uncertainty. Parameter
-growth or a better-supported time-memory-area analysis would resolve the lead.
+The specification says its more detailed analysis costs at least
+`3*sqrt(p/w)` generated j-invariants before deliberately using the weaker
+`sqrt(p/w)` expression. The experiments support the square-root scaling but
+measure constants around 1.4--2.4 in the tested region rather than reproducing
+the factor three. They do not reach the rare-tail cap regime and therefore do
+not disprove the specification's stronger constant. The optimized table above
+uses the measured success model and records this extrapolation explicitly.
 
-Recompute the models with:
+## What changed from the earlier report
+
+Wesolowski's rough §4.1 calculation is not a lower bound on attack work. Once
+the lattice density and all smooth-degree splits are included, its free-memory
+`log2(p)^2` convention gives about 126--128, 187--189 and 243--244 bits, not
+the earlier 152, 221 and 283-bit conversion. It cannot be used as an
+above-target defence. Memory cost is the remaining reason that the validated
+time estimates do not establish a NIST-category failure.
+
+Ouyang, Wei and Xu [prove the relevant smoothness law
+asymptotically](https://arxiv.org/abs/2610.21488), and Delgado gives an
+[independent unconditional Las Vegas
+algorithm](https://arxiv.org/abs/2609.22018). These remove the original
+asymptotic heuristic while retaining `p^(1/3+o(1))` memory. Mamah's [concrete
+analysis](https://eprint.iacr.org/2026/1821) concerns earlier SQIsign primes;
+its table cannot simply be relabelled with the On-Ramp parameters.
+
+Van Oorschot--Wiener collision search is at least 16 bits slower in the
+reviewed model. Pollard rho, dissection and asymmetric degree sets give no
+improvement. The optimistic quantum attacks also remain above their NIST
+depth-limited benchmarks.
+
+## Classification and reproduction
+
+This remains **Low / Lead**. The finite-size free-memory attack model is now
+well supported, but all three attacks require roughly `2^110` to `2^224`
+table entries. NIST permits category comparisons to charge access to enormous
+memory, and the illustrative `w^(1/3)` sensitivity charge puts every set above
+target. It is not a prescribed NIST metric. No full-scale attack was executed,
+the capped rare-tail extrapolation is unvalidated, and the Level-V success
+check remains open.
+An accepted below-target area-time model or practical entry-generation method
+would justify reassessing the severity.
+
+Run the portable check with:
 
 ```sh
 python3 SQIsign/reproduce_sqisign_4.py
 ```
 
-The script checks the pinned specification, exact primes, capped and uncapped
-specification formulas, a charged-memory sensitivity model, and the retained
-Wesolowski Section 4.1 approximation.  It is a deterministic cost-model check,
-not a cryptanalytic attack.
+It hash-checks the retained compact evidence and verifies the stated capped,
+free-memory and memory-charged comparisons. The full Sage, PARI and numerical
+tooling and regeneration instructions are published in
+[ngcc-harness](https://github.com/ngcc-dev/ngcc-harness) under
+`nist/SQIsign/analysis/p13/`. These are resource-model experiments, not an
+implementation of the full-scale attack.
 
 ## Harness reproduction
 

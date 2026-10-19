@@ -47,7 +47,7 @@ REPRODUCER_FIELDS = (
     "ID", "ScriptPath", "ScriptSHA256", "NeedsOfficialSource",
     "BuildDirectory", "BuildTarget", "Prerequisites",
 )
-NO_OFFICIAL_SOURCE = {"HAWK-1", "UOV-2", "UOV-3", "UOV-4"}
+NO_OFFICIAL_SOURCE = {"HAWK-1", "QR-UOV-4", "UOV-2", "UOV-3", "UOV-4"}
 BUILD = {
     "FAEST-1": ("FAEST", "libs"),
     "QR-UOV-3": ("QR-UOV", "libs"),
@@ -67,7 +67,7 @@ PREREQUISITES = {
     "SNOVA-7": "C compiler; OpenSSL development files",
     "SQIsign-1": "C compiler; make; GMP development files",
     "SQIsign-3": "C compiler; GMP development files",
-    "SQIsign-4": "pdftotext",
+    "SQIsign-4": "Python 3",
 }
 
 
@@ -100,7 +100,7 @@ def public_inputs(source: Path) -> list[str]:
         ):
             if (directory / name).is_file():
                 paths.add(f"{scheme}/{name}")
-        for pattern in ("reproduce_*.py", "analysis/**/*.py", "analysis/**/*.sage", "analysis/**/README.md"):
+        for pattern in ("reproduce_*.py", "analysis/**/*.py", "analysis/**/*.sage", "analysis/**/*.gp", "analysis/**/*.json", "analysis/**/*.jsonl", "analysis/**/README.md"):
             paths.update(path.relative_to(source).as_posix() for path in directory.glob(pattern) if path.is_file())
     missing = [path for path in sorted(paths) if not (source / path).is_file()]
     if missing:
@@ -176,8 +176,12 @@ def source_state(source: Path) -> tuple[str, str]:
     return revision, status
 
 
-def validate_tracked_inputs(source: Path, manifest: list[dict[str, str]]) -> None:
-    """Refuse to publish any filesystem input absent from the source revision."""
+def validate_tracked_inputs(
+    source: Path, manifest: list[dict[str, str]], allow_dirty: bool
+) -> None:
+    """Require revision-backed inputs unless publishing a reviewed dirty tree."""
+    if allow_dirty:
+        return
     try:
         result = subprocess.run(
             ["git", "-C", str(source), "ls-files", "-z"],
@@ -205,7 +209,7 @@ def candidates(source: Path) -> bytes:
     if set(by_scheme) != set(SCHEMES):
         raise SystemExit("data/submissions.json does not contain exactly the nine expected schemes")
     rows: list[dict[str, str]] = []
-    round3_page = "https://csrc.nist.gov/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures"
+    round3_page = "https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures"
     for order, scheme in enumerate(SCHEMES, 1):
         item = by_scheme[scheme]
         withdrawn = scheme == "HAWK"
@@ -612,7 +616,7 @@ def main() -> int:
             "only for an intentionally reviewed content-addressed snapshot"
         )
     outputs, manifest = desired_outputs(source)
-    validate_tracked_inputs(source, manifest)
+    validate_tracked_inputs(source, manifest, args.allow_dirty)
     revision_after, status_after = source_state(source)
     if revision_after != revision_before or status_after != status_before:
         raise SystemExit("source Git state changed while the publication snapshot was generated")

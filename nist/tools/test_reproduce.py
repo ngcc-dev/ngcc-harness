@@ -59,6 +59,12 @@ class FakeResponse:
 
 
 class DispatcherTests(unittest.TestCase):
+    def test_fetcher_uses_official_round3_page(self) -> None:
+        self.assertEqual(
+            FETCH.PAGE,
+            "https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures",
+        )
+
     def test_child_executes_verified_bytes_after_path_changes(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             script = Path(temporary) / "witness.py"
@@ -146,7 +152,8 @@ class DispatcherTests(unittest.TestCase):
         )
         with mock.patch.object(SYNC.subprocess, "run", return_value=tracked):
             with self.assertRaisesRegex(SystemExit, "refusing untracked publication input"):
-                SYNC.validate_tracked_inputs(Path("/source"), manifest)
+                SYNC.validate_tracked_inputs(Path("/source"), manifest, False)
+            SYNC.validate_tracked_inputs(Path("/source"), manifest, True)
 
     def test_snova_children_use_isolated_python(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

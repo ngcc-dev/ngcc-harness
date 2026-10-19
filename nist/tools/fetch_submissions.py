@@ -4,7 +4,7 @@ import argparse, concurrent.futures, hashlib, html.parser, json, pathlib, shutil
 import requests
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE = 'https://csrc.nist.gov'
-PAGE = BASE + '/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures'
+PAGE = BASE + '/Projects/pqc-dig-sig/round-3-additional-signatures'
 NAMES = ['FAEST','HAWK','MAYO','MQOM','QR-UOV','SDitH','SNOVA','SQIsign','UOV']
 class Rows(html.parser.HTMLParser):
     def __init__(self): super().__init__(); self.rows=[]; self.row=None; self.link=None

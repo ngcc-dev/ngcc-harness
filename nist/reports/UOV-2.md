@@ -23,6 +23,7 @@ reduced system of 44 equations in 44 variables over GF(256) gives:
 
 | Matrix exponent | Field operations | Spec gate conversion | Dense-memory upper bound |
 |---:|---:|---:|---:|
+| 2.37 (asymptotic existence bound) | `2^125.5` | `2^132.6` | about `2^103.7` bits |
 | 2.81 | `2^132.9` | `2^140.0` | about `2^110.6` bits |
 | 3.00 | `2^137.2` | `2^144.3` | about `2^110.6` bits |
 
@@ -30,7 +31,14 @@ The specification converts a field operation to `2r^2+r` gates for
 `r=log2(q)`. NIST's Category-1 classical gate reference is about `2^143`.
 Thus the estimate is roughly three bits below the reference only when a matrix
 exponent near 2.81 applies to the very large dense elimination with omitted
-constants. At cubic elimination it remains above the reference.
+constants. Substituting the approximately 2.37 exponent from asymptotic
+matrix-multiplication existence results makes the formula print a much lower
+`2^132.6` gate count. That row is only a formal sensitivity endpoint. It does
+not describe a practical multiplication algorithm, and there is no proof that
+the asymptotic exponent applies to PXL's structured matrices at these finite
+dimensions. It also changes the optimal PXL schedule and still requires about
+`2^103.7` bits of dense matrix storage. It therefore supplies no attack-cost
+claim. At cubic elimination the estimate remains above the reference.
 
 ## Evidence and limitations
 

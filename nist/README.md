@@ -80,9 +80,10 @@ make -C nist sync PRIVATE_SOURCE=/path/to/analysis-checkout
 make -C nist check-sync PRIVATE_SOURCE=/path/to/analysis-checkout
 ```
 
-An intentionally reviewed but uncommitted worktree requires an explicit opt-in.
-That snapshot pins the imported input tree by content and makes no claim that it
-matches the source checkout's `HEAD`:
+An intentionally reviewed but uncommitted worktree, including reviewed new
+files, requires an explicit opt-in. That snapshot pins the complete imported
+input tree by content and makes no claim that it matches the source checkout's
+`HEAD`:
 
 ```sh
 make -C nist sync PRIVATE_SOURCE=/path/to/analysis-checkout ALLOW_DIRTY=1

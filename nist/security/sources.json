@@ -2,7 +2,7 @@
   {
     "id": "nist-round3",
     "title": "NIST On-Ramp Round 3 Additional Signatures candidate page",
-    "url": "https://csrc.nist.gov/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures",
+    "url": "https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures",
     "schemes": [
       "FAEST",
       "HAWK",
@@ -341,9 +341,10 @@
     "title": "Polynomial XL: A Variant of the XL Algorithm Using Macaulay Matrices over Polynomial Rings",
     "url": "https://eprint.iacr.org/2021/1609",
     "kind": "paper",
-    "role": "Primary PXL algorithm and cost formulas used in the UOV cost-model audit",
+    "role": "Primary PXL algorithm, cost formulas, memory bound, and matrix-exponent sensitivities used in the UOV and QR-UOV audits",
     "schemes": [
-      "UOV"
+      "UOV",
+      "QR-UOV"
     ],
     "required_text": [
       "Polynomial XL",
@@ -380,6 +381,20 @@
     "required_text": [
       "Schur--Macaulay",
       "On-Ramp Round 3"
+    ]
+  },
+  {
+    "id": "uov-wiedemann-xl",
+    "title": "A Practical Optimization for Wiedemann XL",
+    "url": "https://eprint.iacr.org/2026/1787",
+    "kind": "paper",
+    "role": "Primary source for the alternative block-Wiedemann iteration counts considered but not used in UOV-4",
+    "schemes": [
+      "UOV"
+    ],
+    "required_text": [
+      "Practical Optimization",
+      "Wiedemann"
     ]
   },
   {
@@ -421,5 +436,220 @@
     ],
     "kind": "paper-metadata",
     "role": "Revised paper after withdrawal of its SNOVA complexity analysis; UOV results remain"
+  },
+  {
+    "id": "mq-generalized-partition",
+    "title": "Improved Complexity Estimates for Underdetermined MQ Systems via Generalized Variable Partitioning",
+    "url": "https://eprint.iacr.org/2026/1054",
+    "schemes": [
+      "MAYO",
+      "QR-UOV",
+      "SNOVA",
+      "UOV"
+    ],
+    "kind": "paper-metadata",
+    "role": "Generalized direct-MQ method checked against the On-Ramp Round 3 parameter sets",
+    "required_text": [
+      "Generalized Variable Partitioning",
+      "MAYO1"
+    ]
+  },
+  {
+    "id": "uov-partial-exposure",
+    "title": "Partial Key Exposure Attacks on UOV and Its Variants",
+    "url": "https://eprint.iacr.org/2025/595",
+    "schemes": [
+      "MAYO",
+      "QR-UOV",
+      "UOV"
+    ],
+    "kind": "paper-metadata",
+    "role": "Consequence model for future measured coefficient-exposure attacks",
+    "required_text": [
+      "Partial Key Exposure",
+      "QR-UOV"
+    ]
+  },
+  {
+    "id": "sdith-regular-isd",
+    "title": "Not Just Regular Decoding: Asymptotics and Improvements of Regular Syndrome Decoding Attacks",
+    "url": "https://eprint.iacr.org/2023/1568",
+    "schemes": [
+      "SDitH"
+    ],
+    "kind": "paper-metadata",
+    "role": "Regular-ISD and asymptotic RSD attack comparison for the SDitH v3 parameters",
+    "required_text": [
+      "Regular Syndrome Decoding",
+      "regular-ISD"
+    ]
+  },
+  {
+    "id": "sdith-rsd-soundness",
+    "title": "On the Soundness of Algebraic Attacks against Code-based Assumptions",
+    "url": "https://eprint.iacr.org/2025/415",
+    "schemes": [
+      "SDitH"
+    ],
+    "kind": "paper-metadata",
+    "role": "Provable applicability conditions for Briaud--Oygarden algebraic RSD attacks",
+    "required_text": [
+      "Soundness of Algebraic Attacks",
+      "polynomial time"
+    ]
+  },
+  {
+    "id": "sdith-hybrid-rsd",
+    "title": "A Hybrid Algorithm for the Regular Syndrome Decoding Problem",
+    "url": "https://eprint.iacr.org/2025/1284",
+    "schemes": [
+      "SDitH"
+    ],
+    "kind": "paper-metadata",
+    "role": "Hybrid algebraic attack estimator applied to the exact SDitH v3 instances",
+    "required_text": [
+      "Hybrid Algorithm",
+      "Regular Syndrome Decoding"
+    ]
+  },
+  {
+    "id": "sqisign-p13-unconditional-owx",
+    "title": "Smoothness of Shortest Isogenies to Frobenius Conjugates",
+    "url": "https://arxiv.org/abs/2610.21488",
+    "schemes": [
+      "SQIsign"
+    ],
+    "kind": "paper-metadata",
+    "role": "Unconditional asymptotic justification of the smoothness property in the p^(1/3+o(1)) attack",
+    "required_text": [
+      "Smoothness of Shortest Isogenies",
+      "unconditional"
+    ]
+  },
+  {
+    "id": "sqisign-conjugate-lattice",
+    "title": "Minimal degree of an isogeny between a supersingular elliptic curve and its conjugate",
+    "url": "https://arxiv.org/abs/2607.14624",
+    "schemes": [
+      "SQIsign"
+    ],
+    "kind": "paper",
+    "role": "Rank-three conjugate-isogeny lattice and shortest-degree bound used in the SQIsign-4 validation",
+    "required_text": [
+      "Minimal degree of an isogeny",
+      "Christelle Vincent"
+    ]
+  },
+  {
+    "id": "sqisign-p13-unconditional-delgado",
+    "title": "The Supersingular Isogeny Problem in Time and Memory p^(1/3+o(1)), Unconditionally",
+    "url": "https://arxiv.org/abs/2609.22018",
+    "schemes": [
+      "SQIsign"
+    ],
+    "kind": "paper-metadata",
+    "role": "Independent unconditional asymptotic OneEnd algorithm with explicit subexponential overhead",
+    "required_text": [
+      "Unconditionally",
+      "Las Vegas"
+    ]
+  },
+  {
+    "id": "sqisign-p13-concrete",
+    "title": "Complexity Analysis and Security Implications of the New Isogeny-Path Algorithm",
+    "url": "https://eprint.iacr.org/2026/1821",
+    "schemes": [
+      "SQIsign"
+    ],
+    "kind": "paper-metadata",
+    "role": "Concrete time-memory analysis of Wesolowski's attack on earlier SQIsign primes",
+    "required_text": [
+      "Complexity Analysis",
+      "Level I"
+    ]
+  },
+  {
+    "id": "sqisign-proof-note",
+    "title": "A Note on the Security Proof of SQIsign",
+    "url": "https://eprint.iacr.org/2026/1775",
+    "schemes": [
+      "SQIsign"
+    ],
+    "kind": "paper-metadata",
+    "role": "Improved Round-2 O(1/p) min-entropy bound whose Nmix > p^2 premise is not met by SQIsign v3",
+    "required_text": [
+      "Security Proof of SQIsign",
+      "two-thirds"
+    ]
+  },
+  {
+    "id": "sqisign-round2-proof",
+    "title": "A Complete Security Proof of SQIsign",
+    "url": "https://eprint.iacr.org/2025/379",
+    "schemes": [
+      "SQIsign"
+    ],
+    "kind": "paper-metadata",
+    "role": "Complete proof for the earlier even-response Round-2 SQIsign version adapted by the v3 specification",
+    "required_text": [
+      "Complete Security Proof",
+      "SQIsign"
+    ]
+  },
+  {
+    "id": "mqom-v2-unsalted-root",
+    "title": "Signing-Key Recovery from Unsalted Root Expansion and Salt-Binding Repair for MQOM v2",
+    "url": "https://eprint.iacr.org/2026/1542",
+    "schemes": [
+      "MQOM"
+    ],
+    "kind": "paper-metadata",
+    "role": "Historical v2 attack and primary statement that v3 removes its relation",
+    "required_text": [
+      "Unsalted Root Expansion",
+      "MQOM v3.0"
+    ]
+  },
+  {
+    "id": "mqom-withdrawn-one-signature",
+    "title": "Withdrawn: Full-Key Recovery and Forgery from One MQOM v2.1 Signature",
+    "url": "https://arxiv.org/abs/2608.09699",
+    "schemes": [
+      "MQOM"
+    ],
+    "kind": "withdrawn-paper-metadata",
+    "role": "Withdrawn attack claim retained to prevent it from being mistaken for current v3 evidence",
+    "required_text": [
+      "withdrawn",
+      "not considered to affect MQOM security"
+    ]
+  },
+  {
+    "id": "qruov-hashimoto",
+    "title": "An Improvement of Algorithms to Solve Under-Defined Systems of Multivariate Quadratic Equations",
+    "url": "https://eprint.iacr.org/2021/1045",
+    "schemes": [
+      "QR-UOV"
+    ],
+    "kind": "paper",
+    "role": "Primary underdetermined-MQ reduction whose zero-guess boundary is composed with PXL in QR-UOV-4",
+    "required_text": [
+      "under-defined systems",
+      "Yasufumi Hashimoto"
+    ]
+  },
+  {
+    "id": "qruov-pseudo-oil",
+    "title": "Pseudo-Oil Subspaces and the Geometry of Underdetermined MQ Problems",
+    "url": "https://eprint.iacr.org/2026/1122",
+    "schemes": [
+      "QR-UOV"
+    ],
+    "kind": "paper",
+    "role": "Geometric Hashimoto formulation, applicability inequalities, preprocessing cost, and extraction dimensions used in QR-UOV-4",
+    "required_text": [
+      "Pseudo-Oil Subspaces",
+      "Massimo Ostuzzi"
+    ]
   }
 ]

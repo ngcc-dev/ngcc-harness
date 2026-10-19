@@ -58,17 +58,20 @@ def main():
     # Thomae-Wolf reduces uov-Ip to 44 equations in 44 variables over F_256.
     results = {}
     conversion = log2(2 * 8 * 8 + 8)
-    for omega in (2.81, 3.0):
+    for omega in (2.37, 2.81, 3.0):
         result = pxl(256, 44, 44, omega)
         result["gate_cost"] = result["field_operations"] + conversion
         results[str(omega)] = result
 
+    asymptotic = results["2.37"]
     fast = results["2.81"]
     cubic = results["3.0"]
     checks = {
         "omega_2.81_parameters": (fast["guessed"], fast["degree"]) == (5, 17),
         "omega_2.81_gate_cost": abs(fast["gate_cost"] - 140.0) < 0.1,
         "omega_2.81_dense_memory": abs(fast["memory_bits"] - 110.6) < 0.1,
+        "omega_2.37_parameters": (asymptotic["guessed"], asymptotic["degree"]) == (6, 15),
+        "omega_2.37_gate_cost": abs(asymptotic["gate_cost"] - 132.6) < 0.1,
         "omega_3_gate_cost": abs(cubic["gate_cost"] - 144.3) < 0.1,
     }
     for omega, result in results.items():

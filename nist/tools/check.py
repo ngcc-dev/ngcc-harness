@@ -104,6 +104,7 @@ def field(text: str, name: str) -> str:
 
 def main() -> int:
     problems: list[str] = []
+    round3_page = "https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures"
     candidate_rows = rows(ROOT / "candidates.csv", CANDIDATE_FIELDS, problems)
     if tuple(row.get("scheme") for row in candidate_rows) != SCHEMES:
         problems.append("candidates.csv: expected the canonical nine-scheme order")
@@ -114,6 +115,8 @@ def main() -> int:
         for column in ("candidate_page", "spec_url", "archive_url"):
             if not official(row.get(column, "")):
                 problems.append(f"candidates.csv:{line}: {column} is not an official NIST URL")
+        if row.get("candidate_page") != round3_page:
+            problems.append(f"candidates.csv:{line}: incorrect On-Ramp Round 3 page")
         if not row.get("archive_bytes", "").isdigit():
             problems.append(f"candidates.csv:{line}: invalid archive_bytes")
         for column in ("archive_sha256", "spec_sha256"):

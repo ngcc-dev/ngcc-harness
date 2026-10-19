@@ -15,7 +15,7 @@ The Anthropic attack compromises HAWK's proposed security margins and recovers
 a working equivalent signing key from public information. The HAWK team
 confirmed the improvement and withdrew the candidate on **29 July 2026**;
 NIST confirmed the withdrawal that day. The current [NIST On-Ramp Round 3
-page](https://csrc.nist.gov/Projects/pqc-dig-sig/On-Ramp Round 3-additional-signatures)
+page](https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures)
 links that announcement and marks HAWK withdrawn. The announcement,
 confirmation and dates are in the [primary pqc-forum
 thread](https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/2r2u6SbHun4).
