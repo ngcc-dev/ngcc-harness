@@ -1228,7 +1228,7 @@ run_target kem-34 "kem-34-2/kem-34-4" make -C kem-34 reproduce-parameters
 run_target kem-34 "kem-34-3" make -C kem-34 reproduce-length-read
 
 echo
-echo "== kem-36-2 / kem-36-3 / kem-36-4 / kem-36-5 / kem-36-6 TRIKE findings =="
+echo "== kem-36-2 withdrawn / kem-36-3 / kem-36-4 / kem-36-5 / kem-36-6 TRIKE records =="
 run_target kem-36 "kem-36-2" python3 kem-36/reproduce_weak_key_test.py
 run_target kem-36 "kem-36-3/kem-36-6" python3 kem-36/reproduce_implementation_issues.py
 run_target kem-36 "kem-36-4/kem-36-5" python3 kem-36/reproduce_spec_proof_gaps.py
@@ -1442,6 +1442,16 @@ run_target sign-33 "sign-33-8" python3 sign-33/reproduce_padding_nibble.py
 run_target sign-33 "sign-33-9" python3 sign-33/reproduce_wedge_estimate.py
 run_target sign-34 "sign-34-4" sh sign-34/reproduce_delta2_selection.sh
 run_target sign-34 "sign-34-6" python3 sign-34/certify_theta_constant.py
+
+echo
+echo "== 2026-10-20 implementation findings and TRIKE withdrawal =="
+run_target kem-01 "kem-01-4" python3 kem-01/reproduce_mdkem_overflow.py
+run_target hash-14 "hash-14-2-build" make -C hash-14 lib/libLaurus-XOF.so
+run_target hash-14 "hash-14-2" python3 hash-14/reproduce_xof_output_length.py
+run_target hash-15 "hash-15-1-build" make -C hash-15 lib/liblitchi_xof.so
+run_target hash-15 "hash-15-1" python3 hash-15/reproduce_xof_output_length.py
+run_target kex-02 "kex-02-7" python3 kex-02/reproduce_short_messages.py
+run_target kex-07 "kex-07-2" python3 kex-07/reproduce_short_message.py
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

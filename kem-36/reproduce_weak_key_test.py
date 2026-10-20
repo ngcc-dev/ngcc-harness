@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Certify that literal squared-count Algorithm 9 rejects every TRIKE key."""
+"""Check the submitted binomial weak-key computation after kem-36-2 withdrawal.
 
-from math import comb
+Algorithm 9's notation was verified visually in the frozen PDF, not parsed here.
+"""
+
 from pathlib import Path
 import re
 
@@ -18,17 +20,6 @@ PARAMETERS = {
     "TRIKE-9": (111, 433, 737),
 }
 
-for name, (d, s, ss) in PARAMETERS.items():
-    # For nonnegative integer multiplicities, sum x_i^2 >= sum x_i.
-    # Intra-block multiplicities sum to C(d,2); inter-block ones to d^2.
-    intra_lb = comb(d, 2)
-    inter_lb = d * d
-    assert intra_lb > s and inter_lb > ss
-    print(
-        f"{name}: literal intra >= {intra_lb} > {s}; "
-        f"literal inter >= {inter_lb} > {ss}"
-    )
-
 base = HERE / "Implementations and Test_Vectors/Implementations"
 for tree in ("Reference_Implementation", "Optimized_Implementation"):
     for name in ("TRIKE-2", "TRIKE-5", "TRIKE-7", "TRIKE-9"):
@@ -43,4 +34,4 @@ for tree in ("Reference_Implementation", "Optimized_Implementation"):
         assert int(re.search(r"#define PARAM_S\s+(\d+)", params).group(1)) == s
         assert int(re.search(r"#define PARAM_SS\s+(\d+)", params).group(1)) == ss
 
-print("TRIKE_LITERAL_WEAK_KEY_TEST_REJECTS_ALL_CONFIRMED")
+print("WITHDRAWN kem-36-2: all eight source trees use binomial collision counts; PDF notation checked visually")

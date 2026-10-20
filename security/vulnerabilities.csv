@@ -27,6 +27,8 @@ hash-11-2;Confirmed;runtime;Garnet-1024a omits the specified rate-state feed-for
 hash-12-1;Confirmed;runtime;Cross-profile 512-bit output relation
 hash-13-1;Confirmed;review;Long messages reduce JuziHash-1024 second-preimage security below 1024 bits
 hash-14-1;Confirmed;runtime;Laurus loses its function-domain separation at c=1024 and c=512
+hash-14-2;Confirmed;runtime;Laurus-XOF ignores the requested output length and overruns shorter digest buffers
+hash-15-1;Confirmed;runtime;Litchi-XOF ignores the requested output length and overruns shorter digest buffers
 hash-17-1;Confirmed;runtime;Trivial collisions at every rate boundary
 hash-17-2;Confirmed;runtime;The specified and implemented inverse rounds do not invert the forward round
 hash-18-1;Confirmed;runtime+static;For short messages, the 384-bit digest is a prefix of the 512-bit digest
@@ -57,6 +59,7 @@ hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multipli
 kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA security
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
 kem-01-3;Confirmed;static;The external DRBG is used as a KDF
+kem-01-4;Confirmed;runtime;Deterministic encapsulation overflows its key buffer and derives the wrong secret
 kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth ciphertext byte
 kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
 kem-02-3;Confirmed;runtime;The decryption-failure bound omits detected two-error rejections
@@ -165,7 +168,7 @@ kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer length
 kem-34-4;Confirmed;runtime;Rudraksh2-II's modulus cannot support its specified NTT
 kem-35-1;Confirmed;runtime;Re-encryption rejection sampling leaks the decrypted-message class
 kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every tested honest ciphertext
-kem-36-2;Confirmed;runtime;The specified weak-key test rejects every key
+kem-36-2;Withdrawn;static;Withdrawn — Algorithm 9 already uses binomial collision counts
 kem-36-3;Confirmed;runtime;Decapsulation fails to free the private h0 buffer
 kem-36-4;Proof gap;runtime;Boundary weak-key classes are omitted from the DFR bound
 kem-36-5;Proof gap;runtime;The weak-key reduction assumes the secret parity checks are public
@@ -202,6 +205,7 @@ kex-02-3;Confirmed;runtime;Leaking one in-session encapsulated key permits initi
 kex-02-4;Confirmed;runtime;A copied certified public key enables an unknown-key-share
 kex-02-5;Confirmed;runtime;An unauthenticated responder observes decapsulation failures
 kex-02-6;Proof gap;static;Failure terms make the stated QROM bounds non-tight
+kex-02-7;Confirmed;static;Incoming message lengths are ignored before fixed-size reads
 kex-03-1;Confirmed;review;Bits-versus-bytes error reduces the ephemeral secret to 64 bits
 kex-03-2;Confirmed;runtime+static;Omitting signatures from the KDF breaks transcript matching
 kex-03-3;Confirmed;runtime+static;The generic double-key KEM fails its claimed first-key CCA game
@@ -229,6 +233,7 @@ kex-06-1;Confirmed;runtime+static;MAMBA-NIKE-384 and -512 use only 256 secret-se
 kex-06-2;Lead;runtime;Static-key reconciliation admits an active reaction-recovery path
 kex-06-3;Proof gap;static;Reconciliation leakage makes the passive-security bound vacuous
 kex-07-1;Confirmed;runtime;Both party identities are hard-wired to zero
+kex-07-2;Confirmed;static;Short responder messages reach fixed-size decryption without a length check
 kex-08-1;Confirmed;runtime;The raw shared j-invariant is distinguishable from a uniform key
 kex-08-2;Confirmed;runtime;NIIKE-lv512 key generation cycles between two hard-coded secret keys
 kex-08-3;Confirmed;runtime;A crafted peer key forces the honest party's shared secret
