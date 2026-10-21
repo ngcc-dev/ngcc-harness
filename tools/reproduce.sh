@@ -337,8 +337,9 @@ run_target kem-26 "kem-26-2" python3 kem-26/reproduce_failure.py
 run_target kem-26 "kem-26-5" sh kem-26/reproduce_rs_decoder_iterations.sh
 
 echo
-echo "== kem-25-1 NEV: compressed-set rejection mismatch (Medium Proof gap) =="
+echo "== kem-25-1/-2 NEV: rejection and Gaussian-shape proof gaps (Medium / Low) =="
 run_target kem-25 "kem-25-1" python3 kem-25/reproduce_rejection_mismatch.py
+run_target kem-25 "kem-25-2" python3 kem-25/reproduce_gaussian_shape_gap.py
 
 echo
 echo "== kem-28-1 OAEP-NTRU: noncanonical ciphertext aliases (Critical) =="
@@ -1248,9 +1249,10 @@ echo "== kem-38-5 / kem-38-6 UVW failure reaction and retry-matrix findings =="
 run_target kem-38 "kem-38-5/kem-38-6" python3 kem-38/reproduce_dfr_reaction.py
 
 echo
-echo "== kem-39-3 / kem-39-4 / kem-39-5 WeaverKEM implementation findings =="
+echo "== kem-39-3..6 WeaverKEM decoder, specification and proof findings =="
 run_target kem-39 "kem-39-3" sh kem-39/reproduce_bch_decoder.sh
 run_target kem-39 "kem-39-4/kem-39-5" python3 kem-39/reproduce_spec_mismatches.py
+run_target kem-39 "kem-39-6" python3 kem-39/reproduce_adaptive_offset_gap.py
 
 echo
 echo "== kem-40-1 YuanYang.KEM: encryption discards the specified error (Medium) =="
