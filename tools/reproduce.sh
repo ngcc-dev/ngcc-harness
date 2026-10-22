@@ -1277,6 +1277,10 @@ elif [ -z "$only" ]; then
 fi
 
 echo
+echo "== kem-41-2 ZEN: fail-open key generation under real memory exhaustion (High Confirmed) =="
+run_target kem-41 "kem-41-2" sh kem-41/reproduce_keygen_fail_open.sh
+
+echo
 echo "== kex-02-3..6 AFS-KEX protocol findings and informational QROM bound =="
 run_target kex-02 "kex-02-3/kex-02-4/kex-02-5" make -C kex-02 reproduce-protocol-findings
 run_target kex-02 "kex-02-6" python3 kex-02/reproduce_failure_bound.py
