@@ -876,6 +876,10 @@ echo "== sign-09-3 DOVE: out-of-bounds API reads (Low) =="
 run_target sign-09 "sign-09-3" sh sign-09/reproduce_input_lengths.sh
 
 echo
+echo "== sign-09-4 DOVE: MQ-target and signing-simulation proof gaps (Medium) =="
+run_target sign-09 "sign-09-4" python3 sign-09/reproduce_euf_simulation_gap.py
+
+echo
 echo "== sign-15-2 MORNING-ATLAS: ignored hint padding violates SUF-CMA (High) =="
 for l in sign-15/lib/*.so; do
     run sign-15 "sign-15-2" CONFIRMED sig-hint-padding "$l"
@@ -1429,6 +1433,7 @@ run_target sign-01 "sign-01-9" python3 sign-01/reproduce_kdf_length_overflow.py
 run_target sign-02 "sign-02-3" sh sign-02/reproduce_seed_collision.sh
 run_target sign-06 "sign-06-2" sh sign-06/reproduce_signing_key_root.sh
 run_target sign-06 "sign-06-6" sh sign-06/reproduce_absorb_compression.sh
+run_target sign-06 "sign-06-7" python3 sign-06/reproduce_trivial_msis.py
 run_target sign-07 "sign-07-5" python3 sign-07/reproduce_message_length_overflow.py
 run_target sign-10 "sign-10-4" python3 sign-10/reproduce_signature_leak.py
 run_target sign-13 "sign-13-3" python3 sign-13/reproduce_ggm_multitarget.py tree

@@ -275,6 +275,7 @@ sign-06-3;Confirmed;runtime;Rejected signatures leak heap memory without bound
 sign-06-4;Confirmed;runtime;XOF block replay duplicates every high-level secret polynomial
 sign-06-5;Confirmed;runtime+static;A byte-wide position index and 64 sign bits shrink the 384- and 512-bit challenge spaces below their levels
 sign-06-6;Confirmed;runtime;The SHAKE wrapper compresses the message-representative input to 256 bits
+sign-06-7;Proof gap;static;The strong-unforgeability MSIS premise is trivial at 256 and 512
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
 sign-07-3;Confirmed;review;Compressed signatures enable practical equivalent-key recovery and forgery
@@ -287,6 +288,7 @@ sign-08-4;Confirmed;static;AVX2 DARTS-512 samples its signing secret from 256 se
 sign-09-1;Confirmed;runtime+static;The unauthenticated signature salt invalidates the salted-target analysis
 sign-09-2;Proof gap;static;The EUF-CMA reduction treats trapdoor recovery as public-key indistinguishability
 sign-09-3;Confirmed;runtime+static;Signing and verification read beyond declared input buffers
+sign-09-4;Proof gap;static;The EUF-CMA proof neither embeds the MQ target nor justifies signature simulation
 sign-10-1;Lead;review;The hidden zero subspace has an unpriced algebraic recovery path
 sign-10-2;Confirmed;runtime;The public key yields a universal signing trapdoor
 sign-10-3;Confirmed;static;Unsalted hash targets permit below-level signature transfers
