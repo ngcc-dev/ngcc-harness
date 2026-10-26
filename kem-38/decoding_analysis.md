@@ -1,5 +1,7 @@
 # UVW-KEM (NICCS round-1 "kem-38"): structural key recovery without a decoder oracle
 
+> **Correction, 2026-10-26.** The conclusion below that no public statistic separates the UVW public code from a random code is wrong. It held for the Schur-square, shortening, puncturing and pair statistics tested here, but an order-2 cubic-jet count on shortened public codes does separate them, at full size and on public keys from the frozen key generation. See kem-38-8 in the UVW report.
+
 Assessment of 2026-10-09. Scripts and logs: `decoding/`
 (`uvwlin.py`, `exp1_squares.py`, `exp2_pairs.py`, `exp3_counting.py`,
 `exp4_fp_scan.py`, `exp5_dfr.py`, `*.log`). All test keys were generated

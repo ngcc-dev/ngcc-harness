@@ -469,6 +469,10 @@ echo "== kem-17-4 HEP-QC: public EPC-P column fingerprint =="
 run_target kem-17 "kem-17-4" python3 kem-17/reproduce_epcp_fingerprint.py
 
 echo
+echo "== kem-17-3 HEP-QC: public salt is the next generator-state prefix (Critical) =="
+run_target kem-17 "kem-17-3" sh kem-17/reproduce_prng_state_leak.sh
+
+echo
 echo "== kem-27-1 NTRE: scaled seed-ceiling witness (Critical) =="
 run_target kem-27 "kem-27-1" make -C kem-27 exploit
 
@@ -551,6 +555,11 @@ fi
 echo
 echo "== kem-38-4 UVW: ignored ciphertext bits (Critical) =="
 run_target kem-38 "kem-38-4" python3 kem-38/reproduce_padding_alias.py
+
+echo
+echo "== kem-38-8 UVW: cubic-jet distinguisher and public-key structure recovery (Critical) =="
+run_target kem-38 "kem-38-8" sh kem-38/reproduce_jet_distinguisher.sh
+run_target kem-38 "kem-38-8" sh kem-38/reproduce_key_recovery.sh
 
 echo
 echo "== kem-29-1 Polar-KEM: public-key-only shared-secret recovery (Critical) =="
