@@ -166,6 +166,7 @@ run_target hash-12 "hash-12-1" make -C hash-12 exploit
 echo
 echo "== hash-04-1 / hash-04-2 CHAMP: determinant-fiber bound and subgroup collision lead (Critical / Critical Lead) =="
 run_target hash-04 "hash-04-1/hash-04-2" python3 hash-04/reproduce_structure.py
+run_target hash-04 "hash-04-6" python3 hash-04/reproduce_full_collision.py
 
 echo "== hash-04-3 / hash-04-4 CHAMP: square-root preimages and full-size writes =="
 run_target hash-04 "hash-04-3/hash-04-4" make -C hash-04 reproduce
