@@ -1475,6 +1475,10 @@ run_target kex-02 "kex-02-7" python3 kex-02/reproduce_short_messages.py
 run_target kex-07 "kex-07-2" python3 kex-07/reproduce_short_message.py
 
 echo
+echo "== 2026-10-30 Lore BCH decoder component check =="
+run_target kem-19 "kem-19-3" sh kem-19/reproduce_bch_work.sh
+
+echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
 else
