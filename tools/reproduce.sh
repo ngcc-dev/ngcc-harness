@@ -298,7 +298,7 @@ run_target kem-03 "kem-03-3" python3 kem-03/reproduce_public_supports.py
 run_target kem-03 "kem-03-3" make -C kem-03 reproduce-public-supports
 
 echo
-echo "== kem-04-2 BAG-Piglet: rejection key omits received ciphertext (High) =="
+echo "== kem-04-2 BAG-Piglet: rejection key omits received ciphertext (Critical) =="
 run_target kem-04 "kem-04-2" python3 kem-04/reproduce_rejection_key.py kem-04/lib/libbag_piglet_128.so
 
 echo
@@ -587,7 +587,7 @@ run_target kem-30 "kem-30-1-recovery" sh kem-30/reproduce_full_timing_recovery.s
 run_target kem-30 "kem-30-2" python3 kem-30/reproduce_llr_cache_lookup.py
 
 echo
-echo "== kex-06-2 MAMBA-NIKE: static-key reaction-recovery path (High lead) =="
+echo "== kex-06-2 MAMBA-NIKE: static-key reaction recovery (Critical) =="
 run_target kex-06 "kex-06-2" make -C kex-06 exploit-reaction-recovery
 
 echo
@@ -1477,6 +1477,38 @@ run_target kex-07 "kex-07-2" python3 kex-07/reproduce_short_message.py
 echo
 echo "== 2026-10-30 Lore BCH decoder component check =="
 run_target kem-19 "kem-19-3" sh kem-19/reproduce_bch_work.sh
+
+echo
+echo "== 2026-10-31 design-pass findings =="
+run_target kem-04 "kem-04-2" sh kem-04/reproduce_key_recovery.sh
+run_target kex-06 "kex-06-2" sh kex-06/reproduce_hashed_key_recovery.sh
+run_target kem-09 "kem-09-5" sh kem-09/reproduce_failure_recovery.sh
+if [ -z "$only" ] || [ "$only" = kem-09 ]; then
+    if ep=$(find_python 'import numpy'); then
+        run_target kem-09 "kem-09-5" "$ep" kem-09/reproduce_failure_rate.py
+    else
+        echo "SKIP   kem-09 kem-09-5 failure rate (numpy unavailable)"
+        skipped=$((skipped + 1))
+    fi
+    if ep=$(find_python 'import numpy, scipy'); then
+        run_target kem-09 "kem-09-5" "$ep" kem-09/reproduce_boost_cost.py
+    else
+        echo "SKIP   kem-09 kem-09-5 boosting cost (numpy or scipy unavailable)"
+        skipped=$((skipped + 1))
+    fi
+fi
+if [ -z "$only" ] || [ "$only" = kem-34 ]; then
+    estimator_path=${LATTICE_ESTIMATOR_PATH:-../lattice-estimator}
+    if ep=$(find_python 'import sage.all') && [ -d "$estimator_path" ]; then
+        run_target kem-34 "kem-34-5" env LATTICE_ESTIMATOR_PATH="$estimator_path" \
+            "$ep" kem-34/reproduce_dual_hybrid.py
+    else
+        echo "SKIP   kem-34 kem-34-5 estimator (Sage Python or pinned lattice-estimator unavailable)"
+        skipped=$((skipped + 1))
+    fi
+fi
+zc_cand=hash-30; [ "$only" = hash-31 ] && zc_cand=hash-31
+run_target "$zc_cand" "hash-30-2/hash-31-3" sh security/zc_column_trail.sh
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

@@ -50,8 +50,10 @@ hash-25-1;Confirmed;runtime;Allocation failure reports success without writing a
 hash-26-1;Confirmed;runtime;An invariant subspace reduces CHIME collision bounds to 64 and 160 bits
 hash-27-1;Confirmed;review;Secret state indexes an eight-bit substitution table
 hash-30-1;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
+hash-30-2;Lead;runtime;An 8-column iterative trail gives an estimated 2^125 collision
 hash-31-1;Confirmed;runtime;Cross-domain distinguisher between ZC-1536-512 and ZC-1536-768
 hash-31-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
+hash-31-3;Lead;runtime;An 8-column iterative trail gives an estimated 2^125 collision
 hash-32-1;Confirmed;static;The specified and implemented ZC-EDMC mappings differ
 hash-32-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-34-1;Probable;runtime;A four-block reset prefix gives second preimages below the required levels
@@ -93,6 +95,7 @@ kem-09-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared sec
 kem-09-2;Lead;review;A degree-128 quotient defeats the full-dimension MLWE estimates
 kem-09-3;Confirmed;static;Cheetah's decryption-failure analysis omits public-key rounding
 kem-09-4;Confirmed;runtime;The rejection key hashes the re-encryption instead of the received ciphertext
+kem-09-5;Probable;runtime;Natural decryption failures recover the secret key
 kem-10-1;Confirmed;runtime;Malformed ciphertexts crash the reference decapsulator
 kem-10-2;Confirmed;review;Secret-derived decoder pivots select memory addresses
 kem-10-3;Confirmed;runtime;Ignored padding bits make CMultiURAG-512 ciphertexts malleable without changing the key
@@ -169,6 +172,7 @@ kem-34-1;Proof gap;runtime;Rudraksh2-128 has a 2^64-iteration generic search bef
 kem-34-2;Confirmed;runtime;Cortex-M4 uses an incompatible Minal decoder constant
 kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer lengths
 kem-34-4;Confirmed;runtime;Rudraksh2-II's modulus cannot support its specified NTT
+kem-34-5;Probable;runtime;Dual-hybrid attacks put Rudraksh2-512-I below its target
 kem-35-1;Confirmed;runtime;Re-encryption rejection sampling leaks the decrypted-message class
 kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every tested honest ciphertext
 kem-36-2;Withdrawn;static;Withdrawn — Algorithm 9 already uses binomial collision counts
@@ -236,7 +240,7 @@ kex-05-6;Confirmed;static;A corrupted peer can impersonate into a fresh no-match
 kex-05-7;Confirmed;runtime;Hard-wired wrapper identities let a registered party misbind honest sessions
 kex-05-8;Confirmed;runtime;KEM encryption reuses lifting PRF substreams as the ephemeral secret input
 kex-06-1;Confirmed;runtime+static;MAMBA-NIKE-384 and -512 use only 256 secret-seed bits
-kex-06-2;Lead;runtime;Static-key reconciliation admits an active reaction-recovery path
+kex-06-2;Confirmed;runtime;Static-key reconciliation allows active key recovery
 kex-06-3;Proof gap;static;Reconciliation leakage makes the passive-security bound vacuous
 kex-07-1;Confirmed;runtime;Both party identities are hard-wired to zero
 kex-07-2;Confirmed;static;Short responder messages reach fixed-size decryption without a length check
