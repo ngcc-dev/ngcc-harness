@@ -107,6 +107,16 @@ The latest candidate-local witnesses are also wired into the runner:
 - `kem-05/reproduce_multi_instance.py` and
   `kem-32/reproduce_multi_instance.py` hash-pin the May–Sá Diogo estimator and
   check the first below-target same-key session counts plus controls.
+- `security/reproduce_code_multi_instance.py` applies the same pinned estimator
+  to the NSS-HQC-128, QUBE, TRIKE and TriQ-KEM model crossings, with preceding
+  above-target controls. It does not execute full-size decoding.
+- `kem-26/reproduce_key_isd_estimate.py` pins
+  `cryptographic-estimators==2.1.1` and checks NSS-HQC public-key Stern costs,
+  memory, and unrelated-solution bounds for all four sets. It does not run an
+  exponential key search.
+- `kem-32/reproduce_lift_toy.py` fetches a hash-pinned scaled QCTM witness,
+  then checks two quotient-key lifts and fresh-error decodings. Its quotient
+  key is supplied, not recovered from the full-size public key.
 - `kem-26/reproduce_isd_estimate.py` pins
   `cryptographic-estimators==2.1.1` and reproduces NSS-HQC's ephemeral-decoding
   work factors and public message-recovery certificate. The broader comparative

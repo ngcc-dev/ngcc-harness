@@ -146,6 +146,8 @@ kem-26-2;Probable;runtime;NSS-HQC-256 failures enable reported equivalent-key re
 kem-26-3;Confirmed;runtime;Ephemeral syndrome decoding misses the 256-, 384-, and 512-bit targets
 kem-26-4;Confirmed;runtime;A 256-bit decryption sub-seed caps NSS-HQC-384 and -512
 kem-26-5;Probable;runtime+static;RS-decoder timing reportedly recovers an NSS-HQC-128 key
+kem-26-6;Confirmed;runtime;Same-key multi-instance decoding puts NSS-HQC-128 below its target
+kem-26-7;Confirmed;runtime;Static-key decoding misses the NSS-HQC-384 and -512 targets
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
 kem-28-1;Confirmed;runtime;Noncanonical ciphertext encoding defeats IND-CCA security
 kem-29-1;Confirmed;runtime;The submission ships a complete public-key-only break
@@ -168,6 +170,7 @@ kem-33-1;Confirmed;runtime;Decapsulation re-expands the private seed with a vari
 kem-33-2;Confirmed;review;Decryption multiplication traverses secret support positions
 kem-33-3;Confirmed;runtime+static;The optimized API generates predictable keys and encapsulations
 kem-33-4;Confirmed;runtime;The optimized FO check compares word counts as byte counts
+kem-33-5;Confirmed;runtime;Same-key multi-instance decoding puts four QUBE sets below target
 kem-34-1;Proof gap;runtime;Rudraksh2-128 has a 2^64-iteration generic search before oracle costs
 kem-34-2;Confirmed;runtime;Cortex-M4 uses an incompatible Minal decoder constant
 kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer lengths
@@ -182,8 +185,10 @@ kem-36-5;Proof gap;runtime;The weak-key reduction assumes the secret parity chec
 kem-36-6;Confirmed;runtime;Decapsulation addresses depend on the secret support
 kem-36-7;Confirmed;runtime+static;TRIKE shares the generic unsalted-FO multi-ciphertext loss, no TRIKE-specific weakness
 kem-36-8;Confirmed;static;TRIKE resets the external DRBG for deterministic re-encryption
+kem-36-9;Confirmed;runtime;Same-key multi-instance decoding puts three TRIKE sets below target
 kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with variable work
 kem-37-2;Lead;runtime;FO re-encryption leaks the decrypted message through sampler timing
+kem-37-3;Confirmed;runtime;Same-key multi-instance decoding puts all TriQ-KEM sets below target
 kem-38-1;Confirmed;static;UVW-512 derives its encryption pair from only 256 bits
 kem-38-2;Confirmed;runtime+static;UVW exposes a stable list-decoding failure oracle
 kem-38-3;Probable;review;Stateful timing reactions recover UVW-KEM-128 shared secrets

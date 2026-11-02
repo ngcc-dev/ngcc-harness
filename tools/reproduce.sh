@@ -1511,6 +1511,32 @@ zc_cand=hash-30; [ "$only" = hash-31 ] && zc_cand=hash-31
 run_target "$zc_cand" "hash-30-2/hash-31-3" sh security/zc_column_trail.sh
 
 echo
+echo "== 2026-11-02 code-based multi-instance estimates =="
+if [ -z "$only" ] || [ "$only" = kem-26 ]; then
+    if ep=$(find_python 'import importlib.metadata; assert importlib.metadata.version("cryptographic-estimators") == "2.1.1"'); then
+        run_target kem-26 "kem-26-7" "$ep" kem-26/reproduce_key_isd_estimate.py
+    else
+        echo "SKIP   kem-26 kem-26-7 (set NGCC_ESTIMATOR_PYTHON to Python with cryptographic-estimators==2.1.1)"
+        skipped=$((skipped + 1))
+    fi
+fi
+if [ "$only" = kem-32 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target kem-32 "kem-32-5 scaled lift" python3 kem-32/reproduce_lift_toy.py
+fi
+case "$only" in
+    ""|kem-26|kem-33|kem-36|kem-37)
+        if ep=$(find_python 'import numpy, scipy'); then
+            selected=${only:-kem-26}
+            run_target "$selected" "kem-26-6/kem-33-5/kem-36-9/kem-37-3" \
+                "$ep" security/reproduce_code_multi_instance.py "${only:-all}"
+        else
+            echo "SKIP   code-based multi-instance estimates (set NGCC_ESTIMATOR_PYTHON to Python with NumPy and SciPy)"
+            skipped=$((skipped + 1))
+        fi
+        ;;
+esac
+
+echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
 else
