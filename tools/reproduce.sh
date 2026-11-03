@@ -1509,6 +1509,11 @@ if [ -z "$only" ] || [ "$only" = kem-34 ]; then
 fi
 zc_cand=hash-30; [ "$only" = hash-31 ] && zc_cand=hash-31
 run_target "$zc_cand" "hash-30-2/hash-31-3" sh security/zc_column_trail.sh
+echo
+echo "== 2026-11-03 ZC-1280-512 conditional collision leads =="
+zc1280_cand=hash-30
+case "$only" in hash-31|hash-32) zc1280_cand=$only ;; esac
+run_target "$zc1280_cand" "hash-30-3/hash-31-4/hash-32-3" python3 security/zc1280_issue37.py
 
 echo
 echo "== 2026-11-02 code-based multi-instance estimates =="
