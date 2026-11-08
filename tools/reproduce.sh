@@ -1384,6 +1384,7 @@ run_target kem-10 "kem-10-4" python3 security/rbg_protocol_dependency.py --repor
 run_target sign-12 "sign-12-4" python3 security/rbg_protocol_dependency.py --report-id sign-12-4
 run_target kem-23 "kem-23-1" python3 security/design_parameter_audit.py --report-id kem-23-1
 run_target kem-23 "kem-23-2" python3 security/rbg_protocol_dependency.py --report-id kem-23-2
+run_target kem-23 "kem-23-3" python3 kem-23/reproduce_short_ciphertext.py
 run_target sign-23 "sign-23-2" python3 security/rbg_protocol_dependency.py --report-id sign-23-2
 run_target kex-05 "kex-05-4" python3 security/rbg_protocol_dependency.py --report-id kex-05-4
 run_target sign-29 "sign-29-2" python3 security/rbg_protocol_dependency.py --report-id sign-29-2
