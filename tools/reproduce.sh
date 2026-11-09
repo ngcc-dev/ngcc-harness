@@ -1544,6 +1544,13 @@ case "$only" in
 esac
 
 echo
+echo "== 2026-11-09 MORNING-ATLAS verification, BUFF and secret-sampler findings =="
+run_target sign-15 "sign-15-14" sh sign-15/reproduce_verify_substitution.sh
+run_target sign-15 "sign-15-15" sh sign-15/reproduce_buff_collision.sh
+run_target sign-15 "sign-15-16" sh sign-15/reproduce_secret_range.sh
+run_target sign-15 "sign-15-17" sh sign-15/reproduce_rej_eta_overflow.sh
+
+echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
 else
