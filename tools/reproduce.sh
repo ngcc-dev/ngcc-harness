@@ -1551,6 +1551,25 @@ run_target sign-15 "sign-15-16" sh sign-15/reproduce_secret_range.sh
 run_target sign-15 "sign-15-17" sh sign-15/reproduce_rej_eta_overflow.sh
 
 echo
+echo "== 2026-11-11 LoongKEM public-key s2 recovery and QILIN digest length =="
+if [ -z "$only" ] || [ "$only" = kem-18 ]; then
+    loong_python=${NGCC_FPYLLL_PYTHON:-}
+    if [ -z "$loong_python" ] && python3 -c 'import fpylll' >/dev/null 2>&1; then
+        loong_python=python3
+    elif [ -z "$loong_python" ] && command -v mamba >/dev/null 2>&1 &&
+         mamba run -n sage python -c 'import fpylll' >/dev/null 2>&1; then
+        loong_python=$(mamba run -n sage which python | tail -n 1)
+    fi
+    if [ -n "$loong_python" ]; then
+        run_target kem-18 "kem-18-5" "$loong_python" kem-18/reproduce_public_key_s2.py
+    else
+        echo "SKIP   kem-18-5 (install Python fpylll or set NGCC_FPYLLL_PYTHON)"
+        skipped=$((skipped + 1))
+    fi
+fi
+run_target hash-23 "hash-23-1" sh hash-23/reproduce_digest_length.sh
+
+echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
 else
