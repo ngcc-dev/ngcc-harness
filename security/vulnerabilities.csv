@@ -122,6 +122,8 @@ kem-14-4;Proof gap;static;Ring-paired DoubleE8 blocks invalidate DTRU's failure 
 kem-15-1;Confirmed;runtime;FLIT512 reference and optimized implementations silently derive different keys
 kem-15-2;Confirmed;runtime;Optimized equality check accepts invalid ciphertexts and exposes a plaintext-checking oracle
 kem-15-3;Confirmed;runtime;The FIPS202 variants generate predictable keys because their RNG is never seeded
+kem-15-4;Confirmed;runtime;The FLIT512 AVX2 inverse NTT overflows and breaks its own round trips
+kem-15-5;Confirmed;runtime;FLIT512 AVX2 base multiplication writes past stack arrays
 kem-16-1;Proof gap;runtime;Headline DFR values lack a reproducible HARE calculation
 kem-16-2;Confirmed;runtime+static;Same-key multi-instance decoding misses three HARE targets
 kem-17-1;Confirmed;runtime;Publicly reproducible secret keys

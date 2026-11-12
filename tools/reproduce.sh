@@ -1569,6 +1569,10 @@ if [ -z "$only" ] || [ "$only" = kem-18 ]; then
 fi
 run_target hash-23 "hash-23-1" sh hash-23/reproduce_digest_length.sh
 
+echo "== 2026-11-12 FLIT512 AVX2 inverse-NTT overflow and stack arrays =="
+run_target kem-15 "kem-15-4" sh kem-15/reproduce_avx2_invntt.sh
+run_target kem-15 "kem-15-5" sh kem-15/reproduce_avx2_stack_overflow.sh
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
