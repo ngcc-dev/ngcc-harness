@@ -133,7 +133,7 @@ kem-17-4;Confirmed;runtime;Public column multiplicities break the EPC-P assumpti
 kem-17-5;Confirmed;review;Secret permutation and mixing matrix drive memory and control flow
 kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-18-2;Lead;static;Reducible rings project LoongKEM into much smaller SLWE instances
-kem-18-3;Confirmed;runtime;Public consistency equations recover Loong128 and Loong256 shared secrets
+kem-18-3;Confirmed;runtime;Public consistency equations recover Loong128, Loong256 and Loong384 shared secrets
 kem-18-4;Confirmed;runtime;The rejection key hashes the re-encryption instead of the received ciphertext
 kem-18-5;Confirmed;runtime;Public-key consistency equations recover the `s2` secret block
 kem-19-1;Lead;review;Lore-512's reducible ring admits smaller quotient attacks
@@ -147,7 +147,9 @@ kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon de
 kem-23-2;Confirmed;static;Mito uses the external DRBG as an XOF
 kem-23-3;Confirmed;runtime;Short ciphertexts reach Mito's fixed-offset parser
 kem-24-1;Confirmed;review;Encryption omits the specified rounding constant
-kem-24-2;Confirmed;static;Unvalidated ciphertext length bypasses or overruns comparison
+kem-24-2;Confirmed;runtime+static;Unvalidated ciphertext length bypasses or overruns comparison
+kem-24-3;Probable;runtime;The failure analysis omits the floored `v` residual
+kem-24-4;Confirmed;runtime;Scabbard-128 truncates three of every four public-matrix coefficients
 kem-25-1;Proof gap;static;Compressed NEV sets omit the implicit rejection required by their security argument
 kem-25-2;Proof gap;static;The sspRLWE reduction treats correlated transformed error as spherical
 kem-26-1;Confirmed;runtime+static;Fixed-weight parity falsifies the DQCSD and JPCI assumptions

@@ -1572,6 +1572,10 @@ run_target hash-23 "hash-23-1" sh hash-23/reproduce_digest_length.sh
 echo "== 2026-11-12 FLIT512 AVX2 inverse-NTT overflow and stack arrays =="
 run_target kem-15 "kem-15-4" sh kem-15/reproduce_avx2_invntt.sh
 run_target kem-15 "kem-15-5" sh kem-15/reproduce_avx2_stack_overflow.sh
+echo "== 2026-11-14 MORNING-Scabbard zero-length secret, v-residual DFR and matrix truncation =="
+run_target kem-24 "kem-24-2" sh kem-24/reproduce_zero_length_ss.sh
+run_target kem-24 "kem-24-3" python3 kem-24/reproduce_dfr_vfloor.py
+run_target kem-24 "kem-24-4" sh kem-24/reproduce_matrix_truncation.sh
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
