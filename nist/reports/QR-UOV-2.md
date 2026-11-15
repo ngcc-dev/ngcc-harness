@@ -37,8 +37,11 @@ chosen messages. Applying QR-UOV's own uniform-matrix estimate gives
 ```
 
 Thus the theorem's required premise already fails before the full NIST query
-ceiling. At `2^64`, even the displayed denominator is no longer a meaningful
-positive reduction factor.
+ceiling, and at `2^64` the displayed denominator is negative. This part of the
+gap is an artifact of the stated bound: the proof (Appendix E.1, physical
+p.78) uses the union bound `1 - qsign * epsilon_rank` where the exact factor
+is `(1 - epsilon_rank)^qsign`. Under the same estimate that factor costs about
+3.1 bits at `2^64`. The theorem as written still does not cover `2^64`.
 
 ## Independent QROM loss
 
@@ -55,6 +58,20 @@ this term alone is approximately `2^33.58`, `2^1.58`, and `2^-30.42` at
 at about `2^41.61` signing queries for category 1 and `2^62.94` for category 3.
 The theorem's bound is therefore vacuous before the NIST ceiling for those two
 categories independently of the rank-probability issue.
+
+The case `qsign' = qsign` is optimistic about the number of signing-hash
+evaluations. A signature whose matrix has corank `a` needs about `q^a` salts,
+and under the specification's own uniform-matrix model the expected number
+of salts per signature is `E[q^corank] = 2 - q^-m`, approximately two. This
+is an **expectation**, not the upper bound on total hash evaluations that
+Theorem 2 requires for `qsign'`. Using `qsign' ≈ 2 * qsign` only as an
+average-case illustration, the first term is then
+about `2^34.75`, `2^2.75` and `2^-29.25` at `qsign = 2^64`, and `2^30.25` for
+category 1 at the specification's own `2^61` limit. The second additive term,
+`2 (qqro + 2) sqrt((qsign' - qsign) / 2^lambda)`, reaches one in this
+illustration at
+`qsign = 2^64` for `qqro = 2^31`, `2^63` and `2^95` quantum hash queries, and
+after a single rejected salt at `qqro = 2^63`, `2^95` and `2^127`.
 
 ## Classification and limits
 
@@ -80,7 +97,10 @@ python3 QR-UOV/reproduce_qruov_2.py
 The deterministic script evaluates the specification's finite-field
 random-matrix formula for every main-set value of `m`, checks the pinned
 specification, compares the products at `2^61` and `2^64`, and evaluates the
-first additive QROM term for all three security parameters. This is a
+first additive QROM term for all three security parameters, with
+`qsign' = qsign` and with `qsign' = 2 * qsign`. It also evaluates the exact
+factor `(1 - epsilon_rank)^qsign`, the expected salt count and the second
+additive term. This is a
 cost/model check of the stated theorem, not a security reduction or attack.
 
 ## Harness reproduction

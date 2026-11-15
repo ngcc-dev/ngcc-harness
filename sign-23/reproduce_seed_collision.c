@@ -1,9 +1,9 @@
-/* sign-23-3 Shuttle-128: lambda-bit masking seeds expose the signing key.
+/* sign-23-3 Shuttle: lambda-bit masking seeds expose the signing key.
  *
- * Built by sign-23/reproduce_seed_collision.sh against a temporary copy of the
- * submitted SHUTTLE-128 reference tree. sign.c is #included for its static
- * helpers (encode_com_vec, build_cached_matrix). With -DNGCC_SEED_BITS=w the
- * copy keeps only w bits of the 128-bit seed_y (reduced-width model).
+ * Built by sign-23/reproduce_seed_collision.sh against temporary copies of the
+ * submitted SHUTTLE-128, -256 and -512 reference trees. sign.c is #included for
+ * its static helpers (encode_com_vec, build_cached_matrix). With
+ * -DNGCC_SEED_BITS=w the copy keeps only w bits of seed_y (reduced-width model).
  *
  *   collide <n> [drbg]  n ordinary sig_sign signatures on distinct messages.
  *       ATTACK (pk, messages, signatures only): sort the verifier commitments

@@ -31,7 +31,7 @@ Ratings describe cryptanalytic impact on the **affected scheme and parameters**:
 | High | A serious failure short of a required-property break: for example, a well-supported recovery/forgery path with one material gap, an end-to-end side-channel recovery without an explicit resistance claim, or failure of a claimed SUF-CMA property when EUF-CMA remains intact. |
 | Medium | Confirmed repeated or measured leakage without recovery, a material constant-time rewrite, a demonstrated failure of an unclaimed stronger security property such as SUF-CMA, or a substantive binding/robustness defect whose attack consequence is unresolved. |
 | Low | Source-level secret dependence without a measured channel when a local repair is known, or another narrow security-relevant robustness/API weakness. |
-| Informational | Historical context, a withdrawn claim, or an observation without an established attack on this pinned version. |
+| Informational | Historical context, a withdrawn claim, a loss generic to a proof technique, or an observation without an established attack and with no candidate-specific security consequence on this pinned version. |
 
 A Critical rating does not mean every parameter can be attacked cheaply.
 The result, concrete costs, scope and confidence must accompany the rating.
@@ -49,6 +49,22 @@ makes the submitted reduction ineffective within NIST's stated evaluation
 budget is Low even when the submission acknowledges the loss and no attack
 follows. High requires a supported recovery or forgery path with a material
 remaining gap; failure of a proof alone is not High.
+
+A live, candidate-specific security-relevant defect is normally Low or above,
+following the NGCC classification policy, when its consequence is
+demonstrated in a submitted or supported build or through the submitted API.
+In particular, an ignored randomness, allocation or primitive failure, a
+crash or hang reachable through the submitted API, a canonicality or
+key-validation gap, and a specification/code mismatch that breaks
+interoperability are Low when that consequence is shown and no stronger one
+is. A behaviour shown to have no effect, a condition of negligible
+probability for honest use, or a property that needs inputs an honest party
+never produces stays Informational until such a consequence is demonstrated.
+A candidate-specific false premise or invalid proof step is Low / Proof gap
+even without a numeric boundary; the absence of a formal proof for a claimed
+property is not by itself Low. Informational remains for losses generic to a
+proof technique, historical or withdrawn records, and the misuse cases rated
+Informational by the randomness-reuse rule below.
 
 The `2^64` chosen-message figure is an estimation assumption, not a hard
 boundary on relevant attacks. NIST's call §4.B.2 (physical p.14) says that

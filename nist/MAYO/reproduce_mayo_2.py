@@ -33,6 +33,14 @@ def failure_bound(n: int, m: int, o: int, k: int, q: int) -> Fraction:
     ) / (q - 1)
 
 
+def rank_deficient(m: int, columns: int, q: int) -> float:
+    """Probability that a uniform m x columns matrix (m <= columns) has rank < m."""
+    full = 1.0
+    for i in range(columns - m + 1, columns + 1):
+        full *= 1 - float(q) ** -i
+    return 1 - full
+
+
 def main() -> int:
     rows = {}
     checks = {
@@ -64,6 +72,13 @@ def main() -> int:
             and float(bound - expected_restart_bounds[name]) < 2.0 ** -100
         )
         checks[f"{name}_theorem_fails_at_2^64"] = Fraction(2 ** 64) * bound >= 1
+        n, m, o, k, q = parameters
+        singular = rank_deficient(m, k * o, q)
+        rows[name]["random_matrix_rank_deficiency"] = singular
+        rows[name]["random_matrix_over_B"] = singular / float(bound)
+        checks[f"{name}_B_within_0.4_percent_of_random_matrix_rate"] = (
+            0.996 <= singular / float(bound) <= 1.0
+        )
 
     expected_constant_limits = {
         "MAYO1": 2.9069,

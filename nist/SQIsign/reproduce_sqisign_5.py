@@ -167,6 +167,12 @@ def main() -> int:
         "mamah_jao_nmix_premise_fails_for_v3": all(
             row["v3_dmix_below_p_squared_bits"] > 0 for row in rows
         ),
+        "seed_floor_dominates_printed_min_entropy_at_levels_3_and_5": all(
+            -(math.log2(SETS[name]["c"] * 2 ** SETS[name]["f"] - 1) / 2 + SETS[name]["lambda"]) < -8 * 48
+            for name in ("p500_27", "p664_17")
+        ) and [
+            SETS[name]["lambda"] + LOG2_SIGN_QUERIES - 8 * 48 for name in ("p500_27", "p664_17")
+        ] == [-128, -64],
         "reviewed_dmix_gaps_match": all(
             math.isclose(row["v3_dmix_below_p_squared_bits"], expected, abs_tol=0.02)
             for row, expected in zip(rows, [69.58, 120.75, 156.09])

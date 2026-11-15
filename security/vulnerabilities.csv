@@ -136,6 +136,7 @@ kem-17-3;Confirmed;runtime;First encapsulation in each process is publicly repro
 kem-17-4;Confirmed;runtime;Public column multiplicities break the EPC-P assumption
 kem-17-5;Confirmed;review;Secret permutation and mixing matrix drive memory and control flow
 kem-17-6;Confirmed;runtime;Every seed expansion passes through a 208-bit XOF state
+kem-17-7;Confirmed;runtime;The 3-DQCSD-P assumption leaves the second syndrome's fixed parity unrestricted
 kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-18-2;Lead;static;Reducible rings project LoongKEM into much smaller SLWE instances
 kem-18-3;Confirmed;runtime;Public consistency equations recover Loong128, Loong256 and Loong384 shared secrets
@@ -170,6 +171,8 @@ kem-26-4;Confirmed;runtime;A 256-bit decryption sub-seed caps NSS-HQC-384 and -5
 kem-26-5;Probable;runtime+static;RS-decoder timing reportedly recovers an NSS-HQC-128 key
 kem-26-6;Confirmed;runtime;Same-key multi-instance decoding puts NSS-HQC-128 below its target
 kem-26-7;Confirmed;runtime;Static-key decoding misses the NSS-HQC-384 and -512 targets
+kem-26-8;Proof gap;runtime;The failure-rate bound treats capped erasures as independent blocks
+kem-26-9;Confirmed;runtime;The specified Reed–Solomon syndromes do not vanish on codewords
 kem-27-1;Confirmed;runtime;NTRE-512's 256-bit secret seed caps offline key-recovery work
 kem-27-2;Confirmed;review;The message-dependent error sampler branches on every message bit
 kem-28-1;Confirmed;runtime;Noncanonical ciphertext encoding defeats IND-CCA security
@@ -202,6 +205,7 @@ kem-34-2;Confirmed;runtime;Cortex-M4 uses an incompatible Minal decoder constant
 kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer lengths
 kem-34-4;Confirmed;runtime;Rudraksh2-II's modulus cannot support its specified NTT
 kem-34-5;Probable;runtime;Dual-hybrid attacks put Rudraksh2-512-I below its target
+kem-34-6;Confirmed;runtime;Decryption decodes unreduced coefficients, unlike the decoder in the failure analysis
 kem-35-1;Confirmed;runtime;Re-encryption rejection sampling leaks the decrypted-message class
 kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every tested honest ciphertext
 kem-36-2;Withdrawn;static;Withdrawn — Algorithm 9 already uses binomial collision counts
@@ -418,7 +422,7 @@ sign-22-6;Confirmed;runtime;Long messages share an all-zero representative in Rh
 sign-22-7;Proof gap;runtime+static;The specified Gaussian width makes the proof vacuous within the required query budgets
 sign-23-1;Confirmed;runtime;Reversed transition leaks Shuttle's signing key
 sign-23-2;Confirmed;static;Shuttle's ICCS build uses the external DRBG as an XOF
-sign-23-3;Probable;runtime;A 128-bit masking seed exposes the Shuttle-128 signing key within the query budget
+sign-23-3;Probable;runtime;A λ-bit masking seed exposes Shuttle signing keys below every claimed level
 sign-24-1;Confirmed;runtime;Chunked Reed–Solomon encoding reveals the signing witness
 sign-24-2;Confirmed;runtime;Zero 16-bit challenge exposes the signing witness
 sign-24-3;Confirmed;static;Signing rebuilds the public state with secret-dependent control flow
@@ -437,6 +441,7 @@ sign-27-3;Confirmed;static;A known signature transfers to a new message in about
 sign-27-4;Proof gap;review;Distinct challenges can share the identical response, invalidating special soundness
 sign-27-5;Confirmed;runtime;Response rescaling gives a practical fresh-message forgery
 sign-27-6;Confirmed;runtime;High bits of the auxiliary-basis coefficients are never authenticated
+sign-27-7;Proof gap;review;The implemented challenge lies outside the challenge space of the security proof
 sign-28-1;Confirmed;runtime;SYDO enforces two fewer grinding bits than its claimed soundness
 sign-28-2;Confirmed;runtime;The reference verifier ignores required BAVC opening padding
 sign-28-3;Confirmed;static;The implementations omit the Hash4 step required by the proof

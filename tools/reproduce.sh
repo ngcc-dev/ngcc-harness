@@ -1585,6 +1585,11 @@ run_target kem-28 "kem-28-2" sh kem-28/reproduce_tag_return.sh
 run_target kem-33 "kem-33-6" sh kem-33/reproduce_optimized_seed_width.sh
 run_target kex-03 "kex-03-11" sh kex-03/reproduce_reject_key_prefix.sh
 run_target sign-19 "sign-19-7" sh sign-19/reproduce_h2_exhaustion.sh
+echo "== 2026-11-15 forum follow-ups: HEP-QC parity, NSS-HQC Reed-Solomon claims, Rudraksh2 decoder representatives =="
+run_target kem-17 "kem-17-7" python3 kem-17/reproduce_second_syndrome_parity.py
+run_target kem-26 "kem-26-8" python3 kem-26/reproduce_rs_spec_claims.py --report-id kem-26-8
+run_target kem-26 "kem-26-9" python3 kem-26/reproduce_rs_spec_claims.py --report-id kem-26-9
+run_target kem-34 "kem-34-6" sh kem-34/reproduce_decoder_representatives.sh
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

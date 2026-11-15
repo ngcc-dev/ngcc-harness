@@ -35,13 +35,26 @@ under two. The last is where the theorem's premise fails altogether. All are
 far below NIST's evaluation allowance of up to `2^64` chosen-message signing
 queries.
 
+`B` is essentially the true restart probability, so a sharper Lemma 1 cannot
+remove the limit: a uniformly random `m x ko` matrix over GF(16) is
+rank-deficient with probability 0.066405 at MAYO1 against `B = 0.066667`, and
+the two agree more closely for the other sets. The Round 3 change log
+(physical p.6) still says the restart probability was set "between 2−12 and
+2−20"; the Round 3 MAYO1 and MAYO2 parameters give `2^-3.9` and `2^-7.9`, as
+§5.3 states.
+
 ## Classification and limits
 
 The specification explicitly discusses this limitation in §5.3, physical
 pp.31–32. It says the proof gives essentially no guarantee at realistic query
 counts for MAYO1 and MAYO2, describes the loss as information-theoretic leakage
 from rejection sampling, and reports no attack that exploits it. It expects
-MAYO to remain secure even with unboundedly many signatures.
+MAYO to remain secure even with unboundedly many signatures. The Remark on
+physical p.4 shows that the designers knowingly declined the salt-resampling
+variant, whose proof has no loss depending on the number of signatures
+([KX24]), because constant-time implementation of it is expensive. The
+limitation is therefore a candidate-specific design choice rather than
+generic proof looseness.
 
 This report therefore records a Low proof gap under the project's uniform
 proof-gap rule: a candidate-specific reproduced calculation makes the
@@ -61,7 +74,9 @@ python3 MAYO/reproduce_mayo_2.py
 
 The deterministic standard-library script pins the specification, evaluates
 `B` with exact rational arithmetic from every submitted parameter tuple, and
-checks both the constant-factor and theorem-validity boundaries. It is a
+checks both the constant-factor and theorem-validity boundaries, and
+compares `B` with the exact rank-deficiency probability of a uniform
+`m x ko` matrix. It is a
 formula/model check, not an attack.
 
 ## Harness reproduction

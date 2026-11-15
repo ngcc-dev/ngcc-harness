@@ -68,6 +68,24 @@ PREREQUISITES = {
     "SQIsign-1": "C compiler; make; GMP development files",
     "SQIsign-3": "C compiler; GMP development files",
     "SQIsign-4": "Python 3",
+    "FAEST-3": "Python 3; C compiler; OpenSSL 3 development files",
+    "FAEST-4": "Python 3; C compiler; C++23 compiler; OpenSSL development files; x86-64 CPU with AVX2",
+    "FAEST-5": "Python 3; C compiler; OpenSSL development files; Linux glibc getrandom; C++23 compiler and AVX2 CPU for the optional AVX2 part",
+    "MAYO-4": "Python 3; C compiler",
+    "MQOM-4": "Python 3; C compiler; Valgrind with memcheck.h",
+    "MQOM-5": "Python 3; optional pdftotext",
+    "QR-UOV-5": "Python 3; C compiler; OpenSSL development files",
+    "SDitH-4": "Python 3; C compiler",
+    "SDitH-5": "Python 3; C compiler; pdftotext",
+    "SNOVA-8": "Python 3; C compiler; host clang 15 to 21; Valgrind with memcheck.h; optional objdump",
+    "SNOVA-9": "Python 3; C compiler",
+    "SQIsign-6": "Python 3; pdftotext",
+    "UOV-6": "Python 3; C compiler; host clang 15 to 21; objdump; Valgrind with memcheck.h; OpenSSL development files",
+    "MAYO-5": "Python 3; pdftotext",
+    "QR-UOV-6": "Python 3; pdftotext",
+    "SDitH-6": "Python 3; pdftotext",
+    "SNOVA-10": "Python 3; C compiler; OpenSSL 3.3 or later development files; linker with --wrap",
+    "UOV-7": "Python 3; C compiler; OpenSSL development files; 64-bit host; about 8 GiB free memory",
 }
 
 
@@ -91,7 +109,10 @@ def public_inputs(source: Path) -> list[str]:
         "security/reproduce_snova_upstream.py",
         "security/reproductions/SNOVA-1.json",
         "security/sources.json",
+        # QR-UOV-3 imports this helper; it is not itself a finding entry point.
+        "QR-UOV/reproduce_qruov_3_model.py",
     }
+    paths.update(registered_reproducers(source))
     for scheme in SCHEMES:
         directory = source / scheme
         for name in (
@@ -100,12 +121,31 @@ def public_inputs(source: Path) -> list[str]:
         ):
             if (directory / name).is_file():
                 paths.add(f"{scheme}/{name}")
-        for pattern in ("reproduce_*.py", "analysis/**/*.py", "analysis/**/*.sage", "analysis/**/*.gp", "analysis/**/*.json", "analysis/**/*.jsonl", "analysis/**/README.md"):
+        for pattern in ("analysis/**/*.py", "analysis/**/*.sage", "analysis/**/*.gp", "analysis/**/*.json", "analysis/**/*.jsonl", "analysis/**/README.md"):
             paths.update(path.relative_to(source).as_posix() for path in directory.glob(pattern) if path.is_file())
     missing = [path for path in sorted(paths) if not (source / path).is_file()]
     if missing:
         raise SystemExit("missing public harness input(s): " + ", ".join(missing))
     return sorted(paths)
+
+
+def registered_reproducers(source: Path) -> set[str]:
+    """Publish only scripts named by a registered finding, never draft witnesses."""
+    with (source / "security/findings.csv").open(encoding="utf-8", newline="") as handle:
+        findings = list(csv.DictReader(handle))
+    paths: set[str] = set()
+    for row in findings:
+        path = row.get("Reproducer") or ""
+        if not path:
+            continue
+        parts = Path(path).parts
+        if (Path(path).is_absolute() or ".." in parts or
+                (parts[0] != row.get("Scheme") and path != "security/reproduce_hawk_1.py") or
+                not Path(path).name.startswith("reproduce_") or
+                not path.endswith(".py")):
+            raise SystemExit(f"invalid registered reproducer path: {path}")
+        paths.add(path)
+    return paths
 
 
 def digest(data: bytes) -> str:

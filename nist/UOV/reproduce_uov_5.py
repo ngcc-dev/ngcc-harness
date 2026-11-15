@@ -2,6 +2,8 @@
 """Pin the recommended-signer/proved-signer difference and proof-bound arithmetic."""
 
 import hashlib
+import math
+from fractions import Fraction
 from pathlib import Path
 
 
@@ -43,6 +45,22 @@ def main():
         numerator = 1 - (hash_queries + signing_queries) * signing_queries / 2 ** salt_bits
         checks[f"nonpositive_bound_qh_{hash_queries}"] = numerator <= 0
         print(f"Theorem-1 numerator at qs=2^64, qh={hash_queries}: {numerator:g}")
+
+    # q_h = 2^128: numerator negative already at q_s = 1.
+    numerator = 1 - Fraction(2 ** 128 + 1, 2 ** salt_bits)
+    checks["negative_at_qs_1_when_qh_2^128"] = numerator < 0
+    # q_h = 2^96: numerator >= 1/2 holds at q_s = 2^30 and already fails at q_s = 2^31.
+    half = Fraction(1, 2)
+    numerator_below = 1 - Fraction((2 ** 96 + 2 ** 30) * 2 ** 30, 2 ** salt_bits)
+    numerator_at = 1 - Fraction((2 ** 96 + 2 ** 31) * 2 ** 31, 2 ** salt_bits)
+    checks["qh_2^96_keeps_half_only_below_about_qs_2^31"] = numerator_below >= half > numerator_at
+    print(f"Theorem-1 numerator at qh=2^96: qs=2^30 {float(numerator_below):.6f}, qs=2^31 {float(numerator_at):.6f}")
+    # Kosuge-Xagawa Proposition 3 additive term (3/2) qs sqrt((qs + qro + 1)/2^128), qro = 0.
+    kx_log2 = math.log2(1.5) + 64 + (math.log2(2 ** 64 + 1) - salt_bits) / 2
+    kx_one = (salt_bits / 2 - math.log2(1.5)) * 2 / 3
+    checks["kx_term_2^32.58_at_qs_2^64"] = abs(kx_log2 - 32.585) < 0.01
+    checks["kx_term_reaches_one_at_qs_2^42.28"] = abs(kx_one - 42.277) < 0.01
+    print(f"Kosuge-Xagawa additive term: log2 {kx_log2:.2f} at qs=2^64; reaches one at qs=2^{kx_one:.2f}")
 
     print("PASS UOV-5" if all(checks.values()) else f"FAIL UOV-5: {checks}")
     return 0 if all(checks.values()) else 1

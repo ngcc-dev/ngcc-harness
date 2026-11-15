@@ -32,7 +32,11 @@ The separate final min-entropy term printed in the theorem is
 
 At `q=2^lambda` and `s=2^64`, its base-2 logarithm is approximately -98.8,
 -188.4, and -270.0. It remains small under the On-Ramp primes and does not
-repair the earlier statistical-distance loss.
+repair the earlier statistical-distance loss. At Levels III and V the printed
+per-pair collision probability (`2^-444.4` and `2^-590.0`) is below what the
+48-byte signing seed can deliver (`2^-384`). The seed floor alone contributes
+at least `2^-128` and `2^-64` at `q = 2^lambda`; those lower bounds are below
+one, but do not bound the actual term from above.
 
 The theorem is stated only in the classical ROM. Remark 8.1.8 obtains a QROM
 statement only in the Algebraic Isogeny Model. Section 8.1 also says that the
@@ -83,7 +87,7 @@ python3 SQIsign/reproduce_sqisign_5.py
 ```
 
 The script checks the pinned specification and NIST baseline, computes the
-printed terms for every current prime, and reports the later formula only as
+printed terms and the 48-byte seed floor for every current prime, and reports the later formula only as
 an inapplicable sensitivity calculation.
 
 ## Harness reproduction

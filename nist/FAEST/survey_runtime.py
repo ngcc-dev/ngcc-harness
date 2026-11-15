@@ -69,7 +69,7 @@ def opens(lib, md, pk, sm):
 
 def survey(path, exhaustive, position_cap, signatures):
     lib, md = load(path)
-    message = b"nist-sig3 runtime survey\x00message"
+    message = b"On-Ramp runtime survey\x00message"
     tag = md.parameter or b"unknown"
     first = generate(lib, md, b"replay:" + tag, message, signatures)
     replay = generate(lib, md, b"replay:" + tag, message, signatures)

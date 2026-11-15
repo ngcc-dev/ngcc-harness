@@ -52,6 +52,32 @@ def qrom_threshold(security: int) -> Decimal:
     return low
 
 
+def expected_salts(q: int, m: int, delta: int) -> Decimal:
+    """E[q^corank] over accepted uniform m by m matrices (corank <= delta)."""
+    qd = Decimal(q)
+    weights, mass = Decimal(0), Decimal(0)
+    for deficiency in range(0, delta + 1):
+        numerator = Decimal(1)
+        for j in range(deficiency + 1, m + 1):
+            numerator *= (1 - qd ** (-j)) ** 2
+        denominator = Decimal(1)
+        for j in range(1, m - deficiency + 1):
+            denominator *= 1 - qd ** (-j)
+        probability = qd ** (-(deficiency * deficiency)) * numerator / denominator
+        weights += probability * qd ** deficiency
+        mass += probability
+    return weights / mass
+
+
+def log2_second_term(qqro_log2: int, salt_excess: Decimal, security: int) -> Decimal:
+    """Log2 of 2*(qqro+2)*sqrt((qsign'-qsign)/2^lambda), qqro = 2^qqro_log2."""
+    log2 = Decimal(2).ln()
+    return (
+        1 + (Decimal(2) ** qqro_log2 + 2).ln() / log2
+        + (salt_excess.ln() / log2 - Decimal(security)) / 2
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path)
@@ -76,6 +102,26 @@ def main() -> int:
             "log2_query_threshold": float(qrom_threshold(security)),
             "assumptions": "qsign_prime=qsign and qqro=0 (favorable lower choice)",
         }
+    log2 = Decimal(2).ln()
+    epsilon54 = rank_failure(127, 54, 2)
+    exact_loss_bits = -(Decimal(2) ** 64) * (1 - epsilon54).ln() / log2
+    salts = expected_salts(127, 54, 2)
+    revised = {}
+    for security in (128, 192, 256):
+        threshold = Decimal(security) / 2 - 33
+        revised[str(security)] = {
+            "log2_first_term_qsign_prime_2qsign_at_2^64": float(
+                log2_qrom_term(2 ** 64, 2 ** 65, 0, security)
+            ),
+            "log2_first_term_qsign_prime_2qsign_at_2^61": float(
+                log2_qrom_term(2 ** 61, 2 ** 62, 0, security)
+            ),
+            "log2_qqro_where_second_term_reaches_one_at_2^64": float(threshold),
+            "log2_second_term_at_that_qqro": float(
+                log2_second_term(int(threshold), Decimal(2) ** 64, security)
+            ),
+            "log2_qqro_where_second_term_reaches_one_one_rejected_salt": security / 2 - 1,
+        }
     rules = (ROOT / "doc/NIST-rules.md").read_text()
     checks = {
         "pinned_specification": hashlib.sha256((HERE / "QR-UOV-spec.pdf").read_bytes()).hexdigest() == SPEC_SHA256,
@@ -92,6 +138,18 @@ def main() -> int:
         "qrom_term_nonvacuous_at_2^64_for_lambda_256": (
             Decimal(str(qrom["256"]["log2_term_at_2^64"])) < 0
         ),
+        "exact_rank_factor_costs_about_3_1_bits_at_2^64": (
+            Decimal("3.05") < exact_loss_bits < Decimal("3.20")
+        ),
+        "expected_salts_per_signature_is_2": abs(salts - 2) < Decimal("1e-9"),
+        "first_term_with_2qsign_matches": all(
+            abs(Decimal(str(revised[str(sec)]["log2_first_term_qsign_prime_2qsign_at_2^64"])) - Decimal(val)) < Decimal("0.01")
+            for sec, val in ((128, "34.75"), (192, "2.75"), (256, "-29.25"))
+        ) and abs(Decimal(str(revised["128"]["log2_first_term_qsign_prime_2qsign_at_2^61"])) - Decimal("30.25")) < Decimal("0.01"),
+        "second_term_reaches_one_at_2^31_2^63_2^95": all(
+            abs(Decimal(str(revised[str(sec)]["log2_second_term_at_that_qqro"]))) < Decimal("0.01")
+            for sec in (128, 192, 256)
+        ),
         "qrom_query_thresholds_match": (
             abs(Decimal(str(qrom["128"]["log2_query_threshold"])) - Decimal("41.6100")) < Decimal("0.0001")
             and abs(Decimal(str(qrom["192"]["log2_query_threshold"])) - Decimal("62.9433")) < Decimal("0.0001")
@@ -103,6 +161,9 @@ def main() -> int:
         "model": "sum of exact rank-deficiency probabilities for a uniform m by m matrix over F_127",
         "estimates": estimates,
         "first_additive_qrom_term": qrom,
+        "exact_rank_factor_loss_bits_at_2^64_m54": float(exact_loss_bits),
+        "expected_salts_per_signature_m54": float(salts),
+        "terms_with_qsign_prime_2qsign": revised,
         "checks": checks,
         "status": "PASS" if all(checks.values()) else "FAIL",
     }
