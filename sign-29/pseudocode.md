@@ -85,7 +85,8 @@ for e = 0 .. τ−1:
 h_piop <- Hash2( seed_pk, salt, msg, h_sh,
                  p_mid[0..τ−1], p_base[0..τ−1], v_{n−1} )
 (ctr, π_BAVC) <- OpenRandomEva(key, h_piop)                    // Alg. 12: grind on ctr
-                    // derive the challenge points from Hash3(h_piop, ctr),
+                    // derive the challenge points and v_grinding from
+                    // PRG(h_piop || bin64(ctr), τ·µ + ω)  (Alg. 11),
                     // require ω zero grinding bits, open all-but-one per tree,
                     // restart if the opening needs more than Topen nodes
 σ := (salt, ctr, h_piop, π_BAVC, p_mid, aux)
@@ -96,7 +97,7 @@ h_piop <- Hash2( seed_pk, salt, msg, h_sh,
 parse pk = (seed_pk, v_{n−1});  σ = (salt, ctr, h_piop, π_BAVC, p_mid, aux)
 (û, v, v_{n−2}) <- ExpandPublicVector(seed_pk);   v̂ := (v, v_{n−2}, v_{n−1})
 (eval, point, h_sh, v_grinding) <- ComputeEva(salt, ctr, h_piop, π_BAVC, aux)  // Alg. 13
-                    // re-derives the challenge points from h_piop and ctr,
+                    // re-derives the challenge points from PRG(h_piop || bin64(ctr)),
                     // rebuilds the N−1 opened leaves, checks the ω grinding bits
 for e = 0 .. τ−1:
     p_base[e] <- RecomputePolyProof(point[e], eval[e], û, v̂, p_mid[e])  // Alg. 14
@@ -200,11 +201,23 @@ any named primitive. The build wires randomness to the shared NGCC
 `drng_algorithm` (per the Makefile), and `security_findings.md` confirms
 keygen consumes it.
 
+**Discrepancy 5 (real deviation, Tins128 and Tins256) — grinding predicate.**
+`ExpandChallengePoint` (`Tins128/bavc_commit.c:481-508`) seeds the DRNG with
+`h_piop ‖ ctr`, draws `TAU*MU + Omega` bits and sets `v_grinding` to
+`(buffer[last] >> 4) | (buffer[(TAU-1)/2*3+1] << 4)` (`:507`; `Tins256` `:501`,
+`Tins512` `:523`). For even τ the second byte's low nibble is the top four bits
+of the last challenge index, so `v_grinding == 0` tests four fresh bits and
+requires `i*[τ−1] < 256`, instead of ω fresh bits as in Alg. 11. A driver
+calling `ExpandChallengePoint` for 400000 counters (gcc 15.2.0, `-O2 -std=c99`)
+passed 1 in 263 (Tins128, ω = 6) and 1 in 270 (Tins256, ω = 4), with the last
+index never above 255; Tins512 (odd τ) passed 1 in 65, consistent with ω = 6.
+Classification: (a) a real deviation.
+
 Not verified. I did not check `CommitPoly` (Alg. 9), `ComputePoly` (Alg. 10),
 `OpenRandomEva` (Alg. 12), `ComputeEva` (Alg. 13) or `RecomputePolyProof`
 (Alg. 14) line-by-line against the spec, nor the BAVC tree construction in
-`bavc_commit.c`, nor the F_{2^k} arithmetic in `ff_arith.c`. I did not run any
-code; the test outcomes cited above are quoted from
-`sign-29/security_findings.md`. Discrepancy 1's *runtime* effect depends on
+`bavc_commit.c`, nor the F_{2^k} arithmetic in `ff_arith.c`. Apart from the
+Discrepancy 5 driver I did not run any code; the test outcomes cited above are
+quoted from `sign-29/security_findings.md`. Discrepancy 1's *runtime* effect depends on
 stack contents and compiler choices, which I did not measure — the source-level
 defect is certain, the observable behaviour is not fully characterised.

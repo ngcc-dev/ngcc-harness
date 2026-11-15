@@ -7,7 +7,7 @@ Secret-bearing values: private decapsulation key, recovered message/error state,
 - Source trace: `Implementations/Reference_Implementation/UVW-KEM-128/src/KEM_AlgorithmInstance.c:394` — The private-key list decoder returns early on failure; existing `kem-38-2` tracks the resulting explicit failure oracle. This is not a separate timing-only finding.
 - Branches, indexed accesses and division/remainder: this first pass classifies only the traced operand above. Public-seed rejection and fixed-divisor arithmetic are not treated as leaks; absence of other leaks has not been proved.
 
-Assessment: No new side-channel report is promoted from this representative path. Lower-level decoding, sampling and compiler output remain open audit work.
+Assessment: The status-code and timing behaviour of this decapsulation path is recorded in `kem-38-2` and `kem-38-3`; no further side-channel report is promoted from this representative path. Lower-level decoding, sampling and compiler output remain open audit work.
 
 Reproduction is source/dataflow inspection at the cited location. A remote timing claim needs repeated same-public-input tests with changed secret state and an independent public-value control.
 

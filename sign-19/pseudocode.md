@@ -166,6 +166,15 @@ What the code actually does:
   SM3 + `mgf1_sm3` (`thash_sm3_simple.c:41`). This is a different mode of
   operation from the SHAKE branch, not a drop-in hash swap — nothing in the
   spec sanctions either choice.
+- H2 key-set selection: `h2_generate_indices` (`hash_shake.c:89`,
+  `hash_sm3.c:184`) expands `md[0..n-1] || PK.seed` to a fixed 512-byte pool,
+  reads it as 64 eight-byte samples, and marks `k' − k` distinct rejected
+  positions; the `k` unmarked positions are the output. It returns −1 when the
+  pool is used up first (`hash_shake.c:130`, `hash_sm3.c:208`), before writing
+  any index. `message_to_indices` (`tfors.c:61`) ignores the return value and
+  then reads its local `indices1[]`. The exact per-digest probability of that
+  return is 2^-27.6 for 384s, 2^-35.3 for 384f, 2^-62.9 for 128f and 192s,
+  2^-79.6 for 256f, and below 2^-118 for the other sets (sign-19-7).
 - Randomness: Alg. 18's `addrnd` comes from `randombytes()`
   (`sign.c:127,175`), which under `-DSUBMISSION_DRNG` calls
   `get_random_number(&drng_algorithm, ...)` (`randombytes.c:22`) and otherwise

@@ -1,6 +1,6 @@
 # Constant-time review — 04 CEDRUS-alpha
 
-Scope: reference implementation, representative instance only: `Implementations/Reference_Implementation/CEDRUSALPHA-384f/sign.c`. Other instances and optimized implementations have not been proven source-equivalent. This is a source-level triage, not a constant-time certification.
+Scope: reference implementation, representative instance only: `Implementations/Reference_Implementation/CEDRUSALPHA-384f/sign.c`. The eight instances differ only in `params.h`, the `params/` header, `SIG_AlgorithmInstance.h` and the Makefile, and the optimized tree differs from the reference tree only in the Makefile (compiler flags). This is a source-level triage, not a constant-time certification.
 
 Secret: SK seed/PRF seed and unrevealed tree-node values. Public: verification key, message, indices and paths once included in the signature.
 

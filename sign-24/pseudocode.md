@@ -141,9 +141,12 @@ including `mh||pk||root` for α_com (`FS_COMMITMENT_INPUT_BYTES = HASH_DIGEST_LE
 - **Spec ambiguity** — §1.5 calls the construction "Fiat–Shamir **with aborts**", while Remark 6.2
   and the code have no abort/retry path at all. §2.3 also offers SHAKE128/256 as instantiations,
   whereas Table 2 and the code fix SM3/pseudohash.
-- **Minor implementation note** — modulo bias: `hash_to_rand_Open` (`sig_core.c:1741`) draws
-  16-bit words and reduces `% remaining` (remaining ≤ N_VC), and `random_e` reduces a 16-bit word
-  `% 6`. Both biases are ≲2^-5 relative and ≲2^-14 respectively; not obviously exploitable, but
+- **Minor implementation note** — modulo bias: `hash_to_rand_Open` (`Sigurd-128/sig_core.c:1741`,
+  reduction at `:1760`) draws 16-bit words and reduces `% remaining` (remaining ≤ N_VC), and
+  `random_e` reduces a 16-bit word `% 6`. For the first draw the per-slot preimage counts are
+  42:41 at N_VC = 1568, 13:12 at N_VC = 5208 and 4:3 at N_VC = 19824, so the favoured slots are
+  about 0.5%, 3.3% and 21% above uniform (the 6064 favoured slots of Sigurd-512) and the others
+  1.9%, 4.6% and 9.3% below; the `% 6` bias is ≲2^-14. Not obviously exploitable, but
   they mean the challenge/witness distributions are not exactly uniform as §6.3.1 claims.
 - **Not verified (time-boxed ~20 min):** the arithmetic of `Interactive_Check_Raw_*`,
   `PolyDef_Raw`, `ProverPolynomialResponse_Final_Raw` and `VerifierCheck_Raw` was not traced

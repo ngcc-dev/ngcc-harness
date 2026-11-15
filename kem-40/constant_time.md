@@ -7,7 +7,7 @@ Secret-bearing values: private decapsulation key, recovered message/error state,
 - Source trace: `Implementations/Reference_Implementation/yuanyang-512/kem.c:224` — Decapsulation computes a private `overflow` from the key and ciphertext, then indexes `finvint[(i-overflow+h)%h]`; the memory address depends on that secret intermediate.
 - Branches, indexed accesses and division/remainder: this first pass classifies only the traced operand above. Public-seed rejection and fixed-divisor arithmetic are not treated as leaks; absence of other leaks has not been proved.
 
-Assessment: Source-confirmed secret-indexed address pattern in all three reference levels; `kem-40-2` records it as Medium/Probable because no measured cache trace or full-key recovery is yet available.
+Assessment: Source-confirmed secret-indexed address pattern in all three levels of the reference and optimized trees (`kem.c` is byte-identical in the six directories); `kem-40-2` records it as Low/Confirmed because no measured cache trace or full-key recovery is available and the fix is local.
 
 Reproduction is source/dataflow inspection at the cited location. A remote timing claim needs repeated same-public-input tests with changed secret state and an independent public-value control.
 

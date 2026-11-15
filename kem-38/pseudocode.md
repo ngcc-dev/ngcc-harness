@@ -114,17 +114,17 @@ the official ICCS `auxfunc.c` (`pseudoXOF`/`sm3hash`, SM3-based), matching §1.3
 **Agreements.** All seven parameters of all three sets in `include/params.h`
 match Table 1 exactly (q, q_bits, n, k, k1, k2, w, m — full check, not a sample).
 All twelve size figures match §4.2 Table 2. The four hash oracles are domain-
-separated by a 1-byte prefix 0x01..0x04 (`KEM_AlgorithmInstance.c:41-44`), which
+separated by a 1-byte prefix 0x01..0x04 (`KEM_AlgorithmInstance.c:42-45`), which
 §1.2.2's "four secure hash functions" permits. The FO re-encryption compares
 c1, c2 *and* d and aborts on any mismatch, i.e. explicit rejection exactly as
 Algorithm 9 line 4 specifies. `FIXED_G_RS` in `uvw_constants.c` is a precomputed
 GRS instead of Algorithm 3 step 4's on-the-fly construction — a legitimate
 equivalent optimisation since α = (1,2,…,n/2) is fixed. Both keygen and encaps
 draw their randomness from the official `drng_algorithm`
-(`KEM_AlgorithmInstance.c:160`, `:314`).
+(UVW-KEM-128 `KEM_AlgorithmInstance.c:160`, `:314`).
 
 **(a) Deviation — H1 is bottlenecked to 256 bits at every security level.**
-`KEM_AlgorithmInstance.c:314-315` (encaps) and `:411` (decaps) declare
+UVW-KEM-512 `KEM_AlgorithmInstance.c:314-315` (encaps) and `:411` (decaps) declare
 `unsigned char seed_h1[32]` and call `kem_hash(H1_PREFIX, m, UVW_M, …, 256, seed_h1)`;
 (r, e) are then expanded from that 256-bit seed with a DRNG. The constant `256`
 is hard-wired identically in all three parameter directories (verified in
@@ -140,7 +140,7 @@ parameter (m) varies per set.
 Spec Definition 7(3) requires Decaps to be *deterministic*. `uvw_pke_dec` picks
 the information set I1 with
 `get_rand_range_batched(limit, rand_pool, &pool_pos, &drng_algorithm)`
-(`KEM_AlgorithmInstance.c:1274`), i.e. from the shared KAT DRNG. Consequences:
+(UVW-KEM-128 `KEM_AlgorithmInstance.c:1274`), i.e. from the shared KAT DRNG. Consequences:
 decapsulation mutates global RNG state, so a decap interleaved into a
 keygen/encap sequence shifts every subsequent operation; and two decapsulations
 of the same (sk, ct) can take different retry paths. Algorithm 5 step 10 does
@@ -150,7 +150,7 @@ deviation. (This is also the likely cause of the "ciphertext-integrity testing
 was incomplete or abnormal" note in `kem-38/security_findings.md`.)
 
 **(a) Deviation — the retry loop is bounded where the spec is unbounded.**
-`max_attempts = 1000` (`KEM_AlgorithmInstance.c:1262`) and
+`max_attempts = 1000` (UVW-KEM-128 `KEM_AlgorithmInstance.c:1256`) and
 `KEM_KEYGEN_MAX_ATTEMPTS 100` (`:35`) cap loops that Algorithm 3 steps 2/3/8 and
 Algorithm 5 step 10 state as unconditional "repeat". Exhaustion returns an error
 rather than retrying; the resulting failure probability is far below the DFR, so
@@ -159,7 +159,7 @@ this is a correctness-neutral engineering choice, but it is not what the spec sa
 **(b) Spec ambiguity — decapsulation failure is signalled by distinct codes.**
 `kem_dec` returns −2 for a PKE-decode failure, −1 for a `d` mismatch and −1 for a
 ciphertext mismatch, at three different points, with `memcmp` (non-constant-time)
-comparisons at `:429` and `:461`. The spec only says "abort". Explicit rejection
+comparisons at UVW-KEM-128 `:436` and `:475-476`. The spec only says "abort". Explicit rejection
 plus early exit is a textbook plaintext-checking / timing oracle surface; the spec
 does not address it.
 

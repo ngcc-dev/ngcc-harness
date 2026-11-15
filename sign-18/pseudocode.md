@@ -110,10 +110,10 @@ H = extendable-output function; spec §2.4.1: "H may be instantiated by SHAKE256
 ## Implementation vs specification
 
 - **Checked.** `src/<inst>/origami_ref.c` (867 lines) implements all of KeyGen
-  (`genkeys`, line 695), Sign (`sign`, 753), Verify (`verify`, 850), Alg 1
+  (`genkeys`, line 699), Sign (`sign`, 753), Verify (`verify`, 850), Alg 1
   (`gen_hidden_algebra`, 340), Alg 2 (`solve_rect_random`, 611, Gaussian elimination with
   free variables filled from a PRF stream), `SelectRes` (rank/stride schedule, ~line 180–216),
-  `Π_pub` (`derive_public_permutation`, 439). `SIG_AlgorithmInstance.c` is the NGCC ABI
+  `Π_pub` (`derive_public_permutation`, 438). `SIG_AlgorithmInstance.c` is the NGCC ABI
   shim; it draws `seed_sk` and `salt` from the shared DRNG.
 - **Parameter spot-check (sampling: `ORIGAMI_q`, `MU_RED`, `MAIN_ZONES`=d, `MAIN_K`=k,
   `SEED_SK/PK/SALT_BYTES`, `RPK_BYTES` on all four `origami_params.h`).** All agree with
@@ -122,8 +122,9 @@ H = extendable-output function; spec §2.4.1: "H may be instantiated by SHAKE256
   `NUMGF_RPK = 2·RPK_BYTES` equals the spec's `|I_res|` for every instance. **No size
   mismatch anywhere:** all 12 spec/impl size cells above match.
 - **Deviation (a), hash primitive.** The spec names SHAKE256; the build uses the ICCS
-  competition primitives. `symmetric_iccs.c` defines `shake256_init/absorb/squeeze` as
-  wrappers over `pseudoXOF()` (SM3/HMAC-SM3 based, `auxfunc.h:44`), and the message
+  competition primitives. `symmetric_iccs.c` defines `shake256_init/absorb/squeeze` over
+  `pseudoXOF()` (`auxfunc.h:44`); `shake_absorb` (`symmetric_iccs.c:42-51`) buffers the
+  input in a fixed 208-byte area and discards anything beyond it. The message
   digest is `pseudohash(512 bits, …)` (`SIG_AlgorithmInstance.c:51,80`), not SHAKE. The
   64-byte digest length matches the spec's `h_µ ∈ B^64`; the function does not. The spec's
   "may be instantiated by" wording makes this arguably permitted, but the SHAKE-named
@@ -132,10 +133,13 @@ H = extendable-output function; spec §2.4.1: "H may be instantiated by SHAKE256
   variables and `U_j` uniformly at random, and Alg 2 line 8 samples a random kernel
   element. The implementation derives all of these deterministically from `seed_sk`:
   `sample_zone_known` (line 530) uses label `"sign-known" ‖ zone ‖ attempt ‖ digest ‖ salt`,
-  and `solve_rect_random` uses `"kernel-sample" ‖ …` (line 677). Randomization comes only
-  from the fresh `salt`. This is a reasonable hedged/derandomized construction, but it is
+  and `solve_rect_random` uses `"kernel-sample" ‖ …` (line 678). Randomization comes only
+  from the fresh `salt`. For Origami-512 the two streams absorb 218 and 221 bytes
+  (seed ‖ label ‖ three u32 ‖ block counter ‖ digest ‖ salt), more than the shim's 208, so
+  the last 10 and 13 salt bytes do not enter them; the target hash absorbs the whole salt,
+  and Origami-128/256/384 stay below the limit (sign-18-7). This is a reasonable hedged/derandomized construction, but it is
   not what the spec text says, and the spec does not describe it.
-- **Deviation (b), biased sampling.** `origami_ref.c:552` forces the first sampled oil
+- **Deviation (b), biased sampling.** `origami_ref.c:554` forces the first sampled oil
   coordinate to be non-zero (`if (i == 0 && u == 0) u = 1;`). `U_j` is therefore not
   uniform on `F_q^{a_j}`; the spec (eq. 61) says uniform. Unexplained in the spec.
 - **Restriction not in the spec.** `validate_params` (`origami_ref.c:108`) rejects any

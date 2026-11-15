@@ -167,12 +167,14 @@ Constants sampled: `VIPER_N`, `VIPER_Q/QLOG`, `VIPER_K`, `VIPER_ETA_S/R`,
   (384) `2^13, k=7, η=1, (11,11,5)`; (512) `2^13, k=9, η=1, (11,11,8)`.
   `viper_quantize`/`viper_reconstruct` (`viper.c:51-70`) are literally the §8.7
   formulas, with per-width unrolled variants that use the same
-  `quantize_shift`. The CBD nibble LUT for η=2 (`viper.c:436`) and the generic
+  `quantize_shift`. The CBD nibble LUT for η=2 (`viper.c:423-430`) and the generic
   bit-slice path both compute `Σb_j − Σb'_j` per §8.6. `verify()` and `cmov()`
   (`verify.c`) are correct constant-time primitives, and
   `viper_reencrypt_check` (`viper.c:554-585`) accumulates differences over the
-  *whole* ciphertext including `µ` before returning, then `kem.c:62` selects
-  with `cmov` — the implicit rejection is done properly. All five size formulas
+  recomputed `u` and `v` before returning, then `kem.c:62` selects with `cmov`.
+  Its `µ` term (`viper.c:583`) compares the ciphertext's `µ` with itself (`mu`
+  points into `ct`, `viper.c:562`), and decapsulation does not recompute
+  `µ = H_32(K̄')`, so `µ` is not checked. All five size formulas
   reproduce the OBSERVED lengths exactly.
 
 - **Discrepancy 1 — the public-key dither is one bit too narrow at Viper-128
@@ -235,6 +237,6 @@ Constants sampled: `VIPER_N`, `VIPER_Q/QLOG`, `VIPER_K`, `VIPER_ETA_S/R`,
 
 - **Not verified.** The DFR computation of Appendix B, the Core-SVP/MATZOV
   figures of Table 5, the ROM/QROM FO proofs (Theorems 6.2/6.3) beyond reading
-  them, the correctness of `viper_e8.c`'s nearest-neighbour decoder against
-  Algorithm 10 coefficient by coefficient, and constant-time behaviour of the
-  E8 decoder under an optimising compiler.
+  them, and the correctness of `viper_e8.c`'s nearest-neighbour decoder against
+  Algorithm 10 coefficient by coefficient. The E8 codec is not constant-time
+  (see `constant_time.md`).

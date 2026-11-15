@@ -121,27 +121,30 @@ directories are byte-identical except for `parameters.h`.
   selects with a constant-time mask: `ct_cmp` (`pke.c:24-31`) ORs the byte
   differences and returns `0xFF`/`0x00`; `ss[i] = K[i] ^ ((K[i]^Kb[i]) & compare)`
   (`kem.c:150-153`) — not an early return. No inverted condition.
-- **Rounding arithmetic matches Algorithm 1 line by line.** `poly_add_msg`
+- **Rounding offsets match Algorithm 1.** `poly_add_msg`
   (`pke.c:11-22`) adds `q/(2p)` then `p/2·m` and reduces mod p (Enc line 4-5);
   `poly_subp` (`pke.c:3-9`) adds exactly `h2 = p/(2t) − q/(2p)` (Dec line 2). Both
-  reductions are `& (p−1)`, valid since p = 2^11.
+  reductions are `& (p−1)`, valid since p = 2^11. These two functions are not
+  called in the reference tree (the Optimized and Additional trees call them at
+  `pke.c:106,147`). The reference path is in `arith/packing.c`:
+  `poly_pack_ciphertext_t_from_acc_msg` (`:146`) adds `q/(2p) = 2` to the
+  accumulator before truncating, and `poly_pack_message_from_acc_cm`
+  (`:200-255`) adds the same `h2`, `+126` for ε_t = 3 and `+2` for ε_t = 8.
 - **Randomness** comes only from the official DRNG: `seedA`, `seed_s`, `z` in
   `kem_keygen` and `m` in `kem_enc` are all `get_random_number(&drng_algorithm, …)`
   (`kem.c:53,54,64,91`). No `/dev/urandom`, no `rand()`.
 - **Sampling.** `A` is 13-bit uniform with no rejection (`arith/uniform.c:9-42`);
   legitimate because q = 2^13 exactly, matching `D_A = U_{ε_q}`. `s`/`s'` are 2-bit
   uniform, matching `D_s = U_2`, η = q/2p = 2.
-- **Observation (c) — undocumented second domain encoding.** The spec documents
-  only the F/G/H encoding. The implementation additionally uses a *different*,
-  shorter encoding for the expansion of `A` and `s`
+- **Observation (c) — second domain encoding.** The implementation uses a
+  *different*, shorter encoding than F/G/H for the expansion of `A` and `s`
   (`hash_domain.h:rrlwr_domain_encode_xof`): prefix `"AMX1"` (4 bytes), a numeric
   label id (1 = public/A, 2 = secret/s) instead of the string labels `XOF_A`/`XOF_S`
   that the header defines but never uses, `λ` (u16 LE), `k`, `outlen` (u16 LE),
-  1-byte seed length, seed, then a coefficient index and a lane byte. This is a
-  spec gap, not a defect: it is domain-separated from F/G/H by the different prefix,
-  and it is the encoding the shipped KATs were generated with. But the spec does not
-  let a third party reconstruct `A` from `seedA`, so the specification alone is
-  **not sufficient to reimplement the scheme interoperably**.
+  1-byte seed length, seed, then a coefficient index and a lane byte. The spec
+  gives this compact `AMX1` encoding on p. 20 with the same fields in the same
+  order (id 1 for XOF_A, id 2 for XOF_S). It is domain-separated from F/G/H by the
+  different prefix, and it is the encoding the shipped KATs were generated with.
 - **Observation (c) — instance naming.** `kem.h:27` defaults
   `ALGORITHM_INSTANCE "KEM_RRLWR"` and the candidate Makefile passes
   `KEM_RRLWR<level>`, while the submitted KAT files are named

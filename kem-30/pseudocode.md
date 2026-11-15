@@ -46,7 +46,8 @@ Sizes (bytes), specification (Table 3) vs the built reference library:
 
 All fifteen values agree. Table 3 gives no separate ss column; the spec sets
 l_k = l_m = n/2 bits, i.e. 16/16/32/64/64 bytes, which is what the library
-reports. Structure: pk = seed_a(16) ‖ zero-selector-packed b (k·(n+1) at q=257);
+reports. Structure: pk = seed_a (16/16/32/64/64 bytes for Light/128/256/512/512*) ‖
+zero-selector-packed b (k·(n+1) bytes for Light/128, k·(n+2) for 256/512, q=257);
 sk = s_ntt(2kn bytes) ‖ pk ‖ z(l_m/8); ct = c1(k·n·d1/8) ‖ c2(l_v·d2/8).
 
 ## Pseudocode
@@ -178,7 +179,7 @@ Agreements:
 - The FO transform of Algorithms 11–13 is implemented faithfully and in constant
   time: `derive_g` computes (ss, seed) = XOF(m ‖ pk) (`KEM_AlgorithmInstance.c:59-75`),
   `derive_reject_key` computes H(z ‖ ct) (`:77-91`), and `kem_dec` re-encrypts,
-  compares with `ct_verify` and selects with `ct_cmov` (`:225-232`) — no branch
+  compares with `ct_verify` and selects with `ct_cmov` (`:217-220`) — no branch
   on the decryption result.
 - The zero-selector public-key compression of §5.3 is present
   (`PK_ZERO_SELECTOR_BYTES`, `PK_POLY_BYTES = RL_KEM_N + PK_ZERO_SELECTOR_BYTES`),

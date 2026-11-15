@@ -24,7 +24,7 @@ Table 1 (p. 12), sizes Table 2 (p. 19), security/δ Table 7 (p. 19).
 | B | 2 | 2 | 2 | payload bits per coefficient |
 | β (Minal) | 1030 | 0 | 550 | 2D-Minal off-diagonal constant |
 | η | 2 | 2 | 2 | CBD parameter (4 bits/coefficient) |
-| h | 2^(ε_q−ε_p−1) = 8 | 4 | 4 | rounding constant |
+| h | 2^(ε_q−ε_p−1) = 8 | 2 | 2 | rounding constant |
 | CSS / QSS | 2^128 / 2^116 | 2^266 / 2^241 | 2^514 / 2^466 | Core-SVP (spec Table 7) |
 | δ (DFP) | 2^−99 | 2^−125 | 2^−125 | spec Table 7 |
 | claimed security | 128 | 256 | 512 | bits |
@@ -109,9 +109,11 @@ i = 0 .. 2n/4, giving mu = 2n payload bits = 8*kappa bits.
 Built tree: `Implementations/Reference_Implementation/scabbard{128,256,512}`,
 sources `auxfunc.c cbd.c drng.c indcpa.c KEM_scabbard<n>.c packing.c poly.c
 polyvec.c verify.c minal.c`. API header is `KEM_scabbard<n>.h`. The three
-directories have separate copies of `indcpa.c`, `poly.c`, `packing.c`, `minal.c`
+directories have separate, differing copies of `indcpa.c`, `poly.c`, `minal.c`
 (they are *not* a single parameterised source), which is where the divergence
-below comes from. `cbd.c`, `polyvec.c` and `verify.c` are identical across all three.
+below comes from. `cbd.c`, `polyvec.c` and `verify.c` are identical across all three;
+`packing.c` is identical in scabbard128 and scabbard512 and differs in scabbard256
+by one blank line.
 
 Agreements:
 
@@ -124,7 +126,7 @@ Agreements:
 - Sizes are derived (`params.h:30-38`) and evaluate to Table 2 exactly; nothing
   is hard-wired.
 - The FO transform is present and correctly oriented
-  (`KEM_scabbard128.c:101-132`): decrypt → `pseudoXOF(m'‖pkh)` → re-encrypt →
+  (`KEM_scabbard128.c:101-131`): decrypt → `pseudoXOF(m'‖pkh)` → re-encrypt →
   `verify(ct, cmp, len)` → `cmov(kr, z, κ, fail)` → final
   `pseudoXOF(K‖H(ct))`. The condition is not inverted and the select is a
   constant-time `cmov`, not a branch.

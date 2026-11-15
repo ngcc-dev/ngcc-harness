@@ -10,7 +10,7 @@ The IND-CCA KEM is the FO transform with **explicit rejection**.
 
 Specification: `kem-25-spec.pdf` (98 pages), §3.1 (Pt2noise/Noise2Pt, Lemma 3),
 §3.2 (NEV-PKE-OW), §3.5 (NEV-KEM-CCA); implementation-level restatement
-§5.7/§5.10 (Algorithms 20–22, 25–27); parameters Table 2 (p. 18).
+§5.7/§5.10 (Algorithms 15–18, 25–27); parameters Table 2 (p. 18).
 
 ## Parameters
 
@@ -84,7 +84,7 @@ Noise2Pt(w):
   M_j  = 1 if t_j < k*(q-1)/4 else 0
 ```
 
-### NEV-PKE-OW (spec §3.2 / Algorithms 20–22)
+### NEV-PKE-OW (spec §3.2 / Algorithms 15–18)
 ```
 KeyGen():
   repeat  f' <- chi_f ;  f = f' + v^{-1}   until f invertible in R_q
@@ -119,7 +119,7 @@ Decap(sk, c):
 
 Symmetric roles (`api.h`): `H1 = Hash` (κ-byte output), `H2 = Hash2` (2κ-byte
 output), the noise PRG is `KDF`. In the NGCC build (`-DUSE_ICCS`) all three are
-the official ICCS `pseudoXOF`/`sm3hash`; the candidate's own build
+the official ICCS `pseudoXOF`/`sm3hash`/`pseudohash`; the candidate's own build
 (`-DUSE_SHA3`) uses SHAKE-128/256/512 instead.
 
 ## Implementation vs specification
@@ -148,9 +148,14 @@ Agreements:
   = PKE_OW_SK_BYTES + PK + κ` matches the spec's `sk = (sk', pk, H1(pk))`.
 - `poly_add_vinv` (`poly.c`) adds `(q+1)/2` at the four positions
   `0, d/4, d/2, 3d/4`, i.e. `v^{-1} = ((q+1)/2)Σ x^{i n/k}` with k = 4, matching §3.1.
-- `ow_pke_keypair` / `ow_pke_enc_interal` / `ow_pke_dec` (`owpke.c:91-167`)
+- `ow_pke_keypair` / `ow_pke_enc_interal` / `ow_pke_dec` in the uncompressed
+  branch (`owpke.c:93-169`)
   implement `h = g/f`, `c = h r + Pt2noise(M)`, `w = f c`, `M' = Noise2Pt(w)`
-  exactly as §3.2. The invertibility rejection loops increment the PRG nonce on
+  exactly as §3.2. The `COMPRESS == 1` branch (`owpke.c:14-89`), used by the
+  three compressed sets, follows Remark 5 instead: the stored public key is
+  `f/g` (the spec's `h^{-1}`), `sk = g`, no `r` is sampled,
+  `c = poly_compress(pk · Pt2noise(M))`, and decryption computes
+  `Noise2Pt(g · poly_decompress(c))`. The invertibility rejection loops increment the PRG nonce on
   each retry, so retries do not reuse coins.
 - The FO wrapper (`cca.c:12-52`) matches Algorithms 25–27 line for line,
   including `H1(pk)` being stored in `sk` and reused at decapsulation rather than
@@ -190,9 +195,13 @@ Discrepancies:
   (`poly_add_vinv` uses `(q+1)/2`, `flipabs` uses `⌊q/2⌋`).
 - **(c) Domain separation in the ICCS build is incidental.** In the SHA3 build
   `H1`, `H2` and the noise `KDF` are three distinct primitives
-  (SHAKE-128/256/512). Under `-DUSE_ICCS` (`symmetrics/hashkdf.c`) `hash128`,
-  `hash256`, `hash512`, `hash1024`, `kdf128`, `kdf256` and `kdf512` **all collapse
-  to the same `pseudoXOF(outlen, in, inlen)`** with no label or prefix. The roles
+  (SHAKE-128/256/512). Under `-DUSE_ICCS` (`symmetrics/hashkdf.c:58-119`) `hash128`,
+  `kdf128`, `kdf256` and `kdf512` call `pseudoXOF`, `hash256` calls
+  `sm3hash(256, …)` and `hash512`/`hash1024` call `pseudohash(512/1024, …)`,
+  **none with a label or prefix**; the streaming `KDF_ABSORB`/`KDF_SQUEEZEBLOCK`
+  used by `poly_bias3_ternary` is `sm3hash(256, input ‖ be32(counter))` per
+  32-byte block (`hashkdf.c:17-54`). Roles that share a function (e.g. `H1` and
+  `KDF` at κ = 16, both `pseudoXOF`)
   stay separated only because their input lengths happen to differ (`H1` absorbs
   `POLY_BYTES`, `H2` absorbs `2κ`, `KDF` absorbs `κ+1`, the keygen seed hash
   absorbs `κ`). Nothing in the code enforces that, and the spec's §5.3 "Instantiating
@@ -204,7 +213,7 @@ Discrepancies:
   re-encryption comparison rejects such ciphertexts, so this is not exploitable
   here, but there is no explicit input validation.
 - **(c) Serialization note.** The uncompressed ciphertext is written from the
-  *partial-NTT domain* (`owpke.c:143-146`: no inverse NTT before `poly_tobytes`),
+  *partial-NTT domain* (`owpke.c:142-147`: no inverse NTT before `poly_tobytes`),
   and the stored `sk = f` is likewise in the NTT domain. This is a bijective
   re-encoding of the spec's ring elements, but the spec's §5.5 "Encoding of R_q
   Elements" describes the coefficient-domain base-q packing without saying which

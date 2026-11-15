@@ -126,7 +126,11 @@ Agreements:
   `SK_SIZE_PACKED`, `SIG_SIZE_PACKED` (`params.h:105-109`) reproduce the
   Table 3 formulae.
 - The signing loop in `SIG_lwrdsa128.c` follows Algorithm 2 line for line,
-  including both rejection predicates and the ν = ⌈ξ₂−ξ₁⌋ compensation, and
+  including both rejection predicates and the ν = ⌈ξ₂−ξ₁⌋ compensation, except
+  for the mask step: the nonce starts at 0 and advances once per polynomial
+  (`:273,327`) where Algorithm 2 increments `count` once per attempt, and the
+  mask sampler it calls has the defects recorded as sign-15-4 (ATLAS-128/-192/-256)
+  and sign-15-13 (ATLAS-512);
   `rounding.c` implements Algorithms 4–7 as written (bit-mask forms included).
 
 Discrepancies:
@@ -164,7 +168,11 @@ Discrepancies:
    with the in-source comment *"KAPPA should be 69 not 64, due to limitation in
    the implementation, we are temperorily using 64"*. The challenge space
    C(n,κ)·2^κ is therefore smaller than the set the §3.3 security estimate is
-   computed over. All other ATLAS-192 constants match.
+   computed over. All other ATLAS-192 constants match. `challenge()` reads its
+   position bytes from one 136-byte `pseudoXOF` output and, when that is used
+   up, repeats the same call and restarts at position 0
+   (`SIG_lwrdsa192.c:138-149`); sign-15-3 records that this happens in nearly
+   every ATLAS-192 challenge.
 3. **(a) real deviation — verification omits the hint checks of Algorithm 3.**
    Algorithm 3 line 5 requires `HW(h) ≤ ω`. `sig_verify` checks only
    `‖z‖∞ < γ1 − β1` (`SIG_lwrdsa128.c:470`) and `c' = c`; it never tests the
@@ -195,7 +203,14 @@ Discrepancies:
    `drng_algorithm` and expands them with `pseudoXOF` into (ρ, ρ′, K)
    (`SIG_lwrdsa128.c:191-203`), sampling s₁ from ρ′. This is the standard
    Dilithium seed-expansion and is indistinguishable in the ROM, but it is not
-   what Algorithm 1 states.
+   what Algorithm 1 states. For ATLAS-512 the single 256-bit root is recorded
+   as sign-15-10.
+7. **(a) real deviation — ATLAS-512 matrix expansion (sign-15-18).** §4.6.1
+   derives `a_{i,j}` from `pseudoXOF(ρ ‖ i ‖ j)` with candidates accepted when
+   below q. `expand_mat` appends the single byte `i + (j << 4)`
+   (`SIG_lwrdsa128.c:64`) and builds each candidate from three bytes; in
+   `SIG_lwrdsa512.c:73-76` the 24-bit value is masked with `0x1FFFFFF` and
+   compared with q = 2²⁵, so every coefficient is below 2²⁴.
 
 Not verified: the Toom-Cook/Karatsuba multiplication chain in `poly.c`
 (§4.3 / Appendix B) against the spec's decomposition schedule, and the §2.5

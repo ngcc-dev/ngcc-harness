@@ -4,7 +4,7 @@ Scope: reference implementation, representative instance only: `Implementations/
 
 Secret: signing-key polynomials/basis, per-signature masks and sampler state. Public: verification key, algorithm parameters, message and serialized signature.
 
-- Branch/loop trace: `Implementations/Reference_Implementation/Octarine-512/sign.c:230` — The norm check on `w.x[i]` is secret-state-dependent; further checks on `y` and `t0` appear at lines 245–280.
+- Branch/loop trace: `Implementations/Reference_Implementation/Octarine-512/sign.c:230` — The norm check on `w.x[i]` is secret-state-dependent; further checks on `y` and `t0` appear at lines 245–280. `poly_check_norm` (`sign_ring.c:135-149`) returns at the first coefficient that reaches the bound, and `poly_make_hint` (`sign_ring.c:151-168`, called at `sign.c:270`) branches per coefficient before the hint-weight test at `:280`.
 - Table lookups and division/remainder: this source triage does not certify their absence or constant-time compilation. Only the explicitly traced operands above are classified. Public lengths, fixed parameters and verifier checks are not findings.
 
 Assessment: No new vulnerability report is promoted from this representative source triage. A compiler/architecture-specific timing and cache test is still needed before claiming constant-time behavior or exploitable leakage.

@@ -125,7 +125,11 @@ via `POLYVECCOMPRESSEDBYTES = l·N·10/8` → 10 everywhere; `dv` via
 FO structure in `kem.c:crypto_kem_dec` is correct: `verify()` compares the
 re-encryption, then `rkprf()` writes K̃ and `cmov(ss, kr, …, !fail)` overwrites
 it only on success — the shared secret is selected **after** the comparison,
-branch-free, so implicit rejection is genuinely reached.
+branch-free, so implicit rejection is genuinely reached there. The uniform-API
+entry point `KEM_AlgorithmInstance.c:kem_dec` does not call `crypto_kem_dec`;
+it repeats the same steps and then returns `KEM_API_DECAP_FAILURE` when
+`fail != 0` (reference C128 `:116-123`), which Fig. 4 does not specify
+(`kem-08-3`).
 
 **Discrepancies.**
 - (a) **Block interleaving.** Fig. 2 `PolyEncode`/`PolyDecode` place the n

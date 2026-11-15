@@ -156,6 +156,11 @@ Discrepancies:
 - **(a, minor) `sig_verify` ignores `sn_len_bytes` and `pk_len_bytes`**
   (SIG_AlgorithmInstance.c:104-105 cast them to void), so a truncated signature
   is read past its end rather than rejected. TRINE (sign-30) does check this.
+- **(b/c) Candidate salts come from one seed.** Algorithm 2 line 26 samples a
+  fresh `salt` in every loop iteration. `TSUOV_Sign` (`tsuov_core.c:978-985`)
+  instead takes successive `TSUOV_SALT_LEN`-byte blocks of the `mgf.c` stream
+  keyed by the single DRNG-drawn `seed_r` (`PRG2_init(seed_r)`, `PRG2_yield`),
+  so all candidate salts of one signature are determined by `seed_r`.
 - **(minor, not a spec issue) `static TSUOV_P3 P3`** in `sig_keygen` and
   `sig_verify` — a multi-megabyte shared mutable buffer in the library; the
   API is not re-entrant.

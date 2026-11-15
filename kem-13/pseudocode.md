@@ -8,7 +8,8 @@ one bit per coefficient with Rec(k, w) = (k - wL mod q) mod 2. The CCA layer is
 a **tag-based FO transform**: the encapsulator masks its own coins with the DKE
 shared secret and ships the mask as a ciphertext tag; decapsulation unmasks,
 re-encapsulates deterministically and compares, with implicit rejection.
-Arithmetic (NTT, CBD sampling, q = 3329, n = 256) is inherited from ML-KEM.
+Arithmetic (NTT, CBD sampling, q = 3329, n = 256) is inherited from ML-KEM for
+DKEM-128/256; DKEM-512 uses q = 7681, n = 512.
 
 Specification: `kem-13-spec.pdf` (64 pages), §2.3–2.4 (Algorithms 10–16),
 signal/reconciliation §2.2.1 (Algorithms 2–3), parameters §2.5 Table 1, sizes
@@ -144,6 +145,9 @@ Agreements:
 - `DKE_poly_scale2` implements the randomized doubling of Algorithm 11 line 16,
   and `DKE_derive_ss` = apply_signal (subtract wL, centre) then mod 2, i.e.
   Algorithm 3.
+- Sig follows Algorithm 2 line 3: `DKE_rand_to_poly` (`dke_utils.c:72-81`)
+  encodes each bit of b as 0 or -1, so `DKE_signal` (`dke_utils.c:97-105`)
+  takes the signal of `f[i] - b[i]`.
 
 Discrepancies:
 - **(b) misleading dead constants.** `DKE_NOISE_A` and `DKE_NOISE_B`
@@ -152,14 +156,11 @@ Discrepancies:
   any `.c` file — the sampler uses `DKE_CBD_ETA`, which is correct — so this
   is vestigial text, not a behavioural deviation. It is worth removing, since
   a reader auditing eta against the spec will land on the wrong macro.
-- **(c) sign convention in Sig.** Algorithm 2 line 3 picks w with
-  `f[i] - b[i] mod q in I_w`. `DKE_signal` (`dke_utils.c:97-105`) computes
-  `b' = b + k` and takes the signal of `b'`, i.e. `f[i] + b[i]`. Because b is
-  uniform on {0,1}^n the two are identically distributed (and k has just been
-  doubled, so it is even either way), and Rec is still applied to the
-  undoubled-by-b copy of k, so correctness and Lemma 2.1 are unaffected — but
-  an implementation written literally from Algorithm 2 would not reproduce the
-  KATs.
+- **(c) seed order in Initiate.** Algorithm 10 line 1 writes
+  `(r, rho) <- XOF(coins; 2n)`. `DKE_CPA_keygen_derand` (`dkecpa.c:26-28, 36`)
+  takes rho (the matrix seed) from the first half of the XOF output and r from
+  the second, so an implementation written literally from Algorithm 10 would
+  not reproduce the KATs.
 - **(c)** Algorithm 11 lines 13–14 derive the extra error `eB` for `kB` from
   `XOF(r || nonce)`; the implementation calls `DKE_geterrorA(&e, coins,
   nonce++)` (`dkecpa.c`), which is the same `XOF(seed || nonce)` construction

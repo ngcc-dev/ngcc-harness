@@ -34,7 +34,7 @@ the two decision problems have *identical* advantage.
 
 How this replaces the usual LWE noise, and what to watch:
 - **No noise sampler exists.** `frost_mul_add_as_plus_e(B_raw, S, E_zero, ρ)`
-  (`Frost/src/kem.c:261`, and the two encryption calls at `kem.c:372,395`) is
+  (`Frost/src/kem.c:262`, and the two encryption calls at `kem.c:372,395`) is
   always passed an all-zero error matrix `E_zero`. The CBD sampler
   (`noise.c:frost_sample_n`) is used **only for the secrets `S` and `R`**.
 - The error is therefore **uniform, not Gaussian/binomial**, and its width is
@@ -170,7 +170,7 @@ derived static assertions, which the compiler checks for every profile.
 - **Agreement.** Frost-128 `(512, 8, 8, 2^15, η=2, b_msg=2, t=(10,10,5))` and
   Frost-CC-384 `(1928, ℓr=12, ℓs=8, 2^16, η=1, b_msg=4, t=(13,13,9))` match
   Table 3/4 exactly. The quantizer `frost_quantize_local` (`kem.c:131-137`) and
-  the compensation in `frost_reconstruct_dithered_profile` (`kem.c:204`) are
+  the compensation in `frost_reconstruct_dithered_profile` (`kem.c:203`) are
   literally the §9.7 formulas. Dither expansion (`kem.c:140-152`) masks 16-bit
   little-endian XOF words to `Δ−1`, which is *exactly* uniform because `Δ` is a
   power of two — no rejection-sampling bias. Dither seeds follow Table 13: `ρ`
@@ -197,13 +197,13 @@ derived static assertions, which the compiler checks for every profile.
 
 - **Discrepancy 2 (deliberate equivalent optimisation).** Algorithms 7/8 define
   `K = H_K(H_ct(ct) ‖ K')`; the implementation hashes the *ciphertext itself*,
-  `shake(ss, ‖ss‖, ct ‖ K')` (`kem.c:413` and `kem.c:572`). Equivalent or
+  `shake(ss, ‖ss‖, ct ‖ K')` (`kem.c:413` and `kem.c:573`). Equivalent or
   stronger, but it makes the final hash absorb up to 73 KB at Frost-512.
 
 - **Discrepancy 3 (spec-equivalent, worth noting).** §2.3 requires the equality
   test to compare "the full ciphertext, including … the public seed µ". The
   implementation compares only the `U` and `V` label arrays
-  (`kem.c:568`); the salt is copied verbatim from the input ciphertext into the
+  (`kem.c:569`); the salt is copied verbatim from the input ciphertext into the
   re-encryption, so comparing it would be vacuous. Equivalent in effect.
 
 - **Discrepancy 4 (packaging).** `MAMBA-Frost-CC-128` is byte-identical to

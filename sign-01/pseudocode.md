@@ -139,19 +139,22 @@ match — `PARAM_N 512`, `PARAM_Q 4171777`, `(PARAM_K,PARAM_L)` = (2,2)/(4,4)/(8
 `OMEGA` 72/176/102, `(ETA1,ETA2)` (1,5)/(1,1)/(1,1), `(SEEDBYTES,CRHBYTES)` =
 (32,48)/(32,48)/(64,96). All six derived sizes (`PK_/SK_/SIG_MAX_SIZE_PACKED`)
 evaluate to exactly the OBSERVED values. The seed chain
-(`msig_keygen` `sign.c:37-40` = XOF2(ξ,3κ1)), `tr = CRH(pk)` (`sign.c:60`),
-`µ = CRH(tr‖M)` (`sign.c:94`), `ExpandMask(K,µ,N)` (`polyvec.c:199-213` absorbs
+(`msig_keygen` `sign.c:37-40` = XOF2(ξ,3κ1)), `tr = CRH(pk)` (`sign.c:61`),
+`µ = CRH(tr‖M)` (`sign.c:98`), `ExpandMask(K,µ,N)` (`polyvec.c:199-213` absorbs
 the full `K‖µ` = SEEDBYTES+CRHBYTES plus a 2-byte nonce) and
 `c~ = H(µ‖w1)` (`polyvec.c:35-45`, `polyvec.c:104-114`) all match Alg. 29/30.
-All three rejection conditions of Alg. 30 are present (`sign.c:120,126,131`) and
-the hint-weight abort `n > OMEGA` is at `sign.c:136`.
+All three rejection conditions of Alg. 30 are present (`sign.c:122,127,132`) and
+the hint-weight abort `n > OMEGA` is at `sign.c:138`.
 
 Discrepancies:
 
 1. **(b/c) Hash instantiation is not the one in Table 3.** The build defines
-   `-DUSE_ICCS`, so `hashkdf.c:8-45` routes every XOF/CRH call to `pseudoXOF()`
+   `-DUSE_ICCS`, so `hashkdf.c:8-45` routes every one-shot XOF/CRH call to `pseudoXOF()`
    and every `hash256/512/1024` to `sm3hash()`/`pseudohash()` in `auxfunc.c`
-   (the ICCS SM3/HMAC-SM3 competition auxiliary functions), not to the
+   (the ICCS SM3/HMAC-SM3 competition auxiliary functions), and the
+   absorb/squeeze streams of `Parse`, `RejEta` and `SampleInBall` go through
+   `kdf_init`/`kdf_squeezeblocks` (`hashkdf.c:82-89`) to the ICCS DRBG
+   (`init_random_number`/`get_random_number`, sign-01-7), not to the
    SHA3-256/512 and XOF-128/256/512 that spec Table 3 specifies. This is the
    competition-mandated common-primitive substitution rather than a coding
    error, but the specification does not document it; the shipped KATs are
@@ -159,7 +162,7 @@ Discrepancies:
    `*_iccs.txt` KAT set).
 
 2. **(a) Verify omits the `h ∈ B_{64,15,ω}` check of Algorithm 31 line 9.**
-   `msig_verf` (`sign.c:159-201`) checks `‖z‖∞`, `c~' = c~` and the `γ3` norm, but
+   `msig_verf` (`sign.c:147-205`) checks `‖z‖∞`, `c~' = c~` and the `γ3` norm, but
    never checks the hint's per-64-block weight (≤15) or its total weight (≤ω);
    `unpack_h` (`packing.c:303-336`) simply sets whatever bits the encoding names.
    Combined with the spec's own variable-length `HintPack`, the encoding is
@@ -173,9 +176,9 @@ Discrepancies:
    `SIG_MIN_SIZE_PACKED` and `SIG_MAX_SIZE_PACKED` and never re-derives `hlen`
    from the decoded hint.
 
-3. **(a) `unpack_h` stack overflow — already recorded.** `packing.c:311`
+3. **(a) `unpack_h` stack overflow — already recorded.** `packing.c:307`
    (`int t[PARAM_K * PARAM_N / SEC]`, i.e. 16/32/64 entries) and
-   `packing.c:314` (`int max = sm[0]`) let an attacker-controlled byte up to 255
+   `packing.c:311` (`int max = sm[0]`) let an attacker-controlled byte up to 255
    drive `unpack4bits(t, sm, max)` (`packing.c:318-319`) past the end of `t`,
    then `k = Σ t[i]` (up to 255·15) past the end of `pos[OMEGA]`
    (`packing.c:325`), and finally `i = k/(PARAM_N/SEC)` past `h->vec[PARAM_K]`
@@ -190,10 +193,23 @@ Discrepancies:
    `⌈max/2⌉ − max` — a spec typo, not a deviation.
 
 5. **(non-security) `msig_verf` leaks `buf`** on the two failure returns after
-   `malloc` (`sign.c:193`, `sign.c:200`); only the success path reaches
+   `malloc` (`sign.c:194`, `sign.c:201`); only the success path reaches
    `free(buf)` at `sign.c:203`.
 
-Not verified: the NTT/PSPM constants and the `Parse`/`SampleInBall` byte-for-byte
+6. **(a) `SampleInBall` signs — recorded as sign-01-5.** In the `PARAM_C <= 64`
+   branch of `unpack_c` (sets I and II) the loop sets `signs = 0` after the
+   first coefficient instead of shifting (`polyvec.c:98-99`), so every later
+   non-zero coefficient is set to +1; Alg. 24 gives each its own sign bit.
+
+7. **(a) `ExpandMask` extra unpack — recorded as sign-01-4.**
+   `polyvecl_uniform_gamma1` calls `polyz_unpack(v->vec + i, outbuf)` once more
+   after its loop, with `i == PARAM_L` (`polyvec.c:214`).
+
+8. **(a) Hash input length — recorded as sign-01-9.** `kdf128/256/512` take
+   `int inlen` and pass `inlen * 8` to `pseudoXOF` (`hashkdf.c:8-45`); signing
+   and verification pass `CRHBYTES + mlen` (`sign.c:98,174`).
+
+Not verified: the NTT/PSPM constants and the `Parse` byte-for-byte
 output (KAT PASS for all three instances is the only evidence here); the spec's
 concrete AMLWE/AMSIS security estimates in Table 2 were not recomputed; the
 AVX2/NEON implementations were not examined (not built).

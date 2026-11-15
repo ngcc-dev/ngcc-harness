@@ -47,13 +47,13 @@ Encode(m in {0,1}^n) -> M in R_q:          // M = m(X) * (1 + X^n + ... + X^{N-n
 
 Decode(c = ((q+1)/2)Encode(m) + e) -> m:
   for i in 0..n-1:
-     if | sum_{j=0}^{N/n-1} c[i+jn]  -  (q+1)/2 |  <  (N/n)*(q-1)/4 : m[i] = 1
+     if sum_{j=0}^{N/n-1} | c[i+jn] - (q+1)/2 |  <  (N/n)*(q-1)/4   : m[i] = 1
      else                                                            : m[i] = 0
   // spec writes the bound as (q-1)/2 for N/n = 2 and (q-1) for N/n = 4
 ```
 Lemma 1: f·Encode(m) = Encode(f·m mod (X^n+1,2)) mod (X^N+1,2) for *every*
 f — this is why decryption can strip f afterwards. Lemma 2 gives the decoding
-condition |sum_j e_{i+jn} mod±q| < (N/n)·(q-1)/4.
+condition sum_j |e_{i+jn} mod±q| < (N/n)·(q-1)/4.
 
 ### Flit.CPAPKE.KeyGen (spec Algorithm 8)
 ```
@@ -81,7 +81,7 @@ condition |sum_j e_{i+jn} mod±q| < (N/n)·(q-1)/4.
 ```
 There is no failure symbol at the PKE layer: Decode always returns n bits.
 Correctness (Theorem 1) holds when, for every i,
-|sum_j u_{i+jn} mod± q| < (N/n)(q-1)/4 with u = gr + f(e+e') + floor(fM/2) and
+sum_j |u_{i+jn} mod± q| < (N/n)(q-1)/4 with u = gr + f(e+e') + floor(fM/2) and
 e' the compression error; the residual probability is delta in the table.
 
 ### Flit.CCAKEM (spec Algorithms 11–13)
@@ -110,7 +110,7 @@ Checked: `src/FLIT{128,256,512}_REF/params.h` for constants and
 
 Agreements:
 - N, q, d and all four ternary parameters match Table 2 for all three
-  instances. The P* macros are sigma in units of 10^-4:
+  instances. The P* macros are the decimal digits of sigma:
   FLIT128 `PF 125, PG 3125, PR 125, PE 3125` = (1/8, 5/16, 1/8, 5/16);
   FLIT256 `15625, 25, 15625, 25` = (5/32, 1/4, 5/32, 1/4);
   FLIT512 all `4375` = 7/16. The corresponding samplers
@@ -156,13 +156,14 @@ Discrepancies:
   (SM3-256 + pseudohash-512 at 128/256; pseudohash-512 + pseudohash-1024 at
   512) so that H and G outputs scale with lambda; §1.1 fixes no
   instantiation, and §4.2.3 offers a separate FIPS-202 variant
-  (SHA-256 / SHA-512 / SHAKE-256) that is not the tree built here.
+  (SHA-256 / SHA-512 / SHAKE-256) that is not the tree built here; that
+  variant's code defines H and G as `sha3_256` and `sha3_512`
+  (`FLIT_FIPS202_REF128/symmetric.h:21-22`).
 - **(c)** The public key is stored and transported in the NTT domain
   (Algorithm 8 line 13 says so explicitly), and `indcpa_enc` therefore skips a
   forward transform; the ciphertext is serialized in the standard domain
   because compression truncates low-order bits — both as §4.2.4 explains.
 
 Not verified: the `Inversion` / `NewtonInv` / `Translate` chain (Algorithms
-3–5) against §1.1, the `KaratsubaMul`/NTT layer (Algorithm 1), the exact
-Decode thresholds in `decode.c` against Algorithm 7's two cases, and the
+3–5) against §1.1, the `KaratsubaMul`/NTT layer (Algorithm 1), and the
 Table 2 failure probabilities (the spec's own `FLIT.py` script was not run).

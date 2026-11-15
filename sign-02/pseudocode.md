@@ -48,10 +48,11 @@ Table 1 gives `2552 = 1048+1504`, so Table 9 has a typographic defect, not a siz
 
 ## Pseudocode
 
-Transcribed from §3.5 Figure 5 (printed p.18). `H` = SM3-256; `XOF` = SM3-based stream;
+Transcribed from §3.5 Figure 5 (printed p.18). `H` = SM3 (Table 2); `XOF` = SM3-based stream;
 `q̂ = 2^-1 mod q`; `j_n = (1,0,…,0)^T`; `HighBits(w,γ) = (w − (w mod γ))/γ`, `LowBits(w,γ) = w mod γ`
 (§2.6). `SampleInBall` (§2.5) expands `c̃` into `c ∈ B_τ` by the Fisher–Yates-style loop
-`for i = d−τ … d−1: j ← {0..i}; c_i := c_j; c_j := ±1`.
+`for i = d−τ … d−1: j ← {0..i}; c_i := c_j; c_j := 1`
+(the §1.2 overview describes the nonzero coefficients as {±1}; §2.5 and `poly.c:200` use 1).
 
 ### KeyGen  (Fig. 5, KGen)
 ```
@@ -103,7 +104,9 @@ triangular source and `G` the trapezoidal target (§2.4); coefficients in the ov
 8: accept iff  ‖(z_1, γ_2 h)‖_∞ ≤ B_∞   and   c̃ = H(µ ‖ w')
 ```
 
-Hashing: `H` is a fixed 256-bit hash (Table 2, printed p.17: "instantiated as SM3"); the
+Hashing: `H` is "instantiated as SM3" (Table 2, printed p.17) and Fig. 5 types `µ` and `c̃` as
+κ-bit strings; the implementation's `H` output is 256 bits for BiT-128 and 512 bits for
+BiT-256/BiT-512 (see below). The
 transcript is `µ = H(H(pk) ‖ M)` then `c̃ = H(µ ‖ w_1)`, i.e. the public key is bound only
 indirectly through `tr`. Challenge compression is two-stage: `c̃` (short, in the signature) →
 `SampleInBall`/XOF → `c ∈ B_τ` (§2.5).
@@ -126,6 +129,8 @@ Agreements:
   where `tr` is recomputed from `pk`), `c̃ = H(µ‖w1)` (`sign.c:94–95,130–131`; verify
   `sign.c:264–268`), `seed_y = XOF(ρ'‖rnd‖µ)` (`sign.c:100–103`). Randomised signing, as claimed.
 - `H` defaults to SM3 (`symmetric.h:14` `BIT_USE_SHAKE 0`, `symmetric.c:31`), matching Table 2;
+  BiT-256 and BiT-512 instead call `bit_h512` = `pseudohash(512, …)` (`BiT-256/symmetric.c:65–70`,
+  `BiT-256/sign.c:53,94,129`; `BIT_CHALLENGEBYTES`/`BIT_MESSAGEBYTES`/`BIT_TRBYTES` = 64);
   the FIPS-202 variant of Table 8 is a compile-time alternative and is not what NGCC builds.
 - Signature layout (`packing.c:266` `pack_sig`) is `c̃ ‖ z_{1,0} ‖ z_{1,1} ‖ h`, sizes
   32 + 128 + 3·352 + 3·96 = 1504, matching `BIT_SIGNBYTES` and the spec's 1504.

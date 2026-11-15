@@ -77,6 +77,12 @@ Init_X():
  8  st <- (empty, 0 bytes)
 ```
 
+Line 1 is what NIIKE-lv128 does. NIIKE-lv256 samples the same way and then
+sets `sk[0] = 0` (`NIIKE-lv256/protocols/bundleprotocols_internal.c:63`).
+NIIKE-lv512 does not sample: `make_SecretKey` alternates between two
+hard-coded vectors (`NIIKE-lv512/protocols/bundleprotocols_internal.c:53-79`,
+kex-08-2).
+
 The clamp `s'_k = max(min(s_k, e_k), 0)` turns the secret `sk_k in [0, B e_k]`
 into a radix-`e_k` "unary" schedule: at most `e_k` `l_k`-isogeny steps per
 iteration, greedily front-loaded, so over `B` iterations exactly `sk_k` steps
@@ -231,14 +237,15 @@ Discrepancies:
   `M+_impl = 2^6 * M+_spec` (`P_LEN = 54`, not 53). I verified `64 * M+ | p+1`,
   so the implementation's choice is mathematically sound — the *specification's
   listing is incomplete*. The consequences propagate: `n` is 84 not 83, the
-  secret key is 336 bytes not the 332 of Table 7.1, and — because the extra
-  factor enlarges the key space — `B = 70` is no longer the smallest integer
-  satisfying Eq. (4.1): I computed that `B = 65` already gives
-  `log2 |SK| = 512.86 >= 512`, while `B = 70` gives 521.71. With the spec's own
-  83-prime list `B = 70` *is* exactly minimal (`B = 69` gives 511.29), which
-  confirms the spec's tables were computed without the `2^6`. **Either the
-  spec's §5.5 listing or the implementation's prime table needs correcting**,
-  and if the spec is corrected then `B` should drop to 65 (a ~7% speedup).
+  secret key is 336 bytes not the 332 of Table 7.1. The extra coordinate does
+  not enlarge the sampled key space: `make_SecretKey` sets `sk[0] = 0` after
+  sampling (`NIIKE-lv256/protocols/bundleprotocols_internal.c:63`, both trees;
+  lv128 has no such line), so the `l = 2` exponent is always zero. Over the
+  remaining 83 coordinates `B = 70` gives `log2 |SK| = 512.99 >= 512` and *is*
+  exactly minimal (`B = 69` gives 511.29), which confirms the spec's tables
+  were computed without the `2^6`. The nominal 84-coordinate space would be
+  521.71 bits, and `B = 65` would already give 512.86 there. **Either the
+  spec's §5.5 listing or the implementation's prime table needs correcting.**
 - **(a) spec/impl parameter mismatch — NGCC-III private key.** Table 7.1 gives
   3032 B (`n = 758`); the implementation has `P_LEN = 759`, `M_LEN = 0`, hence
   3036 B. Same off-by-one pattern; §5.5 gives no explicit prime list for

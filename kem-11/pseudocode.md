@@ -13,7 +13,7 @@ Table 3.
 
 ## Parameters
 
-Spec Table 1 (p. 15). p = (q-1)/2^d, eta_s = eta_2.
+Spec Table 1 (printed p. 15, PDF p. 18). p = (q-1)/2^d, eta_s = eta_2.
 
 | parameter | Level 1 (128) | Level 2 (256) | Level 3 (384) | Level 4 (512) | meaning |
 |---|---|---|---|---|---|
@@ -97,8 +97,8 @@ string; wrong plaintexts are caught only by the FO re-encryption check.
 ```
 Hashes (spec §2.3.1): H, J : B* -> B^{n/8}; G : B* -> B^{n/8} x B^{n/8}.
 Implementation: `H = sm3hash(256)`, `G = pseudohash(512)` (32+32 bytes),
-`J = rkprf` (`symmetric.h:39-55`); ExpandA/Sample use SHAKE128/SHAKE256
-(`symmetric-shake.c`).
+`J = rkprf` (`symmetric.h:39-55`); ExpandA, Sample and `rkprf` all call the
+ICCS `pseudoXOF` (`symmetric-shake.c:30,81,112`), not SHAKE.
 
 ## Implementation vs specification
 
@@ -112,7 +112,7 @@ Agreements:
 - p is implicit but consistent: `POLYCOMPRESSEDBYTES_D1` = 320 = 256*10/8 for
   p = 832 (10 bits) and 704 = 512*11/8 for p = 1920 (11 bits).
 - Every pk/sk/ct size matches Table 2 exactly (formulas in `params.h`).
-- The FO transform is complete and standard: `crypto_kem_dec` (`kem.c:139`)
+- The FO transform is complete and standard: `crypto_kem_dec` (`kem.c:142`)
   decrypts, re-derives `(K', r') = G(m' || h)` with the stored `h = H(ek)`,
   re-encrypts, compares with `verify()`, computes `rkprf(z, ct)` and selects
   with `cmov` — constant-time, no branch on the reject flag, as §2.5.3 demands.
@@ -154,7 +154,7 @@ Discrepancies:
   kept in the NTT domain after `polyvec_ntt(&pkpv)` in `indcpa_enc`; both are
   the spec's own computation reordered.
 
-Randomness: `crypto_kem_keypair` and `crypto_kem_enc` (`kem.c:52, 118`) draw
+Randomness: `crypto_kem_keypair` and `crypto_kem_enc` (`kem.c:55, 120`) draw
 their coins from `get_random_number(&drng_algorithm, ...)`, i.e. the NGCC
 seeded DRNG. The shipped `randombytes.c` (/dev/urandom) is not linked.
 

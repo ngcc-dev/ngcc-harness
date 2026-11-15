@@ -103,7 +103,7 @@ All agree with spec Table 3 and with the 512-bit m/ρ/σ/r/K of §1.3–§1.4.
 Agreements: the size formulas (4)–(6) are literally `RLWE_CPA_PK_LEN`/`CT_LEN`/
 `CCA_SK_LEN`; the oracle-cloning labels 0x00/0x01/0x02/0x04/0x08 appear verbatim at
 `cpapke.c:198,199,217,218,219`; sk = (ŝ ‖ pk ‖ z) with |z| = 64 as in Eq. (6);
-implicit-rejection key `KDF(z, ct)` is present (`ccakem.c:83`).
+implicit-rejection key `KDF(z, ct)` is present (`ccakem.c:84-85`).
 
 Discrepancies:
 
@@ -116,8 +116,12 @@ Discrepancies:
   `ccakem.c:60-62` propagates that as `return -1` **before** any key is derived. §1.4
   and §2.3.2 say such a ciphertext is rejected, but the FO^⊥ transform demands the
   rejection be *implicit* (`KDF(z, ct)`). The implementation therefore distinguishes
-  "ECC-undecodable" from "re-encryption mismatch" to the caller. Not listed among the
-  existing findings; appears to be an additional CCA-relevant deviation.
+  "ECC-undecodable" from "re-encryption mismatch" to the caller. Filed as kem-02-6 in
+  `report.md`.
+- **(a) real deviation — KeyGen seeds.** Algorithm 5 line 1 samples ρ and σ
+  independently. `cpapke.c:407` draws a single 512-bit coin, and `CPAPKE_KeyGen_raw`
+  derives ρ = `pseudoXOF(coin ‖ 0x00)` and σ = `pseudoXOF(coin ‖ 0x01)`
+  (`cpapke.c:186-196`).
 - **(a) memory safety in Encode/Decode.** `encode_MSB`/`decode_MSB` (`cpapke.c:165-182`)
   step 4 at a time over ℓ = 523 and touch index 523. Already recorded as
   `KEM-ECC-TAIL-STACK-OVERFLOW` (confirmed).
@@ -126,7 +130,7 @@ Discrepancies:
   d0-compressed `t` — a truncation, not a hash. Sound-looking but unspecified.
 - **(b) `G` instantiation.** §1.4 requires a 1024-bit hash; the code builds `Kr` from
   four SM3-256 calls over `m ‖ ctr ‖ ID(pk)` with a 1-byte counter placed *between*
-  m and ID (`ccakem.c:39-44`). A counter-mode expansion, not a single 1024-bit hash;
+  m and ID (`ccakem.c:41-45`). A counter-mode expansion, not a single 1024-bit hash;
   the spec does not describe this construction.
 - **(c) cosmetic.** `params.h:66` defines `RLWE_ECC_R 8`, contradicting spec §2.3.2's
   r = 10. It is dead: `hamming.h:13` defines the live `ECC_R 10`, and `RLWE_ECC_N` is

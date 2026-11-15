@@ -113,8 +113,11 @@ Agreements:
   matching Table 1's signature column exactly.
 - `PK_BYTES = m·n(n+1)/2 / elems_per_byte` reproduces Table 1's public keys.
 - `vdoo_sign.c` implements Algorithm 2 layer by layer (`solve_diagonal_eq`,
-  `substitute_fixed_vars` + `gauss_elimination` twice) with a fresh salt on
-  failure, capped at 100 attempts — matching §7.4.
+  `substitute_fixed_vars` + `gauss_elimination` twice). On a layer failure
+  `vdoo_inverse_F` resamples the vinegar variables for the same salt, up to
+  100 times (`vdoo_sign.c:177-224`); only when all of these fail does
+  `vdoo_sign` draw a fresh salt, itself capped at 100 attempts
+  (`vdoo_sign.c:274-300`) — matching §7.4.
 - `vdoo_verify` implements Algorithm 5 with a real comparison
   (`diff |= computed[i] ^ correct[i]; return diff == 0 ? 0 : -1`) and the
   double hash `H(H(msg) || salt)`; `hash_msg` = `pseudoXOF` (ICCS).

@@ -1576,6 +1576,15 @@ echo "== 2026-11-14 MORNING-Scabbard zero-length secret, v-residual DFR and matr
 run_target kem-24 "kem-24-2" sh kem-24/reproduce_zero_length_ss.sh
 run_target kem-24 "kem-24-3" python3 kem-24/reproduce_dfr_vfloor.py
 run_target kem-24 "kem-24-4" sh kem-24/reproduce_matrix_truncation.sh
+echo "== 2026-11-15 sensitivity and entropy review: CTL, HEP-QC, Viper, Mito, OAEP-NTRU, QUBE, CreTAKE, Phoenix =="
+run_target kem-12 "kem-12-3" sh kem-12/reproduce_s_branch.sh
+run_target kem-17 "kem-17-6" sh kem-17/reproduce_xof_state_width.sh
+run_target kem-21 "kem-21-4" sh kem-21/reproduce_mu_unchecked.sh
+run_target kem-23 "kem-23-4" sh kem-23/reproduce_reject_key_stack.sh
+run_target kem-28 "kem-28-2" sh kem-28/reproduce_tag_return.sh
+run_target kem-33 "kem-33-6" sh kem-33/reproduce_optimized_seed_width.sh
+run_target kex-03 "kex-03-11" sh kex-03/reproduce_reject_key_prefix.sh
+run_target sign-19 "sign-19-7" sh sign-19/reproduce_h2_exhaustion.sh
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

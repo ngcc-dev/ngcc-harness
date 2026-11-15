@@ -156,10 +156,12 @@ Discrepancies:
   (`TRINE_EXPECTED_TRIFORM_BYTES 797162`), while §3.5 rounds the X-fold total
   once. All other pk sizes agree exactly.
 - **(c) Salt is not bound into the Fiat–Shamir transcript.** `crypto_sign`
-  /`crypto_sign_verify` absorb `M || ψ_0 || … || ψ_{r-1}` only; the salt enters
-  solely through the base-round commitment derivation. It therefore is only
-  indirectly committed (via the r−K base ψ's) and not at all through the K
-  non-base rounds. Not a spec deviation (the spec has no salt), but the salt
+  /`crypto_sign_verify` absorb `M || ψ_0 || … || ψ_{r-1}` only. The signer feeds
+  the salt into the commitment derivation of all r rounds (`trine.c:373-379`),
+  but the verifier uses it only for the r−K base rounds (`trine.c:613-619`) and
+  recomputes the K non-base ψ's from the responses without it
+  (`trine.c:599-603`). It therefore is only indirectly committed (via the r−K
+  base ψ's) and not at all through the K non-base rounds. Not a spec deviation (the spec has no salt), but the salt
   does not achieve the usual multi-target binding.
 - **(d) Unbounded transcript buffering (resource, ICCS build).** With
   `-DUSE_ICCS` there is no streaming hash: `trine_hash_absorb` (hashkdf.c:266)

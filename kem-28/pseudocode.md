@@ -154,14 +154,14 @@ Agreements:
   0–511, 512–639 and 640–647 in exactly the interleaved order used by
   `poly_cbd1` (`poly.c:133-180`), so all 648/1296/2592 coefficients are checked
   — I verified the index arithmetic covers the full range with no gap.
-- Domain-separation prefixes match Algorithms 8–10: `data[0] = 0x00` for
-  pkDigest, `0x01` for G, `0x05` for H (`symmetric.c:8, 20, 33`), and the H
+- Domain-separation prefixes match Algorithms 8–10: the `data` initialiser is `{0x0}` for
+  pkDigest, `{0x1}` for G, `{0x5}` for H (`symmetric.c:7, 19, 32` in OAEP-NTRU-648), and the H
   output is split as σ = first λ/4 bytes, k = last |k| bytes
   (`KEM_AlgorithmInstance.c:144-145`), matching `KeyConfirmation_BYTES =
   SSBYTES + SYMBYTES`.
 - pkDigest output width is level-dependent as the spec requires: `sm3hash(256,…)`
   for 648, `pseudohash(512,…)` for 1296, `pseudohash(1024,…)` for 2592
-  (`symmetric.c:14`, `:14`, `:15` in the three trees) = 32/64/128 bytes = λ/4.
+  (`symmetric.c:14`, `:14`, `:16` in the three trees) = 32/64/128 bytes = λ/4.
 - Decap has **no re-encryption**, as §3.3.2 claims — only the short-polynomial
   range check, `poly_sotp_inv`, and the σ comparison.
 
@@ -180,14 +180,23 @@ Discrepancies:
 - **(a) the shared secret is written on rejection.** Algorithm 3 returns ⊥ on
   either check failing. `kem_dec` instead always executes
   `memcpy(ss, sigma + NTRUOAEP_SYMBYTES, NTRUOAEP_SSBYTES)` before returning the
-  nonzero `fail` code (`KEM_AlgorithmInstance.c:205-209`). The value written is
-  k′ = H(d ‖ s ‖ e) computed from the attacker-supplied s, e — i.e. a value the
-  submitter of an invalid ciphertext can compute themselves. A caller that
-  checks only the output buffer and not the return code therefore accepts an
-  attacker-chosen "shared secret". The spec gives no guidance on what to write
-  into the output buffer on ⊥, so this is at least a spec gap; in an API where
-  ⊥ must still fill a buffer, implicit rejection (a pseudorandom value from a
-  secret) would be the safe reading.
+  nonzero `fail` code (`KEM_AlgorithmInstance.c:205-209` in OAEP-NTRU-648,
+  `:252-256` in -1296, `:231-236` in -2592). `fail` is an `int8_t` that
+  accumulates `ct[i] ^ sigma[i]` over the tag bytes, so the returned code is the
+  bytewise OR of the tag difference rather than a 0/1 flag (kem-28-2). The value written is
+  k′ = H(d ‖ s ‖ e), where s and e are the results of decrypting the received
+  body with the private key and d is read from the secret key
+  (`KEM_AlgorithmInstance.c:195`). d is the public-key digest that key generation
+  stores there (`hash_f(sk + 2 * NTRUOAEP_POLYBYTES, pk)`, `:90`; encapsulation
+  recomputes it from pk at `:135`), so k′ is secret only through s and e. For an
+  honest ciphertext body with a wrong tag, s and e are the sender's values and
+  the buffer holds the honest shared secret although the call is rejected; a
+  party who built the body itself already knows s and e and learns nothing new.
+  A caller that reads the output buffer without checking the return code
+  therefore uses a key that Algorithm 3 withholds. The spec gives no guidance on
+  what to write into the output buffer on ⊥, so this is at least a spec gap; in
+  an API where ⊥ must still fill a buffer, implicit rejection (a pseudorandom
+  value from a secret) would be the safe reading.
 - **(minor, non-constant-time)** the short-polynomial check uses short-circuit
   `||`: `fail |= (p_s.coeffs[i] > 1 || p_s.coeffs[i] < -1)`
   (`KEM_AlgorithmInstance.c:184`). `fail` is accumulated over the whole loop so

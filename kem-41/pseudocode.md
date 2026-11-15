@@ -81,7 +81,8 @@ Sizes (bytes), specification vs the built reference library:
 The spec gives no sk size. Implementation layout (params.h):
 sk = f̂ (10 bits/coeff = 10n/8 bytes) ‖ f_inv (n/4 bits = n/32 bytes) ‖ pk ‖ h_pk
 (ZEN_SYM_LEN_BYTES) ‖ κ′ (ZEN_SHAREDKEY_LEN_BYTES) = 640+16+615+16+16 = 1303 etc.
-ss = n/4 bits, so the shared secret *is* the PKE message.
+ss = n/4 bits, the same length as the PKE message; it is the leading bytes of
+H_m(m ‖ h_pk) (`KEM_AlgorithmInstance.c:128`), not m itself.
 
 ## Pseudocode
 
@@ -168,8 +169,10 @@ Agreements:
   computes ((a∧b) − (c∧d))·e, giving Pr[±1] = 3/32 each — as the S_d notation demands.
 - The zero-divisor lift is exactly Algorithm 4 line 6 (`pke.c:96-99`, the four copies at
   i, i+n/4, i+n/2, i+3n/4 scaled by (q+1)/2), and `pke_dec` is exactly Algorithm 5 +
-  Algorithm 2 including the constant-time min/compare form of the S_{r,0} vs S_{r,1} test
-  (`pke.c:160-186`).
+  Algorithm 2 including the branch-free min/compare form of the S_{r,0} vs S_{r,1} test
+  (`pke.c:160-186`), with two differences: the comparison result selects the address of
+  the store `t2[idx]` (`pke.c:185-186`), and the code tests `c0 <= c1` where Algorithm 2
+  line 6 tests `v0 < v1`, so on a tie the code takes x^i and the spec x^{i+n/4}.
 - The FO layer is Algorithms 6–8 with a constant-time ciphertext compare and a
   constant-time select between K and K′ (`KEM_AlgorithmInstance.c:165-172`); no early
   return on rejection.
@@ -210,6 +213,8 @@ Discrepancies and observations:
    one counter across both loops and both `poly_generate_*` calls, so g and f are never
    derived from the same substream; that is the safe reading, but the spec does not pin it
    and any re-implementation that restarts N at the f loop would produce different keys.
+   The implementation also samples f first (`pke.c:28`, nonce 0) and g afterwards
+   (`pke.c:55`), the reverse of Algorithm 3's order.
 6. **(a) API-contract deviation (minor).** `KEM_AlgorithmInstance.h` documents
    `kem_dec` as returning −1 on unsuccessful decapsulation; the implementation always
    returns 0 and signals failure only through the pseudorandom shared secret. That is the

@@ -1,6 +1,6 @@
 # Constant-time review — 18 Origami
 
-Scope: reference implementation, representative instance only: `Implementations and Test_Vectors/Implementations/Reference_Implementation/Origami-256/origami_ref.c`. Other instances and optimized implementations have not been proven source-equivalent. This is a source-level triage, not a constant-time certification.
+Scope: reference implementation, representative instance only: `Implementations and Test_Vectors/Implementations/Reference_Implementation/Origami-256/origami_ref.c`. `origami_ref.c` is byte-identical in the four instances, which differ only in `origami_params.h`, `SIG_AlgorithmInstance.h` and the Makefile; the optimized `origami_opt.c` is byte-identical to `origami_ref.c` and the optimized trees otherwise differ only in the Makefile. This is a source-level triage, not a constant-time certification.
 
 Secret: trapdoor/master seed, hidden central map and signing vinegar/solver state. Public: verification key, message and final signature.
 

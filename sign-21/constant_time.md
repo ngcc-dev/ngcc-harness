@@ -4,7 +4,7 @@ Scope: reference implementation, representative instance only: `Implementations/
 
 Secret: witness/secret key and per-proof random tapes until revealed. Public: verification key, message, Fiat–Shamir challenge and opened transcript.
 
-- Branch/loop trace: `Implementations/Reference_Implementation/ReSolveD-alpha-384f/SIG_AlgorithmInstance.c:75` — The wrapper checks public key length. Secret-witness operations in the deeper ReSolveD code need a separate taint trace.
+- Branch/loop trace: `Implementations/Reference_Implementation/ReSolveD-alpha-384f/SIG_AlgorithmInstance.c:75` — The wrapper checks the secret-key length, which is public. Secret-witness operations in the deeper ReSolveD code need a separate taint trace.
 - Table lookups and division/remainder: this source triage does not certify their absence or constant-time compilation. Only the explicitly traced operands above are classified. Public lengths, fixed parameters and verifier checks are not findings.
 
 Assessment: No new vulnerability report is promoted from this representative source triage. A compiler/architecture-specific timing and cache test is still needed before claiming constant-time behavior or exploitable leakage.

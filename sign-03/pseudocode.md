@@ -139,12 +139,15 @@ spec's `x ∈ C_s(Π[w_j])`. The per-layer heights in `sign.c:146-152` implement
   `hash_sm3.c:172` is `*tree = 0;` (identical in all 8 instances, all at line 172). The
   `⌈(h-h_0)/8⌉`-byte `idxTree` field of the digest is skipped, not decoded (Alg. 17 l.11/13,
   Alg. 18 l.13/15 require `idxTree ← toInt(...) mod 2^{h-h_0}`). Signer and verifier share the
-  routine, so KATs pass, but only the single bottom-layer XMSS tree #0 is ever reachable: the
-  number of distinct FORS+C key pairs drops from `2^h` (2^67…2^64) to `2^{h_0}` (2^8/2^9),
-  and every signature of a key uses one of ≤512 FORS instances. FORS few-time security
-  collapses; it also makes layers 1..d-1 of the hypertree dead weight. Not in
-  `security_findings.md` (which records "no claim violation established") and not in
-  `RESULTS.md`; there is no `sign-03/review-o48.md`. This deserves a dedicated follow-up.
+  routine, so KATs pass, but only the single bottom-layer XMSS tree #0 is ever reachable.
+  In addition `SPX_BOTTOM_TREE_HEIGHT` is defined without parentheses as
+  `SPX_TREE_HEIGHT + 1` (`params/params-cedrusc-sm3-*.h:37`), so the leaf mask shift
+  `32 - SPX_LEAF_BITS` (`hash_sm3.c:78,176`) expands to `32 - SPX_TREE_HEIGHT + 1` and keeps
+  `h_0 - 2` bits. The number of distinct FORS+C key pairs therefore drops from `2^h`
+  (2^67…2^64) to `2^{h_0-2}`: 4/64/8/64/16/128/32/128 for
+  160f/160s/256f/256s/384f/384s/512f/512s. FORS few-time security
+  collapses; it also makes layers 1..d-1 of the hypertree dead weight. Recorded as
+  sign-03-1 in `report.md`.
 - **(a) Real deviation — the Table 1.2 instantiation for n ≤ 32 is not implemented.**
   `thash_sm3_simple.c:16-31` hashes `PK.seed(n) ‖ ADRS(32) ‖ M` for every n, i.e. the
   `toByte(0, 64-n)` one-block padding and the 22-byte compressed `ADRS_c` of Table 1.2 are
@@ -163,7 +166,10 @@ spec's `x ∈ C_s(Π[w_j])`. The per-layer heights in `sign.c:146-152` implement
   consumes the *leading* `Σ log2 w_j = 8n-z_b` bits. For 160s that constrains bits 152..157,
   two of which are already inside the last base-w digit, and leaves bits 158..159 both unused
   and unchecked. Self-consistent between signer and verifier (KATs pass) but the spec text
-  does not describe the deployed encoding.
+  does not describe the deployed encoding. The reference and optimized trees use the same
+  mask in all sets; the low bits of the last byte that are neither encoded nor tested number
+  2/2/2/3/4/0/3/1 for 160f/160s/256f/256s/384f/384s/512f/512s (`min(z_b, 8-z_b)`), so only
+  384s is exact (sign-03-3).
 - **(b) Spec inconsistency — `ctrFTS` counted twice.** Alg. 14 l.1 sets `σ_FORS ← ctrFTS`,
   yet Alg. 17 l.22 emits `R ‖ ctrFTS ‖ σ_FORS ‖ σ_HT`. Fig. 1.14 and the length test in
   Alg. 18 l.1 count it once. The implementation counts it once (`sign.c:134-135`,

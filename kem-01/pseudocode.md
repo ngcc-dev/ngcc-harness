@@ -125,7 +125,8 @@ K = H3(s, c)."* Both K′ and H3(s,c) are κ′ bytes; H3 is XOF-128/256/512 per
 ### Hashes (spec §5.2, Table 3)
 
 ```
-Hash-d(M)   = Keccak[2d](M || 01,   d)      # d = 128, 256, 512, 1024
+Hash-d(M)   = Keccak[2d](M || 01,   d)      # d = 128, 256, 512
+Hash-1024(M) = Keccak[1024](M || 01, 1024)
 XOF-d(M, r) = Keccak[2d](M || 1111, r)      # d = 128, 256, 512
 
               XOF1          XOF2          H1         H2          H3
@@ -161,6 +162,11 @@ Agreements:
 - `owcpa_keypair` derives `(noiseseed, publicseed) = H2(ξ)` from a single κ'-byte
   draw, matching Algorithm 14 lines 1–2 (the two halves are used in the opposite
   order to the spec's `(ρ, σ)` naming — cosmetic, type (c)).
+- Two byte-layout differences, type (c): `pack_pk`/`unpack_pk` (`pack.c:8-10,15-17`)
+  store the public key as `Encode_{d_t}(t̄) || ρ`, not `ρ || Encode_{d_t}(t̄)` as in
+  Algorithm 14 line 9; and for η = 3 `cbd3` (`cbd.c:49-57`) takes CBD_1 from the
+  first n/4 bytes of z and CBD_2 from the next n/2, whereas Algorithm 12 lines 11–12
+  take CBD_2 first.
 
 ### Discrepancy 1 — **the implicit-rejection branch of Decaps is dead code** (real deviation, critical)
 
@@ -217,7 +223,7 @@ into the output, not into a scratch buffer.
 uninitialised/foreign heap memory. Because of Discrepancy 1 this value is discarded,
 so the defect is currently unobservable — but any fix to Discrepancy 1 alone would
 leave a key derived from out-of-bounds memory, and the read itself is undefined
-behaviour today. Not previously recorded in `security_findings.md`.
+behaviour today. Filed as kem-01-2 in `report.md`.
 
 ### Discrepancy 3 — spec-internal size inconsistency (spec ambiguity / typo)
 
@@ -233,8 +239,8 @@ Algorithm 19 line 4 / Algorithm 20 line 7 write `Aigis-Enc+.Enc_internal` where
 ### Discrepancy 4 — symmetric primitives are not the Table 3 Keccak ones (deliberate substitution)
 
 `kem-01/Makefile` builds with `-DUSE_NICCS_API`, which routes `hashkdf.c` away from
-SHA-3/SHAKE onto the competition-harness primitives: `hash256 -> sm3hash`,
-`hash128/512/1024 -> pseudohash`, `kdf128/256/512 -> pseudoXOF`
+SHA-3/SHAKE onto the competition-harness primitives: `hash128 -> pseudoXOF`, `hash256 -> sm3hash`,
+`hash512/1024 -> pseudohash`, `kdf128/256/512 -> pseudoXOF`
 (`hashkdf.c:7-88`). This is a build-harness substitution of the whole symmetric layer
 rather than a scheme bug, but it means the built library does not realise the H1/H2/H3
 instantiation of spec Table 3, and the shipped `fips202.c` is unused on this path.

@@ -114,7 +114,8 @@ the norm test (step 4) and the re-encryption test (step 5) of Decrypt.
 ```
 Hashes (implementation instantiation, `api.c`): `HASH`/`hash_m` = `sm3hash(256)`
 for 32-byte outputs, otherwise `pseudoXOF`; `EXPAND(seed, label)` prefixes an
-8-byte little-endian label built from `q | logn<<16 | tag<<24`, giving domain
+8-byte little-endian label built from `q | logn<<16 | tag<<24` and 8 zero
+bytes (`api.c:63-64`), giving domain
 separation between rr-derivation (0x72), Hash_s/Sample_s (0x73), the bad-KDF
 seed (0x62), and the final KDF (0x66 / 0x67 for reject / accept).
 
@@ -142,7 +143,11 @@ Agreements:
   recovers m by XORing `hash_m(sbuf)` back, exactly Algorithm 4 step 5.
 - Randomness comes from the NGCC seeded DRNG: `ctl_get_seed` (`prng.c:14`)
   calls `get_random_number(&drng_algorithm, ...)`, despite the inherited BAT
-  comments in `api.c` that say "get a random message m from the OS".
+  comments in `api.c` that say "get a random message m from the OS". For
+  encapsulation, `kem_enc` draws the seed with `get_random_number` itself
+  (`KEM_AlgorithmInstance.c:95` in CTL-257-512, `:84` in the other two;
+  64/32/48 bytes, of which the first LVLBYTES are used as m) and passes it to
+  `encapsulate_explicit_seed`.
 - pk/sk sizes match Table 3 to the byte for all three instances, in both the
   long and (by the `get_privkey_length` formula) the short format.
 
@@ -166,7 +171,9 @@ Discrepancies:
   the 48-byte `c2` field entirely, even though Table 3 is explicitly the
   "practical deployment form with the FO transform". The other two levels
   (473 = 1+456+16, 1006 = 1+973+32) include c2 and match, so this is an
-  arithmetic slip in one table cell rather than a code bug.
+  arithmetic slip in one table cell rather than a code bug. Separately,
+  §3.5.3 (printed p. 28) fixes `c2` at 64 bytes for CTL-512, which would give
+  2369; the implementation's 48-byte `c2` is filed as kem-12-2 in `report.md`.
 - **(b) spec ambiguity — the parameter b.** Table 1's second column tuple is
   (b, k, q) with b = 128/192/416, and §3.4 lists b among the parameters to be
   determined, but b is never defined anywhere in the document and has no
@@ -175,7 +182,7 @@ Discrepancies:
   Table 2.
 - **(b) the shared-secret length is not specified.** The spec writes
   K = Hash_k(m) with "output space K" but never fixes |K|. The implementation
-  uses LVLBYTES = 16 / 32 / 48 (`ctl.h:245-247`), confirmed by the observed
+  uses LVLBYTES = 16 / 32 / 48 (`ctl.h:247-249`), confirmed by the observed
   ss sizes. A 16-byte shared secret for the "128-bit security" set is a
   deliberate choice, not a deviation, but it is undocumented.
 - **(c) equivalent optimisation.** Key generation loops internally
@@ -185,7 +192,7 @@ Discrepancies:
   inside `ctl_keygen_make_fg`. `encapsulate_explicit_seed` re-hashes m instead
   of drawing a fresh one on the rare Encrypt_base failure — a determinism
   convenience the spec's Algorithm 5 step 3 ("restart the entire process")
-  does not describe; it is not the path the KEM API uses.
+  does not describe; it is the path `kem_enc` uses.
 
 Not verified: `Sampler_fg` (Algorithm 7) and `ComputeVec` (Algorithm 8) were
 not checked line-by-line against the spec's formulae, the ntrugen-derived

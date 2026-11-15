@@ -7,7 +7,7 @@ Secret-bearing values: private decapsulation key, recovered message/error state,
 - Source trace: `Implementations/Reference_Implementation/ZEN_128/KEM_AlgorithmInstance.c:154` — The wrapper decrypts to a private message, then performs fixed-length ciphertext comparison and shared-key masking. No secret branch is established by this line.
 - Branches, indexed accesses and division/remainder: this first pass classifies only the traced operand above. Public-seed rejection and fixed-divisor arithmetic are not treated as leaks; absence of other leaks has not been proved.
 
-Assessment: No new side-channel report is promoted from this representative path. Lower-level decoding, sampling and compiler output remain open audit work.
+Assessment: `pke_dec` computes the SimpleDecoding comparison with masks but uses its result to select the address of the store `t2[idx]` (`pke.c:184-186`); this is filed as kem-41-3. Key generation indexes the table `qinv[det]` with a value derived from the secret `f` (`ntt.c:341`, reached from `pke.c:48`). The wrapper's ciphertext comparison and key selection are masked. Sampling and compiler output remain open audit work.
 
 Reproduction is source/dataflow inspection at the cited location. A remote timing claim needs repeated same-public-input tests with changed secret state and an independent public-value control.
 

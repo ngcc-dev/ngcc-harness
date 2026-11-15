@@ -130,7 +130,7 @@ DRNG-derived. The FO transform matches Fig. 1 term for term, including the salt
 in `G`'s input and in the re-encryption comparison, and `J` binding
 `H(ek_KEM) || sigma || c_KEM`. Domain separation is real: `symmetric.h:28-33`
 gives `G/H/I/J` distinct domain bytes 0/1/2/3 and the PRNG/XOF domains 0/1.
-`triq_pke.c:110-112` applies bounded-density sampling to `r2` and `r1` only and
+`triq_pke.c:113-115` applies bounded-density sampling to `r2` and `r1` only and
 plain fixed-weight sampling to `e`, as §III-A specifies, and in the sampling
 order the spec's §III-A display gives (`r2, e, r1`). `UTILS_REJECTION_THRESHOLD
 = 16773729 = ⌊2^24/16301⌋·16301` is the correct unbiased-rejection bound.
@@ -157,7 +157,7 @@ the spec says they are.** Two different fixed-weight samplers ship:
 - `vect_generate_random_support2` (`vector.c:103-123`) uses the HQC
   multiply-shift construction `support[i] = i + ((rand32 * (n-i)) >> 32)` with
   the constant-time "replace collision by `i`" fix-up. It is used for `r1`, `r2`
-  and `e` (`triq_pke.c:110-112`). This is *not* uniform over `R_w`: it carries a
+  and `e` (`triq_pke.c:113-115`). This is *not* uniform over `R_w`: it carries a
   multiply-shift modulo bias of order `n/2^32` per draw, and the
   collision-replacement step skews the support distribution. §III-B states
   "The sampler first draws a fixed-weight candidate **uniformly from R_w** …

@@ -4,7 +4,7 @@ Scope: reference implementation, representative instance only: `Implementations/
 
 Secret: signing-key polynomials/basis, per-signature masks and sampler state. Public: verification key, algorithm parameters, message and serialized signature.
 
-- Branch/loop trace: `Implementations/Reference_Implementation/yuanyang-512/sign.c:511` — Sampler acceptance and retry depend on private lattice-point state; this expected rejection path needs a distinguishability test before claiming key leakage.
+- Branch/loop trace: `Implementations/Reference_Implementation/yuanyang-512/sign.c:511` — Sampler acceptance and retry depend on private lattice-point state; this expected rejection path needs a distinguishability test before claiming key leakage. In `sampler.c` of the same tree, `sampler_zero` (`:392-451`, called at `sign.c:164,168`) returns at `:422` when the drawn sign bit is 0 and otherwise reads `yuanyang_large_zero_berexp[z0]` (`:440-441`), a table indexed by the base-sampler output `z0`; `berexp_compare` (`:235-259`) draws a data-dependent number of random bytes; `sampler` (`:305-390`) retries until acceptance. `gaussian0_sampler` (`:177-233`) scans its whole table.
 - Table lookups and division/remainder: this source triage does not certify their absence or constant-time compilation. Only the explicitly traced operands above are classified. Public lengths, fixed parameters and verifier checks are not findings.
 
 Assessment: No new vulnerability report is promoted from this representative source triage. A compiler/architecture-specific timing and cache test is still needed before claiming constant-time behavior or exploitable leakage.

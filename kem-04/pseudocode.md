@@ -136,6 +136,7 @@ Discrepancies.
 - Cosmetic: `src/scheme/api.h` of the 128 instance names the algorithm `BAG-PIGLET-128`
   while the other three use `BAG_PIGLET-<lvl>`.
 
-Not verified: the DFR values of Table 5, the attack cost estimates (§3.2–3.3), byte-level
-packing in `parsing.c`, and constant-timeness of the decoder/reject path. KAT PASS for all
+Not verified: the DFR values of Table 5, the attack cost estimates (§3.2–3.3), and
+byte-level packing in `parsing.c`. The decoder is not constant time; see
+`constant_time.md` and kem-04-1. KAT PASS for all
 four instances (`RESULTS.md:373-376`).

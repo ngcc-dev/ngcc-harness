@@ -116,9 +116,11 @@ nothing about it or about the padding**. That is where the recorded defects live
 
 ### Hash
 `H(OUT, OUTLEN, IN, INLEN) = pseudoXOF(IN, OUTLEN)` (`symmetric.h:10`) — the ICCS
-SM3/HMAC-SM3-based competition XOF in `auxfunc.c`. `ExpandA`, `ExpandS`,
-`ExpandMask`, `SampleInBall` and the challenge hash all call the same XOF with
-different seed/counter prefixes.
+SM3/HMAC-SM3-based competition XOF in `auxfunc.c`. `ExpandMask`, `tr`, `µ`, `ρ'`,
+the key-generation seed expansion and the challenge hash call it. `ExpandA`,
+`ExpandS`, `SampleInBall` and the `SampleSign` coins instead use the ICCS DRBG
+(`H_Init`/`H_Squeeze`/`G_Init`/`G_Squeeze` = `init_random_number`/`get_random_number`,
+`symmetric.h:13-16`).
 
 ## Implementation vs specification
 
@@ -135,14 +137,17 @@ instances — `q` 32257/64513/64513, `n` 256/512/512, `(k,l)` (3,3)/(3,3)/(6,5),
 `eta` 1, `(a0,b0,B0)`, `(a1,b1,B1)`, `(a2,b2,B2)`, `(tau,taup)` (23,4)/(44,3)/(118,6),
 `alpha` 2016/8064/4032, and `d0/d1`. The spec's β = 32/128/32 is stored as its
 **log**: `#define beta 5/7/5`, used as a shift (`ShiftLeftVector(t1, beta)`,
-`cs.c:82`) and as `1 << (beta-1)` in the verifier bound — consistent, not a
+`cs.c:83`) and as `1 << (beta-1)` in the verifier bound — consistent, not a
 mismatch. `N = ((tau + taup - 1)/taup)` (`conversion.h:6`) is exactly the spec's
 ⌈τ/τ'⌉. All three `PUBLICKEYBYTES`/`SECRETKEYBYTES`/`SIGNATUREBYTES` expressions
 evaluate to the OBSERVED and §5.1 values. The transcript
 (`tr = H(pk)`, `µ = H(tr‖M)`, `ρ' = H(K‖rnd‖µ)`, `c~ = H(µ ‖ w1Encode(HighBits_h w) ‖ LSB(z0))`,
-`cs.c:79-95,113-118`) matches Alg. 11 lines 3–11, and the verifier reconstructs the
+`cs.c:79-95,113-118`) matches Alg. 11 lines 3–11, except that `ρ'` also absorbs the
+random `rnd` (Alg. 11 line 5 gives `H(K, µ)` or a uniform `ρ'`) and `ExpandMask`
+copies only the first `SEEDBYTES` = λ/8 bytes of the `HBYTES` = λ/4-byte `ρ'`
+(`sampling.c:673`; sign-07-6); and the verifier reconstructs the
 same absorption (`cs.c:171-199`). The verifier's three norm checks
-(`cs.c:164`, `cs.c:205`) are exactly Alg. 12 line 12 with
+(`cs.c:165`, `cs.c:206`) are exactly Alg. 12 line 12 with
 `B2' = B2 − tau + alpha/4 + 1 + tau·2^{beta−1}`.
 
 Discrepancies:
@@ -164,12 +169,12 @@ Discrepancies:
    verifier-memory-safety defect.** In `sigDecode`, `cnt` is declared
    `int32_t cnt = 0` and filled by `memcpy((int32_t*)&cnt, sig, 2)`, i.e. any
    value in [0, 65535]; it is then passed straight to
-   `decode_rans(..., len = cnt, ...)` (`encodings.c:1519, 1536, 1543`), which sets
+   `decode_rans(..., len = cnt, ...)` (`encodings.c:1521/1527, 1538, 1545`), which sets
    `buf_end = buf + len` and walks the stream. The *encoder* checks
    `cnt > POLYZ0H_PACKEDBYTES - 2` etc. (`encodings.c:1472, 1484, 1491`); the
    decoder has no matching check against its enclosing fixed field, so decoding
    runs off the end of the signature buffer into adjacent stack storage. The
-   `RansDecVerify` / `size_used != len` checks (`encodings.c:1440-1448`) happen
+   `RansDecVerify` / `size_used != len` checks (`encodings.c:1431-1438`) happen
    only *after* the walk and therefore do not prevent the over-read. Reproduced as
    `stack smashing detected` (SIGABRT) in the exhaustive bit sweep.
 
@@ -188,10 +193,20 @@ Discrepancies:
    signer/verifier self-consistency (which holds).
 
 5. **(non-security) `malloc`'d `buf` leaks** on every early `return false` in
-   `CS_Verify` (`cs.c:163, 165, 200, 207`) and on the `return 1` in `CS_Sign`
+   `CS_Verify` (`cs.c:163, 166, 200, 207`) and on the `return 1` in `CS_Sign`
    (`cs.c:122`); only the success paths reach `free(buf)`.
 
-6. **Build-level, already recorded in `RESULTS.md`:** `ntt.c` includes a
+6. **(a) `ExpandS` nonce — recorded as sign-07-4.** `RejBoundedPoly` writes the
+   2-byte nonce at `rho[HBYTES]` but seeds the DRBG with only `SEEDBYTES + 2`
+   bytes (`sampling.c:248-252`), and `HBYTES = 2·SEEDBYTES`, so the nonce is not
+   absorbed and all `l + k` calls from `ExpandS` (`sampling.c:300-309`) use the
+   same seed.
+
+7. **(a) Message length — recorded as sign-07-5.** `CS_Sign` and `CS_Verify` take
+   `int len` (`cs.c:65-68,151-154`) and the `H` macro computes `(INLEN) * 8` in
+   `int` (`symmetric.h:10`).
+
+8. **Build-level, already recorded in `RESULTS.md`:** `ntt.c` includes a
    `NTT.h` that is absent from the submission (only `ntt.h` ships, and it declares
    `MultiplyNTT` non-static while `ntt.c` defines it static), and `symmetric.h`
    relies on a tentative definition of `DRNG_ctx drng_algorithm`, so the build

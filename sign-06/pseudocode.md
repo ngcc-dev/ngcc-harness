@@ -113,8 +113,8 @@ S̃_γ1 and admits no trailing-byte freedom.
 
 Checked against `Implementations/Reference_Implementation/COMPASS-SIG-{128,256,384,512}/`
 (the four dirs the Makefile builds with `-DCOMPASS_SIG_MODE=N`). All C sources
-except `params.h`/`rounding.h` are byte-identical across the four instances
-(md5-verified), so the review below covers all four. Files: `sign.c` (KeyGen /
+and headers, including `params.h`/`rounding.h`, are byte-identical across the four
+instances (md5-verified), so the review below covers all four. Files: `sign.c` (KeyGen /
 Sign / Verify), `rounding.c` (Split, power2round), `poly.c` (SampleInBall,
 uniform_gamma1, packing), `polyvec.c` (`polyvec_check_L2_bound`), `packing.c`,
 `params.h`. `review-o48.md` does not exist for sign-06; `security_findings.md`
@@ -133,7 +133,7 @@ range is precisely S̃_γ1 = (−γ1, γ1]. No hint vector exists anywhere, as c
 **Discrepancies.**
 
 1. *(spec-internal contradiction, impl follows the sizes)* Table 1 gives d = 5 for
-   COMPASS-SIG-512; `COMPASS-SIG-512/params.h:96` sets `#define D 6`. Only d = 6
+   COMPASS-SIG-512; `COMPASS-SIG-512/params.h:99` sets `#define D 6`. Only d = 6
    yields Table 2's pk = 7648 and sk = 4608, which the built library reports.
 
 2. **(a) — real deviation, affects levels 384 and 512.** `poly_challenge`
@@ -142,10 +142,11 @@ range is precisely S̃_γ1 = (−γ1, γ1]. No hint vector exists anywhere, as c
    For τ = 78 (level 384) and τ = 120 (level 512), `signs` is exhausted after the
    64th coefficient, so the last τ−64 (14, resp. 56) non-zero challenge
    coefficients are deterministically `+1`. Spec Fig. 1 step 04 requires a fresh
-   `s ← {0,1}` for every one of the τ positions. The challenge space is still
-   large (C(512,120)·2^64), so this is a bias rather than a break, but it is a
-   genuine departure from SampleInBall_τ and it shrinks the challenge set by
-   2^14 / 2^56. Levels 128 (τ=30) and 256 (τ=60) are unaffected.
+   `s ← {0,1}` for every one of the τ positions. The position index
+   `b = buf[pos++]` (`poly.c:895`) is also a single byte, so for n = 512 the
+   test `b > i` never rejects and positions 256 … n−τ−1 are never non-zero.
+   sign-06-5 bounds the resulting challenge image by 2^335.6 (level 384) and
+   2^454.9 (level 512). Levels 128 (τ=30) and 256 (τ=60) are unaffected.
 
 3. **(a) — real deviation from §2.3.1's stated anti-kleptography property.**
    Spec Algorithm 1 line 8 sets `sk := (seed, s, e, t0)` and the surrounding text
@@ -155,7 +156,7 @@ range is precisely S̃_γ1 = (−γ1, γ1]. No hint vector exists anywhere, as c
    `rho || key || tr || s || e || t0` (ML-DSA layout); the master seed is never
    retained, so the claimed self-check is not implementable from sk.
 
-4. **(c) — equivalent redefinition.** `power2round` (`rounding.c:16`) uses
+4. **(c) — equivalent redefinition.** `power2round` (`rounding.c:17`) uses
    `t1 = (t + 2^{d−1} − 1) >> d`, `t0 = t − t1·2^d`, and verify reconstructs with
    `polyveck_shiftl` = `t1·2^d` (`sign.c`, `polyvec.c:287`) — i.e. **without** the
    `+2^{d−1}` of the spec's `Decomp_d`. Signer and verifier agree and the bound
@@ -171,7 +172,9 @@ range is precisely S̃_γ1 = (−γ1, γ1]. No hint vector exists anywhere, as c
    `ρ' = SHAKE256(key ‖ rnd ‖ µ)` plus a 16-bit nonce counter, not the spec's
    "ρ is updated" per-iteration rewrite, and the default build is **deterministic**
    (`rnd` all-zero unless `COMPASS_SIG_RANDOMIZED_SIGNING`) although the
-   submission is filed as randomized.
+   submission is filed as randomized. `SHAKE256` here denotes the implementation's
+   `shake256_*` functions, which are a buffering wrapper around `pseudoXOF`
+   (`symmetric-shake.c:11-30,151-167`) and not FIPS 202 SHAKE (sign-06-6).
 
 6. **(a) — seed entropy is capped at 256 bits at every level.** Spec §2.3.1 takes
    an *n*-bit master seed (so 512 bits for the n = 512 parameter sets);

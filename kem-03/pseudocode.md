@@ -49,7 +49,7 @@ PKE.KeyGen(1^λ):
   H    := shake256(ρ_H) in F_{q^m}^{n×n}
   (X,Y) <-$ S_A^{n×n1}(F_{q^m}) with A_(X,Y) = A and 1 in Supp(Y)   # blended-block rank pair
   S    := H·X + Y                           # (§2.2 eq.(1) writes S = X·H + Y — spec inconsistency)
-  return pk' := (ρ_H, S), sk' := X          # sk' also carries seed1 that regenerates X,Y and g
+  return pk' := (ρ_H, S), sk' := X          # code stores sk' = (ρ_H, X); ρ_H regenerates g and H; the keygen seed is not stored
 KEM.KeyGen:
   (pk',sk') <- PKE.KeyGen(1^λ);  ξ <-$ {0,1}^512
   return pk := pk',  sk := (sk', pk', ξ)
@@ -118,16 +118,17 @@ Checked `src/BAG-Loong-128/` (full read) plus a parameter diff over all four ins
   all four instances against Table 1: exact match (e.g. 128: n=42, m=47, n′=46, ε=33,
   k=3, A_{X,Y}=[[5,4],[4,5]]; 512: n=104, m=97, n′=97, ε=73, k=6). The file also carries
   `LOONG_PARAM_STATIC_ASSERT` lines re-asserting each value.
-- **Decoder matches §2.3.** `augabidulin_code_decode()` (`augabidulin.c:203`-end):
+- **Decoder matches §2.3.** `augabidulin_code_decode()` (`augabidulin.c:107-179`):
   `recover_support_basis` on the last n₁n₂−n′ coordinates (step 2),
   `qpoly_set_interpolate_zero` for V2 (step 3), `qpoly_evaluate` loop (step 4),
   `gabidulin_code_init(..., k + tail_rank, n_prime)` then
   `gabidulin_code_decode_with_annihilator` (step 5), and `qpoly_left_div` against the
   annihilator with a zero-remainder check (step 6, `gabidulin.c:415-422`). Guard
   `k + ε ≤ n′` is enforced at init.
-- **(c) Equivalent refinement:** the code uses the *measured* tail rank `tail_rank ≤ ε`
-  rather than the fixed ε of the spec, giving the inner code dimension k+tail_rank. This
-  is a strict improvement consistent with §2.3's derivation, not a deviation.
+- **(a) Deviation — tail rank:** the code uses the *measured* tail rank rather than the
+  fixed ε of the spec, giving the inner code dimension k+tail_rank, and rejects when
+  `tail_rank > ε` (`augabidulin.c:30,145`). The specification uses ε as a minimum in the
+  failure analysis, not as a cap on the decoder input; see kem-03-5.
 - **(a) Deviation — symmetric primitives.** The spec names SHA3-512 / SHAKE256. The
   implementation uses the NGCC `lib/api_pkc` primitives instead: `loong_hash.c:187`
   `ID = sm3hash(256, ...)`, `loong_hash.c:196` `G = pseudohash(512, ...)`,
@@ -138,7 +139,8 @@ Checked `src/BAG-Loong-128/` (full read) plus a parameter diff over all four ins
   into a pre-key and encryption coins. `loong_kem.h:6-7` sets
   `LOONG_KEM_G_SECRET_BYTES = LOONG_KEM_THETA_BYTES = LOONG_G_BYTES = 64`, and
   `loong_kem.c:148/159` passes the *same* 64 bytes as both θ (encryption seed) and k
-  (KDF secret). No domain separation between the two uses.
+  (KDF secret). The two uses are separated only by the tags `BAG-Loong/PKE-enc/v1` and
+  `BAG-Loong/K/v1` (`loong_hash.c:12,15,225,258`).
 - **(b) Spec ambiguity — KDF binds ct′, not ct.** Algorithm 2 literally writes
   `K(k',ct')` and `K(ξ,ct')`; `loong_kem.c:241` follows it (`ct_prime` in both branches).
   Consequence: the rejection key is bound to the re-encryption, not to the received
@@ -152,8 +154,10 @@ Checked `src/BAG-Loong-128/` (full read) plus a parameter diff over all four ins
   (`LOONG_FIELD_POLY_DEGREE 97`, with an explicit `LOONG_FIELD_POLY_NEEDS_ERRATUM 0`
   assert). Table 2's 512 row appears to be an erratum (n = 104 substituted for m = 97).
   Also §1.3 writes S := H·X + Y while §2.2 eq.(1) writes (I H)(Y;X)ᵀ = S.
-- **Not verified / caveats:** the blended-block sampler in `loong_pke.c` (rejection logic
-  realising A_{X,Y} and A_{R1,E|R2}) was not traced line by line; the DFR formula of §1.2
+- **Not verified / caveats:** the support sampler `sample_support_pair_logical`
+  (`loong_pke.c:350-418`) discards its XOF reader and fills the supports from the fixed
+  pool 1, β, β², … (kem-03-3); only the matrix coefficients come from the seed. The
+  position-rejection logic was not traced line by line, and the DFR formula of §1.2
   was not recomputed. The decode path is **not constant time**: `recover_support_basis`
   branches per coordinate, `augabidulin.c` and `gabidulin.c` return
   `LOONG_ERR_CRYPTO_REJECT` early on secret-dependent conditions, and

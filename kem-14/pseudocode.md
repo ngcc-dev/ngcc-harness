@@ -126,11 +126,17 @@ Agreements:
 - `pke_keygen` (`dtru.c:5`) is Fig. 1 line for line, including `f = p*f' + 1`
   (`poly_multi_p` then `f.coeffs[0] += 1`) and the resample loop driven from
   `kem_keygen`'s `do { coins } while (pke_keygen(...))` on a non-invertible f.
+  DTRU-Prime is the exception: its `pke_keygen` (`dtru.c:7`) returns `void`
+  and `kem_keygen` calls it once, with no invertibility check or resample loop.
 - `poly_encode_compress` (`poly.c:102`) implements Algorithm 1 exactly: each
   message nibble goes through `encode_e8`, the result is written to both
   `mh[2i]` and `mh[2i + n/16]` (the `*(1 + x^{n/2})` factor), then
   `c = ((sigma + mask & (q+1)/2) << log q2 + q/2) / q` mod q2, i.e.
-  round((q2/q)(hr + e + ((q+1)/2)w)).
+  round((q2/q)(hr + e + ((q+1)/2)w)). DTRU-648 and DTRU-Prime do not use the
+  n/2 offset: DTRU-648 repeats at `mh[2i + 40]` and decodes 40 blocks paired at
+  coefficient offset 320 (`poly.c:124,154-159`), and DTRU-Prime repeats at
+  `mh[2i + 64]` and decodes 64 blocks paired at offset 512
+  (`poly.c:66,99-104`).
 - The FO check and key selection are constant-time: an OR-accumulated byte
   difference, `fail = (-fail) >> 31`, and a masked XOR select of K vs Ktilde.
 - All randomness (keygen coins, s, and m) comes from
@@ -172,8 +178,9 @@ Discrepancies:
   does not fix the instantiation.
 - **Robustness note.** In `kem_dec`, the loop that assembles `ct2 = c || z`
   uses the caller-supplied `ct_len_bytes` rather than
-  `DTRU_PKE_CIPHERTEXTBYTES`, into a buffer with only
-  `DTRU_Z_BYTES + DTRU_PREFIXHASHBYTES` bytes of slack. An oversized declared
+  `DTRU_PKE_CIPHERTEXTBYTES`, and `z` is then written at offset
+  `ct_len_bytes`, so the buffer has only `DTRU_PREFIXHASHBYTES` (33 or 65)
+  bytes of slack. An oversized declared
   ciphertext length overflows the stack buffer. Not reachable through the KAT
   flow, and the already-recorded harness length-metadata tests stay inside the
   slack.

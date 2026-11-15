@@ -21,7 +21,7 @@ parameters in §1.4 Table 1.
 | n | 648 | 1296 | 2304 | ring degree, R_q = Z_q[X]/(X^n − X^{n/2} + 1) |
 | q | 2593 | 2917 | 3457 | modulus (⌈log2 q⌉ = 12 for all three) |
 | η | ψ_1 | ψ_1 | ψ_1 | centered binomial, Pr[±1]=0.25, Pr[0]=0.5 |
-| d (NTT base degree) | 3 | 3 | 3 | impl-only; base ring degree for `basemul` |
+| d (NTT base degree) | 3 | 4 | 4 | impl-only; base ring degree for `basemul` |
 | δ (DFR) | 2^−549 | 2^−370 | 2^−298 | spec's decapsulation failure bound |
 | \|m1\| = ⌊n/16⌋ | 40 | 81 | 144 | bytes |
 | \|m2\| = \|r\| = ⌈n/16⌉ | 41 | 81 | 144 | bytes |
@@ -141,7 +141,7 @@ Discrepancies / notes:
   spec's own names, and the level-512 label corresponds to a 584-bit claim.
 - **(b/c) rejection behaviour.** Algorithm 13 returns ⊥. The implementation
   instead masks the shared secret to **all zeros** on failure and returns −1
-  (`KEM_AlgorithmInstance.c:204-209`: `mask_byte = fail - 1; ss[i] = key[i] &
+  (`KEM_AlgorithmInstance.c:206-211`: `mask_byte = fail - 1; ss[i] = key[i] &
   mask_byte`). That is a faithful reading of "return ⊥" for an API that must fill
   a buffer, but the rejection output is a *fixed constant* rather than a
   pseudorandom value, so every invalid ciphertext yields the same shared secret
@@ -151,7 +151,7 @@ Discrepancies / notes:
 - No parameter, size or hash-input-order mismatch was found.
 
 Not verified: the NTT constants in `src/ntt.c` (zetas table, Montgomery constants
-for the X^n − X^{n/2} + 1 ring with base-degree d = 3) were not checked against
+for the X^n − X^{n/2} + 1 ring with base-degree d = 3 for NTRE-128 and d = 4 for NTRE-256/512) were not checked against
 any spec statement — the spec does not specify an NTT, only the ring. The DFR
 analysis of §2.3 and the security estimates of Table 2 were not re-derived. The
 library was not executed; KAT conformance is reported in

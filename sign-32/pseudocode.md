@@ -143,7 +143,11 @@ Agreements:
   the systematic-form correction R ← T·R.
 - Sign implements Algorithm 7: s H_1ᵀ via the stored transpose `sk.sti`, then
   `dec_z`, then `dec_xy` with the exact-weight rejection loop against
-  `param.w`, then the monomial product and split into (e', e).
+  `param.w`, then the monomial product and split into (e', e). The retry
+  loops in `dec_z` and `dec_xy` are `while (true)` (`uvw.c:152,251,291`);
+  `counter` (`uvw.c:150,245`) is incremented but never tested, so the hard
+  truncation threshold N of spec §2.3.2 (N = 6000 for Level 1, 12000 for
+  Level 2) is not implemented.
 - With `-DUSE_API_PKC` all randomness is drawn from the shared seeded DRNG
   (`uvw_drng = &drng_algorithm`, SIG_AlgorithmInstance.c:19; `vf3.c:37`,
   `dp.c:13`, `uvw.c:10` route `csprng_read` to `get_random_number`). Without

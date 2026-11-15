@@ -95,7 +95,11 @@ Evaluating them reproduces the submitted vectors bit for bit:
 Three distinct divergences are visible, and only one of them is cosmetic:
 
 1. **`SEED_BYTES` is fixed at 32** in the optimized tree instead of λ/8. At
-   QUBE-128 that inflates pk/sk; at QUBE-384/512 it shrinks them.
+   QUBE-128 that inflates pk/sk; at QUBE-384/512 it shrinks them. The same
+   constant sizes the key-generation seed, the stored PKE decryption seed and
+   the encryption randomness θ (`src/common/kem.c:49,57,152`,
+   `src/x86/qube-5/qube.c:57,78,117,165`), so at QUBE-384/512 these are 32
+   bytes where the spec has ρ, ρ0, ρ1, ρc ∈ B^{λ/8} (kem-33-6).
 2. **The shared secret length is wrong at two levels.** The optimized
    `api.h` hard-codes `CRYPTO_BYTES 32` for qube-1 and `64` for qube-4, so the
    submitted vectors establish a **32-byte secret at QUBE-128** (spec: 16) and a

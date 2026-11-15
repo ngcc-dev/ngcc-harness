@@ -171,12 +171,14 @@ Discrepancies:
   `pseudoXOF(CTX_LEN·8, aux, …, ctx)` from the identical `aux`. `pseudoXOF` is
   SM3 in KDF counter mode (`api/auxfunc.c:482`), which has the prefix
   property, so `output = XOF(aux)[0 : outlen]` and
-  `new_ctx = XOF(aux)[0 : 208]`. Consequences: (i) any squeeze of ≥ 208 bytes
-  hands an observer the context's entire future output — the code does squeeze
+  `new_ctx = XOF(aux)[0 : 26 bytes]` (`CTX_LEN·8` = 208 is a length in bits; the
+  other 182 bytes of the 208-byte context are not rewritten). Consequences: (i) any
+  squeeze of ≥ 26 bytes hands an observer the context's entire next state, hence
+  its future output — the code does squeeze
   ⌈n/8⌉ = 2 209…24 641 bytes for `h`; (ii) every shorter output, e.g. the
   16-byte public `salt`, is literally the first 16 bytes of the generator's
-  next internal state. No concrete break follows in the current call graph
-  (the large squeezes are of values that are public anyway), but the
+  next internal state, leaving 10 state bytes not shown by a ciphertext; the
+  consequence for the encapsulation generator is filed under kem-17-3. The
   construction has no forward secrecy and is not what a XOF-based PRNG should
   look like. The spec does not define the ratchet at all.
 - **(a) API contract: the four `[out]` length parameters are never written.**

@@ -163,9 +163,7 @@ Discrepancies found:
    authenticates only 128 of the 160 bits of the FORC public key / lower-layer XMSS
    root, which looks like it lowers the forgery cost for CEDRUSα-160 well below the
    claimed 160 bits. `n = 32/48/64` are exact multiples of 8 and unaffected.
-   Not previously recorded: `sign-04/security_findings.md` lists
-   `algebraic-low-effort-key-recovery` and `parameter-selection` as `not_tested`,
-   and there is no `sign-04/review-o48.md`.
+   Recorded as sign-04-1 in `report.md`.
 
 2. **(a) real deviation — PK.seed absent from PRF, and no block-aligned padding.**
    Both tables define `PRF(PK.seed, SK.seed, ADRS)` with `PK.seed` first;
@@ -201,10 +199,18 @@ Discrepancies found:
    Similarly `bytes_to_ull` fills `m[0]` (the *low* limb) from the *first* 8 message
    bytes, so `Int(M)` is limb-reversed relative to Eq. (1.1); again self-consistent.
 
-Not verified: the claim that `τ_w^cs` is injective at these `(w, cs)` (i.e. that
-`|C_cs(∏[w_j])| ≥ 2^{8n}`) was not recomputed; the security-reduction and concrete
+Recomputed from the eight `params.h` files: `log2 |C_cs(∏[w_j])|` is 160.027, 160.028,
+256.012, 256.004, 384.030, 384.012, 512.013, 512.036 for 160f, 160s, 256f, 256s, 384f,
+384s, 512f, 512s, so `|C_cs(∏[w_j])| ≥ 2^{8n}` holds in every set. The `dp` table of
+`encode` (`wots.c:111-126`) is held in `⌊n/8⌋` 64-bit words and wraps in every set; a
+Python model of `encode` with the wrapped table gave no failed and no colliding encoding
+on 2,002 sampled inputs per set.
+
+Not verified: the security-reduction and concrete
 -security arguments of Chapter 3 were not reviewed; the `treehashx1` authentication
 -path construction and `address.c` field packing were read but not traced against
-every address figure; instances 160f, 256s, 384s, 384f, 512f were checked only at
+every address figure, except that `set_chain_addr` (`address.c:79-82`) stores only the
+low byte of the chain index while `fors.c:52,122,182` pass values up to `k·2^a − 1`
+(sign-04-2); instances 160f, 256s, 384s, 384f, 512f were checked only at
 the `params.h` level. Finding 1's quantitative security impact is a reading of the
 code, not a mounted attack.

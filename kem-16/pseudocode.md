@@ -174,13 +174,14 @@ Discrepancies:
 - **(a, minor, side channel) key generation uses the variable-time sampler.**
   `hqc_pke_keygen` calls `vect_sample_fixed_weight1` for the secret x and y,
   which is rejection sampling plus an O(w²) duplicate scan with a data-dependent
-  loop count (ref/vector.c:62-93); encryption uses the constant-time
-  `vect_sample_fixed_weight2` (HQC's ePrint 2021/1631 Algorithm 5). The
+  loop count (ref/vector.c:62-93); `hqc_pke_decrypt` calls it again for y in
+  every decapsulation (ref/hqc.c:185, ref/parsing.c:53-56); encryption uses
+  the constant-time `vect_sample_fixed_weight2` (HQC's ePrint 2021/1631 Algorithm 5). The
   specification says nothing about constant-time requirements, but the
   asymmetry means the long-term secret support is the one sampled in variable
   time.
 - **(minor, portability) `vect_generate_random_support2` casts a `uint32_t[]`
-  to `uint8_t*` for the XOF output** (ref/vector.c:108), so the sampled
+  to `uint8_t*` for the XOF output** (ref/vector.c:107), so the sampled
   supports are little-endian-dependent. Inherited from the HQC reference; the
   build targets are little-endian.
 - Known packaging note (already in RESULTS.md): the candidate's own

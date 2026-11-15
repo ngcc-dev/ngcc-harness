@@ -122,7 +122,7 @@ Agreements:
   w_e = 279/372, τ = 26/100 and 25/100, κ = 384/512). No mismatch found.
 - Sizes are hard-coded in `params.h` (`NSS_HQC_PK_BYTES` etc.) and equal both the
   spec's Table 15 and the OBSERVED library values for all four instances.
-- FO transform present and correct: `nss_hqc_dec` (core `nss_hqc_core.c:997`)
+- FO transform present and correct: `nss_hqc_dec` (core `nss_hqc_core.c:995`)
   re-encrypts, compares with `ct_verify`, computes both K_acc and K_rej and
   selects with the constant-time `ct_select` — matching Algorithm 6 exactly.
 - Hash inputs match the spec's concatenation order: `hash_g` builds m ∥ salt ∥ pk
@@ -147,6 +147,15 @@ Discrepancies:
   secret-dependent branch inside the CCA decapsulation path, at odds with the
   spec's repeated "constant-time" claims for sampling; see also
   `kem-26/security_findings.md`.
+- **(a) expansion tags, draw order and sampler differ from Algorithms 1–2.** The
+  spec expands h, r1, r2 and e under separate tags ("h", "r1", "r2", "e"). The
+  code appends the single byte 0x01 to every expansion input (`derive_h`,
+  `nss_hqc_core.c:478`; `xof_stream_init`, `:500`) and draws r2, e, r1 in that
+  order from one SHAKE256 stream on θ (`:719-723`). All fixed-weight vectors
+  (x, y, r1, r2, e) come from `sample_fixed_weight1_stream` (`:532-577`), a
+  partial Fisher–Yates shuffle with a rejection loop on the stream (`:553-563`)
+  and swaps and bit writes at sampled indices (`:565-572`); it is not the
+  "constant-time rejection sampling" the spec states.
 - **(b) spec ambiguity, faithfully implemented.** The sub-seed width is fixed at
   256 bits: `#define NSS_HQC_I_SEED_BYTES 32u` in `src/HQC-512/nss_hqc_core.c:25`
   (identically in all four instances), so at HQC-384/HQC-512 the secret vectors

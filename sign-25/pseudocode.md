@@ -119,8 +119,11 @@ cnt <- 0 (one byte); repeat chl <- H(msg||cnt), cnt++ until chl < 3^b; return ch
 Checked: `sqisign/sign.c` (`protocols_sign`, `protocols_verif_internal`, `hash_to_challenge`),
 `sqisign/keygen.c`, `pack.c` (`signature_from_bytes`), `sqisign/SIG_AlgorithmInstance.c`,
 `ec_arithmetic/include/{ec_params,fp_constants,encoded_sizes,klpt_constants}.h`.
-`sign.c` is byte-identical across all instances except Level1-eff (cosmetic diffs only), so
-the verifier discussed below is shared by 7 of the 8 parameter sets.
+`sign.c` is byte-identical across all instances except Level1-eff, so
+the verifier discussed below is shared by 7 of the 8 parameter sets. Apart from line endings
+and three `(void)found;` statements, Level1-eff differs in the response-search loop bounded
+by `FINDq_num_trial`: it increments `count` only when a short candidate is found
+(`sign.c:267`), while the other seven increment it on every trial (`sign.c:290`).
 
 Spot-check sampling (6 constants × all 8 sets): `POWER_OF_2` = a, `POWER_OF_3` = b,
 `SECURITY_BITS` = λ, `FP2_ENCODED_BYTES`, `NWORDS_ORDER_{2,3}_BYTES`, `HASH_num_iter`.

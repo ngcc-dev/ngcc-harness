@@ -125,10 +125,14 @@ H_mask = `hash_j` (512-bit). The XOF is the official DRNG in "expand a seed" mod
 ## Implementation vs specification
 
 Built tree: `Implementations/Reference_Implementation/Mito-*`, all nine directories.
-**Every `.c`/`.h` file except `parameters.h` is byte-identical across all nine
-instances** (verified by `diff`), so one code review covers all of them.
-`Optimized_Implementation/` differs only in low-level arithmetic; the decoder files
-discussed below are identical there too.
+`parameters.h` differs in every instance. Of the other `.c`/`.h` files, all are
+byte-identical across the nine instances except three, in which Mito-1-128 alone
+differs from the other eight: `KAT_KEM.c` and `KEM_AlgorithmInstance.c` by a
+trailing newline, and `symmetric.h` by one extra `#include "parameters.h"`
+(verified by `md5sum`). None of the three differences changes code, so one code
+review covers all nine.
+`Optimized_Implementation/` is byte-identical to `Reference_Implementation/` for all
+nine instances (`diff -rq`).
 
 Agreements:
 

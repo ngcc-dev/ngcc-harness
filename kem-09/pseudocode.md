@@ -106,11 +106,12 @@ expansion (`auxfunc.c:482`), for **every** parameter set.
 
 Checked: `src/Cheetah128..512/{params.h,KEM_Cheetah.c,auxfunc.c}` (the files the
 Makefile builds). Line numbers are Cheetah128; the other three directories are
-structurally identical at the same offsets.
+structurally identical (Cheetah256 at the same offsets, Cheetah384/512 shifted
+by up to three lines).
 
 Agreements:
 - `kem_keygen`/`kem_enc`/`kem_dec` (`KEM_Cheetah.c:208`, `:227`, `:252`) follow
-  Alg. 18/19/20 step for step, including `dk = shat || ek || SM3(ek) || salt`
+  the structure of Alg. 18/19/20 (deviations below), including `dk = shat || ek || SM3(ek) || salt`
   and `(K,gamma) <- G(m || H(ek))` at `:239`.
 - Parameter spot-check (sampled N, k, q, η, d_b/d_u/d_v and the λ-derived
   lengths, in all four `params.h`): `N 640`, `Q 7681`, `DELTA 3841`, `QBITS 13`
@@ -139,11 +140,14 @@ Discrepancies:
   `salt_ct = salt || c'` from the *re-encrypted* `c'` (`:277`, `:283`) — the
   received `ct` is never hashed. Harmless when `c == c'`, but on rejection the
   fallback is derived from `c'` rather than `c`, which is not the proved
-  transform.
+  transform. Filed as kem-09-4 in `report.md`.
 - **(a/c) `Kbar` uses G, not H.** `:283` calls `pseudoXOF` (the XOF/G) rather
   than `sm3hash` (H), with no domain separator distinguishing it from the
   `(K,gamma)` call at `:271`. Both are SM3-based, but the spec's H/G
   separation in Alg. 20 is not honoured.
+- **(a) real deviation — KeyGen seed expansion.** Alg. 15 lines 1–2 draw one
+  `seed` and set `(rho, sigma, gamma) <- XOF(seed)`; `indcpa_keypair` draws all
+  `3*SEED_BYTES` directly from the RNG (`:65`).
 - **(b) symmetric-strength gap.** `HASH_BYTES` is 32 in all four `params.h`, so
   `h = H(ek)` is 256-bit even for Cheetah384/512, whose claimed classical
   levels are 384/512 bits. The spec writes `|H(ek)|` abstractly, so this is an

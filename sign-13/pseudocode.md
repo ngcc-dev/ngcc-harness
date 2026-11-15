@@ -39,8 +39,11 @@ VOLEitH profiles (spec Table 10; k0,k1,τ0 derived from Alg. 18 with n_ch = λ �
 | 512s | 44 | 0 | 512 | 12 | 11 | 28 | 2096 |
 | 512f | 64 | 0 | 512 | 8 | 8 | 0 | 2096 |
 
-B = 16 (VOLE-consistency hash is λ+B bits). PRG = AES-λ-CTR; H0,H1,H2^j,H3 =
-SHAKE128 (λ=128) / SHAKE256 (otherwise) with a 1-byte domain separator (§2.3.4).
+B = 16 (VOLE-consistency hash is λ+B bits). PRG = AES-λ-CTR (§2.3.4); for λ = 512
+the code has no AES and instead computes SHAKE256(K ‖ (iv ⊕ ctr) ‖ 0x00)
+(`GreatWall512s/prgs.h:6-54`, `hash.h:95-130`), which §2.3.4 does not mention.
+H0,H1,H2^j,H3 = SHAKE128 (λ=128) / SHAKE256 (otherwise) with a 1-byte domain
+separator (§2.3.4).
 
 Sizes (bytes). The spec gives no closed-form size formula, only Table 10; the
 "spec" columns are Table 10 (pk, sig) and Alg. 1 (`sk := pt`, i.e. ⌈n/8⌉ bytes).

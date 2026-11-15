@@ -149,6 +149,13 @@ draws one `seed` from `RNG()` and expands it to `(ρ,σ,γ)` with `XOF`; the
 implementation draws all `3·SEED_BYTES` directly from `drng_algorithm`
 (`KEM_Loong.c:64`) and skips the expansion. Distributionally equivalent.
 
+**Discrepancy 5 (real deviation).** Spec Algorithm 24 line 4 computes
+`K̄ = H(salt‖c)` over the received ciphertext. `kem_dec` writes the
+re-encryption `c′` into `salt_ct+SEED_BYTES` (`KEM_Loong.c:289`) and derives
+`kbar` from that buffer (`:295`), so the rejection key is computed over
+`salt‖c′`; the received `ct` enters only the comparison at `:298-300`. Filed as
+`kem-18-4`.
+
 **Spec ambiguity.** `H`, `G` and `XOF` are never instantiated in the document
 (§2.1 p. 14), so the choice of SM3 for `H(pk)` and `pseudoXOF` for `G` and for
 `K̄ = H(salt‖c)` cannot be checked against the spec. Note the implementation

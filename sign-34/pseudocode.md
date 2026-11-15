@@ -156,7 +156,7 @@ Agreements:
   compiled out because it requires `YUANYANG_FORCE_SYSTEM_RANDOMNESS` *and*
   the absence of `NGCC_KATS`, and the build defines `-DNGCC_KATS` (prng.c:12).
 
-Discrepancies (all on the specification side except the last two):
+Discrepancies (all on the specification side except the last three):
 - **(a) Salt length at d = 2048: spec Table 3 says λ+80 = 592 bits (74 bytes),
   the code uses 72 bytes.** `yuanyang-2048/yuanyang_params.h:13`
   `#define YUANYANG_SALT_BYTES 72u` — i.e. 576 bits = λ+64. The 512 and 1024
@@ -203,6 +203,13 @@ Discrepancies (all on the specification side except the last two):
   validated `< q` by `yuanyang_decode_public_key`, `s1` is bounded by the
   Decompress symbol set, and the norm test bounds it again. No exploitable
   path was found, but the guard does not do what its comment says.
+- **(a) PairGen/UnifCrown uniforms are single bytes.** Spec §4.1.2 takes the
+  uniform samples in (0, 1) as uniformly distributed over the floating-point
+  numbers in (0, 1). `keygen/pairgen.c:21-30,120` (same lines in all three
+  reference sets) draws each of `u_ρ`, `u_θ`, `θ_x`, `θ_y` as one byte
+  multiplied by 1/256, so each takes one of 256 values including 0. The
+  comment at `pairgen.c:39-43` ("U53 sampling is kept deliberately") does not
+  describe this code.
 
 Subsequent review verified that `SamplerPrecomp` (Alg. 7) is implemented with
 the wrong matrix product: `sigma_p_set_slot()` subtracts `B_hat^* B_hat`, the

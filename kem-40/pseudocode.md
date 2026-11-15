@@ -127,15 +127,15 @@ Checked: `Implementations/Reference_Implementation/yuanyang-*/` — `kem.c`
 1024/4481, 2048/7681); `SCALETAB = {3,4,4}` matches Table 1's k; `ENCODETAB =
 {1,4,1}` matches §6's "batch size B of 4 … of the 256 bit version". **All nine
 CDT tables** of Table 2 are reproduced exactly (σ_f in `kem-keygen.c:75-81`, σ_s
-and σ_e in `kem.c:68-77`), each padded with a trailing 128 that can never fire
+and σ_e in `kem.c:71-78`), each padded with a trailing 128 that can never fire
 against a 7-bit sample — a harmless length-normalisation. The KEM randomness
 comes from `drng_algorithm` via the `drng_randombytes` callback in both keygen
-(`kem-keygen.c:147`) and encaps (`kem.c:158`); `prng.c`'s system-randomness path
+(`kem-keygen.c:145`) and encaps (`kem.c:158`); `prng.c`'s system-randomness path
 is behind an opt-in `YUANYANG_FORCE_SYSTEM_RANDOMNESS` that `NGCC_KATS`
 overrides and that the NGCC build never defines. Implicit rejection is
 implemented exactly as Algorithm 9: the re-encryption compare is over the full
 ciphertext length and accumulated with `ok &= …` rather than `memcmp`, and the
-key select is the branch-free `ok*Kbar + (1-ok)*Kp` (`kem.c:258-265`). The
+key select is the branch-free `ok*Kbar + (1-ok)*Kp` (`kem.c:261-269`). The
 `f` invertibility test in R_2 is replaced by `eval_at_one_is_even_mod2`
 (`kem-keygen.c:56,157`) — since d is a power of two, R_2 = F_2[X]/((X+1)^d) and
 f is a unit iff f(1) ≠ 0, so this is an exact and deliberate equivalent
@@ -180,7 +180,7 @@ within one submission (keygen checks, encaps does not) marks this as an omission
 rather than a design choice.
 
 **(b) Spec ambiguity — the coefficient packing is non-injective.**
-`yuanyang_decode_uniform` (`codec.c:87`) recovers coefficients with `word % b`,
+`yuanyang_decode_uniform` (`codec.c:89`) recovers coefficients with `word % b`,
 so each block of ⌈log2(b^k)⌉ bits has 2^⌈log2(b^k)⌉ − b^k surplus values that
 alias onto valid coefficient tuples. For the *ciphertext* this is neutralised by
 the FO byte-for-byte re-encryption compare. For the **public key** there is no
@@ -195,8 +195,8 @@ compressed s1 — both are unedited copy-paste from the companion signature
 codebase and describe code that is not in these files. `kem-keygen.c:31` defines
 `SIGMAKEYTAB = {1.7, 1.6, 1.5}` against Table 1's σ_f = 1.69, 1.60, 1.49; the
 array is dead (the sampler uses the exact CDT), so the rounding has no effect.
-The fixed stack buffers `uint8_t tmphash[3000]` (`kem.c:160`) and `[4096]`
-(`kem.c:244`) are sized by hand-computed comments with no static assertion; they
+The fixed stack buffers `uint8_t tmphash[3000]` (`kem.c:159`) and `[4096]`
+(`kem.c:250`) are sized by hand-computed comments with no static assertion; they
 hold for all three shipped sets (worst case 2945 bytes) but would silently
 overflow for a larger d.
 

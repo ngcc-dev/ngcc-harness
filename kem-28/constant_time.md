@@ -4,7 +4,7 @@ Scope: representative reference instance `Implementations/Reference_Implementati
 
 Secret-bearing values: private decapsulation key, recovered message/error state, rejection secret and shared secret. Public values: public key, ciphertext and encoded lengths. A decoder result is not automatically public merely because its ciphertext input is public.
 
-- Source trace: `Implementations/Reference_Implementation/OAEP-NTRU-648/KEM_AlgorithmInstance.c:190` — The decapsulation accumulator incorporates private decryption/check results and is returned as `fail` at line 209; the API already exposes this validity result.
+- Source trace: `Implementations/Reference_Implementation/OAEP-NTRU-648/KEM_AlgorithmInstance.c:190` — The decapsulation accumulator incorporates private decryption/check results and is returned as `fail` at line 209. `fail` is an `int8_t` that ORs the 0/1 range and `poly_sotp_inv` results with `ct[i] ^ sigma[i]` over the tag bytes (line 202), so the return value is the bytewise OR of the tag difference, not a single validity bit; `memcpy(ss, …)` at line 205 copies the derived key before the return whatever `fail` is (kem-28-2).
 - Branches, indexed accesses and division/remainder: this first pass classifies only the traced operand above. Public-seed rejection and fixed-divisor arithmetic are not treated as leaks; absence of other leaks has not been proved.
 
 Assessment: No new side-channel report is promoted from this representative path. Lower-level decoding, sampling and compiler output remain open audit work.

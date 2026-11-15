@@ -96,6 +96,8 @@ Sizes (bytes), specification (Table 2, p. 13) vs the built reference library:
 ### Hashes / compression
 ```
 Hgen, H1, H2 = SM3-XOF (absorb-once / absorb-twice, squeeze)   [symmetric.c]
+  absorb  : derived_seed = pseudohash(512, input)              [symmetric.c:10,28,83]
+  squeeze : pseudoXOF(derived_seed || 4-byte block counter)    [symmetric.c:47,66]
   mu      = XOF(pk || M)              , CRHBYTES = 64
   seedbuf = XOF(K || mu)
   c       = poly_challenge( pack_compressed(w1) , mu )   -> weight-tau {0,1} poly
@@ -140,13 +142,17 @@ Alg. 8 → `sign.c:crypto_sign_verify` (line ~285+), Alg. 1–3 → `polymat.c` 
   via the FFT in `fft.c`).
 - Sign's three rejection predicates map 1:1 onto Alg. 7 step 12, with `b` bit 0
   carrying the bimodal sign and bit 1 carrying `b'`, matching `expandY`'s
-  `(y, b, b')` output. The hint-safety abort (step 9) is present.
+  `(y, b, b')` output. The byte is derived from `seed ‖ ni` with the nonce `ni`
+  that the next call uses for its first mask polynomial (`polyfix.c:256,288-299`,
+  retry at `sign.c:169`), so after a rejection its bits are the sign bits of
+  coefficients 0–7 of the next `y1[0]` (sign-08-5). The hint-safety abort (step 9)
+  is present.
 - Transcript binding matches between signer and verifier: both absorb
   `pk ‖ M` for `mu` (the signer passes `sk`, whose first `CRYPTO_PUBLICKEYBYTES`
   bytes are `pk`), then `c = poly_challenge(pack(w1), mu)`. The verifier
   compares the recomputed `c1` against the transmitted `c` coefficient-wise,
   so the transmitted weight-τ structure needs no separate check.
-- `unpack_sig` **does** reject non-zero trailing padding (`packing.c:254-259`)
+- `unpack_sig` **does** reject non-zero trailing padding (`packing.c:252-256`)
   and re-derives the two length fields with an explicit total-length bound —
   i.e. the *outer* signature framing is canonical, unlike the sibling findings
   recorded for sign-01 / sign-07. `crypto_sign_verify` also rejects
@@ -169,11 +175,11 @@ block whose `base17_val < 2^33 - 17^8` can be replaced by
 `base17_val + 17^8`, producing a **different byte string that decodes to the
 same `z1`**, reproduces the same `w1~` and `c`, and is accepted by
 `crypto_sign_verify`. A signature contains `L·n/8` = 128 (128-bit set), 192
-(256-bit set) such blocks and the condition holds for roughly 20 % of blocks,
+(256-bit set) such blocks and the condition holds for roughly a quarter of blocks,
 so essentially every signature is malleable. This breaks the SUF-CMA property
 that spec §3.3.3 explicitly adds. DARTS512 is **not** affected: its LowBits
 packing is a plain `r[i] = coeff + 128` byte map (`poly.c:726-731`), a
-bijection. Not previously recorded — `sign-08/security_findings.md` lists
+bijection. Recorded as sign-08-6; `sign-08/security_findings.md` lists
 `signature-encoding-malleability` as `not_found`, but that harness only tried
 random bit mutations, truncation and extension, which cannot hit this
 structured transformation. There is no `sign-08/review-o48.md`.

@@ -240,7 +240,7 @@ Discrepancies:
   does, and a reviewer reading only the title would draw the wrong conclusion.
 - **(b) spec gap — the source of the `HelpRec` randomness is unspecified.**
   §8.9 says only "one ChaCha20-derived random bit per block". The code
-  (`nike.c:260`) calls `helprec(&c, &v, noiseseed, 3)` with **the same 32-byte
+  (`nike.c:261`) calls `helprec(&c, &v, noiseseed, 3)` with **the same 32-byte
   seed used to sample the ephemeral secret `r`**, separated only by the
   ChaCha20 nonce (`n[0]=nonce` in `poly_getnoise` versus `n[7]=nonce` in
   `helprec`, so seeds 0 and 3 do not collide). This is inherited from NewHope
@@ -267,6 +267,10 @@ Discrepancies:
   key-rejection probabilities of Table 3 (the spec itself notes
   `compute_rejection.py` truncates at 1e-13), did not check the Toom-Cook-4
   implementation for correctness beyond reading it, and did not verify the
-  Optimized/AVX2 track at all (only the Reference tree is built). All five
+  Optimized/AVX2 track beyond a file comparison (only the Reference tree is
+  built): at every level it differs from the Reference tree only in `Makefile`,
+  `README.txt`, the ChaCha20 backend (`crypto_stream_chacha20.c`, `chacha.S`)
+  and `poly.c`/`poly.h`/`nike.c`, where the four protocol multiplications call
+  an AVX2 schoolbook `poly_mul_small` instead of `poly_pointwise`. All five
   instances pass the candidate KATs in the build
   (`kex-06/security_findings.md`).
