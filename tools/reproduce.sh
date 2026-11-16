@@ -1590,6 +1590,9 @@ run_target kem-17 "kem-17-7" python3 kem-17/reproduce_second_syndrome_parity.py
 run_target kem-26 "kem-26-8" python3 kem-26/reproduce_rs_spec_claims.py --report-id kem-26-8
 run_target kem-26 "kem-26-9" python3 kem-26/reproduce_rs_spec_claims.py --report-id kem-26-9
 run_target kem-34 "kem-34-6" sh kem-34/reproduce_decoder_representatives.sh
+echo "== 2026-11-16 forum follow-ups: OPS-SIG stale digest, BiT-512 hint aliases =="
+run_target sign-17 "sign-17-3" sh sign-17/reproduce_stale_digest.sh
+run_target sign-02 "sign-02-4" sh sign-02/reproduce_hint_aliases.sh
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

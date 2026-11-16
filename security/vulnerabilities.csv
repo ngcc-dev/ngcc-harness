@@ -304,6 +304,7 @@ sign-01-9;Confirmed;runtime;32-bit message-length arithmetic gives long-message 
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-02-2;Confirmed;runtime;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-02-3;Probable;runtime;Mask-seed collisions recover an equivalent BiT-128 signing key
+sign-02-4;Confirmed;runtime;BiT-512 hint bytes have several accepted encodings
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
 sign-03-2;Confirmed;runtime;FORS+C accumulation gives a below-target fresh-message forgery
 sign-03-3;Confirmed;review;The WOTS+C zero-bit test checks bits the encoding already uses
@@ -331,6 +332,8 @@ sign-07-3;Confirmed;review;Compressed signatures enable practical equivalent-key
 sign-07-4;Confirmed;runtime+static;A missing nonce collapses every secret and error polynomial to one value
 sign-07-5;Confirmed;runtime;32-bit message lengths give long-message forgeries
 sign-07-6;Confirmed;review;Signing masks depend on only half of the mask seed
+sign-07-7;Proof gap;review;The zero-knowledge simulator uses part of the secret key
+sign-07-8;Confirmed;review;The specified rANS coder does not round-trip its input
 sign-08-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-08-2;Confirmed;runtime;The compression-consistency restart leaks an equivalent DARTS-128 signing key
 sign-08-3;Confirmed;static;Reference and AVX2 DARTS expand different public matrices
@@ -390,6 +393,7 @@ sign-16-1;Proof gap;review;The stated hash requirement is too weak for the EUF-C
 sign-16-2;Proof gap;review;Polynomial solutions of the relaxed Octarine-512 SIS estimates
 sign-17-1;Confirmed;runtime;The specified fixed-support challenge permits public-key forgeries in 2^39, 2^45, and 2^90
 sign-17-2;Confirmed;runtime;The specified high-bit wrap rejects honest signatures
+sign-17-3;Confirmed;runtime;A failed message digest leaves the previous digest in the verifier
 sign-18-1;Confirmed;static;A fixed 512-bit message prehash caps forgery security at 256 bits
 sign-18-2;Confirmed;runtime;Signatures expose the hidden-algebra constraint subspace
 sign-18-3;Confirmed;review;Variable-time hidden-zone linear solving
