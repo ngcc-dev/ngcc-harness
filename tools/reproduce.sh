@@ -1594,6 +1594,27 @@ echo "== 2026-11-16 forum follow-ups: OPS-SIG stale digest, BiT-512 hint aliases
 run_target sign-17 "sign-17-3" sh sign-17/reproduce_stale_digest.sh
 run_target sign-02 "sign-02-4" sh sign-02/reproduce_hint_aliases.sh
 
+echo "== 2026-11-16 second pass: helper-failure key exposure and length checks =="
+run_target kem-01 "kem-01-5" sh kem-01/reproduce_stale_encaps_key.sh
+run_target kem-01 "kem-01-6 kem-01-7" sh kem-01/reproduce_short_ct.sh
+run_target kem-06 "kem-06-7" sh kem-06/reproduce_zero_coins.sh
+run_target kem-07 "kem-07-5" sh kem-07/reproduce_zero_coins.sh
+run_target kem-10 "kem-10-7" sh kem-10/reproduce_zero_coins.sh
+run_target kem-13 "kem-13-5" sh kem-13/reproduce_unwritten_kdf.sh
+run_target kem-20 "kem-20-3" sh kem-20/reproduce_xof_zero_secret.sh
+run_target kem-23 "kem-23-5" sh kem-23/reproduce_zero_encaps_key.sh
+run_target kem-34 "kem-34-7" sh kem-34/reproduce_stale_encaps_key.sh
+run_target kem-36 "kem-36-10" sh kem-36/reproduce_fail_open.sh
+run_target kem-36 "kem-36-11" sh kem-36/reproduce_short_ciphertext.sh
+run_target kem-40 "kem-40-6" sh kem-40/reproduce_public_coins.sh
+run_target kem-40 "kem-40-7" sh kem-40/reproduce_short_pk.sh
+run_target sign-01 "sign-01-10" sh sign-01/reproduce_challenge_fault.sh
+run_target sign-01 "sign-01-11" sh sign-01/reproduce_verify_memory.sh
+run_target sign-06 "sign-06-8" sh sign-06/reproduce_fault_key_recovery.sh
+run_target sign-06 "sign-06-9" sh sign-06/reproduce_short_key_read.sh
+run_target sign-31 "sign-31-8 keygen" sh sign-31/reproduce_stale_keygen.sh
+run_target sign-31 "sign-31-8 vinegar" sh sign-31/reproduce_stale_vinegar.sh
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"

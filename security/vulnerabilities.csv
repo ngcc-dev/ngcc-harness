@@ -17,6 +17,7 @@ hash-05-1;Confirmed;review;Secret state indexes a 256-byte substitution table
 hash-05-2;Confirmed;review;Narrow-pipe iteration limits uHash second-preimage security for long messages
 hash-05-3;Confirmed;runtime;Unused partial-byte bits cancel padding and give trivial collisions
 hash-05-4;Confirmed;runtime;Final-block counter cancellation lets 2 to 4 chosen queries predict unqueried continuations
+hash-07-1;Confirmed;review;Clang compiles the XOF output copy to a branch on each output bit
 hash-09-1;Confirmed;runtime;Trivial collisions in all Eijen implementations
 hash-09-2;Confirmed;runtime;Cross-instance three-block relations
 hash-10-1;Confirmed;runtime;Padding-allocation failure returns a successful all-zero digest
@@ -61,6 +62,7 @@ hash-31-4;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision 
 hash-32-1;Confirmed;static;The specified and implemented ZC-EDMC mappings differ
 hash-32-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-32-3;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision estimate
+hash-33-1;Confirmed;review;Clang compiles the XOF output copy to a branch on each output bit
 hash-34-1;Probable;runtime;A four-block reset prefix gives second preimages below the required levels
 hash-34-2;Confirmed;runtime;Short-message checksum cancellation defeats the stated length-extension argument
 hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multiplication
@@ -68,6 +70,9 @@ kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA securit
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
 kem-01-3;Confirmed;static;The external DRBG is used as a KDF
 kem-01-4;Confirmed;runtime;Deterministic encapsulation overflows its key buffer and derives the wrong secret
+kem-01-5;Confirmed;runtime;A failed hash leaves the previous session key in encapsulation
+kem-01-6;Confirmed;runtime;Decapsulation ignores the declared ciphertext length
+kem-01-7;Confirmed;runtime;AVX2 decapsulation reads past a correctly sized ciphertext
 kem-02-1;Confirmed;runtime+static;The FO check compares only every fourth ciphertext byte
 kem-02-2;Confirmed;review;Secret-derived ECC decoding indexes a syndrome table
 kem-02-3;Confirmed;runtime;The decryption-failure bound omits detected two-error rejections
@@ -91,10 +96,12 @@ kem-06-3;Lead;review;The decoder address trace gives a candidate-specific key-re
 kem-06-4;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
 kem-06-5;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-06-6;Confirmed;static;Short ciphertexts reach BRA's fixed-offset parser
+kem-06-7;Confirmed;runtime;Failed hash or seeding allocations give zero coins and public-derived keys
 kem-07-1;Lead;review;The decoder address trace gives a candidate-specific key-recovery route
 kem-07-2;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
 kem-07-3;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-07-4;Confirmed;static;Short ciphertexts reach BRQC's fixed-offset parser
+kem-07-5;Confirmed;runtime;Failed hash or seeding allocations give zero coins and public-derived keys
 kem-08-1;Confirmed;review;C128 decapsulation branches on decrypted coefficients
 kem-08-2;Confirmed;review;AVX2 Barnes–Wall decoders branch on decrypted values
 kem-08-3;Confirmed;review;The API wrapper returns a decapsulation-failure code
@@ -109,6 +116,7 @@ kem-10-3;Confirmed;runtime;Ignored padding bits make CMultiURAG-512 ciphertexts 
 kem-10-4;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-10-5;Confirmed;static;Short ciphertexts reach the fixed-offset parser
 kem-10-6;Confirmed;static;Reference 79-bit field multiplication touches a fourth limb
+kem-10-7;Confirmed;runtime;Failed hash or seeding allocations give zero coins and public-derived keys
 kem-11-1;Confirmed;static;COMPASS-KEM-384 and -512 use a 256-bit key-generation root
 kem-11-2;Proof gap;static;The Biased-MLWR reduction does not instantiate the concrete small-secret sets
 kem-12-1;Confirmed;static;The specified CTL-512 public-key space has at most 256 bits of support
@@ -118,6 +126,7 @@ kem-13-1;Confirmed;runtime;DKEM's rejection key does not bind the full ciphertex
 kem-13-2;Confirmed;runtime;Malicious public key defeats DKEM's contributory key derivation
 kem-13-3;Confirmed;runtime;A 16-bit NTT butterfly silently breaks honest DKEM-512 sessions
 kem-13-4;Confirmed;runtime;DKEM ignores input lengths before fixed-size reads
+kem-13-5;Confirmed;runtime;DKEM-512 returns an unwritten key buffer when its KDF fails
 kem-14-1;Confirmed;runtime;Caller-declared ciphertext length overflows a decapsulation stack buffer
 kem-14-2;Confirmed;runtime;Decapsulation return value exposes the implicit-rejection branch
 kem-14-3;Confirmed;runtime;Rejection key omits the specified public-key binding
@@ -148,6 +157,7 @@ kem-19-2;Confirmed;static;Lore-384 and -512 emit 256-bit keys from 256-bit keyge
 kem-19-3;Probable;runtime+static;BCH decoding timing leaks Lore secret coefficients
 kem-20-1;Confirmed;runtime;Fail-open key generation creates publicly decapsulatable keys
 kem-20-2;Confirmed;review;Decapsulation branches on the sign bit of every secret coefficient
+kem-20-3;Confirmed;runtime;A failed XOF makes the encapsulated key computable from the ciphertext
 kem-21-1;Confirmed;static;Viper-384 and -512 restrict the secret to a 256-bit seed
 kem-21-2;Confirmed;runtime;Viper-384 and -512 derive the encapsulation secret from a 256-bit seed
 kem-21-3;Confirmed;review;The E8 message codec is variable-time on decrypted values
@@ -157,6 +167,7 @@ kem-23-1;Confirmed;static;Mito-E discards every erasure before Reed–Solomon de
 kem-23-2;Confirmed;static;Mito uses the external DRBG as an XOF
 kem-23-3;Confirmed;runtime;Short ciphertexts reach Mito's fixed-offset parser
 kem-23-4;Confirmed;runtime;The implicit-rejection key hashes uninitialised stack bytes
+kem-23-5;Confirmed;runtime;A failed hash gives an all-zero encapsulated key
 kem-24-1;Confirmed;review;Encryption omits the specified rounding constant
 kem-24-2;Confirmed;runtime+static;Unvalidated ciphertext length bypasses or overruns comparison
 kem-24-3;Probable;runtime;The failure analysis omits the floored `v` residual
@@ -206,6 +217,7 @@ kem-34-3;Confirmed;runtime;KEM entry points ignore caller-declared buffer length
 kem-34-4;Confirmed;runtime;Rudraksh2-II's modulus cannot support its specified NTT
 kem-34-5;Probable;runtime;Dual-hybrid attacks put Rudraksh2-512-I below its target
 kem-34-6;Confirmed;runtime;Decryption decodes unreduced coefficients, unlike the decoder in the failure analysis
+kem-34-7;Confirmed;runtime;A failed hash leaves the previous session key in encapsulation
 kem-35-1;Confirmed;runtime;Re-encryption rejection sampling leaks the decrypted-message class
 kem-36-1;Confirmed;runtime+static;The specified TRIKE decoder rejects every tested honest ciphertext
 kem-36-2;Withdrawn;static;Withdrawn — Algorithm 9 already uses binomial collision counts
@@ -216,6 +228,8 @@ kem-36-6;Confirmed;runtime;Decapsulation addresses depend on the secret support
 kem-36-7;Confirmed;runtime+static;TRIKE shares the generic unsalted-FO multi-ciphertext loss, no TRIKE-specific weakness
 kem-36-8;Confirmed;static;TRIKE resets the external DRBG for deterministic re-encryption
 kem-36-9;Confirmed;runtime;Same-key multi-instance decoding puts three TRIKE sets below target
+kem-36-10;Confirmed;runtime;Failed helper allocations give zero or public-derived keys
+kem-36-11;Confirmed;runtime;Decapsulation ignores the declared ciphertext length
 kem-37-1;Confirmed;runtime;Decapsulation re-expands its private support with variable work
 kem-37-2;Lead;runtime;FO re-encryption leaks the decrypted message through sampler timing
 kem-37-3;Confirmed;runtime;Same-key multi-instance decoding puts all TriQ-KEM sets below target
@@ -239,6 +253,8 @@ kem-40-2;Confirmed;review;Decapsulation addresses a private array with a secret-
 kem-40-3;Confirmed;static;YuanYang resets the external DRBG for deterministic encryption
 kem-40-4;Confirmed;static;Dead even-rounding corrections invalidate the submitted failure estimates
 kem-40-5;Confirmed;static;Truncated encryption seed permits a 2^440 challenge-key distinguisher at the 512-bit level
+kem-40-6;Confirmed;runtime;A failed hash makes the encryption coins public
+kem-40-7;Confirmed;runtime;Encapsulation ignores the declared public-key length
 kem-41-1;Proof gap;runtime;The numerical DFR model averages over messages while the proof assumes worst-case correctness
 kem-41-2;Confirmed;runtime;Key generation ignores XOF failure and can return decryption keys sampled from stale stack data
 kem-41-3;Confirmed;review;Decoding stores each bit at a secret-selected address
@@ -301,6 +317,8 @@ sign-01-6;Confirmed;static;The printed abort bound exceeds one, outside the theo
 sign-01-7;Confirmed;static;The external DRBG is used as a KDF
 sign-01-8;Confirmed;static;Short message representatives cap Aigis-Sig+ II and III below their claimed levels
 sign-01-9;Confirmed;runtime;32-bit message-length arithmetic gives long-message forgeries
+sign-01-10;Confirmed;runtime;A failed DRBG allocation in challenge expansion leaks the signing key and accepts forgeries
+sign-01-11;Confirmed;runtime;Verification leaks memory on rejection and reads past a short signature
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-02-2;Confirmed;runtime;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-02-3;Probable;runtime;Mask-seed collisions recover an equivalent BiT-128 signing key
@@ -326,6 +344,8 @@ sign-06-4;Confirmed;runtime;XOF block replay duplicates every high-level secret 
 sign-06-5;Confirmed;runtime+static;A byte-wide position index and 64 sign bits shrink the 384- and 512-bit challenge spaces below their levels
 sign-06-6;Confirmed;runtime;The SHAKE wrapper compresses the message-representative input to 256 bits
 sign-06-7;Proof gap;static;The strong-unforgeability MSIS premise is trivial at 256 and 512
+sign-06-8;Confirmed;runtime;Ignored XOF failures give public-derived signing keys and key-leaking signatures
+sign-06-9;Confirmed;runtime;The signature API ignores declared key lengths
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
 sign-07-3;Confirmed;review;Compressed signatures enable practical equivalent-key recovery and forgery
@@ -472,6 +492,7 @@ sign-31-4;Confirmed;runtime;Declared public-key and signature lengths are ignore
 sign-31-5;Confirmed;runtime;Impossible-length input wraps the message allocation
 sign-31-6;Confirmed;runtime;Noncanonical field encodings create signature and public-key aliases
 sign-31-7;Proof gap;static;The TSUOV-128 EUF-CMA proof loses its bound at 2^64 salt trials
+sign-31-8;Confirmed;runtime;Ignored XOF failures give public-derived oil matrices and vinegars
 sign-32-1;Confirmed;runtime;Every signature is accepted
 sign-32-2;Confirmed;runtime;An all-zero signature crashes two verifier instances
 sign-32-3;Confirmed;runtime;Pair-correlated signatures recover an equivalent UVW-128 or UVW-256 signing key
