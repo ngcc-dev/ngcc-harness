@@ -190,7 +190,7 @@ const uint64_t w17 = block[17];
 `block` is the caller's `uint64_t SigmaMi[WORDS_r]` stack array
 (`absorb_block()`), so this is a one-word read past the end of a stack object.
 The value `w17` is never used, so the digest is unaffected and a compiler may
-elide the load, but it is undefined behaviour and ASan/valgrind will report it.
+elide the load, but it is undefined behaviour; AddressSanitizer reports it at `-O0`, UndefinedBehaviorSanitizer at `-O1` and `-O2`, and Valgrind does not. Filed as `hash-08-1`.
 The corresponding `-512` and `-1024` files read exactly `WORDS_r` words and are
 clean.
 
@@ -220,3 +220,7 @@ implementer has nothing normative to follow.
 - The remaining 12 rows of the printed `M15` matrix (rows 0–2 were checked for
   circulancy) and the round constants of Duet-768.
 - The advantage bounds of §4.2 and the permutation cryptanalysis of §4.4.
+
+## Review of 2026-11-17
+
+The S-box tables, the M15 and M30 branch numbers, the invertibility of ML, and the round constants were recomputed and match the specification. The two-round active S-box bounds (6 and 8) were confirmed and are tight; the three-round bound of 17 for f-960 was proven only down to 13. The reference, AVX2, AVX-512 and NEON trees agree on all tested lengths. Both discrepancies recorded above are filed: the stack over-read as `hash-08-1` (reference Duet-768 only) and the squeeze rate for outputs longer than h as `hash-08-2` (all four software trees).

@@ -56,7 +56,7 @@ ZeroPadding(M, n):                     # pure zero padding, no 10*, no length fi
 
 Domain separation is provided by (i) the counter `Cnt` in every key, and
 (ii) the distinct constants `[2]_n`, `[3]_n` encrypted in finalization, which
-are never plaintexts of an iteration call (those are `t_{i-1}` and
+are plaintexts of an iteration call only if `t_{i-1}` is `[2]_n` or `[3]_n` (probability about 2^-n per block), so the separation is probabilistic, not structural; they are otherwise not plaintexts of an iteration call (those are `t_{i-1}` and
 `t_{i-1} XOR 1`).
 
 ### Hash (spec Algorithm 1)
@@ -221,3 +221,7 @@ value.
   149 → `0x34e0d42e61a33f99`); the remaining 36 words were not recomputed.
 - The indifferentiability, differential and MitM analyses of §5 were not
   reviewed; the security numbers in the table above are the spec's own.
+
+## Review of 2026-11-17
+
+All 40 IV words and all round constants were regenerated from the stated rules and match. The §5.2.2 diffusion figures were confirmed structurally. The §5.2.1 differential figures for Cases 1, 2 and 4 are contradicted by probability-1 trails through 6 rounds of Octarx-256 and 5 rounds of Octarx-512; filed as `hash-06-1`. Algorithm 1's block count `N = ⌊ℓ/1024⌋` is wrong for the longest residues, where the code processes the extra block the padding needs. All implementation trees agree with the reference for every bit length from 0 to 4,400.

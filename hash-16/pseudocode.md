@@ -141,7 +141,10 @@ Verified agreements:
   last 64 bits of the state: `row[23] = L` for w >= 64, and `row[22] = L_lo32,
   row[23] = L_hi32` for w = 32 (where a single word is only 32 bits). Under the
   little-endian word/byte convention of Sect. 2.2.1 this is the same
-  `0^(b-64) ‖ L`. Match.
+  `0^(b-64) ‖ L` for w = 32 and 64. For w = 96 and 128 the code stores L in
+  bits 0..63 of word 23 and leaves the last w−64 state bits zero, which the
+  formula does not determine; the C code, the RTL and the KATs agree with each
+  other.
 - **Padding:** `hash_final` appends a block only when `buf_len != 0`, filling
   with `0xFF` — i.e. `1*` padding, and no padding at all when `L mod r == 0`.
   Exactly Sect. 2.2.1 rules (1) and (2).
@@ -173,3 +176,7 @@ Notes / observations (not deviations):
 - Not verified: the "ultra-low latency" depth claims, and any cryptanalysis of
   the super S-box `S24` or of the reduced-round permutation. The spec contains
   no differential/linear bound tables to check against.
+
+## Review of 2026-11-17
+
+S6, the derangement matrix, σ, the round counts and all 112 round constants were recomputed and match the code and Appendix A. The reference and optimized C trees agree for every bit length from 0 to 11 blocks. The submitted ASIC RTL does not: its padder discards a short final block; filed as `hash-16-1`. The optimized AVX-512 path uses aligned loads on unaligned table entries and crashes when enabled, but the shipped Makefiles force the AVX2 path.

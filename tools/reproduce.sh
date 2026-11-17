@@ -1615,9 +1615,32 @@ run_target sign-06 "sign-06-9" sh sign-06/reproduce_short_key_read.sh
 run_target sign-31 "sign-31-8 keygen" sh sign-31/reproduce_stale_keygen.sh
 run_target sign-31 "sign-31-8 vinegar" sh sign-31/reproduce_stale_vinegar.sh
 
-echo "== 2026-11-17 hash in-depth review: ignored digest lengths =="
+echo "== 2026-11-17 hash in-depth review: ignored digest lengths, measured secret-dependent branches =="
 run_target hash-07 "hash-07-2" sh hash-07/reproduce_digest_length.sh
 run_target hash-33 "hash-33-2" sh hash-33/reproduce_digest_length.sh
+run_target hash-07 "hash-07-1" sh hash-07/reproduce_xof_output_timing.sh
+run_target hash-33 "hash-33-1" sh hash-33/reproduce_xof_output_timing.sh
+run_target hash-01 "hash-01-1" sh hash-01/reproduce_secret_branch_timing.sh
+run_target hash-02 "hash-02-2" sh hash-02/reproduce_secret_branch_timing.sh
+run_target hash-22 "hash-22-1" sh hash-22/reproduce_secret_branch_timing.sh
+
+echo "== 2026-11-17 hash in-depth review: Cuishen, Duet, LLH, XRH-1, XRH-2 =="
+run_target hash-06 "hash-06-1" sh hash-06/reproduce_reduced_round_rk.sh
+run_target hash-08 "hash-08-1" sh hash-08/reproduce_sigma_oob.sh
+run_target hash-08 "hash-08-2" sh hash-08/reproduce_xof_rate.sh
+run_target hash-16 "hash-16-1" sh hash-16/reproduce_asic_padder.sh
+run_target hash-28 "hash-28-1" sh hash-28/reproduce_lenwrap.sh
+run_target hash-28 "hash-28-2" sh hash-28/reproduce_spec_claims.sh
+run_target hash-29 "hash-29-1" sh hash-29/reproduce_lenwrap.sh
+run_target hash-29 "hash-29-2" sh hash-29/reproduce_spec_claims.sh
+
+echo "== 2026-11-17 digest-length handling across hash wrappers =="
+run_target hash-05 "hash-05-5" sh hash-05/reproduce_digest_length.sh
+run_target hash-14 "hash-14-2 fixed-output" sh hash-14/reproduce_digest_length.sh
+run_target hash-15 "hash-15-1 fixed-output" sh hash-15/reproduce_digest_length.sh
+run_target hash-19 "hash-19-3" sh hash-19/reproduce_digest_length.sh
+run_target hash-26 "hash-26-2" sh hash-26/reproduce_digest_length.sh
+run_target hash-35 "hash-35-2 hash-35-3" sh hash-35/reproduce_digest_length.sh
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

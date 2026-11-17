@@ -1,10 +1,11 @@
 ID;Status;Verification;Title
-hash-01-1;Confirmed;review;Partial-message bits control a machine branch
+hash-01-1;Confirmed;runtime;Partial-message bits control a branch, with a measurable timing dependence
 hash-01-2;Confirmed;runtime;Missing final-block separation gives a 2^64-query distinguisher
 hash-02-1;Confirmed;runtime;Allocation failure returns a successful all-zero digest
-hash-02-2;Confirmed;review;Partial-bit AXIS update branches on secret state
+hash-02-2;Confirmed;runtime;Partial-bit AXIS update branches on secret state, with a measurable timing dependence
 hash-02-3;Confirmed;runtime;The invertible AXIS state caps AXIS-1024 second-preimage security at 768 bits
 hash-02-4;Probable;runtime;Digest alignment gives a below-target AXIS-1024 preimage route
+hash-02-5;Confirmed;review;Optimized message packing indexes tables with message bytes
 hash-03-1;Probable;runtime;A backward tree reduces C-Hash-1024 second-preimage work below 1024 bits
 hash-04-1;Confirmed;static;Palindrome messages reduce CHAMP collision bounds to 128 and 256 bits
 hash-04-2;Lead;runtime+static;Exact reduced-size subgroup collisions support a square-root full-size route
@@ -17,8 +18,12 @@ hash-05-1;Confirmed;review;Secret state indexes a 256-byte substitution table
 hash-05-2;Confirmed;review;Narrow-pipe iteration limits uHash second-preimage security for long messages
 hash-05-3;Confirmed;runtime;Unused partial-byte bits cancel padding and give trivial collisions
 hash-05-4;Confirmed;runtime;Final-block counter cancellation lets 2 to 4 chosen queries predict unqueried continuations
-hash-07-1;Confirmed;review;Clang compiles the XOF output copy to a branch on each output bit
+hash-05-5;Confirmed;runtime;`CryptHash` returns success without writing a digest for unsupported lengths
+hash-06-1;Confirmed;runtime;Reduced-round differential figures are contradicted by probability-1 trails
+hash-07-1;Confirmed;runtime;The reference XOF implementation branches on each output bit, with a measurable timing dependence
 hash-07-2;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
+hash-08-1;Confirmed;runtime;Duet-768 reference reads one word past a stack array
+hash-08-2;Confirmed;runtime;Output beyond the digest length does not follow the specified XOF
 hash-09-1;Confirmed;runtime;Trivial collisions in all Eijen implementations
 hash-09-2;Confirmed;runtime;Cross-instance three-block relations
 hash-10-1;Confirmed;runtime;Padding-allocation failure returns a successful all-zero digest
@@ -31,28 +36,35 @@ hash-11-2;Confirmed;runtime;Garnet-1024a omits the specified rate-state feed-for
 hash-12-1;Confirmed;runtime;Cross-profile 512-bit output relation
 hash-13-1;Confirmed;review;Long messages reduce JuziHash-1024 second-preimage security below 1024 bits
 hash-14-1;Confirmed;runtime;Laurus loses its function-domain separation at c=1024 and c=512
-hash-14-2;Confirmed;runtime;Laurus-XOF ignores the requested output length and overruns shorter digest buffers
-hash-15-1;Confirmed;runtime;Litchi-XOF ignores the requested output length and overruns shorter digest buffers
+hash-14-2;Confirmed;runtime;Laurus wrappers ignore the requested output length and overrun shorter digest buffers
+hash-15-1;Confirmed;runtime;Litchi wrappers ignore the requested output length and overrun shorter digest buffers
+hash-16-1;Confirmed;runtime;The hardware (RTL) implementation discards a short final block, giving immediate collisions in that implementation
 hash-17-1;Confirmed;runtime;Trivial collisions at every rate boundary
 hash-17-2;Confirmed;runtime;The specified and implemented inverse rounds do not invert the forward round
 hash-18-1;Confirmed;runtime+static;For short messages, the 384-bit digest is a prefix of the 512-bit digest
 hash-18-2;Confirmed;static;The AVX-512 listing defines a noninjective S-box and practical collisions
 hash-19-1;Confirmed;runtime;Round-key cancellation gives deterministic full-round collisions
 hash-19-2;Confirmed;runtime;Short-message outputs of MoFang-768 and MoFang-1024 are public byte permutations
+hash-19-3;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
 hash-20-1;Confirmed;runtime+static;For short messages, the 384-bit digest is a prefix of the 512-bit digest
 hash-20-2;Confirmed;static;The specified final marker creates cross-rate relations absent from the implementation
 hash-21-1;Confirmed;runtime;A local feedback collision merges complete Neulaser states
 hash-21-2;Confirmed;runtime;Reduction modulo 2^32-5 creates reachable state mergers
 hash-21-3;Confirmed;review;Secret state indexes a 256-byte S-box
 hash-21-4;Confirmed;runtime+static;Long random messages admit second preimages in one scan
-hash-22-1;Confirmed;review;Secret state indexes the AES S-box and tail bits control a branch
+hash-22-1;Confirmed;runtime;Secret state indexes the AES S-box and message bits control a branch, with a measurable timing dependence
 hash-23-1;Confirmed;runtime;Unvalidated digest lengths overrun the final-block stack buffer
 hash-24-1;Confirmed;runtime;Full-round core permutation has a one-query invariant-subspace distinguisher
 hash-24-2;Confirmed;review;Truncated tree chaining values cap QSH second-preimage security
 hash-24-3;Confirmed;runtime;QSH admits full-mode free-start and low-cost semi-free-start collisions
 hash-25-1;Confirmed;runtime;Allocation failure reports success without writing a digest
 hash-26-1;Confirmed;runtime;An invariant subspace reduces CHIME collision bounds to 64 and 160 bits
+hash-26-2;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
 hash-27-1;Confirmed;review;Secret state indexes an eight-bit substitution table
+hash-28-1;Confirmed;runtime;Message lengths within one rate of 2^64 give a constant digest in the reference implementation
+hash-28-2;Confirmed;runtime;Two statements in the permutation analysis are contradicted by computation
+hash-29-1;Confirmed;runtime;Message lengths within one rate of 2^64 give a constant digest in the reference implementation
+hash-29-2;Confirmed;runtime;Two statements in the permutation analysis are contradicted by computation
 hash-30-1;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-30-2;Lead;runtime;An 8-column iterative trail gives an estimated 2^125 collision
 hash-30-3;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision estimate
@@ -63,11 +75,13 @@ hash-31-4;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision 
 hash-32-1;Confirmed;static;The specified and implemented ZC-EDMC mappings differ
 hash-32-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-32-3;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision estimate
-hash-33-1;Confirmed;review;Clang compiles the XOF output copy to a branch on each output bit
+hash-33-1;Confirmed;runtime;The reference XOF implementation branches on each output bit, with a measurable timing dependence
 hash-33-2;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
 hash-34-1;Probable;runtime;A four-block reset prefix gives second preimages below the required levels
 hash-34-2;Confirmed;runtime;Short-message checksum cancellation defeats the stated length-extension argument
 hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multiplication
+hash-35-2;Confirmed;runtime;Unsupported digest lengths corrupt heap memory in the reference implementation
+hash-35-3;Confirmed;runtime;Optimized wrappers ignore the requested digest length
 kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA security
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
 kem-01-3;Confirmed;static;The external DRBG is used as a KDF

@@ -217,3 +217,7 @@ analysis were read but not re-derived. The SPONGE-EDMc security proof (§3.2.1,
 citing a CRYPTO 2026 paper not included in the submission) was not audited — the
 `2^n` preimage claim at `c = n + 64` rests entirely on it, so it is the single
 most load-bearing unverified statement in this candidate.
+
+## Review of 2026-11-17
+
+A model written from the specification equals `XRH1280` on random states and the full hash for every bit length from 0 to 2r+70. The S-box (almost bent, degree 2, inverse degree 3), the MDS matrix, the shift-row patterns and all 24 round constants were recomputed and match. Table 3.1's active S-box counts for 1 to 8 rounds were confirmed, the first five exactly. Two analysis statements do not hold: all single-cell impossible differentials exist over 5 rounds, and one round has degree 4 with inverse degree 9; filed as `hash-28-2`. The reference `CryptHash` block count wraps for `msg_len_bits ≥ 2^64 − r`, giving a constant digest without reading the message; filed as `hash-28-1`. The reference and AVX2 trees otherwise agree for all bit lengths from 0 to 4r+70.

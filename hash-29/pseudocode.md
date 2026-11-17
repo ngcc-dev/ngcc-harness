@@ -152,3 +152,7 @@ Observations / minor discrepancies (none security-affecting as built):
   `SR_x_INV` undoes its `SR_x` — and the shift amounts 1/2/3 nibbles, 4/8/12
   bits and 16/32/48 bits match `floor(i/5) ∈ {1,2,3}` scaled by 1, 4 and 16
   columns respectively, as the spec requires).
+
+## Review of 2026-11-17
+
+A model written from the specification equals `XRH1280` on random states and the full hash for every bit length from 0 to 2r+70. The S-box (almost bent, degree 2, inverse degree 3), the MDS matrix, the shift-row patterns and all 24 round constants were recomputed and match. Table 3.1's active S-box counts for 1 to 8 rounds were confirmed, the first five exactly. Two analysis statements do not hold: all single-cell impossible differentials exist over 5 rounds, and one round has degree 4 with inverse degree 9; filed as `hash-29-2`. The reference `CryptHash` block count wraps for `msg_len_bits ≥ 2^64 − r`, giving a constant digest without reading the message; filed as `hash-29-1`. The reference and AVX2 trees otherwise agree for all bit lengths from 0 to 4r+70.
