@@ -1615,6 +1615,10 @@ run_target sign-06 "sign-06-9" sh sign-06/reproduce_short_key_read.sh
 run_target sign-31 "sign-31-8 keygen" sh sign-31/reproduce_stale_keygen.sh
 run_target sign-31 "sign-31-8 vinegar" sh sign-31/reproduce_stale_vinegar.sh
 
+echo "== 2026-11-17 hash in-depth review: ignored digest lengths =="
+run_target hash-07 "hash-07-2" sh hash-07/reproduce_digest_length.sh
+run_target hash-33 "hash-33-2" sh hash-33/reproduce_digest_length.sh
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"

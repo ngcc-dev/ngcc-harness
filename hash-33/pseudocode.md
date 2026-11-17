@@ -16,6 +16,12 @@ Specification: `hash-33-spec.pdf` (52 pages), §2 "Specification"
 (§2.2 mode, §2.3 Thunder-p, §2.4 hash, §2.5 XOF, §2.6 claims; Tables 1–7,
 Figs. 2 and 4). English. The build uses only
 `Thunder/Implementations and Test_vector/Thunder-X86/.../Reference_Implementation`.
+The ARM tree and the optimized and additional implementations were reviewed on
+2026-11-17: all are plain C and agree with the reference for all message
+lengths from 0 to 4,200 bits. One directory,
+`Thunder-X86/.../Additional_Implementation/Thunder-1024`, does not compile as
+shipped: it pairs the optimized source, which defines `IV`, with the reference
+header, which also defines it.
 
 ## Parameters
 
@@ -163,10 +169,23 @@ Discrepancies / notes:
   which is why OBSERVED reports 160/144/128 bytes. The spec's security targets
   for these instances are stated as `log2 q` = 256/384/512, so the *name* is the
   security level, not the output length — easy to misread in a size table.
-- Not verified: `Thunder-p`'s claimed diffusion/trail bounds (§4.3) and the
-  provenance of the IV constants (the spec gives no derivation rule for Table 6,
-  so they are unexplained "nothing-up-my-sleeve"-less constants — worth noting
-  as a transparency gap, not a break).
+- Fixed-output `CryptHash` ignores `digest_len_bits` and always writes the full
+  digest. Filed as `hash-33-2`.
+- Verified on 2026-11-17: `ψ` is a bijection with degree 3 in both directions,
+  differential uniformity 14 and linearity 24, as §3.2 states; `θ` has rank
+  1600; no kernel vector of `θ` has weight below 6, consistent with branch
+  number 12; Table 8 (84, 1553 and 1600 bits of forward coverage) reproduces
+  exactly; the round constants follow the affine LFSR `new = s1 ⊕ s4 ⊕ 1`
+  clocked once per round; the two- and three-round entries of Table 13
+  reproduce (1 and 0.913); and the trail of Table 14 is consistent. No
+  weight-6 kernel state stays in the kernel for a second round under any
+  S-box transition.
+- Not verified: the trail weights beyond two rounds (Tables 9 and 10, which
+  are best-found values, not bounds), the four- and five-round entries of
+  Table 13, and the provenance of the IV constants. The spec gives no
+  derivation rule for Table 6, and the values are not produced by the SM3
+  counter rule that the sibling Dragon submission states. This is a
+  transparency gap, not a break.
 
 ### Domain separation between digest lengths — the key check
 

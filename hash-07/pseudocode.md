@@ -10,8 +10,12 @@ back into the inner part after every permutation call. The feed-forward raises
 
 Specification: `hash-07-spec.pdf` (42 pages), §2 (Fig. 1, §2.4 permutation,
 §2.5 hash instantiation, §2.6 XOF, §2.7 claims). English-language spec.
-Implementation tree used: `Dragon/Implementations and Test_vector/Dragon-x86/`
-(the sibling `Dragon-ARM/` tree is not built and was not reviewed).
+Implementation tree used for the comparison below:
+`Dragon/Implementations and Test_vector/Dragon-x86/`. The `Dragon-ARM/` tree and
+the optimized and additional implementations were reviewed on 2026-11-17: the
+ARM reference sources equal the x86 ones up to whitespace, the optimized and
+additional sources are plain C in both trees, and every one of them agrees with
+the x86 reference for all message lengths from 0 to 4,200 bits.
 
 ## Parameters
 
@@ -172,17 +176,31 @@ domain-separation rule, feed-forward and digest order all agree.
   entirely: it always writes `DIGEST_LANE_NUM` lanes and returns 0. A caller
   passing a smaller value gets a buffer overflow; a caller passing a larger
   one gets a short, silently-truncated answer. The XOF variant only rejects
-  `digest_len_bits < 0`.
+  `digest_len_bits < 0`. Filed as `hash-07-2`.
 - `ROTL64(x, shift)` is undefined behaviour for `shift == 0`, but no rotation
   constant used is 0, so it is unreachable.
 - The security claims hold "for messages of length up to 2^64 bits" (§2.7);
   the implementation's absorbing loop uses `unsigned long long` throughout and
   has no lower internal limit.
 
+### Verified on 2026-11-17
+
+- All six IV tables were recomputed from the stated rule and match the headers
+  and Table 5: the stream `SM3(string ‖ ctr)` for a 32-bit big-endian counter
+  from 0 fills `IV_{n_c-1}` first and `IV_0` last, with the strings
+  `Dragon-512|IV|r=1024|c=576|` and `Dragon-XOF-256|IV|r=1024|c=576|r'=1280|`
+  and their analogues.
+- Table 7 (bit-level diffusion) reproduces exactly: 568 and 1600 fully diffused
+  bits after one and two forward rounds, 0, 879 and 1600 after one, two and
+  three inverse rounds.
+- Table 9 reproduces (correlation 1 after one round, 2^-0.42 after two for the
+  listed pair). The listed two-round pair is not the strongest single-bit pair:
+  the same input difference `S[2][0]` bit 39 gives 2^-0.22 on `S[3][2]` bit 0.
+  After three rounds no single-bit pair exceeded the noise floor of a
+  2^22-sample scan over all 1600 input bits (about 2^-8.5).
+
 ### Not verified
 
-- The full IV tables of Dragon-768, -1024, XOF-384 and XOF-512 (only the two
-  9-lane tables were compared entry-by-entry), and the SM3-counter derivation
-  of the IVs was not recomputed.
-- The mode's security proof (§4.1) and the permutation cryptanalysis (§4.2)
-  were not reviewed; the numbers in the parameter table are the spec's claims.
+- The mode's security proof (§4.1), the MILP trail searches and UNSAT bounds
+  (§4.2.3), and the integral search (§4.2.5) were not re-run; the numbers in
+  the parameter table are the spec's claims.
