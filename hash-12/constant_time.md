@@ -4,7 +4,7 @@ Scope: archived reference implementation, fixed digest parameters and fixed mess
 
 Reference entry: `Iphe/Implementations/Reference_Implementation/Iphe-1024/CryptHash_AlgorithmInstance.c:136`.
 
-A fixed-length source pass found no direct secret-dependent branch, table index, or variable-latency divide/remainder in the representative core. Public-parameter and message-length dispatch remains; this is a static review, not a proof of constant time across compilers or architectures.
+An earlier fixed-length source pass of the permutation found no direct secret-dependent branch, table index, or variable-latency divide/remainder. It missed the final-block loader: `load_final_word` (`CryptHash_AlgorithmInstance.c:110-126`) branches on each message bit of the final block in all three trees, and the effect is measurable (instruction count exactly a constant plus 3 per message 1-bit at GCC `-O2`; timing differences of up to 64 standard deviations). Finding: hash-12-2 (Medium). Public-parameter and message-length dispatch remains; this is a static review, not a proof of constant time across compilers or architectures.
 
-Status: no issue confirmed in static pass. See the cited source lines; do not infer a full key-recovery or forgery attack from this result alone.
+Status: measured issue (hash-12-2). See the cited source lines; do not infer a full key-recovery or forgery attack from this result alone.
 

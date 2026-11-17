@@ -34,6 +34,7 @@ hash-10-5;Confirmed;review;C input-length conversion and padding arithmetic are 
 hash-11-1;Confirmed;review;Secret state indexes AES T-tables
 hash-11-2;Confirmed;runtime;Garnet-1024a omits the specified rate-state feed-forward
 hash-12-1;Confirmed;runtime;Cross-profile 512-bit output relation
+hash-12-2;Confirmed;runtime;Final-block message bits control a branch, with a measurable timing dependence
 hash-13-1;Confirmed;review;Long messages reduce JuziHash-1024 second-preimage security below 1024 bits
 hash-14-1;Confirmed;runtime;Laurus loses its function-domain separation at c=1024 and c=512
 hash-14-2;Confirmed;runtime;Laurus wrappers ignore the requested output length and overrun shorter digest buffers
@@ -43,11 +44,13 @@ hash-17-1;Confirmed;runtime;Trivial collisions at every rate boundary
 hash-17-2;Confirmed;runtime;The specified and implemented inverse rounds do not invert the forward round
 hash-18-1;Confirmed;runtime+static;For short messages, the 384-bit digest is a prefix of the 512-bit digest
 hash-18-2;Confirmed;static;The AVX-512 listing defines a noninjective S-box and practical collisions
+hash-18-3;Confirmed;runtime;Every reference Megascon instance leaks its padded message buffer on every call
 hash-19-1;Confirmed;runtime;Round-key cancellation gives deterministic full-round collisions
 hash-19-2;Confirmed;runtime;Short-message outputs of MoFang-768 and MoFang-1024 are public byte permutations
 hash-19-3;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
 hash-20-1;Confirmed;runtime+static;For short messages, the 384-bit digest is a prefix of the 512-bit digest
 hash-20-2;Confirmed;static;The specified final marker creates cross-rate relations absent from the implementation
+hash-20-3;Confirmed;runtime;Every reference Mozi instance leaks its padded message buffer on every call
 hash-21-1;Confirmed;runtime;A local feedback collision merges complete Neulaser states
 hash-21-2;Confirmed;runtime;Reduction modulo 2^32-5 creates reachable state mergers
 hash-21-3;Confirmed;review;Secret state indexes a 256-byte S-box
@@ -58,6 +61,7 @@ hash-24-1;Confirmed;runtime;Full-round core permutation has a one-query invarian
 hash-24-2;Confirmed;review;Truncated tree chaining values cap QSH second-preimage security
 hash-24-3;Confirmed;runtime;QSH admits full-mode free-start and low-cost semi-free-start collisions
 hash-25-1;Confirmed;runtime;Allocation failure reports success without writing a digest
+hash-25-2;Confirmed;runtime;The reference TaiChi-1024 leaks its padded message buffer on every call
 hash-26-1;Confirmed;runtime;An invariant subspace reduces CHIME collision bounds to 64 and 160 bits
 hash-26-2;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
 hash-27-1;Confirmed;review;Secret state indexes an eight-bit substitution table

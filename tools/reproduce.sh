@@ -1642,6 +1642,12 @@ run_target hash-19 "hash-19-3" sh hash-19/reproduce_digest_length.sh
 run_target hash-26 "hash-26-2" sh hash-26/reproduce_digest_length.sh
 run_target hash-35 "hash-35-2 hash-35-3" sh hash-35/reproduce_digest_length.sh
 
+echo "== 2026-11-17 second pass: Iphe final-block branch, reference memory leaks =="
+run_target hash-12 "hash-12-2" sh hash-12/reproduce_secret_branch_timing.sh
+run_target hash-18 "hash-18-3" sh hash-18/reproduce_leak.sh
+run_target hash-20 "hash-20-3" sh hash-20/reproduce_leak.sh
+run_target hash-25 "hash-25-2" sh hash-25/reproduce_leak.sh
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
