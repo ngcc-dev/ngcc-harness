@@ -103,6 +103,8 @@ uBlock-1024(X, RK^0..RK^51):
 KeySchedule: K (1024 b) -> K0..K7 (128 b each); RK^0..RK^3 = K0||K1, K2||K3,
     K4||K5, K6||K7; then 12 updates
     K <- f(K2 XOR RC_i)||g(K5)||f(K1)||g(K0)||f(K3)||g(K6)||f(K7)||g(K4)
+    # (c) the spec does not say where the 32-bit RC_i enters the 128-bit K2;
+    #     the code uses bytes 0-3 (RC || 0^96); bytes 12-15 reproduce no KAT
   each producing the next four round keys  -> 4 + 12*4 = 52 round keys.
 ```
 

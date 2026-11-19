@@ -101,7 +101,7 @@ Agreements:
 
 Discrepancies:
 
-- **(a) Real deviation — round-constant schedule.** Inherited from the shared
+- **(a) Real deviation — round-constant schedule (recorded as hash-31-5).** Inherited from the shared
   permutation and from the identical Table 1.1 printed in this spec. Spec
   Table 1.1: `c_{-11..0} = 58, 38, 3C0, D0, 60, 120, 14, 2C, F0, 1A0, 380, 12`;
   implementation (`ZuD1280.h` / `ZuD1536.h`, applied rc12 → rc1):

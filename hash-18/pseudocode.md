@@ -97,7 +97,9 @@ Verified agreements:
   `A/B/C/D` match the spec's table row for row; `add_constant_scalar` XORs into
   `x[0][0]` only (Sect. 2.4.4); `round_constant()` is byte-identical to spec
   Listing 5. Layer order `chichi, bitperm, row_mix, add_constant` = `pC ∘ pL ∘
-  pπ ∘ pS`.
+  pπ ∘ pS`. (b) Sect. 7.1.2 (p. 15) describes the row mix with source-row
+  constants followed by π, the opposite order; that reading reproduces none of
+  the KATs.
 - **Rounds:** 15 for the sponge instances, 16 for the F-sponge instances —
   matches Table 1 (see discrepancy 3 about Sect. 2.1).
 - **Rates:** 160 / 128 / 152 / 120 bytes = 1280 / 1024 / 1216 / 960 bits, and
@@ -170,8 +172,9 @@ different LSB windows, and I verified `Megascon-768(M) != LSB_768(Megascon-1024(
 - Sect. 5.5 item 2 says the F-sponge domain constant is `1 = 0^(c-1) ‖ 1`,
   i.e. the **last** bit of the capacity, while Algorithm 2 line 7 puts it at the
   **first** capacity bit (`M_i ‖ 1 ‖ 0^(2048-r-1)`). The code follows
-  Algorithm 2. This matters: the `0^(c-1)‖1` placement of Sect. 5.5 would put
-  the separation bit inside `LSB_h(I)`, the output window.
+  Algorithm 2. The other placement gives a different function (no KAT is
+  reproduced with it) but leaves the length-extension argument intact, which
+  only needs the bit in the capacity.
 
 ### Other observations
 

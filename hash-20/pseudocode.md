@@ -101,7 +101,10 @@ Verified agreements:
   it matches with `A[0]` as the most significant bit. (Unlike hash-19 MoFang,
   Mozi's algebraic S-box definition and its lookup table agree.)
 - **MixColumn:** `bitSliceMDS()` performs exactly the 12 steps of spec
-  Algorithm 4 in the same order, and `MUL()` is the spec's `MUL` LFSR.
+  Algorithm 4 in the same order, and `MUL()` is the spec's `MUL` LFSR. (b) MUL
+  maps (x0..x3) to (x3, x0⊕x3, x1, x2), the transpose of the Sect. 2.4.2 α
+  matrix (x1, x2, x3, x0⊕x1); with α no KAT is reproduced. Both have branch
+  number 5.
 - **ShiftRow:** `rhoY[4][4]` matches spec Table 3 entry for entry
   (`{0,14,20,22} {0,13,68,91} {0,27,42,106} {0,32,48,80}`), selected by
   `i mod 4`, and the 128-bit code path implements a rotate **right** by

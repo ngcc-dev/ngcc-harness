@@ -115,7 +115,7 @@ Agreements:
 
 Discrepancies:
 
-- **(a) Real deviation — round-constant schedule.** Spec Table 1.1 lists
+- **(a) Real deviation — round-constant schedule (recorded as hash-30-4).** Spec Table 1.1 lists
   `c_{-11..0} = 58, 38, 3C0, D0, 60, 120, 14, 2C, F0, 1A0, 380, 12`.
   The implementation (`lib/low/ZuD-1280/ZuD1280.h` and `ZuD-1536/ZuD1536.h`,
   applied by `Permute_12rounds` in the order rc12 → rc1) uses

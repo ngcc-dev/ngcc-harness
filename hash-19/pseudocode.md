@@ -75,6 +75,8 @@ M_1..M_s = M ‖ 1 ‖ 0*            # blocks of 1152 bits
 for i = 1..s-1:  I = CF(I, M_i)
 I = CF(I XOR 1, M_s)             # MDP permutation before the LAST block
 CF(h, M)  =  MoFang-BC_M(h) XOR h                        # Davies-Meyer
+          # (b) Sect. 2.3.1 (p. 5) writes BC-DM as BC_h(m) XOR m (MMO); Algorithm 5,
+          # Sect. 2.4.4 and Sect. 6.1 key the cipher with the message, as here
 T = MSB_min(ℓ,256 or 512)(I)
 # XOF extension (ℓ > 256):
 for i = 1..floor(ℓ/256):
@@ -121,10 +123,8 @@ Verified agreements:
   all 18 constants, under the array convention `code[y][x]` (which is the
   spec's own "words are fed into the state by row, (0,0),(1,0),(2,0),(0,1)…"
   order — the same convention the message-loading loop uses).
-- **Key expansion:** the two transpositions `key0[j][(j+2i)%3]` and
-  `key1[(i+2j)%3][i]` reproduce spec Table 5's "second block" and
-  "first/third block" rows respectively (I checked all 9 entries of each);
-  `rhok[0]` / `rhok[1]` match spec Table 6 (all 18 entries); the S-box is
+- **Key expansion:** the block transpositions are exchanged relative to
+  Algorithms 3 and 4 (Discrepancy 6); `rhok[0]` / `rhok[1]` match spec Table 6 (all 18 entries); the S-box is
   applied to the first row only; `key1[0][0] ^= ct[round]` matches "the round
   constant xor the last byte of the first word for the last block", and
   `ct[0..15] = 0x24,0x3F,…,0x44` matches Table 4.
@@ -157,6 +157,12 @@ The implementation (`Sbox()`) uses the *sequential* form
 reproduces Table 2 on all 8 inputs. So the code is right and the algebraic
 definition in Sect. 2.4.1 needs correcting (this is the SEA S-box, which is
 indeed defined sequentially).
+
+Sect. 6.2.2 (p. 25) also calls x0 the most significant bit. Table 2 and the
+code take x0 as the least significant; under the MSB reading neither the
+formulas nor the code give Table 2. The code's S-box meets every property
+Sect. 6.2.2 states (bijective, differential uniformity 2, linearity 4,
+degree 2).
 
 ### Discrepancy 2 — **(a) real weakness: the domain values are not closed under the MDP permutation, contrary to the spec's own requirement**
 
@@ -222,6 +228,17 @@ Sect. 2.5 says "The message M is padded to be a multiple of **576** bits",
 but Algorithm 5 line 8 and Algorithm 6 line 12 both say the blocks `M_i` are
 **1152** bits (which is correct — the message block *is* the cipher key,
 `k = 2n`). The implementation uses 1152. Sect. 2.5 should read 1152.
+
+### Discrepancy 6 — **(a) the key-expansion transpositions are exchanged (recorded as hash-19-4)**
+
+In Figure 5's coordinates (word (x, y) = `key[y][x]`, the convention Tables 3
+and 6 need), `MessageExpansion1` line 138 computes C[x,y] = B[x+2y, x], which
+is Algorithm 3 line 18's second-block formula, and line 150 computes
+C[x,y] = B[y, 2x+y], line 7's first-block formula. MoFang-768 and -1024 are
+exchanged on all three blocks (Algorithm 4 lines 4, 12 and 23). Table 5 fits
+either assignment depending on the direction in which it is read. The printed
+formulas reproduce 0 of 4,097 KAT_2_12 vectors at MoFang-256 and -768. Both
+maps swap words 5 and 7, so Discrepancy 2's analysis is unaffected.
 
 ### Other observations
 

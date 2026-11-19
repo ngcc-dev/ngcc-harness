@@ -147,7 +147,8 @@ Verified agreements (line numbers from `CryptHash_Cuishen-512.c` unless noted):
 - Key schedule `key_schedule()` (ll. 160–212) reproduces Algorithm 4
   word-for-word, including all message rotations
   (MA..MH = 14,43,28,19,29,63,12,6), `BA = 27` (Octarx-512: 47) and the
-  counter update `c0'=c1, c1'=c0<<<2`.
+  counter update `c0'=c1, c1'=c0<<<2`. (b) Figure 9 (p. 13) rotates the other
+  word (`c0'=c1<<<2, c1'=c0`); that rule reproduces only the empty-message KAT.
 - Round-key derivation `m[0]^b[0]^cnt[0]`, `m[1]^b[1]^cnt[1]`, `m[8]^b[2]`,
   `m[9]^b[3]` (ll. 178–181) matches Alg. 4 lines 19–20 including the fact
   that the counter is *not* mixed into `w^c`, `w^d`.
@@ -189,8 +190,8 @@ The implementation does the right thing: after absorbing
 `floor(l/1024)` complete blocks it compresses one extra zero-padded block when
 `rem_bits > 768` (l. 386; `> 512` in the -768/-1024 files at l. 399) and then
 uses an all-zero `m_final`. So this is a **specification defect**, not an
-implementation one, but a second implementer following Alg. 1 literally would
-produce a different (and shorter) digest computation for those lengths.
+implementation one: Alg. 1 cannot parse M′ at those lengths, so it defines no
+digest there.
 
 ### Discrepancy 2 (real deviation, all instances): the 128-bit counter is only 64 bits
 

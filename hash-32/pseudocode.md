@@ -115,7 +115,7 @@ Discrepancies:
   absorbed block, giving the absorption mapping a self-similar structure that
   the spec's analysis does not cover; (iii) an implementation written from
   Algorithm 3 will not reproduce the submitted KATs.
-- **(a) Real deviation — round-constant schedule.** As in hash-30/31: spec
+- **(a) Real deviation — round-constant schedule (recorded as hash-32-4).** As in hash-30/31: spec
   Table 1.1 gives `c_{-11..0} = 58, 38, 3C0, D0, 60, 120, 14, 2C, F0, 1A0, 380,
   12`, the implementation uses the Xoodoo order `58, 38, 3C0, D0, 120, 14, 60,
   2C, 380, F0, 1A0, 12`. Six of twelve positions differ. This compounds with the

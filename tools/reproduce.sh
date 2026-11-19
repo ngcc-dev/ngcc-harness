@@ -1648,6 +1648,38 @@ run_target hash-18 "hash-18-3" sh hash-18/reproduce_leak.sh
 run_target hash-20 "hash-20-3" sh hash-20/reproduce_leak.sh
 run_target hash-25 "hash-25-2" sh hash-25/reproduce_leak.sh
 
+echo "== 2026-11-19 second pass: allocation failures, length arithmetic, memory safety, specification conformance =="
+run_target sign-02 "sign-02-5" sh sign-02/reproduce_stale_digest.sh
+run_target sign-02 "sign-02-6" sh sign-02/reproduce_stale_mask.sh
+run_target sign-16 "sign-16-3" sh sign-16/reproduce_stale_digest.sh
+run_target sign-16 "sign-16-4" sh sign-16/reproduce_stale_mask.sh
+run_target sign-16 "sign-16-5" sh sign-16/reproduce_stale_keygen.sh
+run_target sign-22 "sign-22-8" sh sign-22/reproduce_challenge_space.sh
+run_target sign-22 "sign-22-9" sh sign-22/reproduce_short_pk.sh
+run_target sign-22 "sign-22-10" sh sign-22/reproduce_verify_leak.sh
+run_target kem-39 "kem-39-8 kem-39-9" sh kem-39/reproduce_bch_bounds.sh
+run_target kem-17 "kem-17-8" sh kem-17/reproduce_leak_short_ct.sh
+run_target sign-07 "sign-07-9" sh sign-07/reproduce_verify_memory.sh
+run_target sign-08 "sign-08-7 sign-08-8" sh sign-08/reproduce_pk_reads.sh
+run_target sign-01 "sign-01-12" sh sign-01/reproduce_avx2_sk_overread.sh
+run_target sign-23 "sign-23-4" sh sign-23/reproduce_short_pk.sh
+run_target sign-25 "sign-25-5" sh sign-25/reproduce_leak.sh
+run_target sign-25 "sign-25-1 static" sh sign-25/reproduce_stale_verdict.sh
+run_target sign-28 "sign-28-7" sh sign-28/reproduce_vole_prg.sh
+run_target hash-05 "hash-05-6" sh hash-05/reproduce_long_message_collision.sh
+run_target hash-11 "hash-11-3" sh hash-11/reproduce_long_message_collision.sh
+run_target hash-02 "hash-02-6" sh hash-02/reproduce_length_wrap.sh
+run_target hash-02 "hash-02-7" sh hash-02/reproduce_avx2_shift.sh
+run_target hash-21 "hash-21-5" sh hash-21/reproduce_length_wrap.sh
+run_target hash-35 "hash-35-4" sh hash-35/reproduce_sse_alignment.sh
+run_target hash-19 "hash-19-4" sh hash-19/reproduce_spec_mismatch.sh
+run_target hash-30 "hash-30-4" sh hash-30/reproduce_spec_mismatch.sh
+run_target hash-31 "hash-31-5" sh hash-31/reproduce_spec_mismatch.sh
+run_target hash-32 "hash-32-4" sh hash-32/reproduce_spec_mismatch.sh
+run_target hash-35 "hash-35-5" sh hash-35/reproduce_spec_mismatch.sh
+run_target hash-11 "hash-11-4" sh hash-11/reproduce_spec_mismatch.sh
+run_target hash-02 "hash-02-8" sh hash-02/reproduce_spec_mismatch.sh
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"

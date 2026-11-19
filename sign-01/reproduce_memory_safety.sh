@@ -30,8 +30,8 @@ check() {
         echo "ATTACK $label NOT-CONFIRMED (unexpected success)"
         return 1
     fi
-    if ! rg -q 'AddressSanitizer: stack-buffer-overflow' "$temp_dir/asan.log" ||
-       ! rg -q "$expected" "$temp_dir/asan.log"; then
+    if ! grep -q 'AddressSanitizer: stack-buffer-overflow' "$temp_dir/asan.log" ||
+       ! grep -q "$expected" "$temp_dir/asan.log"; then
         echo "ATTACK $label NOT-CONFIRMED (unexpected diagnostic)"
         sed -n '1,35p' "$temp_dir/asan.log"
         return 1

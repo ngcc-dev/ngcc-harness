@@ -191,12 +191,12 @@ Verified agreements:
 
 Discrepancies:
 
-- **(a) REAL DEVIATION — the padding zero count is off by 64 bits when
+- **(a) REAL DEVIATION (recorded as hash-02-8) — the padding zero count is off by 64 bits when
   `|M| = 62 (mod 64)`.** The spec's `Pad10^{s+1}1` (§2.2) uses
   `s = (-len - 3) mod 64` and appends `s+1` zeros, i.e. **between 1 and 64**
   zero bits (total padding 67..130 bits). The implementation computes
   `zero_count = (64 - ((message_bits + 2) & 63)) & 63`
-  (`axis_core.c:1050`, and identically at `:1096`, `:1306`, `:1401`), i.e.
+  (`axis_core.c:1050`, and identically at `:1096`, `:1306`, `:1401`, `:1465`), i.e.
   **0 to 63** zeros (total padding 66..129 bits). The two agree for every
   residue of `|M| mod 64` except `62`, where the spec appends
   `s+1 = 64` zeros and the implementation appends **none** — producing

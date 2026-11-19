@@ -6,6 +6,9 @@ hash-02-2;Confirmed;runtime;Partial-bit AXIS update branches on secret state, wi
 hash-02-3;Confirmed;runtime;The invertible AXIS state caps AXIS-1024 second-preimage security at 768 bits
 hash-02-4;Probable;runtime;Digest alignment gives a below-target AXIS-1024 preimage route
 hash-02-5;Confirmed;review;Optimized message packing indexes tables with message bytes
+hash-02-6;Confirmed;runtime;Byte-aligned lengths just below 2^64 give a constant digest
+hash-02-7;Confirmed;runtime;A shift by 32 in the AVX2 squeeze gives wrong, colliding digests in Clang builds
+hash-02-8;Confirmed;runtime;Padding omits the 64 specified zero bits when the message length is 62 modulo 64
 hash-03-1;Probable;runtime;A backward tree reduces C-Hash-1024 second-preimage work below 1024 bits
 hash-04-1;Confirmed;static;Palindrome messages reduce CHAMP collision bounds to 128 and 256 bits
 hash-04-2;Lead;runtime+static;Exact reduced-size subgroup collisions support a square-root full-size route
@@ -19,6 +22,7 @@ hash-05-2;Confirmed;review;Narrow-pipe iteration limits uHash second-preimage se
 hash-05-3;Confirmed;runtime;Unused partial-byte bits cancel padding and give trivial collisions
 hash-05-4;Confirmed;runtime;Final-block counter cancellation lets 2 to 4 chosen queries predict unqueried continuations
 hash-05-5;Confirmed;runtime;`CryptHash` returns success without writing a digest for unsupported lengths
+hash-05-6;Confirmed;runtime;32-bit length arithmetic gives collisions between 4 GiB messages
 hash-06-1;Confirmed;runtime;Reduced-round differential figures are contradicted by probability-1 trails
 hash-07-1;Confirmed;runtime;The reference XOF implementation branches on each output bit, with a measurable timing dependence
 hash-07-2;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
@@ -33,6 +37,8 @@ hash-10-4;Confirmed;runtime;C implementations hash storage bits outside partial-
 hash-10-5;Confirmed;review;C input-length conversion and padding arithmetic are unchecked
 hash-11-1;Confirmed;review;Secret state indexes AES T-tables
 hash-11-2;Confirmed;runtime;Garnet-1024a omits the specified rate-state feed-forward
+hash-11-3;Confirmed;runtime;32-bit byte counts give collisions between 4 GiB messages and crash on 2 GiB messages
+hash-11-4;Confirmed;runtime;Absorbed block count and length injection differ from the specification
 hash-12-1;Confirmed;runtime;Cross-profile 512-bit output relation
 hash-12-2;Confirmed;runtime;Final-block message bits control a branch, with a measurable timing dependence
 hash-13-1;Confirmed;review;Long messages reduce JuziHash-1024 second-preimage security below 1024 bits
@@ -48,6 +54,7 @@ hash-18-3;Confirmed;runtime;Every reference Megascon instance leaks its padded m
 hash-19-1;Confirmed;runtime;Round-key cancellation gives deterministic full-round collisions
 hash-19-2;Confirmed;runtime;Short-message outputs of MoFang-768 and MoFang-1024 are public byte permutations
 hash-19-3;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
+hash-19-4;Confirmed;runtime;The key expansion applies the specified block transpositions in exchanged positions
 hash-20-1;Confirmed;runtime+static;For short messages, the 384-bit digest is a prefix of the 512-bit digest
 hash-20-2;Confirmed;static;The specified final marker creates cross-rate relations absent from the implementation
 hash-20-3;Confirmed;runtime;Every reference Mozi instance leaks its padded message buffer on every call
@@ -55,6 +62,7 @@ hash-21-1;Confirmed;runtime;A local feedback collision merges complete Neulaser 
 hash-21-2;Confirmed;runtime;Reduction modulo 2^32-5 creates reachable state mergers
 hash-21-3;Confirmed;review;Secret state indexes a 256-byte S-box
 hash-21-4;Confirmed;runtime+static;Long random messages admit second preimages in one scan
+hash-21-5;Confirmed;runtime;Lengths just below 2^64 − 64 return success without writing a digest
 hash-22-1;Confirmed;runtime;Secret state indexes the AES S-box and message bits control a branch, with a measurable timing dependence
 hash-23-1;Confirmed;runtime;Unvalidated digest lengths overrun the final-block stack buffer
 hash-24-1;Confirmed;runtime;Full-round core permutation has a one-query invariant-subspace distinguisher
@@ -72,13 +80,16 @@ hash-29-2;Confirmed;runtime;Two statements in the permutation analysis are contr
 hash-30-1;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-30-2;Lead;runtime;An 8-column iterative trail gives an estimated 2^125 collision
 hash-30-3;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision estimate
+hash-30-4;Confirmed;runtime;Six round constants are applied in a different order from Table 1.1
 hash-31-1;Confirmed;runtime;Cross-domain distinguisher between ZC-1536-512 and ZC-1536-768
 hash-31-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-31-3;Lead;runtime;An 8-column iterative trail gives an estimated 2^125 collision
 hash-31-4;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision estimate
+hash-31-5;Confirmed;runtime;Six round constants are applied in a different order from Table 1.1
 hash-32-1;Confirmed;static;The specified and implemented ZC-EDMC mappings differ
 hash-32-2;Lead;runtime+static;Message modification gives a conditional 2^288 collision estimate
 hash-32-3;Lead;runtime;Sparse ZC-1280 trail gives a conditional 2^144 collision estimate
+hash-32-4;Confirmed;runtime;Six round constants are applied in a different order from Table 1.1
 hash-33-1;Confirmed;runtime;The reference XOF implementation branches on each output bit, with a measurable timing dependence
 hash-33-2;Confirmed;runtime;Fixed-output wrappers ignore the requested digest length
 hash-34-1;Probable;runtime;A four-block reset prefix gives second preimages below the required levels
@@ -86,6 +97,8 @@ hash-34-2;Confirmed;runtime;Short-message checksum cancellation defeats the stat
 hash-35-1;Confirmed;review;Secret-indexed S-box and variable-time field multiplication
 hash-35-2;Confirmed;runtime;Unsupported digest lengths corrupt heap memory in the reference implementation
 hash-35-3;Confirmed;runtime;Optimized wrappers ignore the requested digest length
+hash-35-4;Confirmed;runtime;Aligned SSE loads crash the x86 implementations on unaligned buffers
+hash-35-5;Confirmed;runtime;The block-index tweak is encoded little-endian, not big-endian as specified
 kem-01-1;Confirmed;runtime;Ineffective implicit rejection breaks IND-CCA security
 kem-01-2;Confirmed;review;Rejection reads a secret before the secret-key object
 kem-01-3;Confirmed;static;The external DRBG is used as a KDF
@@ -166,6 +179,7 @@ kem-17-4;Confirmed;runtime;Public column multiplicities break the EPC-P assumpti
 kem-17-5;Confirmed;review;Secret permutation and mixing matrix drive memory and control flow
 kem-17-6;Confirmed;runtime;Every seed expansion passes through a 208-bit XOF state
 kem-17-7;Confirmed;runtime;The 3-DQCSD-P assumption leaves the second syndrome's fixed parity unrestricted
+kem-17-8;Confirmed;runtime;Every encapsulation and decapsulation leaks the mask matrix, and decapsulation reads past a short ciphertext
 kem-18-1;Confirmed;runtime;Partial rejection mask leaks the candidate shared secret
 kem-18-2;Lead;static;Reducible rings project LoongKEM into much smaller SLWE instances
 kem-18-3;Confirmed;runtime;Public consistency equations recover Loong128, Loong256 and Loong384 shared secrets
@@ -268,6 +282,8 @@ kem-39-4;Confirmed;runtime;Matrix and lifting samplers differ from the normative
 kem-39-5;Confirmed;runtime;Message encoding uses the wrong half-modulus
 kem-39-6;Proof gap;static;The IND-CPA hybrid needs a public-key-dependent shift not covered by its assumption
 kem-39-7;Confirmed;review;Decapsulation decodes and re-samples with secret-dependent branches and addresses
+kem-39-8;Confirmed;runtime;A ciphertext with exactly t errors in a BCH codeword writes past the decoder's error-location array
+kem-39-9;Confirmed;runtime;Decapsulation reads past the error-locator array and past a short ciphertext
 kem-40-1;Confirmed;static;Encryption discards the specified error polynomial
 kem-40-2;Confirmed;review;Decapsulation addresses a private array with a secret-derived index
 kem-40-3;Confirmed;static;YuanYang resets the external DRBG for deterministic encryption
@@ -339,10 +355,13 @@ sign-01-8;Confirmed;static;Short message representatives cap Aigis-Sig+ II and I
 sign-01-9;Confirmed;runtime;32-bit message-length arithmetic gives long-message forgeries
 sign-01-10;Confirmed;runtime;A failed DRBG allocation in challenge expansion leaks the signing key and accepts forgeries
 sign-01-11;Confirmed;runtime;Verification leaks memory on rejection and reads past a short signature
+sign-01-12;Confirmed;runtime;AVX2 signing and verification read past correctly sized keys
 sign-02-1;Confirmed;static;A 512-bit unsalted message representative caps forgery security at 256 bits
 sign-02-2;Confirmed;runtime;A shared bimodal sign leaks an equivalent BiT-128 signing key
 sign-02-3;Probable;runtime;Mask-seed collisions recover an equivalent BiT-128 signing key
 sign-02-4;Confirmed;runtime;BiT-512 hint bytes have several accepted encodings
+sign-02-5;Confirmed;runtime;A failed digest allocation leaves the previous digest in the verifier
+sign-02-6;Confirmed;runtime;A failed mask-seed allocation makes signing reuse a stale seed and leaks the signing key
 sign-03-1;Confirmed;runtime;Hypertree index collapse causes repeated few-time keys
 sign-03-2;Confirmed;runtime;FORS+C accumulation gives a below-target fresh-message forgery
 sign-03-3;Confirmed;review;The WOTS+C zero-bit test checks bits the encoding already uses
@@ -374,12 +393,15 @@ sign-07-5;Confirmed;runtime;32-bit message lengths give long-message forgeries
 sign-07-6;Confirmed;review;Signing masks depend on only half of the mask seed
 sign-07-7;Proof gap;review;The zero-knowledge simulator uses part of the secret key
 sign-07-8;Confirmed;review;The specified rANS coder does not round-trip its input
+sign-07-9;Confirmed;runtime;Rejected verifications leak the message buffer, and verification reads past a short signature
 sign-08-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-08-2;Confirmed;runtime;The compression-consistency restart leaks an equivalent DARTS-128 signing key
 sign-08-3;Confirmed;static;Reference and AVX2 DARTS expand different public matrices
 sign-08-4;Confirmed;static;AVX2 DARTS-512 samples its signing secret from 256 seed bits
 sign-08-5;Confirmed;review;The sign byte of one attempt is reused as mask sign bits of the next
 sign-08-6;Confirmed;review;Low-bits decoding accepts noncanonical fields, giving byte-distinct valid signatures
+sign-08-7;Confirmed;runtime;A 32-bit sum wraps and disables the key-generation norm check at DARTS256 and DARTS512
+sign-08-8;Confirmed;runtime;Verification ignores the public-key length, and AVX2 verification reads past a correctly sized key
 sign-09-1;Confirmed;runtime+static;The unauthenticated signature salt invalidates the salted-target analysis
 sign-09-2;Proof gap;static;The EUF-CMA reduction treats trapdoor recovery as public-key indistinguishability
 sign-09-3;Confirmed;runtime+static;Signing and verification read beyond declared input buffers
@@ -431,6 +453,9 @@ sign-15-17;Confirmed;runtime;The secret sampler writes one coefficient past `s1`
 sign-15-18;Confirmed;review;ATLAS-512 expands its public matrix with 24-bit coefficients
 sign-16-1;Proof gap;review;The stated hash requirement is too weak for the EUF-CMA target
 sign-16-2;Proof gap;review;Polynomial solutions of the relaxed Octarine-512 SIS estimates
+sign-16-3;Confirmed;runtime;A failed hash allocation leaves the previous digest in the verifier
+sign-16-4;Confirmed;runtime;A failed mask-seed allocation makes signing reuse the previous mask and leaks the signing key
+sign-16-5;Confirmed;runtime;A failed key-derivation allocation makes key generation return the previous key pair
 sign-17-1;Confirmed;runtime;The specified fixed-support challenge permits public-key forgeries in 2^39, 2^45, and 2^90
 sign-17-2;Confirmed;runtime;The specified high-bit wrap rejects honest signatures
 sign-17-3;Confirmed;runtime;A failed message digest leaves the previous digest in the verifier
@@ -464,9 +489,13 @@ sign-22-4;Confirmed;runtime;An undersized rejection envelope permits practical s
 sign-22-5;Confirmed;runtime;A valid-bound response can overrun Rhyme-512's encoder table
 sign-22-6;Confirmed;runtime;Long messages share an all-zero representative in Rhyme-SM3
 sign-22-7;Proof gap;runtime+static;The specified Gaussian width makes the proof vacuous within the required query budgets
+sign-22-8;Confirmed;runtime;Rhyme-SM3 uses smaller challenge weights than specified, leaving every challenge space below its level
+sign-22-9;Confirmed;runtime;Verification ignores the public-key length and over-reads a short key
+sign-22-10;Confirmed;runtime;Rhyme-SM3 leaks its XOF buffers on every verification
 sign-23-1;Confirmed;runtime;Reversed transition leaks Shuttle's signing key
 sign-23-2;Confirmed;static;Shuttle's ICCS build uses the external DRBG as an XOF
 sign-23-3;Probable;runtime;A λ-bit masking seed exposes Shuttle signing keys below every claimed level
+sign-23-4;Confirmed;runtime;Verification ignores the public-key length and over-reads a short key
 sign-24-1;Confirmed;runtime;Chunked Reed–Solomon encoding reveals the signing witness
 sign-24-2;Confirmed;runtime;Zero 16-bit challenge exposes the signing witness
 sign-24-3;Confirmed;static;Signing rebuilds the public state with secret-dependent control flow
@@ -475,6 +504,7 @@ sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
 sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
 sign-25-3;Confirmed;runtime;Detached compact challenge enables one-query message-retargeting forgeries
 sign-25-4;Confirmed;runtime;Noncanonical field encodings create signature and public-key aliases
+sign-25-5;Confirmed;runtime;Key generation, signing and verification leak hundreds of kilobytes per call
 sign-26-1;Lead;review;Prime sizing assumes a superseded square-root isogeny cost
 sign-26-2;Confirmed;static;Missing challenge grinding drops Levels 1 and 3 below their targets
 sign-26-3;Confirmed;static;A failed final split can accept an altered signature in a reused verifier process
@@ -492,6 +522,7 @@ sign-28-3;Confirmed;static;The implementations omit the Hash4 step required by t
 sign-28-4;Confirmed;static;Reference universal hashing reads beyond an eight-byte stack buffer
 sign-28-5;Confirmed;runtime;An undocumented exported helper generates keys from a public constant
 sign-28-6;Confirmed;static;Witness-position expansion branches on the long-term secret
+sign-28-7;Confirmed;runtime;At λ = 160 the VOLE tapes keep 128 of every 160 PRG bits, unlike Algorithm 8
 sign-29-1;Confirmed;runtime;One signature reveals the complete signing witness
 sign-29-2;Confirmed;static;Deterministic TINS expansion depends on the external DRBG
 sign-29-3;Confirmed;runtime+static;Unchecked signature length overflows the verifier's path buffer

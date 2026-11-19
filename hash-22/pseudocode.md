@@ -121,7 +121,7 @@ for i = 0 .. 23:
 return S_24
 ```
 `RC_0..RC_23` are 128-bit words from the fractional part of π (spec Table 3,
-starting 0x243f6a8885a308d313198a2e03707344).
+starting 0x243f6a8885a308d313198a2e03707344; RC7 and RC22 deviate from π, see below).
 
 ## Implementation vs specification
 
@@ -139,7 +139,9 @@ Verified item by item:
   every (source, XOR-source) pair agrees, including the constant slot
   `next[7] = RC[round] XOR s[8]`.
 - **Round constants**: `RC[0]` and `RC[23]` (and spot checks at 6, 10, 15)
-  reproduce spec Table 3 byte for byte, and are the π constants.
+  reproduce spec Table 3 byte for byte. 22 of the 24 equal consecutive 128-bit
+  pieces of frac(π); RC7 and RC22 are the π pieces `0x0801f2e2…4e69` and
+  `0x0f6d6ff3…2004` shifted by one hex digit (b). The code follows Table 3.
 - **AES round**: `aes_round_no_key()` is SubBytes (standard AES S-box table,
   verified against the FIPS-197 values), ShiftRows in the column-major byte
   layout, then MixColumns via the standard `a ^ x ^ xtime(a_i ^ a_{i+1})`

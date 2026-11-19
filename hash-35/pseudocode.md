@@ -125,7 +125,7 @@ Agreements:
 
 Discrepancies:
 
-- **(a) Real deviation — the tweak is encoded little-endian.**
+- **(a) Real deviation — the tweak is encoded little-endian (recorded as hash-35-5).**
   Spec §3.3.2: "`τ = enc64(i) ‖ 0^64`, where enc64 denotes the **big-endian**
   64-bit encoding of the block index", reinforced by §2 ("all multi-byte strings
   are processed in big-endian order"). The implementation does

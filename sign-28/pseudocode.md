@@ -120,11 +120,17 @@ return (sk, pk)
 ### Symmetric primitives (§4.2.2)
 ```
 PRG(sd, iv, twk; m)  (Alg. 8): counter-mode over a block cipher —
-    Rijndael-192 for λ=160, Rijndael-256 for λ=256, the BLAKE2s core for λ=512.
+    Rijndael-192 for λ=160, Rijndael-256 for λ=256, the BLAKE2s core for λ=512;
+    output s_0 || s_1 || ..., s_i = first λ bits of block i.
 SeedExp: AES-192-CTR (λ=160), AES-256-CTR (λ=256), BLAKE2s core (λ=512).
 Hash_i(msg; m)    := pseudoXOF(msg || i, m)       for i ∈ {0,1,3,4}
 Hash_2^j(msg; m)  := pseudoXOF(msg || (8+j), m)   for j ∈ {0,1,2,3}
 ```
+Discrepancy (recorded as `sign-28-7`): at λ = 160 the VOLE tapes of Alg. 20 are
+built in 128-bit rows, each the first 128 bits of the block for counter `row`
+(`src/vole_impl.inc:40–46,129,234,266`), not the 160-bit pieces of Alg. 8. Both
+trees reproduce the official λ = 160 KATs; λ = 256 and 512 agree with Alg. 8.
+
 The hash family is explicitly *not* SHAKE: §4.2.2 states "we instantiate the
 hash functions using the pseudo-XOF function provided by NGCC", with one-byte
 suffix domain separation. Domain separation is therefore specified and is
