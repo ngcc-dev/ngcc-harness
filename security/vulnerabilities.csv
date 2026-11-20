@@ -152,6 +152,8 @@ kem-10-6;Confirmed;static;Reference 79-bit field multiplication touches a fourth
 kem-10-7;Confirmed;runtime;Failed hash or seeding allocations give zero coins and public-derived keys
 kem-11-1;Confirmed;static;COMPASS-KEM-384 and -512 use a 256-bit key-generation root
 kem-11-2;Proof gap;static;The Biased-MLWR reduction does not instantiate the concrete small-secret sets
+kem-11-3;Confirmed;runtime;A failed hash allocation leaves the previous session key in encapsulation
+kem-11-4;Confirmed;runtime;The KEM API ignores declared input lengths and over-reads short buffers
 kem-12-1;Confirmed;static;The specified CTL-512 public-key space has at most 256 bits of support
 kem-12-2;Confirmed;static;CTL-512 returns only 384 shared-secret bits
 kem-12-3;Confirmed;runtime;Reference CTL-512 multiplication branches on every bit of the encapsulation secret
@@ -385,6 +387,8 @@ sign-06-6;Confirmed;runtime;The SHAKE wrapper compresses the message-representat
 sign-06-7;Proof gap;static;The strong-unforgeability MSIS premise is trivial at 256 and 512
 sign-06-8;Confirmed;runtime;Ignored XOF failures give public-derived signing keys and key-leaking signatures
 sign-06-9;Confirmed;runtime;The signature API ignores declared key lengths
+sign-06-10;Proof gap;static;The min-entropy bound's universal-hash step fails at 256 and 512
+sign-06-11;Confirmed;static;Proposition 1's printed probability has the wrong sign and exceeds one
 sign-07-1;Confirmed;runtime;Trivial signature malleability violates SUF-CMA
 sign-07-2;Confirmed;runtime;Verifier challenge-sign blindness enables universal forgery
 sign-07-3;Confirmed;review;Compressed signatures enable practical equivalent-key recovery and forgery
@@ -500,6 +504,7 @@ sign-24-1;Confirmed;runtime;Chunked Reed–Solomon encoding reveals the signing 
 sign-24-2;Confirmed;runtime;Zero 16-bit challenge exposes the signing witness
 sign-24-3;Confirmed;static;Signing rebuilds the public state with secret-dependent control flow
 sign-24-4;Confirmed;review;Field multiplication indexes 64K-entry tables with secret operands
+sign-24-5;Confirmed;runtime;Signature deserialization under-checks the length and over-reads a short signature
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
 sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
 sign-25-3;Confirmed;runtime;Detached compact challenge enables one-query message-retargeting forgeries

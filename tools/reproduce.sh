@@ -1680,6 +1680,12 @@ run_target hash-35 "hash-35-5" sh hash-35/reproduce_spec_mismatch.sh
 run_target hash-11 "hash-11-4" sh hash-11/reproduce_spec_mismatch.sh
 run_target hash-02 "hash-02-8" sh hash-02/reproduce_spec_mismatch.sh
 
+echo "== 2026-11-20: allocation failure, input lengths, specification errata =="
+run_target kem-11 "kem-11-3" sh kem-11/reproduce_stale_encaps_key.sh
+run_target kem-11 "kem-11-4" sh kem-11/reproduce_short_inputs.sh
+run_target sign-24 "sign-24-5" sh sign-24/reproduce_short_signature.sh
+run_target sign-06 "sign-06-10 sign-06-11" python3 sign-06/reproduce_spec_errata.py
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
