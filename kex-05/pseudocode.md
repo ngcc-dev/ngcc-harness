@@ -260,7 +260,11 @@ Discrepancies:
 6. **(b) spec typo — the "12" in Algorithms 7 and 10.** Both write the secret key as
    `B^{12·k·n/8}` / `Encode_12(ŝ)`, but q = 7681 at levels 3 and 5 needs 13 bits. The
    implementation correctly uses `WEAVER_QBITS` = 12/13/13, giving
-   `LOOM_KEM_SKBYTES` = 960/1664/3328. The spec must say ⌈log2 q⌉.
+   `LOOM_KEM_SKBYTES` = 960/1664/3328. The spec must say ⌈log2 q⌉. The spec also
+   uses `Encode_d`, `Decode_d`, `Compress_q` and `Decompress_q` without defining
+   them. Both points were raised on the
+   [PKC Forum](https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/AR3GPCG2J7HUJFQQSEWDI5J5MB6TCIYG/)
+   on 2026-11-20.
 7. **(a) minor size deviation at level 1 — the encryption coins are 32 bytes, not
    len_ss.** Algorithm 8 line 1 says `m, r ←$ {0,1}^{8·len_ss}`, i.e. 16 bytes each at
    level 1. `kemparams.h:87` sets
