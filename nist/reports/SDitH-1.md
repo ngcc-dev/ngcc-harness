@@ -18,11 +18,13 @@ occur in both key generation and signing.
 
 During key generation, `sdith_prng.c:1002-1024` (`SDitH/submission/submission_package/Reference_Implementation/cat1_fast/src/sdith_prng.c#L1002`)
 uses the secret-key seed directly as the AES-128 or Rijndael-256 key for the
-key-generation PRG. The reference cipher's
+key-generation PRG. At Category 1, the reference cipher's
 `aes_ansi_littleendian_ref.c:338-385` (`SDitH/submission/submission_package/Reference_Implementation/cat1_fast/lib/aes/aes_ansi_littleendian_ref.c#L338`)
 indexes `Te0` through `Te3` with cipher state and also uses `Te4` during the
-key schedule. Those memory addresses depend on the secret seed on a cacheful
-machine.
+key schedule. At Categories 3 and 5, the reference Rijndael-256 cipher indexes
+its byte S-box with secret state at `lib/aes/rijndael256.c:69` and with key
+bytes in the key schedule at `lib/aes/rijndael256.c:140-145`. Those memory
+addresses therefore depend on the secret seed on a cacheful machine.
 
 Witness positions are derived from the same secret PRG in
 `rsd.c:46-64` (`SDitH/submission/submission_package/Reference_Implementation/cat1_fast/src/rsd.c#L46`).
@@ -31,7 +33,10 @@ The accepted 32-bit draw is passed to
 whose fixed 32-round loop branches on the secret partial remainder at lines
 33–36. In the current GCC-built `cat1_fast.so`, `objdump` confirms a conditional
 `jb` at the corresponding comparison. This object check shows that the source
-branch survived compilation; it is not a timing measurement.
+branch survived compilation; it is not a timing measurement. A second call site
+in `rsd_encode_solution_ref` at `rsd.c:264` passes the witness positions
+themselves to `div_rem_u32_ct_ref`; its emulated branch-trace witness recovery
+is recorded separately as [SDitH-4](/nist/reports/SDitH-4.html).
 
 Signing reaches the same reference table cipher with ephemeral secret state.
 `sdith_signature.c:348-358` (`SDitH/submission/submission_package/Reference_Implementation/cat1_fast/src/sdith_signature.c#L348`)

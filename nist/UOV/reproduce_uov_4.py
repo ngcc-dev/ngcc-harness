@@ -159,6 +159,32 @@ def selected_divided_square(q, n, m, restrict_hyperplane=False):
     return min(candidates, key=lambda item: item["cost"]) if candidates else None
 
 
+def li_tao_2272_r1_intersection(q, n, m, restrict_hyperplane=False):
+    """Recompute Li-Tao ePrint 2026/2272 Table 3 r=1 intersection (raw odd-n vs hyperplane)."""
+    vinegar, oil = n - m, m
+    if restrict_hyperplane:
+        n -= 1
+        oil -= 1
+    o_int = 2 * oil - vinegar
+    m_int = 3 * m - 2
+    r = log2(q)
+    best = None
+    for k in range(max(0, o_int)):
+        d = o_int - k
+        if partial_tower_dimension(n - k, m_int, d, 1) == 1:
+            n_rem = n - k
+            p0 = m_int * comb(n_rem, d - 2) if d >= 2 else 0
+            p1 = m_int * comb(n_rem, d - 4) if d >= 4 else 0
+            w0 = comb(n_rem - d + 2, 2)
+            w1 = comb(n_rem - d + 4, 4)
+            rho = (p0 * w0 + p1 * w1) / (p0 + p1)
+            cols = comb(n_rem, d)
+            cost = log2(3 * rho * cols * cols * (2 * r * r + r))
+            if best is None or cost < best[0]:
+                best = (cost, k, d)
+    return best
+
+
 def main():
     parameters = [
         ("Ip", 256, 119, 45, 143, 144.75),
@@ -193,6 +219,20 @@ def main():
     passed &= abs(selected["III"]["cost"] - 209.2649) < 0.01
     passed &= abs(selected["V"]["cost"] - 267.5751) < 0.01
     passed &= abs(selected["V"]["random_partial_cost"] - 271.3167) < 0.01
+
+    print("ePrint 2026/2272 Table 3 r=1 intersection check (inadmissible odd-n vs hyperplane):")
+    raw_ip = li_tao_2272_r1_intersection(256, 119, 45, restrict_hyperplane=False)
+    hyp_ip = li_tao_2272_r1_intersection(256, 119, 45, restrict_hyperplane=True)
+    hyp_iii = li_tao_2272_r1_intersection(256, 193, 72, restrict_hyperplane=True)
+    raw_v = li_tao_2272_r1_intersection(256, 259, 96, restrict_hyperplane=False)
+    hyp_v = li_tao_2272_r1_intersection(256, 259, 96, restrict_hyperplane=True)
+    print(f"  uov-Ip : raw odd-n={raw_ip[0]:.2f} (k={raw_ip[1]}, D={raw_ip[2]}), hyperplane={hyp_ip}")
+    print(f"  uov-III: hyperplane={hyp_iii[0]:.2f} (k={hyp_iii[1]}, D={hyp_iii[2]})")
+    print(f"  uov-V  : raw odd-n={raw_v[0]:.2f} (k={raw_v[1]}, D={raw_v[2]}), hyperplane={hyp_v[0]:.2f}")
+    passed &= raw_ip is not None and abs(raw_ip[0] - 142.00) < 0.05 and hyp_ip is None
+    passed &= hyp_iii is not None and abs(hyp_iii[0] - 211.75) < 0.05
+    passed &= raw_v is not None and abs(raw_v[0] - 270.99) < 0.05 and hyp_v is not None and abs(hyp_v[0] - 271.32) < 0.05
+
     print("PASS UOV-4" if passed else "FAIL UOV-4")
     return 0 if passed else 1
 

@@ -58,7 +58,19 @@ The previously proposed 266.8-bit uov-V and 140.7-bit uov-Ip values are not
 admissible. They apply the characteristic-two intersection directly at odd
 ambient dimension, where the alternating matrices that must be inverted are
 singular. Hyperplane restriction preserves the uov-V lead but eliminates the
-uov-Ip instance. It also moves uov-III to 209.26, above its target.
+uov-Ip instance. It also moves uov-III to 209.26, above its target. The same
+odd-dimension admissibility issue accounts for the `uov-Ip = 142` and
+`uov-V = 270` `r = 1` intersection rows in Li and Tao's
+[ePrint 2026/2272](https://eprint.iacr.org/2026/2272) (Table 3, revised
+2026-11-14): their §3.4 intersection writes `p_i(x) = x^T M_i x` with
+upper-triangular `M_i` "if `2 | q`", but for an upper-triangular matrix in
+characteristic two the bilinear orthogonality inclusion `L_i O <= O^perp`
+(Eq. 3.5) fails; restoring `L_i O <= O^perp` requires the symmetric/alternating
+polar matrices `M_i + M_i^T`, which are singular at odd `n` (`119`, `193`,
+`259`). After the required hyperplane restriction (`n -> n - 1`, `o -> o - 1`),
+their `r = 1` intersection eliminates `uov-Ip`, gives `211.75` for `uov-III`,
+and reproduces the `271.32` random partial-family value above for `uov-V`
+(checked in `reproduce_uov_4.py`).
 
 ## Unresolved rank premise
 

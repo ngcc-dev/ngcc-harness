@@ -74,9 +74,9 @@ advantage `t/2^lambda` for each of its `3 + (tau+1) ceil(log2 L)` single-key
 PRF/PRP terms, the bound reaches one at `t = 2^55.2` to `2^55.5`,
 `2^118.6` to `2^118.9` and `2^182.2` to `2^182.5` for the 128-, 192- and
 256-bit sets at `Qsig = 2^64`. This is NIST's primary model (classical
-signing queries), and the shortfall is about 73 bits at every level. The
-design survey recorded this as DS-FAEST-2 (Informational); it has the same
-root cause and is folded into this report. The submission's per-signature IVs
+signing queries), and the shortfall is about 73 bits at every level. This
+classical-ROM shortfall shares the same per-signature hybrid root cause as the
+QROM bound above and is covered in this report. The submission's per-signature IVs
 and per-node tweaks argue against multi-target key search (§10.1.2, physical
 p. 72), so the loss is presumably a proof artifact that an ideal-cipher
 treatment of the PRG would remove.

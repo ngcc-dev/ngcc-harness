@@ -82,9 +82,11 @@ PREREQUISITES = {
     "SQIsign-6": "Python 3; pdftotext",
     "UOV-6": "Python 3; C compiler; host clang 15 to 21; objdump; Valgrind with memcheck.h; OpenSSL development files",
     "MAYO-5": "Python 3; pdftotext",
+    "MAYO-6": "Python 3; optional SageMath for MAYO/analysis/unbalanced_schur_toy.sage",
     "QR-UOV-6": "Python 3; pdftotext",
     "SDitH-6": "Python 3; pdftotext",
     "SNOVA-10": "Python 3; C compiler; OpenSSL 3.3 or later development files; linker with --wrap",
+    "SNOVA-11": "Python 3",
     "UOV-7": "Python 3; C compiler; OpenSSL development files; 64-bit host; about 8 GiB free memory",
 }
 

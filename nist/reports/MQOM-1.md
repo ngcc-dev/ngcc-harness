@@ -16,8 +16,8 @@ The finding covers the submitted `RIJNDAEL_TABLE` backend for all 18 MQOM
 parameter directories when it runs on a machine whose table lookups are not
 constant time. The public harness's reference-library Makefile selects this backend
 with `-DRIJNDAEL_TABLE` for practical KAT runtime. An attacker must observe a
-fine-grained local cache or memory-access trace during key generation or
-signing. The report does not claim a remote timing attack.
+fine-grained local cache or memory-access trace during signing (key generation
+runs Rijndael only on public seeds). The report does not claim a remote timing attack.
 
 In the representative category-1 source,
 `seed_commit_impl.h` (`MQOM/submission/submission_package_v3/Reference_Implementation/mqom3_cat1_gf16_fast_ct/blc/seed_commit_impl.h#L101`)

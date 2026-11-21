@@ -43,8 +43,8 @@ Low / Confirmed / Design: specification/code mismatches that break
 interoperability for an implementation written from the text. No security
 consequence is shown. Items 2 to 5 were run on cat1_fast only; the sources
 are identical across the 12 sets. The cipher-grinding half of item 4 is a
-source check. The design survey's DS-SDitH-3 counts eleven inconsistencies
-and names three; the overlap with the other eight could not be checked.
+source check. Other editorial discrepancies in the specification outside these
+five interoperability items are not enumerated here.
 
 ## Reproduction
 

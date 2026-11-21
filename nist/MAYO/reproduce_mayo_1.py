@@ -26,6 +26,18 @@ FILES = {
         "1fc7561dc8ffdbe36c101b985266e4d3c8aa88fa580e18ead215a80ac7bb371f",
     ),
 }
+TREES = [
+    "Reference_Implementation",
+    "Optimized_Implementation",
+    "Additional_Implementations/AVX2",
+    "Additional_Implementations/GFNI",
+    "Additional_Implementations/NEON",
+]
+SHARED_RELPATHS = {
+    "mayo.c": "src/mayo.c",
+    "arithmetic.c": "src/arithmetic.c",
+    "echelon_form.h": "src/generic/echelon_form.h",
+}
 
 
 def ordered(text, needles):
@@ -55,6 +67,22 @@ def main():
         hashes[name] = actual
         if actual != expected:
             failures.append(f"{name}: expected {expected}, got {actual}")
+
+    tree_identity = {}
+    for tree in TREES:
+        matched = True
+        for name, rel in SHARED_RELPATHS.items():
+            path = ROOT / "submission/MAYO" / tree / rel
+            expected = FILES[name][1]
+            if not path.is_file():
+                failures.append(f"{tree}/{rel}: missing")
+                matched = False
+            else:
+                actual = hashlib.sha256(path.read_bytes()).hexdigest()
+                if actual != expected:
+                    failures.append(f"{tree}/{rel}: expected {expected}, got {actual}")
+                    matched = False
+        tree_identity[tree] = matched
 
     mayo = FILES["mayo.c"][0].read_text(encoding="utf-8")
     arithmetic = FILES["arithmetic.c"][0].read_text(encoding="utf-8")
@@ -92,6 +120,7 @@ def main():
         "status": "FAIL" if failures else "PASS",
         "evidence": "pinned-source data-flow/root-cause witness",
         "hashes": hashes,
+        "tree_identity": tree_identity,
         "caller_trace_offsets": caller_trace,
         "callee_trace_offsets": callee_trace,
         "branch_model_retry": model,

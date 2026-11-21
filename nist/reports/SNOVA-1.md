@@ -1,6 +1,6 @@
-# SNOVA-1 — Critical: biased vinegar sampling in six On-Ramp Round 3 alternative parameter sets
+# SNOVA-1 — High: biased vinegar sampling in six On-Ramp Round 3 alternative parameter sets
 
-Severity: Critical
+Severity: High
 Status: Confirmed
 Layer: Design
 Affected: Six odd-characteristic alternative v3.0 sets; the nine recommended q=16 sets are unaffected by this bias
@@ -13,8 +13,13 @@ Date: 2026-10-18
 The status applies to the exact sampler bias and the published A–D attacks.
 The SNOVA team announced a v3.1 repair on September 28; that repair is not
 pinned or verified here, and the pinned NIST submission remains v3.0.
-Critical applies to the affected alternatives because ordinary signatures
-disclose enough information for signing-key recovery. Obtaining the required
+For the affected alternatives, ordinary signatures disclose enough
+information for signing-key recovery, which would be Critical for a
+recommended parameter set. The finding is rated High because all six affected
+sets are non-recommended alternatives (specification Table 6); the nine
+recommended q=16 sets are unaffected. The rating was Critical until
+2026-11-21, when the classification policy reserved Critical for recommended
+parameter sets. Obtaining the required
 signatures is a material attack cost. No side channel, fault injection,
 malformed signature, or weak RNG is required. These query counts are below
 NIST's allowed chosen-message bound; see [NIST rules](https://github.com/ngcc-dev/ngcc-harness/blob/main/nist/doc/NIST-rules.md).
@@ -65,6 +70,8 @@ These are integer counts over the complete input space, not a random-sampling es
 | 16 | (2,1) | all digits uniform | exact uniform | exact uniform |
 
 The q=16 control succeeds because 16²=256. Uniform rejection controls also succeed: rejecting byte-block integers at or above `floor(R/Q)*Q` gives every tuple the same number of accepted preimages; bytewise rejection before reduction modulo q gives equal counts for each field element. These controls are demonstrations outside the submission tree. Public coefficient expansion and secret vinegar sampling have different security roles; a justification for biased public data does not justify this secret-dependent signing distribution.
+
+At the per-signature level (`v·l·r` vinegar elements across alternatives A–F), exact block counts give a vinegar statistical distance of 0.640 to 0.837 from uniform per signature (over full blocks; exceeding 0.96 after eight signatures) and a Rényi divergence `R_∞` of `2^14.3` to `2^57.5` per signature (`R_∞ = 1`, i.e., `log2 R_∞ = 0`, for the q=16 control), invalidating any uniform-vinegar simulation from the first signature. Algorithm 12 line 2 (physical p.23) also converts `SHAKE256(pkd‖md‖salt)` into the message target in `F_q^{m2}` with the same Algorithm 2, losing 2.52 to 7.19 bits of target min-entropy (0.83 to 1.56 bits of collision entropy) across alternatives A–F; against that target bias alone, Table 6's stated margins remain at least 23 bits and q=16 sets are unaffected. These per-signature and target-bias figures come from separate exact block-count calculations and are not computed by `reproduce_snova_1.py`.
 
 ## Reproduction
 

@@ -4,16 +4,20 @@
 **Status:** Confirmed
 **Layer:** Side-channel
 **Discovery:** Moderate
-**Affected:** submitted On-Ramp Round 3 portable reference signer, MAYO-1, MAYO-2, MAYO-3 and MAYO-5
+**Affected:** submitted On-Ramp Round 3 C implementations (all five trees: Reference, Optimized, AVX2, GFNI, and NEON), MAYO-1, MAYO-2, MAYO-3 and MAYO-5
 **Remediation:** Local
 **Credit:** Markku-Juhani O. Saarinen <markku-juhani.saarinen@tuni.fi>, with AI assistance
-**Exploitation:** pinned-source data-flow witness; no measured channel, key recovery, or forgery
+**Exploitation:** pinned-source data-flow witness plus AVX2 timing measurement of the retry count (64 keys showed no key dependence); no key recovery or forgery
 **Date:** 2026-10-18
 
 ## Affected implementation and claim
 
-The finding applies to the submitted portable reference signer for MAYO-1,
-MAYO-2, MAYO-3 and MAYO-5. The retained evaluation builds the common code once
+The finding applies to all five submitted C trees (`Reference_Implementation`,
+`Optimized_Implementation`, and `Additional_Implementations/{AVX2,GFNI,NEON}`),
+which share byte-identical `src/` and `include/` directories, for MAYO-1,
+MAYO-2, MAYO-3 and MAYO-5 (confirmed by taint runs on reference, optimized, and
+AVX2 builds and source reading of GFNI and NEON; see
+constant_time.md (`MAYO/constant_time.md`)). The retained evaluation builds the common code once
 per parameter set. The On-Ramp Round 3 specification, §3, says the C implementations
 “avoid secret-dependent data indexing and secret-dependent control flow.”  It
 also says, more narrowly, that revealing whether the solver must restart is
@@ -26,8 +30,13 @@ loss.  In §5.3, physical pp.31–32, the specification bounds the per-signature
 restart probability by
 `B = (q^(k-(n-o)) + q^(m-ko))/(q-1)`.  For the submitted parameters this is
 1/15 (6.67%) for MAYO1, 1/240 (0.417%) for MAYO2, and 1/3840 (0.0260%, about
-2^-11.9) for both MAYO3 and MAYO5.  These are the specification's bounds, not
-timing measurements made by this survey.
+2^-11.9) for both MAYO3 and MAYO5.  In the follow-up timing measurement
+recorded in constant_time.md (`MAYO/constant_time.md`), AVX2 MAYO1 signing time was
+quantized by the retry count (median 268k, 476k, and 683k cycles for 0, 1, and
+2 retries across 6,000 signatures on one key), and 64 keys × 20,000 signatures
+gave an empirical rejection rate of 0.066652 with no detected key dependence
+(chi-square 51.7 on 63 degrees of freedom; MAYO2 gave 0.004230 over 32 keys,
+chi-square 27.7 on 31).
 
 ## Data flow and observable behavior
 
@@ -51,22 +60,22 @@ No secret-indexed table was found in the portable GF(16) path.
 
 ## Impact and classification
 
-This is a confirmed source-level branch observable to a local timer, branch
-tracer, or physical observer.  The number of attempts is not serialized in the
-signature.  The specification deliberately discusses the retry probability,
-accounts for its information-theoretic leakage in the proof, and states that
-revealing whether the solver restarts is acceptable.  The submitted Valgrind
-instrumentation likewise declassifies the rank result immediately before the
-branch.  This survey did not establish correlation with the long-term oil
-space, measure a stable same-public-input timing channel, or map observations
-to key recovery or a forgery.
+This is a confirmed source-level branch whose retry count is observable by
+plain timing on AVX2 (constant_time.md (`MAYO/constant_time.md`)).  The number of
+attempts is not serialized in the signature.  The specification deliberately
+discusses the retry probability, accounts for its information-theoretic
+leakage in the proof, and states that revealing whether the solver restarts is
+acceptable.  The submitted Valgrind instrumentation likewise declassifies the
+rank result immediately before the branch.  The 64-key MAYO1 and 32-key MAYO2
+timing/count runs detected no correlation with the long-term oil space, and
+this survey did not map retry observations to key recovery or a forgery.
 
 The defect established here is therefore the conflict between that documented
 exception and the blanket statement that all C implementations avoid
 secret-dependent control flow.  Correcting the broad statement is local, and
-the public harness methodology assigns Low severity to this source-level
-implementation-claim exception.  NIST's required EUF-CMA property is not shown
-to fail.
+this finding stays Low because the measured timing signal reflects only the
+retry count the specification treats as public, with no detected key
+dependence.  NIST's required EUF-CMA property is not shown to fail.
 
 The submitters' narrower rationale is that, with a fixed public salt and fresh
 vinegars for each attempt, the retry count need not be hidden.  That may be a
@@ -82,10 +91,12 @@ python3 MAYO/reproduce_mayo_1.py
 ```
 
 The deterministic witness pins the specification and three relevant source
-files by SHA-256, verifies the ordered secret-to-branch source trace, and checks
-the rank-predicate branch model.  It reports PASS only for that root-cause
-witness.  It explicitly does not claim a measured timing channel, key recovery,
-or forgery.
+files by SHA-256, checks that the same three source files are byte-identical
+across all five submitted C trees, verifies the ordered secret-to-branch
+source trace, and checks the rank-predicate branch model.  It reports PASS
+only for that root-cause witness; the AVX2 retry-timing measurement is
+recorded separately in constant_time.md (`MAYO/constant_time.md`) and is not rerun
+by this script.
 
 The functional control is:
 
@@ -106,10 +117,10 @@ instead promises a fixed control-flow trace can run all 256 attempts and
 mask-select the first successful solution, or use another fixed-work batching
 strategy; that optional strengthening is a material signing-cost change.
 
-Future work should instrument attempt counts for many keys while holding the
-public message protocol fixed, measure timing on each supported backend, and
-test whether observations distinguish or recover properties of `O`.  Until
-then the demonstrated boundary remains source-level leakage only.
+Future work could extend timing measurements to the non-AVX2 backends and test
+whether much larger sample sizes or microarchitectural channels distinguish
+properties of `O`.  Until then no key-dependent leakage or recovery has been
+demonstrated.
 
 ## Harness reproduction
 

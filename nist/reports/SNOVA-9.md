@@ -47,8 +47,10 @@ specification states that a repeated salt carries no immediate risk
 (§1.5.3, p.12); that holds for 64-byte digests. The NIST API is not
 affected. The oil-space test uses the known private key; no key recovery
 from public data alone was run. With `len_digest` below 64 the same line reads
-past the caller's buffer (source reading). Same root cause as the design
-survey's DS-SNOVA-4.
+past the caller's buffer (source reading). The oil-space-difference recovery
+mechanism is the same as when a repeated salt and identical vinegar are paired
+with two different targets (as also occurs if a single seed is reused across
+variants because `pkd` is omitted from the vinegar hash).
 
 Absorb `len_digest` bytes in the vinegar hash, or reject other digest
 lengths.

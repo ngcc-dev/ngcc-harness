@@ -22,7 +22,7 @@ prefix byte and `h_piop` only and runs the key schedule once
 costs two cipher calls and tests `w_pow − 1` bits.
 
 The parameters satisfy `tau kappa + w_pow − log2 d = lambda` exactly in all
-twelve sets (the zero margin of the design survey's DS-SDitH-4), and only
+twelve sets (leaving zero grinding margin), and only
 `w_pow − 1` bits are tested, so a forger needs `2^(lambda−1)` counter values.
 Under either reading each counter value costs two cipher calls, so a forger
 needs `2^lambda` cipher calls; the literal line 1 adds one XOF call and two key

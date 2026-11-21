@@ -27,8 +27,8 @@ Ratings describe cryptanalytic impact on the **affected scheme and parameters**:
 
 | Rating | Interpretation |
 |---|---|
-| Critical | Full key recovery or general forgery invalidates the intended security target; state query/work requirements and whether demonstrated or estimated. |
-| High | A serious failure short of a required-property break: for example, a well-supported recovery/forgery path with one material gap, an end-to-end side-channel recovery without an explicit resistance claim, or failure of a claimed SUF-CMA property when EUF-CMA remains intact. |
+| Critical | Full key recovery or general forgery invalidates the intended security target of a recommended parameter set; state query/work requirements and whether demonstrated or estimated. |
+| High | A serious failure short of a required-property break: for example, a well-supported recovery/forgery path with one material gap, an end-to-end side-channel recovery without an explicit resistance claim, failure of a claimed SUF-CMA property when EUF-CMA remains intact, or a demonstrated break confined to non-recommended alternative parameter sets. |
 | Medium | Confirmed repeated or measured leakage without recovery, a material constant-time rewrite, a demonstrated failure of an unclaimed stronger security property such as SUF-CMA, or a substantive binding/robustness defect whose attack consequence is unresolved. |
 | Low | Source-level secret dependence without a measured channel when a local repair is known, or another narrow security-relevant robustness/API weakness. |
 | Informational | Historical context, a withdrawn claim, a loss generic to a proof technique, or an observation without an established attack and with no candidate-specific security consequence on this pinned version. |
@@ -38,6 +38,14 @@ The result, concrete costs, scope and confidence must accompany the rating.
 These are project assessments under the NIST evaluation baseline, not CVSS
 scores or NIST-issued ratings. Strong-unforgeability, side-channel or fault
 models are distinguished from the required EUF-CMA model.
+
+Critical is reserved for a break of a parameter set that the submission
+recommends. A demonstrated key recovery or forgery that is confined to
+non-recommended alternative parameter sets listed in the specification is
+High: it is a serious failure of the submitted design, but the required
+property is not shown to fail for the parameter sets the submission proposes.
+The report title and `Affected` field must state that scope. Estimates, leads
+and proof gaps that concern only alternative sets follow the ordinary rules.
 
 A candidate-specific proof gap is normally Low when a reproduced calculation
 shows that the submitted reduction becomes ineffective within NIST's stated
@@ -187,7 +195,8 @@ valid signature on the same message is normally Medium even when the
 submission does not claim SUF-CMA: it is an end-to-end break of a commonly
 used additional signature property, while leaving NIST's required EUF-CMA
 target intact. Failure of an explicit SUF-CMA claim is normally High. An EUF-CMA
-forgery is Critical when it defeats the claimed category.
+forgery is Critical when it defeats the claimed category of a recommended
+parameter set, and High when it is confined to alternative sets.
 
 Reproduction records separate the following evidence:
 
