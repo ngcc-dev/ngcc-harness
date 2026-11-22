@@ -1686,6 +1686,11 @@ run_target kem-11 "kem-11-4" sh kem-11/reproduce_short_inputs.sh
 run_target sign-24 "sign-24-5" sh sign-24/reproduce_short_signature.sh
 run_target sign-06 "sign-06-10 sign-06-11" python3 sign-06/reproduce_spec_errata.py
 
+echo "== 2026-11-22: selector and input-length over-reads, allocation failure =="
+run_target kem-30 "kem-30-4" sh kem-30/reproduce_light_selector.sh
+run_target kem-28 "kem-28-3" sh kem-28/reproduce_short_inputs.sh
+run_target sign-18 "sign-18-8" sh sign-18/reproduce_zero_target.sh
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
