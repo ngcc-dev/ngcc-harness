@@ -1,0 +1,18 @@
+library     = lib/libGarnet_1024_DM4x4.so
+id          = hash-11
+type        = hash
+algorithm   = Garnet
+instance    = Garnet_1024_DM4x4
+variant     = Reference_Implementation
+source_dir  = Garnet/Implementations/API_CryptHash/Implementations/Reference_Implementation/Garnet
+compiler    = gcc 15.2.0
+build_flags = -O2 -fPIC -std=gnu11 -Wall -Wno-unused -Wno-unknown-pragmas -fno-strict-aliasing -fwrapv -fno-omit-frame-pointer -D_GNU_SOURCE 
+digest_bits = 1024
+digest_len  = 128
+timing  KAT_2_12 0.153 s
+wrote  kat/KAT_2_12_Garnet_1024_DM4x4.txt (3333335 bytes)
+manifest 7320069366d79f6a165d4148fe24f37619aa420bf491ccfe16b5d2c0c4383696 strict KAT_2_12_Garnet_1024_DM4x4.txt
+timing  KAT_2_23 0.121 s
+wrote  kat/KAT_2_23_Garnet_1024_DM4x4.txt (1202 bytes)
+manifest b57db22732d738a5a35111a41ca2f76ffac8cb1dc67e78a6a13feadb77ee10ef strict KAT_2_23_Garnet_1024_DM4x4.txt
+RESULT hash-11 Garnet_1024_DM4x4 MISMATCH KAT_2_12_Garnet_1024_DM4x4.txt: sha256 28edb59f70f1e8c694943b4eb27968105797822a67c973725adc6375a1f4481f != manifest 7320069366d79f6a165d4148fe24f37619aa420bf491ccfe16b5d2c0c4383696

@@ -126,14 +126,22 @@ def published_env(sid: str, cpu: int) -> tuple[dict | None, set]:
     return None, cpus
 
 
-def host_differences(sid: str, cpu: int) -> list[str]:
+def host_differences(sid: str, cpu: int) -> tuple[list[str], list[str]]:
+    """Returns (blockers, warnings). Blockers are FIXED_ENV mismatches that
+    prevent comparable measurements. Warnings (e.g. kernel drift) are reported
+    but do not block."""
     ref, cpus = published_env(sid, cpu)
     if not ref:
-        return [f"no published {sid} record was measured on CPU {cpu} (published CPUs: "
-                f"{sorted(c for c in cpus if c is not None)})"]
+        return ([f"no published {sid} record was measured on CPU {cpu} (published CPUs: "
+                 f"{sorted(c for c in cpus if c is not None)})"], [])
     env = C.environment(cpu)
-    return [f"{k}: published {ref.get(k)!r}, now {env.get(k)!r}" for k in C.FIXED_ENV
-            if k in ref and ref.get(k) != env.get(k)]
+    blockers = [f"{k}: published {ref.get(k)!r}, now {env.get(k)!r}" for k in C.FIXED_ENV
+                if k in ref and ref.get(k) != env.get(k)]
+    warnings = []
+    if ref.get("kernel") and ref["kernel"] != env.get("kernel"):
+        warnings.append(f"kernel: published {ref['kernel']!r}, now {env.get('kernel')!r} "
+                        "(not in FIXED_ENV; timing may still differ)")
+    return blockers, warnings
 
 
 # ---------------------------------------------------------------- self-tests (run in a child process)
@@ -504,11 +512,120 @@ def phase_profile(run: Path, args) -> None:
 
 # ---------------------------------------------------------------- publish and report
 
+def _validate_run(run: Path, meta: dict) -> list[str]:
+    """Check that a supplement run is complete before publishing."""
+    problems = []
+    build = (C.load(run / "build.json") or {}).get("instances", {})
+
+    def _check_record(cand: str, label: str, op: str, size: int, context: str) -> None:
+        rf = run / "records" / cand / f"{label}__{C.op_key(op, size)}.json"
+        if not rf.is_file():
+            problems.append(f"missing timing record: {context}")
+            return
+        r = C.load(rf) or {}
+        if r.get("status") != "complete":
+            problems.append(f"incomplete timing record: {context} (status={r.get('status')})")
+            return
+        mc = r.get("mean_cycles")
+        if not (isinstance(mc, (int, float)) and math.isfinite(mc) and mc > 0):
+            problems.append(f"no valid hardware cycle count: {context} "
+                            f"(mean_cycles={mc!r}; would use time×clock fallback)")
+
+    # Reference instances: derive expected operations from PKC_OPS, not build.json
+    for cand, (pkg, kind, _, labels) in REFERENCE.items():
+        for label in labels:
+            key = f"{cand}/{label}"
+            inst = build.get(key)
+            if not inst:
+                problems.append(f"missing build entry: {key}")
+                continue
+            if inst.get("kat") != "PASS":
+                problems.append(f"self-test did not pass: {key} (kat={inst.get('kat')})")
+            for op, size in PKC_OPS[kind]:
+                _check_record(cand, label, op, size, f"{key} {op}")
+            # Require at least one successful profile per operation (not RELINK_FAILED)
+            for op, size in PKC_OPS[kind]:
+                pf = run / "profile" / cand / f"{label}__{C.op_key(op, size)}.json"
+                if not pf.is_file():
+                    problems.append(f"missing hashprof profile: {key} {op}")
+                    continue
+                pr = C.load(pf) or {}
+                if pr.get("status") != "complete":
+                    problems.append(f"failed hashprof profile: {key} {op} (status={pr.get('status')})")
+                elif not pr.get("total", {}).get("ticks"):
+                    problems.append(f"hashprof profile has no ticks: {key} {op}")
+                elif not pr.get("share"):
+                    problems.append(f"hashprof profile has no shares: {key} {op}")
+
+    # XOF: require the probe inventory, then verify that every planned XOF row
+    # resolves to a timed build instance with all its accepted output lengths.
+    probes_file = run / "xofprobe.json"
+    probes: dict = {}
+    if not probes_file.is_file():
+        problems.append("missing xofprobe.json (XOF probe inventory)")
+    else:
+        probes = C.load(probes_file) or {}
+        if not probes:
+            problems.append("xofprobe.json is empty")
+
+    # Check timing records for every XOF instance in the build manifest
+    for key, inst in build.items():
+        if not inst.get("operations"):
+            continue
+        cand = inst["candidate"]
+        label = inst["label"]
+        if cand in REFERENCE:
+            continue
+        for op, size in inst["operations"]:
+            _check_record(cand, label, op, size, f"{key} {op} output={size}")
+
+    # Check that every planned XOF row (XOF_ROWS) and reference row resolves
+    # to a timed instance whose accepted lengths all have timing records.
+    # Walk timed_as (adapted → reference label) and same_function_as
+    # (deduplicated → canonical label) to find the timed instance.
+    planned = list(XOF_ROWS.items())
+    planned += [((XOF_REF, ref), seed) for ref in XOF_REFS for seed in REF_SEEDS]
+    for (cand, label), seed in planned:
+        probe_key = f"{cand}/{label}/{seed}"
+        probe = probes.get(probe_key, {})
+        if not probe:
+            continue
+        if not probe.get("xof_instance", True):
+            continue
+        # Resolve to the timed instance
+        timed_cand, timed_label = cand, label
+        if probe.get("timed_as"):
+            timed_cand, timed_label = XOF_REF, probe["timed_as"]
+        elif probe.get("same_function_as"):
+            timed_label = probe["same_function_as"]
+        timed_key = f"{timed_cand}/{timed_label}"
+        timed_inst = build.get(timed_key)
+        if not timed_inst:
+            problems.append(f"planned XOF {probe_key} resolves to {timed_key} "
+                            "which has no build entry")
+            continue
+        timed_ops = {size for op, size in timed_inst.get("operations", [])}
+        accepted = [r["output_bytes"] for r in probe.get("sizes", [])
+                    if r.get("full_output") and r.get("no_overrun")]
+        for out_len in accepted:
+            if out_len not in timed_ops:
+                problems.append(f"planned XOF {probe_key}: accepted output {out_len} "
+                                f"not in timed instance {timed_key} operations")
+
+    return problems
+
+
 def phase_publish(run: Path) -> int:
     meta = C.load(run / "campaign.json") or {}
     sid = meta.get("system_id")
     if not sid:
         print(f"{run}: campaign.json has no system_id", file=sys.stderr)
+        return 2
+    problems = _validate_run(run, meta)
+    if problems:
+        for p in problems:
+            print(f"VALIDATE: {p}", file=sys.stderr)
+        print(f"publish: {len(problems)} validation problem(s); refusing to publish", file=sys.stderr)
         return 2
     files = [run / "campaign.json", run / "build.json", run / "xofprobe.json"]
     files += sorted((run / "records").rglob("*.json")) + sorted((run / "kat").rglob("*.log"))
@@ -582,7 +699,7 @@ def phase_report(sid: str) -> int:
              "pq-crystals reference code (see `PROVENANCE.md`) behind the ICCS API, same driver, flags, "
              "seeded DRNG and 64-byte message as the candidates. SHA-3 and DRNG are the shares of the "
              "operation's time inside the SHA-3 entry points and the ICCS DRNG (hashprof).", "",
-             "| instance | operation | cycles | SHA-3 | DRNG | cycles excl. SHA-3 and DRNG | public key | ciphertext / signature | self-test |",
+             "| instance | operation | cycles | SHA-3 | DRNG | est. cycles outside SHA-3 and DRNG | public key | ciphertext / signature | self-test |",
              "|---|---|---|---|---|---|---|---|---|"]
     rows_ref = []
     for cand in REFERENCE:
@@ -593,17 +710,24 @@ def phase_report(sid: str) -> int:
             for op, size in e["operations"]:
                 r = recs.get((cand, label, op, size), {})
                 cyc = cycles_of(r) if r else None
+                derived = (cand, label, op, size) in DERIVED
                 sh = profs.get((cand, label, op), {}).get("share")
                 s3, dr = (sh.get("sha3", 0.0), sh.get("drng", 0.0)) if sh is not None else (None, None)
                 rest = cyc * (1 - (s3 or 0) - (dr or 0)) if cyc and sh else None
                 sizes = r.get("sizes", {})
                 pk = sizes.get("pk_bytes")
                 second = sizes.get("ct_bytes") or sizes.get("signature_bytes")
-                lines.append(f"| {label} | {op} | {fmt(cyc)} | {'' if s3 is None else f'{100 * s3:.1f}%'} | "
-                             f"{'' if dr is None else f'{100 * dr:.1f}%'} | {fmt(rest)} | {pk or ''} | {second or ''} | {e['kat']} |")
+                cyc_str = fmt(cyc) + (" ‡" if derived else "")
+                rest_str = fmt(rest) + (" ‡" if derived and rest else "")
+                lines.append(f"| {label} | {op} | {cyc_str} | {'' if s3 is None else f'{100 * s3:.1f}%'} | "
+                             f"{'' if dr is None else f'{100 * dr:.1f}%'} | {rest_str} | {pk or ''} | {second or ''} | {e['kat']} |")
                 rows_ref.append({"candidate": cand, "label": label, "operation": op,
-                                 "mean_cycles": round(cyc) if cyc else "", "sha3_share": s3 if s3 is not None else "",
-                                 "drng_share": dr if dr is not None else "", "pk_bytes": pk or "",
+                                 "mean_cycles": round(cyc) if cyc else "",
+                                 "cycles_excl_sha3_drng": round(rest) if rest else "",
+                                 "sha3_share": s3 if s3 is not None else "",
+                                 "drng_share": dr if dr is not None else "",
+                                 "derived_from_time": derived,
+                                 "pk_bytes": pk or "",
                                  "ct_or_signature_bytes": second or "", "self_test": e["kat"]})
     lines += ["", "## XOF output-length test", "",
               "CryptHash with a short seed (the security level in bytes) and the requested output length; "
@@ -640,19 +764,28 @@ def phase_report(sid: str) -> int:
         if label.startswith("CHash-LDXOF"):
             notes.append("`hash-03` LDXOF (spec. App. B), outside the ICCS interface; no reference vectors")
         c1k, cbig = cyc[OUT_SIZES.index(1024)], cyc[-1]
-        lines.append(f"| {label} | {seed} B | " + " | ".join(fmt(c) for c in cyc)
-                     + f" | {'' if not c1k else f'{c1k / 1024:.1f}'} | {'' if not cbig else f'{cbig / big:.1f}'}"
+        derived_sizes = {n for n, c in zip(OUT_SIZES, cyc)
+                         if c and (cand, label, f"xof-{seed}", n) in DERIVED}
+        def xfmt(c, n):
+            if c is None:
+                return "–"
+            return fmt(c) + (" ‡" if n in derived_sizes else "")
+        lines.append(f"| {label} | {seed} B | " + " | ".join(xfmt(c, n) for c, n in zip(cyc, OUT_SIZES))
+                     + f" | {'' if not c1k else f'{c1k / 1024:.1f}'}" + (" ‡" if 1024 in derived_sizes else "")
+                     + f" | {'' if not cbig else f'{cbig / big:.1f}'}" + (" ‡" if big in derived_sizes else "")
                      + f" | {'' if not (cbig and shake) else f'{cbig / shake:.2f}'}"
                      + f" | {'' if not (cbig and pxof) else f'{cbig / pxof:.2f}'}"
                      + f" | {'yes' if prefix else 'no'} | {'; '.join(notes)} |")
         for n, c in zip(OUT_SIZES, cyc):
+            r_key = (cand, label, f"xof-{seed}", n)
             rows_xof.append({"candidate": cand, "label": label, "seed_bytes": seed, "output_bytes": n,
                              "mean_cycles": round(c) if c else "",
                              "cycles_per_output_byte": round(c / n, 3) if c else "",
+                             "derived_from_time": r_key in DERIVED,
                              "prefix_consistent": prefix, "self_test": build[f"{cand}/{label}"]["kat"]})
     if DERIVED:
-        lines += ["", f"**{len(DERIVED)} measurements had no hardware cycle count; their cycles are the "
-                  "measured time multiplied by the fixed clock.**"]
+        lines += ["", f"**‡ {len(DERIVED)} measurement(s) had no hardware cycle count; their cycles are "
+                  "derived from the measured time multiplied by the fixed clock frequency.**"]
     other = {k.rsplit("/", 1)[0]: max(r["output_bytes"] for r in p["sizes"] if r.get("full_output") and r.get("no_overrun"))
              for k, p in probes.items() if not p.get("xof_instance", True)
              and sum(1 for r in p.get("sizes", []) if r.get("full_output") and r.get("no_overrun")) > 1}
@@ -706,15 +839,20 @@ def main() -> int:
     if not args.sid or not published(args.sid).is_dir():
         print("this machine has no published dataset (performance/data/<ID>); pass --system", file=sys.stderr)
         return 2
-    problems = C.host_problems(args.cpu) + host_differences(args.sid, args.cpu)
+    blockers, warnings = host_differences(args.sid, args.cpu)
+    problems = C.host_problems(args.cpu) + blockers
     if args.phase == "check":
         for p in problems:
             print("HOST:", p)
+        for w in warnings:
+            print("WARN:", w)
         print("host ready" if not problems else f"{len(problems)} problem(s)")
         return 1 if problems else 0
     if problems and args.phase != "build" and not args.allow_unfixed_host:
         for p in problems:
             print("HOST:", p, file=sys.stderr)
+        for w in warnings:
+            print("WARN:", w, file=sys.stderr)
         print("refusing to measure: the host state differs from the published records", file=sys.stderr)
         return 2
     # the published campaign's planning, so iteration counts follow the same rules
@@ -738,6 +876,7 @@ def main() -> int:
     meta["arch_config"] = C.ARCH.get(platform.machine())
     meta["harness_additions"] = C.HARNESS_ADDITIONS
     meta.setdefault("host_checks", []).append({"phase": args.phase, "cpu": args.cpu, "problems": problems,
+                                               "warnings": warnings,
                                                "utc": dt.datetime.now(dt.UTC).isoformat()})
     C.save(run / "campaign.json", meta)
     subprocess.run(["make", "-s", "-C", "performance"], cwd=ROOT, check=True)

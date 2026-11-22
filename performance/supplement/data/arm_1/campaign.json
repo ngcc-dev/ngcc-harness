@@ -1,0 +1,88 @@
+{
+ "system_id": "arm_1",
+ "kind": "supplement",
+ "started_utc": "2026-11-22T20:55:47.655192+00:00",
+ "environment_at_start": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295704,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-44-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2693528563,
+  "core_clock_min_hz": 2689115422,
+  "core_clock_max_hz": 2695538543,
+  "core_clock_mhz": 2700
+ },
+ "planning": {
+  "trials": 5,
+  "trial_target_s": 0.5,
+  "min_total": 100,
+  "max_iters_per_trial": 20000,
+  "op_budget_s": 300.0,
+  "separate_process_setup_s": 60.0,
+  "source": "performance/data/arm_1/campaign.json"
+ },
+ "arch_config": {
+  "reference": "-std=c99 -Wpedantic -Wall -Wextra -O2",
+  "performance": "-O3 -march=armv8.2-a+sve -flto -fomit-frame-pointer -std=c99 -Wpedantic -Wall -Wextra",
+  "optimized_families": []
+ },
+ "harness_additions": "-fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int",
+ "host_checks": [
+  {
+   "phase": "all",
+   "cpu": 2,
+   "problems": [],
+   "warnings": [
+    "kernel: published '7.0.0-34-generic', now '7.0.0-44-generic' (not in FIXED_ENV; timing may still differ)"
+   ],
+   "utc": "2026-11-22T20:55:48.775591+00:00"
+  }
+ ],
+ "ended_utc": "2026-11-22T21:04:26.779391+00:00",
+ "environment_at_end": {
+  "hostname": "vivo",
+  "architecture": "aarch64",
+  "cpu_model": "Qualcomm Oryon",
+  "machine": "ASUS Vivobook S 15",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-11",
+  "virtualized": false,
+  "memory_total_kib": 31295704,
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-44-generic",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "python": "3.14.4",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "scmi",
+  "cpufreq_min_khz": "2707200",
+  "cpufreq_max_khz": "2707200",
+  "cpufreq_avg_khz": "2703375",
+  "intel_pstate_no_turbo": null,
+  "cpufreq_boost": "0",
+  "smt_control": "notsupported",
+  "core_clock_hz": 2694155782,
+  "core_clock_min_hz": 2691908787,
+  "core_clock_max_hz": 2696142833,
+  "core_clock_mhz": 2700
+ }
+}

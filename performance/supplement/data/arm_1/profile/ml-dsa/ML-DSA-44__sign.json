@@ -1,0 +1,116 @@
+{
+ "schema": 2,
+ "candidate": "ml-dsa",
+ "label": "ML-DSA-44",
+ "operation": "sign",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/performance/supplement/ml-dsa/libML-DSA-44.so",
+  "sign",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "ml-dsa",
+  "instance": "ML-DSA-44",
+  "operation": "sign",
+  "tick_source": "cntvct_el0",
+  "tick_hz": "19199980",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 6114189
+ },
+ "calls": [
+  {
+   "fn": "sha3",
+   "in_bits": 512,
+   "out_bits": 0,
+   "calls": 24365,
+   "ticks": 83481
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 512,
+   "calls": 2000,
+   "ticks": 15740
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 6144,
+   "out_bits": 0,
+   "calls": 4273,
+   "ticks": 330783
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 6720,
+   "calls": 16000,
+   "ticks": 661267
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 256,
+   "out_bits": 0,
+   "calls": 22273,
+   "ticks": 40510
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 16,
+   "out_bits": 0,
+   "calls": 34092,
+   "ticks": 11377
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 0,
+   "calls": 87276,
+   "ticks": 22653
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 5440,
+   "calls": 17092,
+   "ticks": 681149
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 1088,
+   "calls": 4273,
+   "ticks": 35291
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 4273,
+   "ticks": 32127
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 30635
+  }
+ ],
+ "share": {
+  "sha3": 0.3131041582129699,
+  "drng": 0.005010476450760681
+ }
+}

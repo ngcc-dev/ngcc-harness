@@ -1,0 +1,18 @@
+library     = lib/libQILIN-512.so
+id          = hash-23
+type        = hash
+algorithm   = QILIN
+instance    = QILIN-512
+variant     = Reference_Implementation
+source_dir  = QILIN/Implementations/Reference_Implementation/QILIN-512
+compiler    = gcc 15.2.0
+build_flags = -std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-poin
+digest_bits = 512
+digest_len  = 64
+timing  KAT_2_12 0.088 s
+wrote  kat/KAT_2_12_QILIN-512.txt (2804822 bytes)
+manifest 8cd900cec73b7c3eef489e94958b7b70c35ef494419765035e5c9edf8ede879c strict KAT_2_12_QILIN-512.txt
+timing  KAT_2_23 0.059 s
+wrote  kat/KAT_2_23_QILIN-512.txt (815 bytes)
+manifest 0e8ab859374e08ebf1216b269825abba1fb572a3438eb20bbc9f33d4a3a472aa strict KAT_2_23_QILIN-512.txt
+RESULT hash-23 QILIN-512 PASS 

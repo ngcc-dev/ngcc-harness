@@ -18,6 +18,37 @@ Two measurements that sit next to the published campaign
    values (32 B, 128 B, 512 B, 1 KiB, 4 KiB, 8 KiB, 16 KiB, 64 KiB), requested
    through `CryptHash`'s length argument (`ngcc_perf` operation `xof-SEED`).
 
+## Arm results, 22 November 2026
+
+Run `vivo-supplement-20261122T205546Z` measured 18 public-key operations
+and 224 XOF seed/output combinations on CPU 2. All 1,210 retained trials
+used hardware cycle counters with the CPU frequency pinned at 2.7072 GHz.
+The run used Linux `7.0.0-44-generic`. The original Arm campaign used
+`7.0.0-34-generic`. The pre-run NEV encapsulation control averaged 71,373
+cycles per call across five trials, compared with 71,503 in the archive.
+Each fresh process ran 20,000 encapsulations after three warmups. The trial
+means in run order were 71,324.6, 71,343.1, 71,371.1, 71,341.2 and 71,485.9
+cycles per call.
+[Environment and UTC timestamps](data/arm_1/campaign.json) ·
+[Archived NEV control](../data/arm_1/records/kem-25/NEV_512_1409_ICCS__enc.json)
+
+| Output | Contents |
+| --- | --- |
+| [Arm summary](summary_arm_1.md) | Tables, units, adapted XOFs and test status |
+| [ML-KEM and ML-DSA CSV](reference_arm_1.csv) | Operation means, SHA-3 and DRNG shares, external sizes |
+| [XOF CSV](xof_arm_1.csv) | Whole-call cycles and cycles per output byte at each seed and output length |
+| [Timing records](data/arm_1/records/) and [profiles](data/arm_1/profile/) | Individual trials, measured calls and instrumented public-key operations |
+| [Build manifest](data/arm_1/build.json), [test logs](data/arm_1/kat/) and [XOF probes](data/arm_1/xofprobe.json) | Binary hashes, self-tests, accepted lengths and equivalent instances |
+
+The base revision was `a47f07692a8ea6888bce1e3ed1e3ea11c440668b`.
+The working copy of `supplement.py` used for this run had SHA-256
+`68c4cd8b810ed01274611c7306bd95f6d28c4f554ec2be25ad1c37ffc25eb95c`.
+The local working directory `performance/runs/vivo-supplement-20261122T205546Z/`
+also contains the calibration results, build logs and chronological campaign
+log. To regenerate the summary and CSVs from the recorded dataset, run
+`python3 performance/supplement/supplement.py report --system arm_1` from
+the harness root.
+
 ## What is measured
 
 | rows | source | seed |
