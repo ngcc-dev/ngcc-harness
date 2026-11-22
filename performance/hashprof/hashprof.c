@@ -12,7 +12,7 @@
 #undef main
 
 typedef struct { uint32_t fn; uint64_t in_bits, out_bits, calls, ticks; } entry_t;
-static const char *FN[] = {"pseudohash", "pseudoXOF", "sm3hash", "drng"};
+static const char *FN[] = {"pseudohash", "pseudoXOF", "sm3hash", "drng", "sha3"};
 static void (*prof_enable)(int);
 static uint64_t (*prof_ticks)(void);
 static uint64_t step_t0, step_ticks;

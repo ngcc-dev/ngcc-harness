@@ -9,7 +9,9 @@
  *       (the caller enforces a hard timeout), so slow candidates still give data.
  *
  * KEM ops: keygen enc dec. Signature ops: keygen sign verify (64-byte message).
- * Hash op: hash (BYTES-byte message). KEX ops: exchange (init_a, init_b, every
+ * Hash op: hash (BYTES-byte message). XOF op: xof-SEED, a SEED-byte message and
+ * BYTES bytes of output requested through CryptHash's length argument (the
+ * output-length test of performance/supplement). KEX ops: exchange (init_a, init_b, every
  * pass, derive_a, derive_b), or one step of it: init_a init_b pass1..pass16
  * derive_a derive_b. A step is timed individually inside a complete protocol run.
  */
@@ -43,6 +45,7 @@ typedef struct {
     const ngcc_meta_t *meta;
     const char *operation;
     size_t input_bytes;
+    unsigned long long xof_seed, xof_out;   /* op xof-SEED: message and output bytes */
     unsigned char *pk, *sk, *ct, *ss, *ss2, *sig, *msg, *digest;
     uint64_t pk_cap, sk_cap, ct_cap, ss_cap, sig_cap, digest_cap;
     unsigned long long pk_len, sk_len, ct_len, ss_len, sig_len;
@@ -274,6 +277,8 @@ static int operate(context_t *c)
         return c->hash_api.hash((int)((const ngcc_meta_hash_t *)c->meta)->digest_bits,
                                 c->msg, (unsigned long long)c->input_bytes * 8,
                                 c->digest);
+    if (c->meta->type == NGCC_TYPE_HASH && c->xof_out)
+        return c->hash_api.hash((int)(c->xof_out * 8), c->msg, c->xof_seed * 8, c->digest);
     fprintf(stderr, "unsupported operation %s for %s\n", op, ngcc_type_name(c->meta->type));
     exit(2);
 }
@@ -350,10 +355,24 @@ static void prepare(context_t *c)
         if (c->input_bytes > (1U << 24)) {
             fprintf(stderr, "hash input must be at most 16 MiB\n"); exit(2);
         }
-        c->digest_cap = m->digest_len;
-        c->msg = buffer(c->input_bytes); c->digest = buffer(c->digest_cap);
-        for (size_t i = 0; i < c->input_bytes; i++)
-            c->msg[i] = (unsigned char)(i * 131U + c->input_bytes);
+        if (!strncmp(c->operation, "xof-", 4)) {
+            /* output-length test: BYTES is the requested output, the seed is short */
+            char *end = NULL;
+            c->xof_seed = strtoull(c->operation + 4, &end, 10);
+            c->xof_out = c->input_bytes;
+            if (!end || *end || !c->xof_seed || c->xof_seed > 4096 || !c->xof_out) {
+                fprintf(stderr, "xof-SEED needs 1 <= SEED <= 4096 and BYTES >= 1\n"); exit(2);
+            }
+            c->digest_cap = c->xof_out > m->digest_len ? c->xof_out : m->digest_len;
+            c->msg = buffer(c->xof_seed); c->digest = buffer(c->digest_cap);
+            for (size_t i = 0; i < c->xof_seed; i++)
+                c->msg[i] = (unsigned char)(i * 131U + c->xof_seed);
+        } else {
+            c->digest_cap = m->digest_len;
+            c->msg = buffer(c->input_bytes); c->digest = buffer(c->digest_cap);
+            for (size_t i = 0; i < c->input_bytes; i++)
+                c->msg[i] = (unsigned char)(i * 131U + c->input_bytes);
+        }
     } else if (c->meta->type == NGCC_TYPE_KEX) {
         const ngcc_meta_kex_t *m = (const ngcc_meta_kex_t *)c->meta;
         memset(&c->kex, 0, sizeof c->kex);
@@ -439,6 +458,8 @@ int main(int argc, char **argv)
            c.ct_cap, c.ss_cap);
     printf("META\tsignature_bytes\t%" PRIu64 "\nMETA\tdigest_bytes\t%" PRIu64 "\n",
            c.sig_cap, c.digest_cap);
+    if (c.xof_out)
+        printf("META\txof_seed_bytes\t%llu\nMETA\txof_output_bytes\t%llu\n", c.xof_seed, c.xof_out);
     if (c.meta->type == NGCC_TYPE_KEX) {
         unsigned long long total = 0;
         printf("META\tkex_passes\t%llu\nMETA\tkex_passes_run\t%llu\n", c.passes, c.kex_steps);

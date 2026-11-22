@@ -432,6 +432,9 @@ def driver(args, lib: str, op: str, size: int, trials: int, iters: int, warmups:
 
 
 def operations(entry: dict, args, run: Path) -> list[tuple[str, int]]:
+    if entry.get("operations"):
+        # supplementary instances (performance/supplement) list their own
+        return [(op, int(size)) for op, size in entry["operations"]]
     cand = entry["candidate"]
     kind = cand.split("-")[0]
     if kind == "kem":

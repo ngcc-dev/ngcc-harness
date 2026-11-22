@@ -183,6 +183,7 @@ log of instances timed without passing their KATs to runs built before
 | `campaign_parallel.sh` | one campaign on several cores: a shard per core plus the deferred instances |
 | `clockprobe.c` | measured core clock (cycle counter over wall time) for hosts without a fixed cpufreq limit |
 | `iccs/` | the ICCS helpers as hash instances, and their self-test (`campaign.py baseline`) |
+| `supplement/` | ML-KEM/ML-DSA reference points and the XOF output-length test, kept apart from the published datasets ([README](supplement/README.md)) |
 | `hashprof/` | link-time wrappers and tools for the ICCS hash share ([README](hashprof/README.md)) |
 | `report.py` | renders `<id>/perf_<ID>.md`, `summary_<ID>.md`, `method_<ID>.md`, `symmetric-survey.md` |
 | `validate.py` | checks the published datasets and reports (above) and the source catalog |
