@@ -1,0 +1,21 @@
+No: the repair of hash-13-1 reserves 55 to 64 bits of every 1024-bit JuziHash-1024 block for a block counter and slows JuziHash-1024 long-message hashing by an estimated 5.7% to 6.7%, which is under 10% but in the borderline range, and JuziHash-512 does not change.
+
+Impact: long-message hashing +5.7% to +6.7% at JuziHash-1024 (estimate)
+Scope: Function (small), specification and code
+Assessed: 2026-11-23
+
+## Attacks considered
+
+- hash-13-1: Long messages reduce JuziHash-1024 second-preimage security below 1024 bits (Design, Confirmed)
+
+## Remediation
+
+- **hash-13-1.** The root cause is that a JuziHash-1024 block is XORed into the whole 1024-bit rate, so two states that agree on the 1024-bit capacity are merged by one corrective block. A target of 2^k blocks then offers 2^k capacities, a link costs 2^(1024 − k), and k reaches 54. The costed repair is the standard block counter with bits of its own: each data block carries 960 message bits and a 64-bit block index, embedded by the same In(M) into the same four state words. The corrective block then no longer reaches those 64 rate positions. Under the finding's model a link must match 1024 + 64 = 1088 bits and costs about 2^1034 for the longest message. Filling the 64 bits with zeros, which is a 1088-bit capacity, gives the same figure in that model. Scope: Function, specification and code: the block formation and the padding modulus (§4.1, §4.3; `juzi_data_block_count` and `juzi_make_data_block`). In(M), f_DM, the permutation and JuziHash-512 stay as they are. Impact: long-message hashing +5.7% to +6.7% at JuziHash-1024 (estimate). Each block costs one permutation call, and a block that carries 960 message bits instead of 1024 gives +6.7%. No call is added to a short message; only message lengths that end in the reserved bits of a block need one more block, which counts as none. The smallest reserve that keeps the link at 2^1024 for the longest message is 55 bits, which gives +5.7% and is the lower bound with no margin. The estimate is therefore between 5% and 10%, and the answer is by judgment: one 64-bit field already puts the route about 10 bits above the target, and nothing in the finding's model asks for a shorter block. The field widths are costing aids, not proposed parameters. A reserve of 94 bits or more reaches +10%. A 128-bit field gives +14.3%. A designer who keeps whole 256-bit word positions, which §3.5 and §7.3 present as the shared injection path of both variants, would give up one word and pay +33.3%. The specification states the long-message loss itself (§5.5) and proposes no change, and the report records no proposed fix. Not checked: other long-message techniques against the changed block format; the AVX2 code. Nothing was implemented or measured.
+
+## Evidence
+
+- Baseline: §2.2 (physical p. 6) gives b = 2048, m = 1024 and ℓ < 2^64. The rate is S0 ∥ S1 ∥ S4 ∥ S5 and the capacity S2 ∥ S3 ∥ S6 ∥ S7 (§3.5, physical pp. 10–11). Table 2 (physical p. 24) lists 2^1024 for the second preimage of JuziHash-1024. §6 (physical p. 25) says that each message block invokes the 24-round permutation once, per 128-byte block. A hash candidate has no bandwidth. Table 3 (physical p. 26) reports about 15.3 cycles per byte at 65536 bytes for the AVX2 code; it was not used.
+- Control: 2^64/1024 = 2^54 blocks and 2^(1024 − 54) = 2^970, as in §5.5 (physical pp. 19–20) and in the report.
+- Model: with r message bits per block, 2048 − r state bits are outside the reach of a corrective block, the longest message has about 2^64/r blocks, and a link costs 2^(2048 − r − log2(2^64/r)). At r = 960 this is 2^(1088 − 54.09) = 2^1033.9. At r = 969 it is 2^(1079 − 54.08) = 2^1024.9, and at r = 970 it is 2^1023.9, so 55 bits is the smallest reserve.
+- Speed: time per byte is inversely proportional to r. 1024/960 = 1.0667, 1024/969 = 1.0568, 1024/930 = 1.101, 1024/896 = 1.143, 1024/768 = 1.333.
+- Source: `hash-13/Juzi/Implementations/Implementation/Reference_Implementation/JuziHash-1024/CryptHash_AlgorithmInstance.c`. The block has 128 bytes (`:18`). `juzi_update_sp` makes one `juzi_ref_permute` call (`:227-237`), which runs 6 × 4 = 24 rounds (`:211-213`). The hash makes one update for the initial block, one per data block and one for the length block (`:275-283`), with ⌈ℓ/1024⌉ data blocks (`:39-42`). The code skips no specified work.

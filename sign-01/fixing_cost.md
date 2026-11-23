@@ -1,0 +1,31 @@
+No: the three Critical findings are repaired by one statement in the challenge sampler, a longer message representative that is hashed and never sent, and 64-bit length arithmetic, and none of these changes a public key, a signature or an operation count by 1%.
+
+Impact: none
+Scope: Function (small), specification and code
+Assessed: 2026-11-23
+
+## Attacks considered
+
+- sign-01-5: The challenge sampler collapses independent signs to one effective bit (Implementation, Confirmed)
+- sign-01-8: Short message representatives cap Aigis-Sig+ II and III below their claimed levels (Design, Confirmed)
+- sign-01-9: 32-bit message-length arithmetic gives long-message forgeries (Implementation, Confirmed)
+
+## Remediation
+
+- **sign-01-5.** Make the `PARAM_C <= 64` sampler follow Algorithm 24, which uses a separate sign bit for each nonzero coefficient (line 17, physical p. 29): `signs = 0` becomes a one-bit shift (`polyvec.c:99` in the reference and AArch64 trees, `sample.c:991` in AVX2, `sample.c:885` in NEON). The team's v1.0.1 update lists a fix of this sign handling for sets I and II in its reference, AVX2 and ARM code (item 3, as reported and not evaluated). Scope: Single line, code. Impact: none. The faulty branch already draws the same XOF output and runs the same loop, and the sparse multiplications already handle both signs by a table offset (`pspm.c:31–37`), so no specified work was skipped. The rejection bounds β1 = τη1 and β2 = τη2 (Table 1) are worst-case in the signs, so the two main rejection tests of Algorithm 30 do not depend on the sign pattern. The remaining tests, which the specification puts under 2% of repetitions (physical p. 17), involve c·t0 and were not recomputed.
+- **sign-01-8.** Lengthen the message representative as the team proposes: CRH output and κ2 go from 48 to 64 bytes for PARAMS II and from 96 to 128 bytes for PARAMS III in Table 3, and `CRHBYTES` follows at `params.h:43,67`. This puts the finding's generic collision bound at 2^256 and 2^512. XOF-256 has capacity 512 and XOF-512 has capacity 1024 (§5.2, physical p. 21), so the functions stay and only the lengths change. Scope: Single line, specification and code. Impact: none. µ and tr are hashed and tr is stored in the secret key; neither is part of the public key or the signature, and the size formulas of both contain κ1 only. The secret key grows by 16 bytes (4976 to 4992) and 32 bytes (8800 to 8832), and its encoding changes. With the SHA-3 instantiation of Table 3 the hashing work is unchanged for PARAMS II and grows by one Keccak permutation per signing attempt and per verification for PARAMS III, under 1% of the permutations counted below. The proposal's own sizes and timings are not on record.
+- **sign-01-9.** Carry the lengths in 64 bits and check the hash status. `kdf128/256/512` take `int` lengths and form the bit length in `int` (`hashkdf.c:8–45`), the reference copy loops index the message with `int i` (`sign.c:95,170`), the AVX2 and NEON entry points take `int32_t mlen`, and the status of `pseudoXOF` is dropped. `pseudoXOF` itself takes 64-bit lengths (`auxfunc.h:44`), so the wrappers and their callers are what changes. The specification is sound here (µ = CRH(tr ∥ M) with M ∈ B*, Algorithm 30 line 3), and the USE_SHA3 build is not affected. Scope: Function, code. Impact: none: for every message short enough not to overflow (CRHBYTES + |M| < 2^28) the corrected code hashes exactly the bytes that the submitted code hashes. The report records no proposed fix for this finding. The v1.0.1 update, recorded under sign-01-3, lists added message-length checks (item 4); it predates this finding, and its code was not read.
+
+## Evidence
+
+- Baseline sizes, Table 2 (physical p. 18): |pk| 928, 1824, 4672 and |σ| 2015, 4533, 9134 bytes. Parameters from Table 1 (physical p. 18) and Table 3 (physical p. 22).
+- Public-key control, κ1 + kn(22−d)/8 (Algorithm 29, physical p. 32): 32 + 2·512·7/8 = 928; 32 + 4·512·7/8 = 1824; 64 + 8·512·9/8 = 4672.
+- Signature control, z bytes + κ1 + largest hint (Algorithm 30, physical p. 33, with the widths of `params.h:89,97,100`): 2·512·15/8 + 32 + 63 = 2015; 4·512·17/8 + 32 + 149 = 4533; 7·512·20/8 + 64 + 110 = 9134. Neither formula contains κ2.
+- Secret key, 2κ1 + κ2 + (2nℓ + kn·bitlen(2η2) + knd)/8 (Algorithm 29): II 64 + 48 + 4864 = 4976, with κ2 = 64 it is 4992 (+0.3%); III 128 + 96 + 8576 = 8800, with κ2 = 128 it is 8832 (+0.4%).
+- Hash inputs that carry µ or tr (`sign.c:61,98,173–174`, `polyvec.c:35–45,104–116,199–213`), counted in the next three items with the Table 3 functions (rates 136 bytes for XOF-256 and SHA3-256, 72 bytes for XOF-512 and SHA3-512, `fips202.h:7–12`).
+- PARAMS II: ExpandMask input 32 + 48 + 2 = 82 bytes becomes 98, one block either way. H input 48 + 4·192 = 816 bytes becomes 832, 7 blocks either way. CRH output 48 or 64 bytes, one block.
+- PARAMS III: ExpandMask input 64 + 96 + 2 = 162 bytes becomes 194, 3 blocks either way. H input 96 + 8·128 = 1120 bytes (16 blocks) becomes 1152 (17 blocks). CRH output 96 or 128 bytes, 2 blocks.
+- Both sets: CRH(tr ∥ M) absorbs 16 or 32 more bytes, which is at most one more block and only at some message lengths.
+- Work beside it at PARAMS III: ExpandA squeezes at least 9 SHAKE128 blocks for each of 8·7 polynomials (`poly.c:387–398`), 504 permutations per signature or verification. One signing attempt spends 7·20 = 140 permutations in ExpandMask (1280 output bytes per polynomial) and 16 in H; Table 2 gives 5.71 attempts. One added permutation is under 0.7% of an attempt's hashing and under 0.2% of a verification's.
+- With the contest `pseudoXOF` build, the calls are the same and the same 16 or 32 bytes are added to their inputs and outputs. For an empty message and the Table 2 attempts that is about 445 of 52,500 bytes hashed or squeezed per PARAMS II signature (0.8%) and about 1,530 of 148,900 per PARAMS III signature (1.0%), with ExpandA at 1408 bytes per polynomial (`poly.c:353–373`) and the challenge expansion at 128 or 256 bytes. The share of the whole signing operation is smaller, since the arithmetic is not in this count.
+- Proposed fixes: the team's update linked from sign-01-5 in `report.md`, and the proposal recorded under sign-01-8. Neither was evaluated. No revised package was read, and nothing was built or measured.

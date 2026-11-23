@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import the public specification and parameter dataset from a source checkout."""
+"""Import the public specification, parameter dataset and fixing-cost notes from a source checkout."""
 from __future__ import annotations
 
 import argparse
@@ -28,6 +28,9 @@ META_TO_CSV = {
     "digest_bits": "DigestBits", "digest_len": "DigestBytes",
 }
 SPEC_FIELDS = ("ID", "Bytes", "SHA256", "ArchivePath")
+# Every candidate has these files; fixing_cost_*.py helpers are copied where they exist.
+CANDIDATE_FILES = ("pseudocode.md", "fixing_cost.md")
+SECURITY_FILES = ("FIXING_COST_ANALYSIS.md", "FIXING_COST_HELPERS.md")
 
 
 def candidate_ids(downloads: Path) -> list[str]:
@@ -99,10 +102,14 @@ def write_spec_manifest(source: Path, ids: list[str]) -> None:
 def validate(ids: list[str]) -> list[str]:
     problems: list[str] = []
     for cid in ids:
-        for name in (f"{cid}-spec.pdf", "pseudocode.md"):
+        for name in (f"{cid}-spec.pdf", *CANDIDATE_FILES):
             path = ROOT / cid / name
             if not path.is_file() or path.stat().st_size == 0:
                 problems.append(f"{path.relative_to(ROOT)}: missing or empty")
+    for name in SECURITY_FILES:
+        path = ROOT / "security" / name
+        if not path.is_file() or path.stat().st_size == 0:
+            problems.append(f"{path.relative_to(ROOT)}: missing or empty")
     parameters = ROOT / "data/parameters.csv"
     rows: list[dict[str, str]] = []
     if not parameters.is_file():
@@ -203,11 +210,17 @@ def main() -> int:
         for cid in ids:
             destination = ROOT / cid
             destination.mkdir(exist_ok=True)
-            for name in (f"{cid}-spec.pdf", "pseudocode.md"):
+            for name in (f"{cid}-spec.pdf", *CANDIDATE_FILES):
                 origin = source / cid / name
                 if not origin.is_file():
                     raise SystemExit(f"missing source file: {origin}")
                 shutil.copyfile(origin, destination / name)
+            for old in destination.glob("fixing_cost_*.py"):
+                old.unlink()
+            for origin in sorted((source / cid).glob("fixing_cost_*.py")):
+                shutil.copyfile(origin, destination / origin.name)
+        for name in SECURITY_FILES:
+            shutil.copyfile(source / "security" / name, ROOT / "security" / name)
         data = ROOT / "data"
         data.mkdir(exist_ok=True)
         for name in ("sign.csv", "kem.csv", "kex.csv", "hash.csv", "short_names.csv",

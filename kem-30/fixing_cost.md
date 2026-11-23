@@ -1,0 +1,28 @@
+Yes: making the screened sampler of re-encryption fixed-work (kem-30-1, Probable; the answer rests on this finding alone) adds spare candidate polynomials and spectral checks to every decapsulation, which is estimated to roughly double decapsulation work or more in all five parameter sets.
+
+Impact: decapsulation +350% to +370% at PolarLAC-512* (estimate)
+Scope: Sub-algorithm (large), specification and code
+Assessed: 2026-11-23
+
+## Attacks considered
+
+- kem-30-1: Re-encryption rejection sampling leaks the decrypted-message class (Side-channel, Probable)
+
+## Remediation
+
+- **kem-30-1.** `sample_screened_poly` repeats until the spectral bound holds (`pke.c:30–42`), and Algorithm 7 (physical p. 13) specifies the same unbounded loop. Re-encryption in decapsulation calls it for the 2k = 4 polynomials of `r` and `e1` (`pke.c:166–167`), so its work depends on the decrypted message. The costed repair is the technique that the finding names, fixed-work sampling: always generate and check 2k + s candidates, and select the first 2k accepted ones without branching. The result equals that of the submitted loop unless more than s candidates are rejected. To keep correctness, s is the smallest value for which this overflow is no more likely than the failure rate that the specification claims for the set. Scope: Sub-algorithm, specification and code. The sampler is rewritten, and Algorithm 7 gains a candidate bound and an overflow rule. No transmitted object changes. Impact: each spare candidate is one XOF call and one FFT bound check, +3.5% to +7% of decapsulation. The count gives s = 29, 24, 42, 55 and 88, and decapsulation +120% to +150% at PolarLAC-Light, +100% to +140% at -128, +170% to +180% at -256, +190% to +370% at -512 and +350% to +370% at -512* (estimate). Each range runs between the two classes of work counted, integer multiplications and hashed bytes. Encapsulation is unchanged if it keeps its early exit, which exposes only the rejection count of its own message. Key generation is unchanged. Proposed fix: the report records that the team proposes removing data-dependent rejection sampling, and gives no detail; the team's post was not read. If the proposal is a fixed-work sampler, it is the repair costed here. If it drops the screening of `r` and `e1`, the failure analysis relies on that screening (physical pp. 13 and 26) and would have to be redone; that was not costed. Sensitivity: three spare candidates already exceed 10% in every set. The specification advises against using the looser threshold T of Table 2 as the real threshold (physical p. 26); even with T, the count gives at most 7 to 20 spares, +29% to +83%. The answer would change only if the overflow did not have to be negligible (s of 2 or less). That needs a change to the transform, such as an encapsulation that redraws its message when a candidate is rejected. The report records no such proposal, so it is not a basis for the answer.
+
+## Evidence
+
+- Baseline sizes, Table 3 (physical p. 22): public key 530 / 530 / 1060 / 2116 / 2522 bytes and ciphertext 608 / 640 / 1280 / 2560 / 2970 bytes for PolarLAC-Light / -128 / -256 / -512 / -512*. Control at PolarLAC-128 from `params.h:13–38`: pk = 16 + 2·(256 + 1) = 530, ct = 2·256 + 256·4/8 = 640. The repair changes neither.
+- Inputs: rejection rate of T0 per polynomial 1.7% / 1.1% / 1.1% / 1.4% / 1.2% (Table 2, physical p. 21); claimed failure rate 2^-159 / 2^-146 / 2^-265 / 2^-324 / 2^-545 (Table 3).
+- Speed baseline: the reference C code with the contest XOF. The timings of Tables 7 and 8 (physical p. 39) have no breakdown, so the operation counts are the evidence.
+- Calculation: `python3 -B kem-30/fixing_cost_count.py` prints the per-set counts, s and the percentages above. Worked case, PolarLAC-128:
+  - One candidate: 64 + 5 bytes absorbed and 128 squeezed (`sample.c:50–72`, `symmetric.c:103–120`) = 197 bytes, and an FFT check of 576 twiddle products of 3 multiplications plus 256 for the norms (`fft.c:317–335,347–398,449–465`) = 1,984 multiplications.
+  - Submitted decapsulation (`KEM_AlgorithmInstance.c:177–223`, `pke.c:144–234`): about 3,408 bytes hashed (G 626, H 672, matrix 1,116, 5.04 expected candidates 994) and about 47,960 multiplications (4 NTT and 4 inverse NTT of 7 layers, 8 pointwise products, 4.04 FFT checks; 3 multiplications per `fqmul`, `ntt.c:62–83`).
+  - Per spare candidate: 197 / 3,408 = 5.8% and 1,984 / 47,960 = 4.1%.
+  - s = 24: Pr[more than 24 of 28 candidates rejected] = 2^-151.0, below 2^-146; s = 23 is not enough. 24 spares give +138% and +99%.
+- Cross-check: the report gives adjacent rejection classes as about 9,000 to 10,600 cycles apart for the first artifact, which `reproduce_timing_leak.sh` runs on PolarLAC-Light. Against the stated 239,763 cycles of C decapsulation (Table 8, taken on the submitters' host, so the comparison is rough) that is about 4% per candidate; the count gives 4.1% to 5.1%.
+- Source paths are under `Implementations/Reference_Implementation/x86/POLARLAC-128/`. The other four sets have the same loop (`pke.c:30–42` in each).
+- Model limits: it counts XOF bytes absorbed and squeezed and the multiplications of the NTT, pointwise and FFT code. It omits the polar decoder, packing, bit unpacking and the branch-free selection among candidates. Matrix sampling of PolarLAC-512* is taken at its minimum of 1,229 bytes per polynomial. The rate of T is stated only as an upper bound, λ^-3.
+- Not checked: nothing was built or timed; the optimized x86 and ARM trees were not counted; the team's forum posts were not read, because the Proposed fixes subsection of kem-30-1 links none.

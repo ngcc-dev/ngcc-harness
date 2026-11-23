@@ -87,6 +87,10 @@ security/       vulnerability inventory, focused validators and crash-safe witne
 data/           machine-readable parameters, candidate metadata and spec provenance
 <id>/           specification and extracted pseudocode/parameters for every candidate;
                 constant_time.md source review for every candidate;
+                fixing_cost.md estimate of what repairing its Critical findings
+                costs in size and speed, with fixing_cost_*.py helpers where a
+                figure needs a script (rules in security/FIXING_COST_ANALYSIS.md,
+                helpers listed in security/FIXING_COST_HELPERS.md);
                 included reference sources and a Makefile where needed by this harness,
                 kat.sha256 manifest, and patches/ where shipped source cannot
                 compile as-is; kex-02, kex-05, sign-03 and kem-29 also have

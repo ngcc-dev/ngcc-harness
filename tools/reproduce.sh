@@ -1704,6 +1704,7 @@ run_target kem-31 "kem-31-7" sh kem-31/reproduce_keygen_leak.sh
 run_target sign-05 "sign-05-7" sh sign-05/reproduce_thread_race.sh
 run_target sign-24 "sign-24-6" sh sign-24/reproduce_thread_race.sh
 run_target sign-31 "sign-31-9" sh sign-31/reproduce_thread_race.sh
+run_target kem-04 "kem-04-4" python3 kem-04/reproduce_failure_rate.py
 
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then

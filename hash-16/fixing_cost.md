@@ -1,0 +1,22 @@
+No: the repair of hash-16-1 corrects how the RTL padder `msg_padder` places a short final block, and it leaves the round datapath and the clock cycles per block of the hardware implementation unchanged.
+
+Impact: none
+Scope: Function (small), code
+Assessed: 2026-11-23
+
+## Attacks considered
+
+- hash-16-1: The hardware (RTL) implementation discards a short final block, giving immediate collisions in that implementation (Implementation, Confirmed)
+
+## Remediation
+
+- **hash-16-1.** The root cause is in the RTL padder. Each 128-bit bus word is shifted into a fixed slot of the buffer (`llh_padding.v:196-199,210-213`), so the buffer is left-aligned only when all r/128 words of a block have arrived. For a short final block the padder accepts ⌈(L mod r)/128⌉ words and then keeps the top L mod r bits of the buffer (`:234-239`), which are still zero. The repair aligns the received words before that mask, so that the final block is the last L mod r message bits followed by r − (L mod r) one bits, as §2.2.1 specifies and as the C code computes. It makes the code follow a sound specification. Scope: Function, code; the final-block path of one module, `llh_padding.v`, 241 lines and identical in the Basic, HighPerformance and LowSize trees. The finding records two further defects, the bit order of a partial last byte and the missing completion for the empty message, and the costed repair includes them. The first is in the same path. The second also needs one transition in the state machine of `llh_core.v`: the core leaves its absorb state only on the padder's last-block flag and XORs a block at the end of every pass (`Basic_Implementation/llh_core.v:407-413,428-430,464-470`), while §2.2.2 absorbs no block for the empty message. The specification and the C implementations stay as they are. Impact: none. The finding exists only in the RTL, so it is costed in clock cycles per block. Full blocks do not pass through the changed path, and the round logic of the core is not changed: it runs one round per clock, N_r clocks per block. The corrected final block is the block that the specification already requires, and the padder takes in the same bus words for it. The report records no proposed fix for this finding. Not checked: no repair was written or simulated; whether the alignment fits in the existing combinational shifter (`:234-239`) or needs extra clocks on the final block, which would not change the cycles per block of a long message and is bounded under Evidence; the clock period; the host interface `llh_axi.v`. The design document and test vectors named in the package `README.txt` are not in the archive, as the report says.
+
+## Evidence
+
+- Baseline: a hash candidate has no bandwidth. Table 1-3 (physical p. 5) gives r = 256, 512, 768 and 1024 bits and N_r = 16, 24, 32 and 40 rounds for LLH-256, -512, -768 and -1024. The specification states no hardware timings, so the cycle count from the RTL is the whole evidence.
+- Specification: §2.2.1 (physical p. 6). If L mod r ≠ 0, the message is padded with n = r − (L mod r) one bits; otherwise it is not padded. In a partial last byte the valid bits take the lower positions and the higher positions are filled with ones.
+- Cycles per block: `llh_core.v` raises `core_ready` at `round_cnt == nr-1`, sets `nr` to 16, 24, 32 or 40, and advances `round_cnt` by one per clock (`Basic_Implementation/llh_core.v:221,231-236,422-423`; `LowSize_Implementation/llh_core.v:230,242-245,1083-1084`). The Basic and HighPerformance cores are the same file. The repair leaves the round logic and the round counter of these files as they are; the empty-message case adds one state transition to them.
+- Bus words per block: `recv_times` is 2, 4, 6 or 8 words of 128 bits (`llh_padding.v:50-53`), which is r/128. Full blocks are assembled in the SEND state (`:193-206`); the final-block mask is applied in the DONE state (`:218-222,234-239`).
+- Final block: the existing shifter is combinational, and an alignment inside it adds no clock. If the alignment were done by shifting instead, it would take at most r/128 − 1 = 1, 3, 5 or 7 clocks, one per missing bus word, and only when the final block is short. A one-block message takes 2·N_r = 32, 48, 64 or 80 core clocks, N_r to absorb and N_r to squeeze (`Basic_Implementation/llh_core.v:432-449,464-478`), so this is at most 1/32, 3/48, 5/64 or 7/80, which is 3.1% to 8.8% (judgment).
+- Source: `llh_padding.v` has the same `md5sum` in the three trees.
