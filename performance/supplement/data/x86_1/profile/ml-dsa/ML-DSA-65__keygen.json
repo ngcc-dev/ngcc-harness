@@ -1,0 +1,102 @@
+{
+ "schema": 2,
+ "candidate": "ml-dsa",
+ "label": "ML-DSA-65",
+ "operation": "keygen",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/performance/supplement/ml-dsa/libML-DSA-65.so",
+  "keygen",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "ml-dsa",
+  "instance": "ML-DSA-65",
+  "operation": "keygen",
+  "tick_source": "rdtsc",
+  "tick_hz": "2111997902",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 491456601
+ },
+ "calls": [
+  {
+   "fn": "sha3",
+   "in_bits": 512,
+   "out_bits": 0,
+   "calls": 11000,
+   "ticks": 2999379
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 6720,
+   "calls": 30000,
+   "ticks": 204671971
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 272,
+   "out_bits": 1024,
+   "calls": 1000,
+   "ticks": 1742973
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 256,
+   "out_bits": 0,
+   "calls": 30000,
+   "ticks": 3817219
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 16,
+   "out_bits": 0,
+   "calls": 41000,
+   "ticks": 1102349
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 0,
+   "calls": 82000,
+   "ticks": 3236192
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 15616,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 20195678
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 2176,
+   "calls": 11000,
+   "ticks": 29388405
+  },
+  {
+   "fn": "drng",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 4731129
+  }
+ ],
+ "share": {
+  "sha3": 0.5435966582937402,
+  "drng": 0.009626748303661507
+ }
+}

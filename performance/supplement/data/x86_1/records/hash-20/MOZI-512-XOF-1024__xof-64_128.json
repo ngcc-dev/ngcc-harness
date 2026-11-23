@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-20",
+ "label": "MOZI-512-XOF-1024",
+ "instance": "MOZI-512-XOF-1024",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "xof-64",
+ "input_bytes": 128,
+ "plan": {
+  "iterations_per_trial": 20000,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 0.9957853794281006,
+  "timeout_per_process_s": 300.59747122765685
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-20/lib/libMOZI-512-XOF-1024.so",
+ "library_sha256": "c7d4e2f0b7881f4e32fe50119f17d5c0d8a7c8b74f893b601fcbd4330a4535a3",
+ "kat_log": "kat/hash-20/MOZI-512-XOF-1024.log",
+ "kat_log_sha256": "45c67996e87b7b2b4df2ed0110ca82d4432fb545eced648bb94d4d8bf61fc689",
+ "started_utc": "2026-11-23T11:14:04.988826+00:00",
+ "ended_utc": "2026-11-23T11:14:05.177540+00:00",
+ "load_average_start": [
+  0.36181640625,
+  0.6669921875,
+  0.43017578125
+ ],
+ "load_average_end": [
+  0.36181640625,
+  0.6669921875,
+  0.43017578125
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-20",
+    "instance": "MOZI-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "128",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1687552",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4694016",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.034268675,
+     "cycles": 69573365
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-20/lib/libMOZI-512-XOF-1024.so",
+    "xof-64",
+    "128",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.03800630569458008,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-20",
+    "instance": "MOZI-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "128",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1703936",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4648960",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.034096458,
+     "cycles": 69389590
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-20/lib/libMOZI-512-XOF-1024.so",
+    "xof-64",
+    "128",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.03657650947570801,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-20",
+    "instance": "MOZI-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "128",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1699840",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4644864",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.034148487,
+     "cycles": 69455771
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-20/lib/libMOZI-512-XOF-1024.so",
+    "xof-64",
+    "128",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.037880897521972656,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-20",
+    "instance": "MOZI-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "128",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1699840",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4644864",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.03419854,
+     "cycles": 69638890
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-20/lib/libMOZI-512-XOF-1024.so",
+    "xof-64",
+    "128",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.0377354621887207,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-20",
+    "instance": "MOZI-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "128",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1708032",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "128",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "128",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "4653056",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.034435434,
+     "cycles": 70145457
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-20/lib/libMOZI-512-XOF-1024.so",
+    "xof-64",
+    "128",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.038123369216918945,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 20000,
+   "seconds": 0.034268675,
+   "cycles": 69573365
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.034096458,
+   "cycles": 69389590
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.034148487,
+   "cycles": 69455771
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.03419854,
+   "cycles": 69638890
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.034435434,
+   "cycles": 70145457
+  }
+ ],
+ "measurements": 100000,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 1.7114759400000002e-06,
+ "median_trial_seconds": 1.709927e-06,
+ "min_trial_seconds": 1.7048229000000002e-06,
+ "max_trial_seconds": 1.7217717e-06,
+ "mean_cycles": 3482.03073,
+ "median_trial_cycles": 3478.66825,
+ "operations_per_second": 584291.0067435713,
+ "throughput_MB_per_second": 74.78924886317712,
+ "sizes": {
+  "input_bytes": 128,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 128,
+  "xof_seed_bytes": 64,
+  "xof_output_bytes": 128
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1708032,
+ "peak_rss_bytes": 4694016,
+ "timing_scope": "loop"
+}

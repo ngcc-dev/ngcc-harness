@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "xof-ref",
+ "label": "pseudoXOF",
+ "instance": "pseudoXOF",
+ "variant": "supplement-reference",
+ "flags": "guide",
+ "operation": "xof-32",
+ "input_bytes": 32,
+ "plan": {
+  "iterations_per_trial": 20000,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 0.7920446058947754,
+  "timeout_per_process_s": 300.47522676353685
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "performance/supplement/xof/lib/libpseudoXOF.so",
+ "library_sha256": "1c58c6cf7b97434856c0329f959deab44c940e209d27166bee8e810164479b66",
+ "kat_log": "kat/xof-ref/pseudoXOF.log",
+ "kat_log_sha256": "a3cf108b9c0b14940ac6894a3c6213b05a40bf2540b9996049cb65204f3ba84f",
+ "started_utc": "2026-11-23T11:14:01.672332+00:00",
+ "ended_utc": "2026-11-23T11:14:01.762136+00:00",
+ "load_average_start": [
+  0.30615234375,
+  0.6611328125,
+  0.4267578125
+ ],
+ "load_average_end": [
+  0.30615234375,
+  0.6611328125,
+  0.4267578125
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "pseudoXOF",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1724416",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1789952",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.01461782,
+     "cycles": 30572520
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libpseudoXOF.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.018088340759277344,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "pseudoXOF",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1634304",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1765376",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.014665703,
+     "cycles": 30674516
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libpseudoXOF.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.018061161041259766,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "pseudoXOF",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1724416",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1789952",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.014622459,
+     "cycles": 30595782
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libpseudoXOF.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.01820230484008789,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "pseudoXOF",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1691648",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1818624",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.014666093,
+     "cycles": 30686369
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libpseudoXOF.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.016971826553344727,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "pseudoXOF",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1675264",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "32",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1806336",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.014593808,
+     "cycles": 30443374
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libpseudoXOF.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.018091440200805664,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 20000,
+   "seconds": 0.01461782,
+   "cycles": 30572520
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.014665703,
+   "cycles": 30674516
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.014622459,
+   "cycles": 30595782
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.014666093,
+   "cycles": 30686369
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.014593808,
+   "cycles": 30443374
+  }
+ ],
+ "measurements": 100000,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 7.3165883e-07,
+ "median_trial_seconds": 7.3112295e-07,
+ "min_trial_seconds": 7.296904e-07,
+ "max_trial_seconds": 7.3330465e-07,
+ "mean_cycles": 1529.72561,
+ "median_trial_cycles": 1529.7891,
+ "operations_per_second": 1366757.235746065,
+ "throughput_MB_per_second": 43.73623154387408,
+ "sizes": {
+  "input_bytes": 32,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 32,
+  "xof_seed_bytes": 32,
+  "xof_output_bytes": 32
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1724416,
+ "peak_rss_bytes": 1818624,
+ "timing_scope": "loop"
+}

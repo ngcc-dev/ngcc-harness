@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-07",
+ "label": "Dragon-XOF-384",
+ "instance": "Dragon-XOF-384",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "xof-48",
+ "input_bytes": 32,
+ "plan": {
+  "iterations_per_trial": 20000,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 0.9491932034338381,
+  "timeout_per_process_s": 300.5695159220603
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-07/lib/libDragon-XOF-384.so",
+ "library_sha256": "ab2548427a2e6e68e3f43a2a78d47fb80a978eca8b8eca83edfdbb212e19248c",
+ "kat_log": "kat/hash-07/Dragon-XOF-384.log",
+ "kat_log_sha256": "c59a44ad17d85c0a028fb5c4f1617c2de0fc22caff923e24da43824a4aa51664",
+ "started_utc": "2026-11-23T11:14:04.006777+00:00",
+ "ended_utc": "2026-11-23T11:14:04.219984+00:00",
+ "load_average_start": [
+  0.36181640625,
+  0.6669921875,
+  0.43017578125
+ ],
+ "load_average_end": [
+  0.36181640625,
+  0.6669921875,
+  0.43017578125
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-07",
+    "instance": "Dragon-XOF-384",
+    "variant": "Reference_Implementation",
+    "operation": "xof-48",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1712128",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "144",
+    "xof_seed_bytes": "48",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1777664",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.039740547,
+     "cycles": 82944517
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-07/lib/libDragon-XOF-384.so",
+    "xof-48",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.042176246643066406,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-07",
+    "instance": "Dragon-XOF-384",
+    "variant": "Reference_Implementation",
+    "operation": "xof-48",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1531904",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "144",
+    "xof_seed_bytes": "48",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1658880",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.039567943,
+     "cycles": 82659216
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-07/lib/libDragon-XOF-384.so",
+    "xof-48",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.04306483268737793,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-07",
+    "instance": "Dragon-XOF-384",
+    "variant": "Reference_Implementation",
+    "operation": "xof-48",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1626112",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "144",
+    "xof_seed_bytes": "48",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1753088",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.039039197,
+     "cycles": 81402047
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-07/lib/libDragon-XOF-384.so",
+    "xof-48",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.042580366134643555,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-07",
+    "instance": "Dragon-XOF-384",
+    "variant": "Reference_Implementation",
+    "operation": "xof-48",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1720320",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "144",
+    "xof_seed_bytes": "48",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1785856",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.039518699,
+     "cycles": 82597752
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-07/lib/libDragon-XOF-384.so",
+    "xof-48",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.04196572303771973,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-07",
+    "instance": "Dragon-XOF-384",
+    "variant": "Reference_Implementation",
+    "operation": "xof-48",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1695744",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "144",
+    "xof_seed_bytes": "48",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1822720",
+    "measurement_count": "20000",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 20000,
+     "seconds": 0.03948443,
+     "cycles": 82527357
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-07/lib/libDragon-XOF-384.so",
+    "xof-48",
+    "32",
+    "1",
+    "1",
+    "20000",
+    "3"
+   ],
+   "wall_s": 0.04303264617919922,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 20000,
+   "seconds": 0.039740547,
+   "cycles": 82944517
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.039567943,
+   "cycles": 82659216
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.039039197,
+   "cycles": 81402047
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.039518699,
+   "cycles": 82597752
+  },
+  {
+   "measurements": 20000,
+   "seconds": 0.03948443,
+   "cycles": 82527357
+  }
+ ],
+ "measurements": 100000,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 1.9735081599999998e-06,
+ "median_trial_seconds": 1.97593495e-06,
+ "min_trial_seconds": 1.95195985e-06,
+ "max_trial_seconds": 1.98702735e-06,
+ "mean_cycles": 4121.30889,
+ "median_trial_cycles": 4129.8876,
+ "operations_per_second": 506711.8648245164,
+ "throughput_MB_per_second": 16.214779674384523,
+ "sizes": {
+  "input_bytes": 32,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 144,
+  "xof_seed_bytes": 48,
+  "xof_output_bytes": 32
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1720320,
+ "peak_rss_bytes": 1822720,
+ "timing_scope": "loop"
+}

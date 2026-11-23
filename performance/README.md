@@ -13,6 +13,11 @@ Results are published per test system (`performance/systems.csv`):
 | `x86_1` — Intel Core i7-12700, one performance core, fixed 2.1 GHz | [summary](summary_x86_1.md) · [method](method_x86_1.md) · `<id>/perf_x86_1.md` per candidate | [`data/x86_1/`](data/x86_1/) |
 | `arm_1` — Qualcomm Snapdragon X Elite (Oryon), one core, fixed 2.71 GHz | [summary](summary_arm_1.md) · [method](method_arm_1.md) · `<id>/perf_arm_1.md` per candidate | [`data/arm_1/`](data/arm_1/) |
 
+The 22–23 November supplement adds 18 ML-KEM and ML-DSA operation timings
+and 224 fixed-seed XOF output timings per host.
+[Arm results](supplement/summary_arm_1.md) · [x86 results](supplement/summary_x86_1.md) ·
+[Run procedure and raw evidence](supplement/README.md)
+
 The [symmetric cryptography survey](symmetric-survey.md) records how each
 public-key submission implements its hashing and randomness (from
 `symmetric_survey.csv`), with the measured share of the ICCS placeholder

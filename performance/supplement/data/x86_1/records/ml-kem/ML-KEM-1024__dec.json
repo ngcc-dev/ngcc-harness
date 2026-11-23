@@ -1,0 +1,364 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "ml-kem",
+ "label": "ML-KEM-1024",
+ "instance": "ML-KEM-1024",
+ "variant": "supplement-reference",
+ "flags": "guide",
+ "operation": "dec",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 5455,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.023542419086303,
+  "timeout_per_process_s": 303.0141254514518
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "performance/supplement/ml-kem/lib/libML-KEM-1024.so",
+ "library_sha256": "40a85e639346f6537bace8bf3685d816c5ee699f372812401adb6cf0eb2211ee",
+ "kat_log": "kat/ml-kem/ML-KEM-1024.log",
+ "kat_log_sha256": "8dae948c9cc6546010ea49a9be32a90655b902049a7434d7e0b00d0c8b1317c1",
+ "started_utc": "2026-11-23T11:22:08.660122+00:00",
+ "ended_utc": "2026-11-23T11:22:13.445790+00:00",
+ "load_average_start": [
+  1.5888671875,
+  1.345703125,
+  0.8720703125
+ ],
+ "load_average_end": [
+  1.54150390625,
+  1.33984375,
+  0.873046875
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-kem",
+    "instance": "ML-KEM-1024",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1773568",
+    "pk_bytes": "1568",
+    "sk_bytes": "3168",
+    "ct_bytes": "1568",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1839104",
+    "measurement_count": "5455",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5455,
+     "seconds": 0.949628259,
+     "cycles": 1987790707
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-kem/lib/libML-KEM-1024.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "5455",
+    "3"
+   ],
+   "wall_s": 0.9545907974243164,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-kem",
+    "instance": "ML-KEM-1024",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1667072",
+    "pk_bytes": "1568",
+    "sk_bytes": "3168",
+    "ct_bytes": "1568",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1798144",
+    "measurement_count": "5455",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5455,
+     "seconds": 0.952260128,
+     "cycles": 1993633294
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-kem/lib/libML-KEM-1024.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "5455",
+    "3"
+   ],
+   "wall_s": 0.956061840057373,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-kem",
+    "instance": "ML-KEM-1024",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1761280",
+    "pk_bytes": "1568",
+    "sk_bytes": "3168",
+    "ct_bytes": "1568",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1826816",
+    "measurement_count": "5455",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5455,
+     "seconds": 0.954549355,
+     "cycles": 1998200757
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-kem/lib/libML-KEM-1024.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "5455",
+    "3"
+   ],
+   "wall_s": 0.9582502841949463,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-kem",
+    "instance": "ML-KEM-1024",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1642496",
+    "pk_bytes": "1568",
+    "sk_bytes": "3168",
+    "ct_bytes": "1568",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1769472",
+    "measurement_count": "5455",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5455,
+     "seconds": 0.953274722,
+     "cycles": 1995793682
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-kem/lib/libML-KEM-1024.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "5455",
+    "3"
+   ],
+   "wall_s": 0.9581234455108643,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-kem",
+    "instance": "ML-KEM-1024",
+    "variant": "Reference_Implementation",
+    "operation": "dec",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1732608",
+    "pk_bytes": "1568",
+    "sk_bytes": "3168",
+    "ct_bytes": "1568",
+    "ss_bytes": "32",
+    "signature_bytes": "0",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1859584",
+    "measurement_count": "5455",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 5455,
+     "seconds": 0.953201413,
+     "cycles": 1995239571
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-kem/lib/libML-KEM-1024.so",
+    "dec",
+    "0",
+    "1",
+    "1",
+    "5455",
+    "3"
+   ],
+   "wall_s": 0.9582037925720215,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 5455,
+   "seconds": 0.949628259,
+   "cycles": 1987790707
+  },
+  {
+   "measurements": 5455,
+   "seconds": 0.952260128,
+   "cycles": 1993633294
+  },
+  {
+   "measurements": 5455,
+   "seconds": 0.954549355,
+   "cycles": 1998200757
+  },
+  {
+   "measurements": 5455,
+   "seconds": 0.953274722,
+   "cycles": 1995793682
+  },
+  {
+   "measurements": 5455,
+   "seconds": 0.953201413,
+   "cycles": 1995239571
+  }
+ ],
+ "measurements": 27275,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.00017462562335472044,
+ "median_trial_seconds": 0.00017473903079743357,
+ "min_trial_seconds": 0.00017408400714940422,
+ "max_trial_seconds": 0.0001749861329055912,
+ "mean_cycles": 365560.330375802,
+ "median_trial_cycles": 365763.4410632447,
+ "operations_per_second": 5726.53646577788,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 1568,
+  "sk_bytes": 3168,
+  "ct_bytes": 1568,
+  "ss_bytes": 32,
+  "signature_bytes": 0,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1773568,
+ "peak_rss_bytes": 1859584,
+ "timing_scope": "loop"
+}

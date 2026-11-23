@@ -1,0 +1,101 @@
+{
+ "schema": 2,
+ "candidate": "ml-kem",
+ "label": "ML-KEM-1024",
+ "operation": "dec",
+ "input_bytes": 0,
+ "status": "complete",
+ "command": [
+  "taskset",
+  "-c",
+  "2",
+  "performance/hashprof/hashprof",
+  "performance/hashprof/lib/performance/supplement/ml-kem/libML-KEM-1024.so",
+  "dec",
+  "0",
+  "1000",
+  "1"
+ ],
+ "stderr": "",
+ "meta": {
+  "id": "ml-kem",
+  "instance": "ML-KEM-1024",
+  "operation": "dec",
+  "tick_source": "rdtsc",
+  "tick_hz": "2111997696",
+  "warmups": "1",
+  "overflow_calls": "0"
+ },
+ "total": {
+  "operations": 1000,
+  "ticks": 368538443
+ },
+ "calls": [
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 1344,
+   "calls": 1000,
+   "ticks": 1426324
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 272,
+   "out_bits": 0,
+   "calls": 16000,
+   "ticks": 2412551
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 4032,
+   "calls": 16000,
+   "ticks": 66784019
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 256,
+   "out_bits": 0,
+   "calls": 1000,
+   "ticks": 155820
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 0,
+   "calls": 2000,
+   "ticks": 79538
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 512,
+   "out_bits": 512,
+   "calls": 1000,
+   "ticks": 1586578
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 12544,
+   "out_bits": 0,
+   "calls": 1000,
+   "ticks": 17599544
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 264,
+   "out_bits": 1024,
+   "calls": 9000,
+   "ticks": 15089877
+  },
+  {
+   "fn": "sha3",
+   "in_bits": 0,
+   "out_bits": 256,
+   "calls": 1000,
+   "ticks": 1282749
+  }
+ ],
+ "share": {
+  "sha3": 0.2887541368377681
+ }
+}

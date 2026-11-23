@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "xof-ref",
+ "label": "SHAKE128",
+ "instance": "SHAKE128",
+ "variant": "supplement-reference",
+ "flags": "guide",
+ "operation": "xof-16",
+ "input_bytes": 16384,
+ "plan": {
+  "iterations_per_trial": 13178,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.017651614968872,
+  "timeout_per_process_s": 303.0105909689813
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "performance/supplement/xof/lib/libSHAKE128.so",
+ "library_sha256": "c33c66328c882eaa3e1a8dbc43f3a5cb19a9ff86bdc3532aa468598d2eaf364b",
+ "kat_log": "kat/xof-ref/SHAKE128.log",
+ "kat_log_sha256": "cc693964d06171d2ab70ab82917d11753494edffa60bee97edda1e36672ec79f",
+ "started_utc": "2026-11-23T11:17:25.635294+00:00",
+ "ended_utc": "2026-11-23T11:17:29.898626+00:00",
+ "load_average_start": [
+  1.05615234375,
+  0.94921875,
+  0.60009765625
+ ],
+ "load_average_end": [
+  1.05126953125,
+  0.9501953125,
+  0.6025390625
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "SHAKE128",
+    "variant": "Reference_Implementation",
+    "operation": "xof-16",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1613824",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "16",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1740800",
+    "measurement_count": "13178",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 13178,
+     "seconds": 0.847612347,
+     "cycles": 1774579043
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libSHAKE128.so",
+    "xof-16",
+    "16384",
+    "1",
+    "1",
+    "13178",
+    "3"
+   ],
+   "wall_s": 0.8515684604644775,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "SHAKE128",
+    "variant": "Reference_Implementation",
+    "operation": "xof-16",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1703936",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "16",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1835008",
+    "measurement_count": "13178",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 13178,
+     "seconds": 0.850387833,
+     "cycles": 1780337084
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libSHAKE128.so",
+    "xof-16",
+    "16384",
+    "1",
+    "1",
+    "13178",
+    "3"
+   ],
+   "wall_s": 0.8544187545776367,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "SHAKE128",
+    "variant": "Reference_Implementation",
+    "operation": "xof-16",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1724416",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "16",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1789952",
+    "measurement_count": "13178",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 13178,
+     "seconds": 0.852530363,
+     "cycles": 1784917708
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libSHAKE128.so",
+    "xof-16",
+    "16384",
+    "1",
+    "1",
+    "13178",
+    "3"
+   ],
+   "wall_s": 0.8565125465393066,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "SHAKE128",
+    "variant": "Reference_Implementation",
+    "operation": "xof-16",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1736704",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "16",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1802240",
+    "measurement_count": "13178",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 13178,
+     "seconds": 0.842438682,
+     "cycles": 1763811178
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libSHAKE128.so",
+    "xof-16",
+    "16384",
+    "1",
+    "1",
+    "13178",
+    "3"
+   ],
+   "wall_s": 0.8458425998687744,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "SHAKE128",
+    "variant": "Reference_Implementation",
+    "operation": "xof-16",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1728512",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "16",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1794048",
+    "measurement_count": "13178",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 13178,
+     "seconds": 0.850656495,
+     "cycles": 1780820966
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libSHAKE128.so",
+    "xof-16",
+    "16384",
+    "1",
+    "1",
+    "13178",
+    "3"
+   ],
+   "wall_s": 0.854560375213623,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 13178,
+   "seconds": 0.847612347,
+   "cycles": 1774579043
+  },
+  {
+   "measurements": 13178,
+   "seconds": 0.850387833,
+   "cycles": 1780337084
+  },
+  {
+   "measurements": 13178,
+   "seconds": 0.852530363,
+   "cycles": 1784917708
+  },
+  {
+   "measurements": 13178,
+   "seconds": 0.842438682,
+   "cycles": 1763811178
+  },
+  {
+   "measurements": 13178,
+   "seconds": 0.850656495,
+   "cycles": 1780820966
+  }
+ ],
+ "measurements": 65890,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 6.440470056154197e-05,
+ "median_trial_seconds": 6.453087213537715e-05,
+ "min_trial_seconds": 6.392765837001062e-05,
+ "max_trial_seconds": 6.469345598725148e-05,
+ "mean_cycles": 134837.8506450144,
+ "median_trial_cycles": 135099.18682652907,
+ "operations_per_second": 15526.817006849511,
+ "throughput_MB_per_second": 254.39136984022238,
+ "sizes": {
+  "input_bytes": 16384,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 16384,
+  "xof_seed_bytes": 16,
+  "xof_output_bytes": 16384
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1736704,
+ "peak_rss_bytes": 1835008,
+ "timing_scope": "loop"
+}

@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-18",
+ "label": "MEGASCON-512-XOF-1024",
+ "instance": "MEGASCON-512-XOF-1024",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "xof-64",
+ "input_bytes": 65536,
+ "plan": {
+  "iterations_per_trial": 1153,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.029464763983154,
+  "timeout_per_process_s": 303.0176788583899
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-18/lib/libMEGASCON-512-XOF-1024.so",
+ "library_sha256": "d99610ed0e6de8b272323183d71e27a07901d2fe17aefd10aaa81a1a3516498e",
+ "kat_log": "kat/hash-18/MEGASCON-512-XOF-1024.log",
+ "kat_log_sha256": "fec934c1de300755051e60cc03cf957c8ae564b275acf2c5b4731a83a2c8a49e",
+ "started_utc": "2026-11-23T11:23:45.355075+00:00",
+ "ended_utc": "2026-11-23T11:23:49.732738+00:00",
+ "load_average_start": [
+  1.36572265625,
+  1.34814453125,
+  0.92431640625
+ ],
+ "load_average_end": [
+  1.33642578125,
+  1.34228515625,
+  0.9248046875
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-18",
+    "instance": "MEGASCON-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1699840",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1998848",
+    "measurement_count": "1153",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1153,
+     "seconds": 0.869114341,
+     "cycles": 1819152590
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-18/lib/libMEGASCON-512-XOF-1024.so",
+    "xof-64",
+    "65536",
+    "1",
+    "1",
+    "1153",
+    "3"
+   ],
+   "wall_s": 0.8754267692565918,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-18",
+    "instance": "MEGASCON-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1671168",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1966080",
+    "measurement_count": "1153",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1153,
+     "seconds": 0.87073686,
+     "cycles": 1820132492
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-18/lib/libMEGASCON-512-XOF-1024.so",
+    "xof-64",
+    "65536",
+    "1",
+    "1",
+    "1153",
+    "3"
+   ],
+   "wall_s": 0.8758859634399414,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-18",
+    "instance": "MEGASCON-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1703936",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "2002944",
+    "measurement_count": "1153",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1153,
+     "seconds": 0.870048834,
+     "cycles": 1821349699
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-18/lib/libMEGASCON-512-XOF-1024.so",
+    "xof-64",
+    "65536",
+    "1",
+    "1",
+    "1153",
+    "3"
+   ],
+   "wall_s": 0.8751649856567383,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-18",
+    "instance": "MEGASCON-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1798144",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "2031616",
+    "measurement_count": "1153",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1153,
+     "seconds": 0.869195669,
+     "cycles": 1819477091
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-18/lib/libMEGASCON-512-XOF-1024.so",
+    "xof-64",
+    "65536",
+    "1",
+    "1",
+    "1153",
+    "3"
+   ],
+   "wall_s": 0.8749511241912842,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-18",
+    "instance": "MEGASCON-512-XOF-1024",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1605632",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1900544",
+    "measurement_count": "1153",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1153,
+     "seconds": 0.869647854,
+     "cycles": 1820430146
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-18/lib/libMEGASCON-512-XOF-1024.so",
+    "xof-64",
+    "65536",
+    "1",
+    "1",
+    "1153",
+    "3"
+   ],
+   "wall_s": 0.8758118152618408,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1153,
+   "seconds": 0.869114341,
+   "cycles": 1819152590
+  },
+  {
+   "measurements": 1153,
+   "seconds": 0.87073686,
+   "cycles": 1820132492
+  },
+  {
+   "measurements": 1153,
+   "seconds": 0.870048834,
+   "cycles": 1821349699
+  },
+  {
+   "measurements": 1153,
+   "seconds": 0.869195669,
+   "cycles": 1819477091
+  },
+  {
+   "measurements": 1153,
+   "seconds": 0.869647854,
+   "cycles": 1820430146
+  }
+ ],
+ "measurements": 5765,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0007543353960104076,
+ "median_trial_seconds": 0.000754247921942758,
+ "min_trial_seconds": 0.0007537852046834345,
+ "max_trial_seconds": 0.0007551924197745013,
+ "mean_cycles": 1578584.9120555073,
+ "median_trial_cycles": 1578605.8039895925,
+ "operations_per_second": 1325.6702592625031,
+ "throughput_MB_per_second": 86.8791261110274,
+ "sizes": {
+  "input_bytes": 65536,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 65536,
+  "xof_seed_bytes": 64,
+  "xof_output_bytes": 65536
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1798144,
+ "peak_rss_bytes": 2031616,
+ "timing_scope": "loop"
+}

@@ -19,6 +19,9 @@ optimized/AVX2 and ARM variants, are retained under their original paths for a
 separate [performance evaluation](performance/README.md): per-candidate
 `<id>/perf_<system>.md` reports measured on fixed-frequency hosts, with the raw
 evidence in `performance/data/<system>/`, kept separate from the security findings.
+The November supplement measures ML-KEM, ML-DSA and XOF output speed on
+both benchmark machines. [Arm results](performance/supplement/summary_arm_1.md) ·
+[x86 results](performance/supplement/summary_x86_1.md)
 
 This repository is not affiliated with NICCS. `SOURCE_ARCHIVES.md` records the
 official submission archives from which the included source files were taken.

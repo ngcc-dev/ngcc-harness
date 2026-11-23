@@ -96,6 +96,82 @@ evidence to `performance/supplement/data/<ID>/`; `report` writes
 `summary_<ID>.md`, `reference_<ID>.csv` and `xof_<ID>.csv`. Expect about half an
 hour of measurement per system.
 
+### x86 supplement on `blk`
+
+Run `blk-supplement-20261123T0830Z` completed on 23 November 2026.
+The 242 means cover 1,210 hardware-counter trials on CPU 2. The NEV
+encapsulation control averaged 96,753 cycles per call, 1.65% above the
+archived mean. Timing and profiling took 12 minutes.
+[x86 summary](summary_x86_1.md) · [Reference CSV](reference_x86_1.csv) ·
+[XOF CSV](xof_x86_1.csv) · [Campaign manifest](data/x86_1/campaign.json)
+
+To regenerate the tables from the saved records, run
+`python3 performance/supplement/supplement.py report --system x86_1`.
+
+Use CPU 2 of the registered `x86_1` host. The archived run used GCC 14.2.0,
+the `performance` governor with an 800 MHz minimum and a 2.10 GHz ceiling,
+turbo off, SMT off, and `kernel.perf_event_paranoid=2`. The preflight lists
+any differences. A kernel update produces a warning. [Archived CPU 2 record](../data/x86_1/records/kem-25/NEV_512_1409_ICCS__enc.json)
+
+The table gives the settings used for this run and the desktop values
+verified on `blk` afterward. For another run, record the starting values
+and restore them after profiling. With SMT off, CPU 2 had private L1 and L2
+caches but shared L3 and memory bandwidth with the other cores. The run
+did not measure cache contention.
+
+| Control on `blk` | During timing | Desktop after the run |
+| --- | --- | --- |
+| CPU 2 governor | `performance` | `powersave` |
+| CPU 2 frequency limits | 800–2,100 MHz | 800–4,800 MHz |
+| Intel turbo (`no_turbo`) | off (`1`) | on (`0`) |
+| SMT | off | on |
+| `kernel.perf_event_paranoid` | 2 | 3 |
+
+From the harness root, the build and functional tests can run before the
+host is configured for timing. Choose the run directory once and reuse it
+for all phases. The default build covers the submitted XOFs, adapters and
+reference functions used in the Arm timing tables.
+
+```sh
+run_dir="performance/runs/blk-supplement-$(date -u +%Y%m%dT%H%M%SZ)"
+python3 performance/supplement/supplement.py build --system x86_1 --cpu 2 --run-dir "$run_dir"
+```
+
+The build-phase host problems in the 23 November manifest reflect the
+ordinary desktop settings during functional checks. For a new run, resume
+from the harness root after restoring the archived settings. If the machine
+was rebooted, set `run_dir` to the directory created by the build above.
+
+```sh
+python3 performance/supplement/supplement.py check --system x86_1 --cpu 2 &&
+python3 performance/supplement/supplement.py measure --system x86_1 --cpu 2 --run-dir "$run_dir" &&
+python3 performance/supplement/supplement.py profile --system x86_1 --cpu 2 --run-dir "$run_dir" &&
+python3 performance/supplement/supplement.py publish --run-dir "$run_dir" &&
+python3 performance/supplement/supplement.py report --system x86_1
+```
+
+Each `measure` invocation rechecks the SHA-256 of every library in
+`build.json`. Before calibration it verifies the archived NEV library and
+repeats its encapsulation control in five fresh processes, with three
+warmups and 19,280 calls per trial. The measurement entry in
+`campaign.json` records the command, raw trials, mean cycles and percentage
+difference from the archived 95,181 cycles per call. Review the difference
+when comparing the campaigns. The trials for the supplement then use the
+x86 campaign's one-second target.
+
+Each new build, measurement and profiling entry records the host settings,
+UTC time, harness revision, Git status, tracked diff digest when present,
+and SHA-256 digests of the scripts and drivers. The run directory retains
+the tracked patch. The original 23 November build predates this logging.
+Publication checks every timing record against the archived host settings
+for its CPU and rejects measurement or profiling runs with a failed host
+check or the test override.
+
+The paired datasets should cover the same 18 public-key operations and 224
+XOF seed/output combinations. The x86 evidence goes in `data/x86_1/` under
+this supplement, and the report command writes `reference_x86_1.csv`,
+`xof_x86_1.csv` and `summary_x86_1.md` alongside the Arm tables.
+
 ## Files
 
 | file | purpose |

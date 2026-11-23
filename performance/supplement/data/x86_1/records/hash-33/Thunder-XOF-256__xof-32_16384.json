@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "hash-33",
+ "label": "Thunder-XOF-256",
+ "instance": "Thunder-XOF-256",
+ "variant": "reference",
+ "flags": "guide",
+ "operation": "xof-32",
+ "input_bytes": 16384,
+ "plan": {
+  "iterations_per_trial": 1783,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.025100857360839,
+  "timeout_per_process_s": 303.0150605144165
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "hash-33/lib/libThunder-XOF-256.so",
+ "library_sha256": "f70688757f125cccb7e53edd31570004678a9c8bc90678644c178116e0d8718f",
+ "kat_log": "kat/hash-33/Thunder-XOF-256.log",
+ "kat_log_sha256": "bea8ec0d23932bb75173acacac862d9ed334d4d5c5ecc7f1be685c04e0cd75ea",
+ "started_utc": "2026-11-23T11:22:46.218122+00:00",
+ "ended_utc": "2026-11-23T11:22:51.171340+00:00",
+ "load_average_start": [
+  1.5224609375,
+  1.35546875,
+  0.89501953125
+ ],
+ "load_average_end": [
+  1.48046875,
+  1.34912109375,
+  0.89599609375
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-XOF-256",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1699840",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1830912",
+    "measurement_count": "1783",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1783,
+     "seconds": 0.983082555,
+     "cycles": 2058069840
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-XOF-256.so",
+    "xof-32",
+    "16384",
+    "1",
+    "1",
+    "1783",
+    "3"
+   ],
+   "wall_s": 0.9879150390625,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-XOF-256",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1634304",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1761280",
+    "measurement_count": "1783",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1783,
+     "seconds": 0.985809796,
+     "cycles": 2063779349
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-XOF-256.so",
+    "xof-32",
+    "16384",
+    "1",
+    "1",
+    "1783",
+    "3"
+   ],
+   "wall_s": 0.9906463623046875,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-XOF-256",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1613824",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1740800",
+    "measurement_count": "1783",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1783,
+     "seconds": 0.986234771,
+     "cycles": 2064817936
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-XOF-256.so",
+    "xof-32",
+    "16384",
+    "1",
+    "1",
+    "1783",
+    "3"
+   ],
+   "wall_s": 0.991793155670166,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-XOF-256",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1716224",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1781760",
+    "measurement_count": "1783",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1783,
+     "seconds": 0.986571154,
+     "cycles": 2065302634
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-XOF-256.so",
+    "xof-32",
+    "16384",
+    "1",
+    "1",
+    "1783",
+    "3"
+   ],
+   "wall_s": 0.992117166519165,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "hash-33",
+    "instance": "Thunder-XOF-256",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "16384",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1540096",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "16384",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "16384",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1667072",
+    "measurement_count": "1783",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1783,
+     "seconds": 0.984694402,
+     "cycles": 2061186080
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "hash-33/lib/libThunder-XOF-256.so",
+    "xof-32",
+    "16384",
+    "1",
+    "1",
+    "1783",
+    "3"
+   ],
+   "wall_s": 0.9903068542480469,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1783,
+   "seconds": 0.983082555,
+   "cycles": 2058069840
+  },
+  {
+   "measurements": 1783,
+   "seconds": 0.985809796,
+   "cycles": 2063779349
+  },
+  {
+   "measurements": 1783,
+   "seconds": 0.986234771,
+   "cycles": 2064817936
+  },
+  {
+   "measurements": 1783,
+   "seconds": 0.986571154,
+   "cycles": 2065302634
+  },
+  {
+   "measurements": 1783,
+   "seconds": 0.984694402,
+   "cycles": 2061186080
+  }
+ ],
+ "measurements": 8915,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0005525959257431295,
+ "median_trial_seconds": 0.0005528938844643859,
+ "min_trial_seconds": 0.0005513643045429052,
+ "max_trial_seconds": 0.0005533208939988782,
+ "mean_cycles": 1156831.8383623108,
+ "median_trial_cycles": 1157475.798653954,
+ "operations_per_second": 1809.6405590671025,
+ "throughput_MB_per_second": 29.649150919755407,
+ "sizes": {
+  "input_bytes": 16384,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 16384,
+  "xof_seed_bytes": 32,
+  "xof_output_bytes": 16384
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1716224,
+ "peak_rss_bytes": 1830912,
+ "timing_scope": "loop"
+}

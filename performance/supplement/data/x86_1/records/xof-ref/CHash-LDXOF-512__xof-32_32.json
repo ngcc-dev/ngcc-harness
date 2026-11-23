@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "xof-ref",
+ "label": "CHash-LDXOF-512",
+ "instance": "CHash-LDXOF-512",
+ "variant": "supplement-reference",
+ "flags": "guide",
+ "operation": "xof-32",
+ "input_bytes": 32,
+ "plan": {
+  "iterations_per_trial": 10075,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.018080753984986,
+  "timeout_per_process_s": 303.010848452391
+ },
+ "kat": "NOKAT",
+ "kat_not_passed": true,
+ "disturbed_retries": 0,
+ "library": "performance/supplement/xof/lib/libCHash-LDXOF-512.so",
+ "library_sha256": "0c18c9fa27934493c0c9df129c8f0a25f235251192a167deff071fd2718d2859",
+ "kat_log": "kat/xof-ref/CHash-LDXOF-512.log",
+ "kat_log_sha256": "d5595a4866d93767fc7ddfa661e731040aa4b6dbe541f5bf9a8524c0ec91afc5",
+ "started_utc": "2026-11-23T11:18:05.453754+00:00",
+ "ended_utc": "2026-11-23T11:18:10.054216+00:00",
+ "load_average_start": [
+  1.10107421875,
+  0.97314453125,
+  0.625
+ ],
+ "load_average_end": [
+  1.0927734375,
+  0.9736328125,
+  0.62744140625
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "CHash-LDXOF-512",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1691648",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1818624",
+    "measurement_count": "10075",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10075,
+     "seconds": 0.916566322,
+     "cycles": 1918895787
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libCHash-LDXOF-512.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "10075",
+    "3"
+   ],
+   "wall_s": 0.9201180934906006,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "CHash-LDXOF-512",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1609728",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1736704",
+    "measurement_count": "10075",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10075,
+     "seconds": 0.91545915,
+     "cycles": 1916519796
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libCHash-LDXOF-512.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "10075",
+    "3"
+   ],
+   "wall_s": 0.9189841747283936,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "CHash-LDXOF-512",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1544192",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1671168",
+    "measurement_count": "10075",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10075,
+     "seconds": 0.915725814,
+     "cycles": 1916944228
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libCHash-LDXOF-512.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "10075",
+    "3"
+   ],
+   "wall_s": 0.9198336601257324,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "CHash-LDXOF-512",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1716224",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1781760",
+    "measurement_count": "10075",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10075,
+     "seconds": 0.915746782,
+     "cycles": 1917211243
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libCHash-LDXOF-512.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "10075",
+    "3"
+   ],
+   "wall_s": 0.9198002815246582,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "CHash-LDXOF-512",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "32",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1626112",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "64",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "32",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1753088",
+    "measurement_count": "10075",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 10075,
+     "seconds": 0.917282827,
+     "cycles": 1920174309
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libCHash-LDXOF-512.so",
+    "xof-32",
+    "32",
+    "1",
+    "1",
+    "10075",
+    "3"
+   ],
+   "wall_s": 0.9213006496429443,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 10075,
+   "seconds": 0.916566322,
+   "cycles": 1918895787
+  },
+  {
+   "measurements": 10075,
+   "seconds": 0.91545915,
+   "cycles": 1916519796
+  },
+  {
+   "measurements": 10075,
+   "seconds": 0.915725814,
+   "cycles": 1916944228
+  },
+  {
+   "measurements": 10075,
+   "seconds": 0.915746782,
+   "cycles": 1917211243
+  },
+  {
+   "measurements": 10075,
+   "seconds": 0.917282827,
+   "cycles": 1920174309
+  }
+ ],
+ "measurements": 50375,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 9.093361578163772e-05,
+ "median_trial_seconds": 9.089298084367246e-05,
+ "min_trial_seconds": 9.08644317617866e-05,
+ "max_trial_seconds": 9.104544188585608e-05,
+ "mean_cycles": 190367.15360794045,
+ "median_trial_cycles": 190293.91990074443,
+ "operations_per_second": 10997.033290761661,
+ "throughput_MB_per_second": 0.35190506530437315,
+ "sizes": {
+  "input_bytes": 32,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 64,
+  "xof_seed_bytes": 32,
+  "xof_output_bytes": 32
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1716224,
+ "peak_rss_bytes": 1818624,
+ "timing_scope": "loop"
+}

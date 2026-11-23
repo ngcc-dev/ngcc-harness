@@ -1,0 +1,389 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "ml-dsa",
+ "label": "ML-DSA-87",
+ "instance": "ML-DSA-87",
+ "variant": "supplement-reference",
+ "flags": "guide",
+ "operation": "verify",
+ "input_bytes": 0,
+ "plan": {
+  "iterations_per_trial": 2485,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.028373642653198,
+  "timeout_per_process_s": 303.01702418559194
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "performance/supplement/ml-dsa/lib/libML-DSA-87.so",
+ "library_sha256": "ec9eecb293150fe67dbf37f6f915d30db6ffc457307504cb87747ee6cfb3911d",
+ "kat_log": "kat/ml-dsa/ML-DSA-87.log",
+ "kat_log_sha256": "543cd80ceec5b5deedaea722a6ae98a9854dc3a0e44aa99be3bf20de548c7093",
+ "started_utc": "2026-11-23T11:23:28.680694+00:00",
+ "ended_utc": "2026-11-23T11:23:33.068927+00:00",
+ "load_average_start": [
+  1.47119140625,
+  1.3671875,
+  0.9228515625
+ ],
+ "load_average_end": [
+  1.43310546875,
+  1.36083984375,
+  0.92333984375
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-dsa",
+    "instance": "ML-DSA-87",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1781760",
+    "pk_bytes": "2592",
+    "sk_bytes": "4896",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4627",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1912832",
+    "measurement_count": "2485",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2485,
+     "seconds": 0.872531641,
+     "cycles": 1826375802
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-dsa/lib/libML-DSA-87.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "2485",
+    "3"
+   ],
+   "wall_s": 0.8786325454711914,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-dsa",
+    "instance": "ML-DSA-87",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1867776",
+    "pk_bytes": "2592",
+    "sk_bytes": "4896",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4627",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1933312",
+    "measurement_count": "2485",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2485,
+     "seconds": 0.872027087,
+     "cycles": 1825579890
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-dsa/lib/libML-DSA-87.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "2485",
+    "3"
+   ],
+   "wall_s": 0.8781118392944336,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-dsa",
+    "instance": "ML-DSA-87",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1884160",
+    "pk_bytes": "2592",
+    "sk_bytes": "4896",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4627",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1949696",
+    "measurement_count": "2485",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2485,
+     "seconds": 0.870402134,
+     "cycles": 1822241166
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-dsa/lib/libML-DSA-87.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "2485",
+    "3"
+   ],
+   "wall_s": 0.8760297298431396,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-dsa",
+    "instance": "ML-DSA-87",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1794048",
+    "pk_bytes": "2592",
+    "sk_bytes": "4896",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4627",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1925120",
+    "measurement_count": "2485",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2485,
+     "seconds": 0.871484543,
+     "cycles": 1824499330
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-dsa/lib/libML-DSA-87.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "2485",
+    "3"
+   ],
+   "wall_s": 0.87717604637146,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "ml-dsa",
+    "instance": "ML-DSA-87",
+    "variant": "Reference_Implementation",
+    "operation": "verify",
+    "input_bytes": "0",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1888256",
+    "pk_bytes": "2592",
+    "sk_bytes": "4896",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "4627",
+    "digest_bytes": "0",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "sign_failures_retried": "0",
+    "message_tweaks": "0",
+    "setup_verify_failed": "0",
+    "signature_length_excess": "0",
+    "verify_rejections": "0",
+    "peak_rss_bytes": "1953792",
+    "measurement_count": "2485",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 2485,
+     "seconds": 0.873062853,
+     "cycles": 1827614623
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/ml-dsa/lib/libML-DSA-87.so",
+    "verify",
+    "0",
+    "1",
+    "1",
+    "2485",
+    "3"
+   ],
+   "wall_s": 0.8778536319732666,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 2485,
+   "seconds": 0.872531641,
+   "cycles": 1826375802
+  },
+  {
+   "measurements": 2485,
+   "seconds": 0.872027087,
+   "cycles": 1825579890
+  },
+  {
+   "measurements": 2485,
+   "seconds": 0.870402134,
+   "cycles": 1822241166
+  },
+  {
+   "measurements": 2485,
+   "seconds": 0.871484543,
+   "cycles": 1824499330
+  },
+  {
+   "measurements": 2485,
+   "seconds": 0.873062853,
+   "cycles": 1827614623
+  }
+ ],
+ "measurements": 12425,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0003508658557746479,
+ "median_trial_seconds": 0.0003509163327967807,
+ "min_trial_seconds": 0.0003502624281690141,
+ "max_trial_seconds": 0.00035133314004024145,
+ "mean_cycles": 734511.936498994,
+ "median_trial_cycles": 734639.7947686117,
+ "operations_per_second": 2850.0920894459287,
+ "throughput_MB_per_second": null,
+ "sizes": {
+  "input_bytes": 0,
+  "pk_bytes": 2592,
+  "sk_bytes": 4896,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 4627,
+  "digest_bytes": 0
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1888256,
+ "peak_rss_bytes": 1953792,
+ "timing_scope": "loop"
+}

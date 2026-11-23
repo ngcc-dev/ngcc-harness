@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "xof-ref",
+ "label": "Laurus-XOF-adapted",
+ "instance": "Laurus-XOF-adapted",
+ "variant": "supplement-reference",
+ "flags": "guide",
+ "operation": "xof-32",
+ "input_bytes": 65536,
+ "plan": {
+  "iterations_per_trial": 1184,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.031132865878906,
+  "timeout_per_process_s": 303.01867971952737
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "performance/supplement/xof/lib/libLaurus-XOF-adapted.so",
+ "library_sha256": "e61415b67d053ab4a20859f8e64f8f838d179228ce0e3f447fc9aa01a1f716bb",
+ "kat_log": "kat/xof-ref/Laurus-XOF-adapted.log",
+ "kat_log_sha256": "1e10bd53a9e92bded3541065cbd7f8c0693a68c59e1ea0bf574a66d21a2ed237",
+ "started_utc": "2026-11-23T11:23:54.789113+00:00",
+ "ended_utc": "2026-11-23T11:24:00.127024+00:00",
+ "load_average_start": [
+  1.30908203125,
+  1.33642578125,
+  0.92529296875
+ ],
+ "load_average_end": [
+  1.36474609375,
+  1.34765625,
+  0.93115234375
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "Laurus-XOF-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1761280",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1888256",
+    "measurement_count": "1184",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1184,
+     "seconds": 1.062769316,
+     "cycles": 2224757134
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libLaurus-XOF-adapted.so",
+    "xof-32",
+    "65536",
+    "1",
+    "1",
+    "1184",
+    "3"
+   ],
+   "wall_s": 1.0927205085754395,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "Laurus-XOF-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1777664",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1843200",
+    "measurement_count": "1184",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1184,
+     "seconds": 1.051454765,
+     "cycles": 2201431123
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libLaurus-XOF-adapted.so",
+    "xof-32",
+    "65536",
+    "1",
+    "1",
+    "1184",
+    "3"
+   ],
+   "wall_s": 1.0573303699493408,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "Laurus-XOF-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1777664",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1843200",
+    "measurement_count": "1184",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1184,
+     "seconds": 1.045087376,
+     "cycles": 2187708674
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libLaurus-XOF-adapted.so",
+    "xof-32",
+    "65536",
+    "1",
+    "1",
+    "1184",
+    "3"
+   ],
+   "wall_s": 1.0517141819000244,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "Laurus-XOF-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1781760",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1847296",
+    "measurement_count": "1184",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1184,
+     "seconds": 1.06016204,
+     "cycles": 2219556394
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libLaurus-XOF-adapted.so",
+    "xof-32",
+    "65536",
+    "1",
+    "1",
+    "1184",
+    "3"
+   ],
+   "wall_s": 1.067103385925293,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "Laurus-XOF-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-32",
+    "input_bytes": "65536",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1589248",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "65536",
+    "xof_seed_bytes": "32",
+    "xof_output_bytes": "65536",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1716224",
+    "measurement_count": "1184",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 1184,
+     "seconds": 1.062689375,
+     "cycles": 2224775473
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/libLaurus-XOF-adapted.so",
+    "xof-32",
+    "65536",
+    "1",
+    "1",
+    "1184",
+    "3"
+   ],
+   "wall_s": 1.0686261653900146,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 1184,
+   "seconds": 1.062769316,
+   "cycles": 2224757134
+  },
+  {
+   "measurements": 1184,
+   "seconds": 1.051454765,
+   "cycles": 2201431123
+  },
+  {
+   "measurements": 1184,
+   "seconds": 1.045087376,
+   "cycles": 2187708674
+  },
+  {
+   "measurements": 1184,
+   "seconds": 1.06016204,
+   "cycles": 2219556394
+  },
+  {
+   "measurements": 1184,
+   "seconds": 1.062689375,
+   "cycles": 2224775473
+  }
+ ],
+ "measurements": 5920,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 0.0008922572418918919,
+ "median_trial_seconds": 0.0008954071283783784,
+ "min_trial_seconds": 0.0008826751486486486,
+ "max_trial_seconds": 0.0008976092195945946,
+ "mean_cycles": 1867944.0537162162,
+ "median_trial_cycles": 1874625.3327702703,
+ "operations_per_second": 1120.753021717881,
+ "throughput_MB_per_second": 73.44967003130304,
+ "sizes": {
+  "input_bytes": 65536,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 65536,
+  "xof_seed_bytes": 32,
+  "xof_output_bytes": 65536
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1781760,
+ "peak_rss_bytes": 1888256,
+ "timing_scope": "loop"
+}

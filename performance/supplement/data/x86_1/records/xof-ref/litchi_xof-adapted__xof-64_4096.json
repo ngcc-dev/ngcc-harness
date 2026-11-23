@@ -1,0 +1,376 @@
+{
+ "schema": 2,
+ "status": "complete",
+ "candidate": "xof-ref",
+ "label": "litchi_xof-adapted",
+ "instance": "litchi_xof-adapted",
+ "variant": "supplement-reference",
+ "flags": "guide",
+ "operation": "xof-64",
+ "input_bytes": 4096,
+ "plan": {
+  "iterations_per_trial": 14341,
+  "warmups": 3,
+  "trials": 5,
+  "separate_processes": true,
+  "estimated_s": 5.0185335277771,
+  "timeout_per_process_s": 303.01112011666623
+ },
+ "kat": "PASS",
+ "kat_not_passed": false,
+ "disturbed_retries": 0,
+ "library": "performance/supplement/xof/lib/liblitchi_xof-adapted.so",
+ "library_sha256": "17bbe8689f10fb135984a76d46bc9c68cbb68d43973eccade78a563ddf112cf7",
+ "kat_log": "kat/xof-ref/litchi_xof-adapted.log",
+ "kat_log_sha256": "b8577b28adf8084cf592b68d1e3926f8919683d9be12e54b387ec4171af849f0",
+ "started_utc": "2026-11-23T11:18:28.350579+00:00",
+ "ended_utc": "2026-11-23T11:18:32.819916+00:00",
+ "load_average_start": [
+  1.06591796875,
+  0.9755859375,
+  0.63720703125
+ ],
+ "load_average_end": [
+  1.060546875,
+  0.97607421875,
+  0.63916015625
+ ],
+ "environment": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2092435999,
+  "core_clock_min_hz": 2087295694,
+  "core_clock_max_hz": 2093366542,
+  "core_clock_mhz": 2100
+ },
+ "processes": [
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "litchi_xof-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1593344",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "4096",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "4096",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1720320",
+    "measurement_count": "14341",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 14341,
+     "seconds": 0.886873027,
+     "cycles": 1856831596
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/liblitchi_xof-adapted.so",
+    "xof-64",
+    "4096",
+    "1",
+    "1",
+    "14341",
+    "3"
+   ],
+   "wall_s": 0.8897545337677002,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "litchi_xof-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1728512",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "4096",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "4096",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1794048",
+    "measurement_count": "14341",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 14341,
+     "seconds": 0.898475404,
+     "cycles": 1881009442
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/liblitchi_xof-adapted.so",
+    "xof-64",
+    "4096",
+    "1",
+    "1",
+    "14341",
+    "3"
+   ],
+   "wall_s": 0.9023470878601074,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "litchi_xof-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1728512",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "4096",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "4096",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1794048",
+    "measurement_count": "14341",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 14341,
+     "seconds": 0.897408195,
+     "cycles": 1878950087
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/liblitchi_xof-adapted.so",
+    "xof-64",
+    "4096",
+    "1",
+    "1",
+    "14341",
+    "3"
+   ],
+   "wall_s": 0.8999505043029785,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "litchi_xof-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1712128",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "4096",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "4096",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1777664",
+    "measurement_count": "14341",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 14341,
+     "seconds": 0.880961626,
+     "cycles": 1844337657
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/liblitchi_xof-adapted.so",
+    "xof-64",
+    "4096",
+    "1",
+    "1",
+    "14341",
+    "3"
+   ],
+   "wall_s": 0.8845458030700684,
+   "disturbed_retries": 0
+  },
+  {
+   "status": "complete",
+   "exit_code": 0,
+   "meta": {
+    "id": "xof-ref",
+    "instance": "litchi_xof-adapted",
+    "variant": "Reference_Implementation",
+    "operation": "xof-64",
+    "input_bytes": "4096",
+    "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+    "baseline_rss_bytes": "1634304",
+    "pk_bytes": "0",
+    "sk_bytes": "0",
+    "ct_bytes": "0",
+    "ss_bytes": "0",
+    "signature_bytes": "0",
+    "digest_bytes": "4096",
+    "xof_seed_bytes": "64",
+    "xof_output_bytes": "4096",
+    "mode": "fixed_iterations",
+    "cpu_cycles_available": "yes",
+    "timing_scope": "loop",
+    "warmups": "3",
+    "peak_rss_bytes": "1765376",
+    "measurement_count": "14341",
+    "guide_100_measurements": "met"
+   },
+   "trials": [
+    {
+     "measurements": 14341,
+     "seconds": 0.888543226,
+     "cycles": 1860379082
+    }
+   ],
+   "stderr": "",
+   "command": [
+    "taskset",
+    "-c",
+    "2",
+    "performance/ngcc_perf",
+    "performance/supplement/xof/lib/liblitchi_xof-adapted.so",
+    "xof-64",
+    "4096",
+    "1",
+    "1",
+    "14341",
+    "3"
+   ],
+   "wall_s": 0.8923289775848389,
+   "disturbed_retries": 0
+  }
+ ],
+ "trials": [
+  {
+   "measurements": 14341,
+   "seconds": 0.886873027,
+   "cycles": 1856831596
+  },
+  {
+   "measurements": 14341,
+   "seconds": 0.898475404,
+   "cycles": 1881009442
+  },
+  {
+   "measurements": 14341,
+   "seconds": 0.897408195,
+   "cycles": 1878950087
+  },
+  {
+   "measurements": 14341,
+   "seconds": 0.880961626,
+   "cycles": 1844337657
+  },
+  {
+   "measurements": 14341,
+   "seconds": 0.888543226,
+   "cycles": 1860379082
+  }
+ ],
+ "measurements": 71705,
+ "guide_100_measurements_met": true,
+ "mean_seconds": 6.20913671013179e-05,
+ "median_trial_seconds": 6.195824740255212e-05,
+ "min_trial_seconds": 6.142958134021338e-05,
+ "max_trial_seconds": 6.26508196081166e-05,
+ "mean_cycles": 129998.01776724077,
+ "median_trial_cycles": 129724.50191757896,
+ "operations_per_second": 16105.298476811517,
+ "throughput_MB_per_second": 65.96730256101998,
+ "sizes": {
+  "input_bytes": 4096,
+  "pk_bytes": 0,
+  "sk_bytes": 0,
+  "ct_bytes": 0,
+  "ss_bytes": 0,
+  "signature_bytes": 0,
+  "digest_bytes": 4096,
+  "xof_seed_bytes": 64,
+  "xof_output_bytes": 4096
+ },
+ "kex": {},
+ "build_flags": "-std=c99 -Wpedantic -Wall -Wextra -O2 -fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int ",
+ "baseline_rss_bytes": 1728512,
+ "peak_rss_bytes": 1794048,
+ "timing_scope": "loop"
+}

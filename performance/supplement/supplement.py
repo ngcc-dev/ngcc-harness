@@ -37,6 +37,7 @@ import argparse
 import csv
 import ctypes
 import datetime as dt
+import fcntl
 import hashlib
 import importlib.util
 import json
@@ -53,6 +54,7 @@ sys.path.insert(0, str(SUPP.parent))
 import campaign as C  # noqa: E402  (performance/campaign.py)
 
 ROOT, PERF = C.ROOT, C.PERF
+SCRIPT_SHA256 = C.sha256(Path(__file__))
 OUT_SIZES = C.HASH_SIZES
 
 # candidate id -> package directory, operation kind, upstream tree, label -> upstream test-vector name
@@ -94,6 +96,7 @@ ADAPTED = {"CHash-LDXOF-512": None, "CHash-LDXOF-1024": None,
 XOF_REFS = ("pseudoXOF", "SHAKE128", "SHAKE256")
 REF_SEEDS = sorted(set(XOF_ROWS.values()))
 CPU_LOCK = None
+NEV_RECORD = Path("records/kem-25/NEV_512_1409_ICCS__enc.json")
 
 
 def rel(p: Path) -> str:
@@ -102,6 +105,24 @@ def rel(p: Path) -> str:
 
 def guide_flags() -> str:
     return f"{C.ARCH[platform.machine()]['reference']} {C.HARNESS_ADDITIONS}"
+
+
+def provenance(run: Path) -> dict:
+    git = ["git", "--no-optional-locks", "-c", f"safe.directory={ROOT}", "-C", str(ROOT)]
+    revision = subprocess.check_output([*git, "rev-parse", "HEAD"], text=True).strip()
+    status = subprocess.check_output([*git, "status", "--porcelain"], text=True).splitlines()
+    patch = subprocess.check_output([*git, "diff", "--no-ext-diff", "--binary", "HEAD"])
+    evidence = {"revision": revision, "git_status": status, "supplement_sha256": SCRIPT_SHA256,
+                "campaign_py_sha256": C.sha256(PERF / "campaign.py"),
+                "driver_sha256": C.sha256(PERF / "ngcc_perf"),
+                "profile_driver_sha256": C.sha256(PERF / "hashprof/hashprof")}
+    if patch:
+        digest = hashlib.sha256(patch).hexdigest()
+        target = run / "provenance" / f"{digest}.patch"
+        target.parent.mkdir(exist_ok=True)
+        target.write_bytes(patch)
+        evidence.update(tracked_diff_sha256=digest, local_patch=str(target.relative_to(run)))
+    return evidence
 
 
 def seed_message(n: int) -> bytes:
@@ -126,7 +147,12 @@ def published_env(sid: str, cpu: int) -> tuple[dict | None, set]:
     return None, cpus
 
 
-def host_differences(sid: str, cpu: int) -> tuple[list[str], list[str]]:
+def fixed_differences(ref: dict, env: dict) -> list[str]:
+    return [f"{k}: published {ref[k]!r}, now {env.get(k)!r}" for k in C.FIXED_ENV
+            if k in ref and (k not in env or ref[k] != env[k])]
+
+
+def host_differences(sid: str, cpu: int, env: dict | None = None) -> tuple[list[str], list[str]]:
     """Returns (blockers, warnings). Blockers are FIXED_ENV mismatches that
     prevent comparable measurements. Warnings (e.g. kernel drift) are reported
     but do not block."""
@@ -134,9 +160,9 @@ def host_differences(sid: str, cpu: int) -> tuple[list[str], list[str]]:
     if not ref:
         return ([f"no published {sid} record was measured on CPU {cpu} (published CPUs: "
                  f"{sorted(c for c in cpus if c is not None)})"], [])
-    env = C.environment(cpu)
-    blockers = [f"{k}: published {ref.get(k)!r}, now {env.get(k)!r}" for k in C.FIXED_ENV
-                if k in ref and ref.get(k) != env.get(k)]
+    if env is None:
+        env = C.environment(cpu)
+    blockers = fixed_differences(ref, env)
     warnings = []
     if ref.get("kernel") and ref["kernel"] != env.get("kernel"):
         warnings.append(f"kernel: published {ref['kernel']!r}, now {env.get('kernel')!r} "
@@ -457,13 +483,56 @@ def namespace(args) -> argparse.Namespace:
     return argparse.Namespace(cpu=args.cpu, only=None, defer=None, deferred_only=False, shard=None)
 
 
+def verify_libraries(run: Path) -> None:
+    instances = (C.load(run / "build.json") or {}).get("instances", {})
+    if not instances:
+        raise SystemExit("no prepared libraries in build.json")
+    for key, entry in instances.items():
+        lib = ROOT / entry["library"]
+        if not lib.is_file() or C.sha256(lib) != entry["library_sha256"]:
+            raise SystemExit(f"{key}: library missing or changed since build: {lib}")
+
+
+def nev_control(args) -> dict:
+    source = published(args.sid) / NEV_RECORD
+    ref = C.load(source)
+    lib = ROOT / ref["library"]
+    if not lib.is_file() or C.sha256(lib) != ref["library_sha256"]:
+        raise SystemExit(f"NEV control requires the archived library: {lib}")
+    plan = ref["plan"]
+    iters = plan["iterations_per_trial"]
+    trials = []
+    for _ in range(plan["trials"]):
+        proc = C.driver(args, ref["library"], "enc", 0, 1, iters, plan["warmups"],
+                        plan["timeout_per_process_s"])
+        values = proc.get("trials", [])
+        if (proc["status"] != "complete" or len(values) != 1 or
+                values[0]["measurements"] != iters or values[0]["cycles"] <= 0):
+            raise SystemExit(f"NEV control trial {len(trials) + 1} failed: {proc}")
+        trials.extend(values)
+    mean = sum(t["cycles"] for t in trials) / sum(t["measurements"] for t in trials)
+    return {"archive": rel(source), "archive_sha256": C.sha256(source),
+            "library_sha256": ref["library_sha256"], "command": proc["command"], "trials": trials,
+            "archived_mean_cycles": ref["mean_cycles"], "mean_cycles": mean,
+            "difference_percent": 100 * (mean / ref["mean_cycles"] - 1)}
+
+
 def phase_measure(run: Path, args) -> None:
+    verify_libraries(run)
+    if args.sid == "x86_1" and not args.allow_unfixed_host:
+        control = nev_control(args)
+        meta = C.load(run / "campaign.json")
+        meta["host_checks"][-1]["nev_control"] = control
+        C.save(run / "campaign.json", meta)
+        C.log(run, f"NEV control: {control['mean_cycles']:,.0f} cycles per encapsulation "
+                   f"({control['difference_percent']:+.2f}% vs archive)")
     C.phase_calibrate(run, namespace(args))
     C.phase_measure(run, namespace(args))
 
 
 def phase_profile(run: Path, args) -> None:
     """SHA-3 and DRNG shares of the ML-KEM and ML-DSA operations (hashprof)."""
+    verify_libraries(run)
     state = C.load(run / "build.json", {"instances": {}})
     for e in state["instances"].values():
         cand, label = e["candidate"], e["label"]
@@ -516,6 +585,43 @@ def _validate_run(run: Path, meta: dict) -> list[str]:
     """Check that a supplement run is complete before publishing."""
     problems = []
     build = (C.load(run / "build.json") or {}).get("instances", {})
+    sid = meta["system_id"]
+    checks = [h for h in meta.get("host_checks", []) if h["phase"] in ("measure", "profile", "all")]
+    for phase in ("measure", "profile"):
+        if not any(h["phase"] in (phase, "all") for h in checks):
+            problems.append(f"missing {phase} host check")
+    for h in checks:
+        if h.get("problems") != [] or h.get("allow_unfixed_host"):
+            problems.append(f"{h['phase']} host check was overridden or had problems at {h.get('utc')}")
+    if sid == "x86_1":
+        source = published(sid) / NEV_RECORD
+        archive = C.load(source)
+        controls = [h["nev_control"] for h in checks if h.get("nev_control") and h["phase"] in ("measure", "all")]
+        if not controls:
+            problems.append("missing x86 NEV timing control")
+        for control in controls:
+            trials = control.get("trials", [])
+            plan = archive["plan"]
+            if (control.get("archive_sha256") != C.sha256(source) or
+                    control.get("library_sha256") != archive["library_sha256"] or
+                    len(trials) != plan["trials"] or any(t.get("cycles", 0) <= 0 or
+                    t.get("measurements") != plan["iterations_per_trial"] for t in trials)):
+                problems.append("x86 NEV control does not match the archived binary and trial plan")
+
+    # Check everything that publish will copy, including records left by an earlier attempt.
+    measured_cpus = {h["cpu"] for h in checks if h["phase"] in ("measure", "all")}
+    ref_envs = {cpu: published_env(sid, cpu)[0] for cpu in measured_cpus}
+    for path in sorted((run / "records").rglob("*.json")):
+        record = C.load(path)
+        env = record.get("environment") or {}
+        ref_env = ref_envs.get(env.get("cpu_number"))
+        if not ref_env:
+            problems.append(f"{path.name}: no checked and archived benchmark CPU for this record")
+        else:
+            problems.extend(f"{path.name}: {d}" for d in fixed_differences(ref_env, env))
+        entry = build.get(f"{record['candidate']}/{record['label']}", {})
+        if not entry or record.get("library_sha256") != entry.get("library_sha256"):
+            problems.append(f"{path.name}: recorded library hash differs from the build manifest")
 
     def _check_record(cand: str, label: str, op: str, size: int, context: str) -> None:
         rf = run / "records" / cand / f"{label}__{C.op_key(op, size)}.json"
@@ -689,7 +795,9 @@ def phase_report(sid: str) -> int:
         recs[(r["candidate"], r["label"], r["operation"], r["input_bytes"])] = r
     profs = {(p["candidate"], p["label"], p["operation"]): p
              for p in (C.load(f) for f in sorted((ds / "profile").rglob("*.json")))}
-    env = camp.get("environment_at_start", {})
+    timings = [h for h in camp.get("host_checks", []) if h["phase"] == "measure" and h.get("environment")]
+    env = (timings[0]["environment"] if timings else
+           camp.get("environment_at_measurement_start", camp.get("environment_at_start", {})))
     lines = [f"# Supplementary measurements ({sid})", "",
              f"Host `{env.get('hostname')}` ({env.get('cpu_model')}), CPU {env.get('cpu_number')}, "
              f"compiler `{env.get('compiler')}`; reference flags `{C.ARCH.get(env.get('architecture'), {}).get('reference')}`; "
@@ -702,6 +810,15 @@ def phase_report(sid: str) -> int:
              "| instance | operation | cycles | SHA-3 | DRNG | est. cycles outside SHA-3 and DRNG | public key | ciphertext / signature | self-test |",
              "|---|---|---|---|---|---|---|---|---|"]
     rows_ref = []
+    if timings:
+        settings = (f"Measured host settings: kernel `{env['kernel']}`, governor `{env['cpufreq_governor']}`, "
+                    f"frequency limits {env['cpufreq_min_khz']}–{env['cpufreq_max_khz']} kHz, "
+                    f"SMT `{env['smt_control']}`, perf_event_paranoid={env['perf_event_paranoid']}.")
+        if env.get("intel_pstate_no_turbo") is not None:
+            settings += f" Intel no_turbo={env['intel_pstate_no_turbo']}."
+        elif env.get("cpufreq_boost") is not None:
+            settings += f" Boost={env['cpufreq_boost']}."
+        lines[4:4] = [settings, ""]
     for cand in REFERENCE:
         for label in REFERENCE[cand][3]:
             e = build.get(f"{cand}/{label}")
@@ -839,7 +956,13 @@ def main() -> int:
     if not args.sid or not published(args.sid).is_dir():
         print("this machine has no published dataset (performance/data/<ID>); pass --system", file=sys.stderr)
         return 2
-    blockers, warnings = host_differences(args.sid, args.cpu)
+    if args.phase != "check":
+        global CPU_LOCK
+        (PERF / "runs").mkdir(exist_ok=True)
+        CPU_LOCK = open(PERF / "runs" / f".cpu{args.cpu}.lock", "a")
+        fcntl.flock(CPU_LOCK, fcntl.LOCK_EX)
+    env = C.environment(args.cpu)
+    blockers, warnings = host_differences(args.sid, args.cpu, env)
     problems = C.host_problems(args.cpu) + blockers
     if args.phase == "check":
         for p in problems:
@@ -871,27 +994,29 @@ def main() -> int:
     meta.setdefault("system_id", args.sid)
     meta.setdefault("kind", "supplement")
     meta.setdefault("started_utc", dt.datetime.now(dt.UTC).isoformat())
-    meta.setdefault("environment_at_start", C.environment(args.cpu))
+    meta.setdefault("environment_at_start", env)
     meta["planning"] = {**planning, "source": f"performance/data/{args.sid}/campaign.json"}
     meta["arch_config"] = C.ARCH.get(platform.machine())
     meta["harness_additions"] = C.HARNESS_ADDITIONS
-    meta.setdefault("host_checks", []).append({"phase": args.phase, "cpu": args.cpu, "problems": problems,
-                                               "warnings": warnings,
-                                               "utc": dt.datetime.now(dt.UTC).isoformat()})
-    C.save(run / "campaign.json", meta)
     subprocess.run(["make", "-s", "-C", "performance"], cwd=ROOT, check=True)
     subprocess.run(["make", "-s", "-C", "api", "harness"], cwd=ROOT, check=True)
-    import fcntl
-    global CPU_LOCK
-    (PERF / "runs").mkdir(exist_ok=True)
-    CPU_LOCK = open(PERF / "runs" / f".cpu{args.cpu}.lock", "w")
-    fcntl.flock(CPU_LOCK, fcntl.LOCK_EX)
     C.log(run, f"supplement {args.phase} in {rel(run) if run.is_relative_to(ROOT) else run} on CPU {args.cpu}"
                + (f" (HOST NOT AS PUBLISHED: {'; '.join(problems)})" if problems else ""))
     phases = {"build": phase_build, "measure": phase_measure, "profile": phase_profile}
     for name in (["build", "measure", "profile"] if args.phase == "all" else [args.phase]):
+        if args.phase == "all" and name != "build":
+            env = C.environment(args.cpu)
+            blockers, warnings = host_differences(args.sid, args.cpu, env)
+            problems = C.host_problems(args.cpu) + blockers
+            if problems and not args.allow_unfixed_host:
+                raise SystemExit(f"{name}: " + "; ".join(problems))
+        meta.setdefault("host_checks", []).append({
+            "phase": name, "invocation": args.phase, "cpu": args.cpu, "environment": env,
+            "problems": problems, "warnings": warnings, "allow_unfixed_host": args.allow_unfixed_host,
+            "utc": dt.datetime.now(dt.UTC).isoformat(), "provenance": provenance(run)})
+        C.save(run / "campaign.json", meta)
         phases[name](run, args)
-    meta = C.load(run / "campaign.json", {})
+        meta = C.load(run / "campaign.json")
     meta["ended_utc"] = dt.datetime.now(dt.UTC).isoformat()
     meta["environment_at_end"] = C.environment(args.cpu)
     C.save(run / "campaign.json", meta)

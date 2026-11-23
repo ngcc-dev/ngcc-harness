@@ -1,0 +1,255 @@
+{
+ "system_id": "x86_1",
+ "kind": "supplement",
+ "started_utc": "2026-11-23T08:31:23.516918+00:00",
+ "environment_at_start": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "3",
+  "cpufreq_governor": "powersave",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "4800000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "0",
+  "cpufreq_boost": null,
+  "smt_control": "on",
+  "core_clock_hz": null,
+  "core_clock_min_hz": null,
+  "core_clock_max_hz": null,
+  "core_clock_mhz": null
+ },
+ "planning": {
+  "trials": 5,
+  "trial_target_s": 1.0,
+  "min_total": 100,
+  "max_iters_per_trial": 20000,
+  "op_budget_s": 900.0,
+  "separate_process_setup_s": 60.0,
+  "source": "performance/data/x86_1/campaign.json"
+ },
+ "arch_config": {
+  "reference": "-std=c99 -Wpedantic -Wall -Wextra -O2",
+  "performance": "-O3 -march=x86-64 -mavx2 -mtune=native -flto -fomit-frame-pointer -std=c99 -Wpedantic -Wall -Wextra",
+  "optimized_families": [
+   "mithril",
+   "scloud",
+   "zcdmc",
+   "bit"
+  ]
+ },
+ "harness_additions": "-fPIC -D_GNU_SOURCE -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-int",
+ "host_checks": [
+  {
+   "phase": "build",
+   "cpu": 2,
+   "problems": [
+    "hardware cycle counter unavailable: set kernel.perf_event_paranoid=2",
+    "turbo/boost is enabled",
+    "CPU 2 governor is powersave, not performance",
+    "CPU 2 shares its core with CPUs 2-3 (SMT on)",
+    "cpufreq_governor: published 'performance', now 'powersave'",
+    "cpufreq_max_khz: published '2100000', now '4800000'",
+    "intel_pstate_no_turbo: published '1', now '0'",
+    "smt_control: published 'off', now 'on'",
+    "perf_event_paranoid: published '2', now '3'"
+   ],
+   "warnings": [
+    "kernel: published '6.12.107+deb13-amd64', now '6.12.118+deb13-amd64' (not in FIXED_ENV; timing may still differ)"
+   ],
+   "utc": "2026-11-23T08:31:23.525981+00:00"
+  },
+  {
+   "phase": "measure",
+   "invocation": "measure",
+   "cpu": 2,
+   "environment": {
+    "hostname": "blk",
+    "architecture": "x86_64",
+    "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+    "machine": "Precision 3460",
+    "cpu_number": 2,
+    "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+    "virtualized": false,
+    "memory_total_kib": 32551740,
+    "os": "Debian GNU/Linux 13 (trixie)",
+    "kernel": "6.12.118+deb13-amd64",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "cmake": "cmake version 3.31.6",
+    "python": "3.13.5",
+    "perf_event_paranoid": "2",
+    "cpufreq_governor": "performance",
+    "cpufreq_driver": "intel_pstate",
+    "cpufreq_min_khz": "800000",
+    "cpufreq_max_khz": "2100000",
+    "cpufreq_avg_khz": null,
+    "intel_pstate_no_turbo": "1",
+    "cpufreq_boost": null,
+    "smt_control": "off",
+    "core_clock_hz": 2092150729,
+    "core_clock_min_hz": 2087324959,
+    "core_clock_max_hz": 2093209548,
+    "core_clock_mhz": 2100
+   },
+   "problems": [],
+   "warnings": [
+    "kernel: published '6.12.107+deb13-amd64', now '6.12.118+deb13-amd64' (not in FIXED_ENV; timing may still differ)"
+   ],
+   "allow_unfixed_host": false,
+   "utc": "2026-11-23T11:13:54.159591+00:00",
+   "provenance": {
+    "revision": "1db776fb0fa1b3161893cae25ababcdd16c0771c",
+    "git_status": [
+     " M performance/supplement/README.md",
+     " M performance/supplement/supplement.py"
+    ],
+    "supplement_sha256": "ec622b512063d071a5e1fa6091de9b459ac3763300947785e02ddf3734932757",
+    "campaign_py_sha256": "ac530854086b46751bc360f754b7a2c880b17bed8f2848573bcb4c54ce2a681f",
+    "driver_sha256": "5bfaa3eec8e7267a466ddd61c80ea61dcff8fd1d7a0f06005a7c173edc37d528",
+    "profile_driver_sha256": "9d62b0f1761d2da4f03f11b65ce04823c7c1f7c8d5ab665c7364163973905a48",
+    "tracked_diff_sha256": "22ab059ad700fd278e587d789212661de4bf618ee52e29c2548ea46797842706",
+    "local_patch": "provenance/22ab059ad700fd278e587d789212661de4bf618ee52e29c2548ea46797842706.patch"
+   },
+   "nev_control": {
+    "archive": "performance/data/x86_1/records/kem-25/NEV_512_1409_ICCS__enc.json",
+    "archive_sha256": "44684e528dbc266f214acb17196d6503fcd5d5b4ab9ee0ee44f6c30da56b4527",
+    "library_sha256": "fe2cbe09325291e71ab8f2c2517f3358239fb3875ab79690643a16c2246a8b07",
+    "command": [
+     "taskset",
+     "-c",
+     "2",
+     "performance/ngcc_perf",
+     "kem-25/lib/libNEV_512_1409_ICCS.so",
+     "enc",
+     "0",
+     "1",
+     "1",
+     "19280",
+     "3"
+    ],
+    "trials": [
+     {
+      "measurements": 19280,
+      "seconds": 0.892969814,
+      "cycles": 1869196102
+     },
+     {
+      "measurements": 19280,
+      "seconds": 0.891054762,
+      "cycles": 1865556103
+     },
+     {
+      "measurements": 19280,
+      "seconds": 0.892768226,
+      "cycles": 1869165621
+     },
+     {
+      "measurements": 19280,
+      "seconds": 0.891572756,
+      "cycles": 1866221252
+     },
+     {
+      "measurements": 19280,
+      "seconds": 0.887025955,
+      "cycles": 1856868161
+     }
+    ],
+    "archived_mean_cycles": 95180.63634854772,
+    "mean_cycles": 96753.18712655602,
+    "difference_percent": 1.6521751044505262
+   }
+  },
+  {
+   "phase": "profile",
+   "invocation": "profile",
+   "cpu": 2,
+   "environment": {
+    "hostname": "blk",
+    "architecture": "x86_64",
+    "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+    "machine": "Precision 3460",
+    "cpu_number": 2,
+    "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+    "virtualized": false,
+    "memory_total_kib": 32551740,
+    "os": "Debian GNU/Linux 13 (trixie)",
+    "kernel": "6.12.118+deb13-amd64",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "cmake": "cmake version 3.31.6",
+    "python": "3.13.5",
+    "perf_event_paranoid": "2",
+    "cpufreq_governor": "performance",
+    "cpufreq_driver": "intel_pstate",
+    "cpufreq_min_khz": "800000",
+    "cpufreq_max_khz": "2100000",
+    "cpufreq_avg_khz": null,
+    "intel_pstate_no_turbo": "1",
+    "cpufreq_boost": null,
+    "smt_control": "off",
+    "core_clock_hz": 2092063135,
+    "core_clock_min_hz": 2089674200,
+    "core_clock_max_hz": 2093388445,
+    "core_clock_mhz": 2100
+   },
+   "problems": [],
+   "warnings": [
+    "kernel: published '6.12.107+deb13-amd64', now '6.12.118+deb13-amd64' (not in FIXED_ENV; timing may still differ)"
+   ],
+   "allow_unfixed_host": false,
+   "utc": "2026-11-23T11:25:45.038810+00:00",
+   "provenance": {
+    "revision": "1db776fb0fa1b3161893cae25ababcdd16c0771c",
+    "git_status": [
+     " M performance/supplement/README.md",
+     " M performance/supplement/supplement.py"
+    ],
+    "supplement_sha256": "ec622b512063d071a5e1fa6091de9b459ac3763300947785e02ddf3734932757",
+    "campaign_py_sha256": "ac530854086b46751bc360f754b7a2c880b17bed8f2848573bcb4c54ce2a681f",
+    "driver_sha256": "5bfaa3eec8e7267a466ddd61c80ea61dcff8fd1d7a0f06005a7c173edc37d528",
+    "profile_driver_sha256": "9d62b0f1761d2da4f03f11b65ce04823c7c1f7c8d5ab665c7364163973905a48",
+    "tracked_diff_sha256": "22ab059ad700fd278e587d789212661de4bf618ee52e29c2548ea46797842706",
+    "local_patch": "provenance/22ab059ad700fd278e587d789212661de4bf618ee52e29c2548ea46797842706.patch"
+   }
+  }
+ ],
+ "ended_utc": "2026-11-23T11:25:54.092667+00:00",
+ "environment_at_end": {
+  "hostname": "blk",
+  "architecture": "x86_64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700",
+  "machine": "Precision 3460",
+  "cpu_number": 2,
+  "logical_cpus_online": "0,2,4,6,8,10,12,14,16-19",
+  "virtualized": false,
+  "memory_total_kib": 32551740,
+  "os": "Debian GNU/Linux 13 (trixie)",
+  "kernel": "6.12.118+deb13-amd64",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cmake": "cmake version 3.31.6",
+  "python": "3.13.5",
+  "perf_event_paranoid": "2",
+  "cpufreq_governor": "performance",
+  "cpufreq_driver": "intel_pstate",
+  "cpufreq_min_khz": "800000",
+  "cpufreq_max_khz": "2100000",
+  "cpufreq_avg_khz": null,
+  "intel_pstate_no_turbo": "1",
+  "cpufreq_boost": null,
+  "smt_control": "off",
+  "core_clock_hz": 2091916407,
+  "core_clock_min_hz": 2088849289,
+  "core_clock_max_hz": 2093361878,
+  "core_clock_mhz": 2100
+ }
+}
