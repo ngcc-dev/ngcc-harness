@@ -1697,6 +1697,14 @@ run_target kem-04 "kem-04-3" python3 security/rank_mm_costs.py --report-id kem-0
 run_target kem-06 "kem-06-8" python3 security/rank_mm_costs.py --report-id kem-06-8
 run_target sign-19 "sign-19-8" python3 sign-19/reproduce_sm3_fixed_point.py
 
+echo "== 2026-11-23: forum batch, input lengths, isogeny arrays, concurrent verification =="
+run_target kem-15 "kem-15-7" sh kem-15/reproduce_short_ciphertext.sh
+run_target kem-31 "kem-31-6" sh kem-31/reproduce_torsion_oob.sh
+run_target kem-31 "kem-31-7" sh kem-31/reproduce_keygen_leak.sh
+run_target sign-05 "sign-05-7" sh sign-05/reproduce_thread_race.sh
+run_target sign-24 "sign-24-6" sh sign-24/reproduce_thread_race.sh
+run_target sign-31 "sign-31-9" sh sign-31/reproduce_thread_race.sh
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"

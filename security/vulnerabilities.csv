@@ -175,6 +175,7 @@ kem-15-3;Confirmed;runtime;The FIPS202 variants generate predictable keys becaus
 kem-15-4;Confirmed;runtime;The FLIT512 AVX2 inverse NTT overflows and breaks its own round trips
 kem-15-5;Confirmed;runtime;FLIT512 AVX2 base multiplication writes past stack arrays
 kem-15-6;Confirmed;review;Reference decoding branches on each bit of the decoded message and of the private key
+kem-15-7;Confirmed;runtime;The KEM API ignores declared input lengths and over-reads short buffers
 kem-16-1;Proof gap;runtime;Headline DFR values lack a reproducible HARE calculation
 kem-16-2;Confirmed;runtime+static;Same-key multi-instance decoding misses three HARE targets
 kem-17-1;Confirmed;runtime;Publicly reproducible secret keys
@@ -214,6 +215,7 @@ kem-24-4;Confirmed;runtime;Scabbard-128 truncates three of every four public-mat
 kem-25-1;Proof gap;static;Compressed NEV sets omit the implicit rejection required by their security argument
 kem-25-2;Proof gap;static;The sspRLWE reduction treats correlated transformed error as spherical
 kem-25-3;Confirmed;review;The specified ternary sampler rejects on secret coins
+kem-25-4;Proof gap;review;The IND-CCA proofs overstate ciphertext spreadness and omit H3 queries from a QROM bound
 kem-26-1;Confirmed;runtime+static;Fixed-weight parity falsifies the DQCSD and JPCI assumptions
 kem-26-2;Probable;runtime;NSS-HQC-256 failures enable reported equivalent-key recovery
 kem-26-3;Confirmed;runtime;Ephemeral syndrome decoding misses the 256-, 384-, and 512-bit targets
@@ -241,6 +243,8 @@ kem-31-2;Confirmed;runtime;Non-canonical field encodings make ciphertexts mallea
 kem-31-3;Confirmed;runtime;Malformed public keys hang or abort encapsulation
 kem-31-4;Confirmed;static;A shared torsion mask leaks a square-coset constraint on the secret degree
 kem-31-5;Confirmed;review;The Lucas ladder branches on every bit of a secret exponent
+kem-31-6;Confirmed;runtime;Optimized key generation writes one element past the isogeny degree array
+kem-31-7;Confirmed;runtime;Every key generation and decapsulation leaks a theta-chain array
 kem-32-1;Confirmed;review;Debug path retains the secret error vector
 kem-32-2;Confirmed;runtime;Same-key multi-instance decoding misses QCTM-128 and -256 targets
 kem-32-3;Confirmed;static;The bundled RNG limits QCTM-512 key-generation and encapsulation randomness to 384 bits
@@ -383,6 +387,7 @@ sign-05-3;Confirmed;static;The specified opening-rejection retry cannot make pro
 sign-05-4;Probable;runtime;uBlockith-EM witness misalignment reduces the specified relation to a two-round fixed point
 sign-05-5;Confirmed;runtime;Vistrutith combines three constraint families as one polynomial
 sign-05-6;Confirmed;static;The specified SM4th-EM relation omits the public output
+sign-05-7;Confirmed;runtime;Verification keeps per-call scratch buffers in file-scope caches and fails under concurrent calls
 sign-06-1;Confirmed;static;The implemented message representative caps forgery security at 256 bits
 sign-06-2;Confirmed;runtime+static;The implementation expands the entire key pair from a 256-bit root
 sign-06-3;Confirmed;runtime;Rejected signatures leak heap memory without bound
@@ -512,6 +517,7 @@ sign-24-2;Confirmed;runtime;Zero 16-bit challenge exposes the signing witness
 sign-24-3;Confirmed;static;Signing rebuilds the public state with secret-dependent control flow
 sign-24-4;Confirmed;review;Field multiplication indexes 64K-entry tables with secret operands
 sign-24-5;Confirmed;runtime;Signature deserialization under-checks the length and over-reads a short signature
+sign-24-6;Confirmed;runtime;Verification uses static workspaces and fails, crashes or accepts an altered message under concurrent calls
 sign-25-1;Confirmed;runtime;Verifier verdict is decided by stale stack contents
 sign-25-2;Lead;review;Isogeny prime sizing relies on the former square-root attack cost
 sign-25-3;Confirmed;runtime;Detached compact challenge enables one-query message-retargeting forgeries
@@ -556,6 +562,7 @@ sign-31-5;Confirmed;runtime;Impossible-length input wraps the message allocation
 sign-31-6;Confirmed;runtime;Noncanonical field encodings create signature and public-key aliases
 sign-31-7;Proof gap;static;The TSUOV-128 EUF-CMA proof loses its bound at 2^64 salt trials
 sign-31-8;Confirmed;runtime;Ignored XOF failures give public-derived oil matrices and vinegars
+sign-31-9;Confirmed;runtime;Concurrent verification shares the public key's P3 block, so an attacker's public key can make a forged signature verify
 sign-32-1;Confirmed;runtime;Every signature is accepted
 sign-32-2;Confirmed;runtime;An all-zero signature crashes two verifier instances
 sign-32-3;Confirmed;runtime;Pair-correlated signatures recover an equivalent UVW-128 or UVW-256 signing key
