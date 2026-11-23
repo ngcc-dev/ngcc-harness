@@ -119,8 +119,10 @@ kem-03-2;Confirmed;runtime;The rejection key does not bind the received cipherte
 kem-03-3;Confirmed;runtime+static;Public support spaces reduce secret-key recovery to linear algebra
 kem-03-4;Confirmed;runtime+static;Merged support reduces rank-decoding costs below three claimed levels
 kem-03-5;Confirmed;runtime;The decoder rejects supports permitted by the specification
+kem-03-6;Confirmed;runtime;The specification's maximal-minors formula gives costs below all four targets
 kem-04-1;Confirmed;review;Secret-dependent pivoting in the Gabidulin decoder
 kem-04-2;Confirmed;runtime;The rejection key does not bind the received ciphertext
+kem-04-3;Confirmed;runtime;Removing one error block puts maximal-minors key recovery below the BAG-Piglet-128 target
 kem-05-1;Confirmed;runtime;The default library deterministically generates a public secret key
 kem-05-2;Confirmed;runtime;Same-key multi-instance decoding misses BIKE-MLThre-128 and -256 targets
 kem-06-1;Confirmed;runtime;Malformed inputs drive the BRA decoder out of bounds
@@ -130,6 +132,7 @@ kem-06-4;Confirmed;runtime;Ignored padding bits make ciphertexts malleable witho
 kem-06-5;Confirmed;static;Secret-key expansion depends on the external DRBG
 kem-06-6;Confirmed;static;Short ciphertexts reach BRA's fixed-offset parser
 kem-06-7;Confirmed;runtime;Failed hash or seeding allocations give zero coins and public-derived keys
+kem-06-8;Confirmed;runtime;Transposing the ideal code puts maximal-minors key recovery below the BRA targets
 kem-07-1;Lead;review;The decoder address trace gives a candidate-specific key-recovery route
 kem-07-2;Confirmed;runtime;Ignored padding bits make ciphertexts malleable without changing the key
 kem-07-3;Confirmed;static;Secret-key expansion depends on the external DRBG
@@ -480,6 +483,7 @@ sign-19-4;Confirmed;static;A 256-bit SM3 prehash caps message-retargeting securi
 sign-19-5;Confirmed;runtime;Every high-level SM3 signature exposes part of `SK.prf`
 sign-19-6;Confirmed;static;Reference high-level SM3 hashes copy past their digest buffers
 sign-19-7;Confirmed;runtime;The index sampler can run out of randomness, and the failure is ignored
+sign-19-8;Confirmed;runtime;SM3 fixed points extend any signed message under its own signature
 sign-20-1;Proof gap;static;Qingluan-128's quantum accounting omits complete attack costs
 sign-20-2;Confirmed;runtime;DRBG rollback is outside the security model, so the reported witness recovery is not an attack
 sign-20-3;Confirmed;runtime+static;Nested SM3 multicollisions give sub-target message binding for QingLuan-384 and -512

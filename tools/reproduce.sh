@@ -1691,6 +1691,12 @@ run_target kem-30 "kem-30-4" sh kem-30/reproduce_light_selector.sh
 run_target kem-28 "kem-28-3" sh kem-28/reproduce_short_inputs.sh
 run_target sign-18 "sign-18-8" sh sign-18/reproduce_zero_target.sh
 
+echo "== 2026-11-23: maximal-minors cost estimates, SM3 fixed points =="
+run_target kem-03 "kem-03-6" python3 security/rank_mm_costs.py --report-id kem-03-6
+run_target kem-04 "kem-04-3" python3 security/rank_mm_costs.py --report-id kem-04-3
+run_target kem-06 "kem-06-8" python3 security/rank_mm_costs.py --report-id kem-06-8
+run_target sign-19 "sign-19-8" python3 sign-19/reproduce_sm3_fixed_point.py
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
