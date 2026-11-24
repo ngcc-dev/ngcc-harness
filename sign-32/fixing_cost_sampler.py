@@ -17,6 +17,11 @@ does not implement a sampler.  It computes
   6. the ratio of matrix-inversion work, repaired over submitted.  A new
      information set, hence a new inversion, is counted for every attempt;
      a stage-1 rejection repeats DecZ and a stage-2 rejection repeats DecXY.
+     The weight loop of DecXY is counted two ways: keeping one information
+     set, as Algorithm 5 (p. 10) and the submitted dec_xy do, and drawing a
+     new one for every trial, as the text of p. 10 ("retrying by selecting
+     new information sets") and the independent trials of Theorem 2 (pp. 19-20)
+     describe it.
 
 Every value under 3, 5 and 6 is a costing aid, not a recommended parameter.
 
@@ -224,6 +229,10 @@ def analyse(name, lam, n, k, k1, k2, w, sig_stated):
     print("    gap only %+.1f%%; rejection only (g = 0) %+.1f%%; gap and rejection %+.1f%%."
           % (100 * gap_only, 100 * rej_only, 100 * both))
     print("    if a stage-2 rejection also repeated DecZ: %+.1f%%." % (100 * restart))
+    loops_mean = rows[1][7]
+    fresh = (mzg ** 3 / a1 + loops_mean * mxyg ** 3 / worst2) / base
+    print("    new information set for every weight trial (%.1f trials at the mean |e2|):"
+          " ratio %.2f (%+.0f%%)." % (loops_mean, fresh, 100 * (fresh - 1.0)))
     loop = (1 / psucc) * ((k1 * mxy) + (2.0 / 3.0) * mxy * mxy)
     print("    weight-loop products as submitted are %.2f%% of the inversion count (4/3)m^3/0.56."
           % (100.0 * loop / ((4.0 / 3.0) * base / 0.5601)))

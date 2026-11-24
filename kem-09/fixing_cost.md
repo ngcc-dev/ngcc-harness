@@ -1,8 +1,8 @@
-No: the two rejection defects are repaired in the code without added work, and the failure-rate repair costed for Cheetah128 and Cheetah256 lowers η, which changes no size and adds no work, although at Cheetah256 a repair that stops at η = 2 would cost public key +9.7% and one that keeps η = 4 would cost public key +19.4% and ciphertext +20.4%.
+No: the two Confirmed rejection defects are repaired in the code without added work, and, taking Probable kem-09-5 to hold, the failure-rate repair costed for Cheetah128 and Cheetah256 lowers η, which changes no size and adds no work, although at Cheetah256 a repair that stops at η = 2 would cost public key +9.7% and one that keeps η = 4 would cost public key +19.4% and ciphertext +20.4%.
 
 Impact: none
 Scope: Parameter set (large), specification and code
-Assessed: 2026-11-23
+Assessed: 2026-11-24
 
 ## Attacks considered
 

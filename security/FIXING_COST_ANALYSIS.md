@@ -265,6 +265,11 @@ specification and the source:
   finding is specific to an optimized implementation.
 - Where the submission uses the contest's `pseudohash` or `pseudoXOF`, count
   calls and bytes, and assume an ideal replacement with the needed dimensions.
+- Treat the contest's ICCS DRBG (`drng.c`, `init_random_number` and
+  `get_random_number`) as a perfect DRBG, also where a submission uses it as
+  an expander. Its 440-bit state is not a weakness, and a repair need not
+  widen or replace it. A repair must still feed it a seed with as much entropy
+  as the level requires.
 - When a wider hash is needed and the submission names none, cost it by its
   dimensions. At a fixed permutation, a sponge's time per byte is inversely
   proportional to its rate. An iterated hash's time per byte is inversely
@@ -272,6 +277,10 @@ specification and the source:
 - If the submitted code skips work that the specification requires, such as
   grinding, rounds or challenge weight, the corrected code does more work than
   the baseline. Count that work as impact, even though only the code changes.
+  This covers work skipped on inputs that the code otherwise handles
+  correctly. An input on which the code returns a wrong result, such as a
+  length past a counter wrap, is not a speed baseline: compare the work per
+  byte or per call on correctly handled inputs.
 
 ### Parameter estimates
 

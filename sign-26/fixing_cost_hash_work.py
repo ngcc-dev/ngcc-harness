@@ -5,7 +5,10 @@ Specification section 5.1(4) (physical p. 33) builds HASH by iterating a hash
 ceil(2^lambda / 3^e2) times. The submitted hash_to_challenge makes one XOF call
 (sqisigndim2/ref/sqisigndim2x/sign.c:738-769). This script counts the hash calls
 that the specified construction adds, and compares them with a lower bound on the
-field work of the submitted verifier. Nothing is implemented or measured.
+field work of the submitted verifier. The same bound holds for signing: once per
+signature, protocols_sign (sign.c:772-1008) runs every routine that the verifier bound
+counts, with at least the same lengths (see the note above SIGNER_BASIS2_CALLS). Nothing is implemented
+or measured, and the specification's timings are not used.
 
 Unit of comparison: 64-bit word operations.
   - One hash iteration: one Keccak-f[1600] permutation, because the iterated value
@@ -32,13 +35,25 @@ TH_COMPUT = 11 * M + 8 * S        # hd/ref/hdx/theta_isogenies.c:719, cheaper br
 # P_COFACTOR_FOR_2F/3G_BITLENGTH (precomp/ref/lvlN/include/ec_params.h);
 # SQISIGN_response_length (klpt_constants.h); word operations of fiat_*_mul
 # (lvl1: 32 mulx + 59 addcarryx + 5 subborrowx + 4 cmovznz; lvl3: 128 + 247 + 9 + 8);
-# Verify and Sign in ms from spec Table 3 (physical p. 57).
 LEVELS = {
-    1: dict(lam=128, e1=131, e2=78, nwords=4, cof2=124, cof3=132, n=128, fpmul=100,
-            verify_ms=12.54, sign_ms=64.04),
-    3: dict(lam=256, e1=263, e2=156, nwords=8, cof2=248, cof3=264, n=260, fpmul=392,
-            verify_ms=96.01, sign_ms=466.88),
+    1: dict(lam=128, e1=131, e2=78, nwords=4, cof2=124, cof3=132, n=128, fpmul=100),
+    3: dict(lam=256, e1=263, e2=156, nwords=8, cof2=248, cof3=264, n=260, fpmul=392),
 }
+
+# Signer calls, once per signature after the attempt loop (sign.c, lines of the lvl3 tree;
+# the file is byte-identical at the four levels), against the verifier bound's terms:
+#   basis3: ec_curve_to_basis_3 on the public curve (sign.c:883; verifier sign.c:1039);
+#   chain3: isog_init_three / ec_eval_three of the 3^e2 challenge isogeny on the public
+#           curve (sign.c:903-905, with three points; verifier sign.c:1047-1048, with none);
+#   basis2: ec_curve_to_basis_2 three times, on the public curve, E_aux and E_chl
+#           (sign.c:882, 939, 949), against two in the bound (verifier sign.c:1052-1053);
+#   dim2:   theta_chain_comput_balanced of length size_d - nrsp with
+#           size_d = SQISIGN_response_length + verb, verb in {0, 1} (sign.c:865-872, and
+#           push_rand_iso, sign.c:474), the same routine and length as in verification
+#           (sign.c:1124);
+# The attempt loop repeats only after 50 failed response samples (sign.c:852), so the
+# added hash calls are made about once per signature.
+SIGNER_BASIS2_CALLS = 3
 
 
 def three_chain_triplings(n):
@@ -92,8 +107,9 @@ def main():
         print(f"  verifier lower bound: {lb} F_p multiplications ({dim2} in the (2,2)-chain)"
               f" x {c['fpmul']} = {field_ops} word operations")
         print(f"  verification increase: at most {100.0 * hash_ops / field_ops:.2f}%")
-        print(f"  signing increase: at most {100.0 * hash_ops / field_ops * c['verify_ms'] / c['sign_ms']:.2f}%"
-              f" (Sign/Verify = {c['sign_ms'] / c['verify_ms']:.2f} in Table 3)")
+        assert SIGNER_BASIS2_CALLS >= 2
+        print(f"  signing increase: at most {100.0 * hash_ops / field_ops:.2f}% (the signer runs the"
+              f" counted routines at least once per signature)")
 
 
 if __name__ == "__main__":

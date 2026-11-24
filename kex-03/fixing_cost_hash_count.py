@@ -3,8 +3,10 @@
 
 Counts the bytes hashed and the SM3 compression calls of the CreTAKE-S2K
 initiator's Der step before and after the repairs of kex-03-2 (signature
-bytes in the KDF) and kex-03-4 (bit length of the G input).  All lengths are
-transcribed from the submitted headers named below; nothing is executed.
+bytes in the KDF) and kex-03-4 (bit length of the G input), and for kex-03-9
+the BiT-128 sizes that the BiT team's 2026-10-12 forum post states for its
+revision.  All other lengths are transcribed from the submitted headers named
+below; nothing is executed.
 
 Sources (under Implementations/Reference_Implementation/):
   Common/primitives/sig/BiT-*/params.h          BIT_PUBLICKEYBYTES, BIT_SECRETKEYBYTES, BIT_SIGNBYTES
@@ -123,3 +125,20 @@ for mlen in (16, 32, 64):               # MSG_LEN_BYTES at 128, 256, 512; SEED_B
         mlen, pseudoxof(mlen + 64, 8), pseudoxof(mlen + 64, 64)))
 print("K2K-PLAC512 seed expansion (kex-03-7): SM3 calls %d -> %d per 2Encaps or 2Decaps" % (
     pseudoxof(3 * 64, 16), pseudoxof(3 * 64, 128)))
+
+print()
+print("kex-03-9 with the BiT team's revised BiT-128 sizes (2026-10-12 post, as reported, not evaluated):")
+REV_PK, REV_SIG = 1264, 1440
+bpk, bsk, bsig = BIT[128]
+print("  BiT-128 public key %d -> %d (%+.1f%%), signature %d -> %d (%+.1f%%)" % (
+    bpk, REV_PK, 100.0 * (REV_PK - bpk) / bpk, bsig, REV_SIG, 100.0 * (REV_SIG - bsig) / bsig))
+print("  S2K initiator Der step with kex-03-2, -4 and the revised sizes (secret key length kept):")
+for fam in ("PLAC", "ZEN"):
+    pk, cpa_ct, kem_ct, klen, wgen, wgen_out = KEM[(fam, 128)]
+    out = 2 * klen
+    kdf_before = pk + bpk + pk + cpa_ct + kem_ct + 2 * klen
+    before = pseudohash512((64 + bsk) // 8) + wgen + pseudoxof(out, kdf_before)
+    kdf_rev = pk + REV_PK + pk + cpa_ct + kem_ct + 2 * klen + REV_SIG
+    after = pseudohash512(64 + bsk) + wgen + pseudoxof(out, kdf_rev)
+    print("    S2K-BiT128-%s128: KDF %d -> %d bytes; SM3 calls %d -> %d (%+.0f%%)" % (
+        fam, kdf_before, kdf_rev, before, after, 100.0 * (after - before) / before))

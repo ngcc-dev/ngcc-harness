@@ -21,7 +21,7 @@ M, S = 3, 2  # fp2_mul, fp2_sqr in F_p multiplications (fp2.c:118-143)
 # NWORDS_FIELD, BITS_2, BITS_3 (ec_arithmetic/include/fp_constants.h);
 # fp_half uses an inversion (fp.c:109-112) in every set but Level2-eff;
 # spec Table 6.2 (physical p. 62) reference, 10^6 cycles: Verify uncompressed, Verify
-# compressed, Sign compressed.
+# compressed, Sign compressed (only the two Verify values are used, in control 2).
 SETS = [
     ("Level1-eff", 1, 131, 78, 4, 192, 128, True, 14.77, 15.42, 73.64),
     ("Level1-sec", 1, 137, 84, 5, 192, 192, True, 20.76, 23.42, 113.17),
@@ -241,13 +241,11 @@ def main():
            "Level2-sec": (164, 172), "Level3-eff": (248, 264), "Level3-sec": (259, 265),
            "Level5-eff": (510, 518), "Level5-sec": (534, 541)}
     rows = []
-    signs = {}
     for (name, f, a, b, nw, b2, b3, hi, tu, tc, ts) in SETS:
         r = counts(name, f, a, b, nw, b2, b3, hi)
         ok = (r["cof2"], r["cof3"]) == hdr[name]
         print(f"  {name}: computed ({r['cof2']},{r['cof3']}) header {hdr[name]} {'ok' if ok else 'MISMATCH'}")
         rows.append((name, a, b, r, tu, tc))
-        signs[name] = ts
     print()
     print("Baseline counts and control 2: compressed/uncompressed Verify ratio, model vs Table 6.2")
     print(f"  {'set':<11}{'uncomp':>10}{'comp':>10}{'dim-2 %U':>10}{'3-chain %U':>11}{'model C/U':>11}{'table C/U':>11}{'cycles/unit U':>15}")
@@ -271,13 +269,11 @@ def main():
               f"{pct(r['fix3_hint'] + r['fix1'], r['C']):>11.1f}"
               f"{pct(r['fix3_nohint'] + r['fix1'], r['C']):>13.1f}")
     print()
-    print("sign-25-3: steps added to the compact signer, in % of compact Verify work; Table 6.2")
-    print("compressed Sign/Verify ratio (reference); the first figure divided by the ratio")
-    print(f"  {'set':<11}{'added':>9}{'% Verify':>10}{'Sign/Verify':>13}{'% Sign':>8}")
+    print("sign-25-3: steps added to the compact signer, in F_p multiplications and in % of")
+    print("compact Verify work (signing itself is not counted, and no signing percentage is given)")
+    print(f"  {'set':<11}{'added':>9}{'% Verify':>10}")
     for (name, a, b, r, tu, tc) in rows:
-        ratio = signs[name] / tc
-        print(f"  {name:<11}{r['sign3']:>9.0f}{pct(r['sign3'], r['C']):>10.1f}{ratio:>13.2f}"
-              f"{pct(r['sign3'], r['C']) / ratio:>8.1f}")
+        print(f"  {name:<11}{r['sign3']:>9.0f}{pct(r['sign3'], r['C']):>10.1f}")
     print()
     print("Compact signature with a two-byte basis hint for E_com (Table 6.1, physical p. 61)")
     for name, sig in [("Level1-eff", 168), ("Level1-sec", 178), ("Level2-eff", 208),

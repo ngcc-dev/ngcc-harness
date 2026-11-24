@@ -27,7 +27,8 @@ u = r1 + h*r2 then has the same weights as the key relation, and
 r = 2*wx*wy + we. For two pairs of weights (a, b) and (c, d) that both reach
 the target, a*d + b*c >= 2*min(a*b, c*d), so no other choice of ciphertext
 weights gives a smaller r. The specification's three-block ciphertext
-instance is not modeled here, so that run is a lower estimate.
+instance is not modeled here, so that run is a lower estimate;
+kem-06/fixing_cost_attack3n.py evaluates that instance at its results.
 
 With --we 1 the weight of e is set to 1 instead of the submitted 8. The
 three-block ciphertext instance, which we protects, is not modeled here, so

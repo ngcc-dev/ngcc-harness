@@ -14,8 +14,18 @@ r' and the ratio, and counts sizes and work.
 The inversion of gf2x.c is a fixed chain for the exponent r - 2. It calls
 gf2x_mul once for every bit of r - 2 after the first, once more for every set
 bit of r - 2 after the first, and once for the last squaring.
+
+Failure-rate bound. Section 3.1 (physical p. 13) models the failure rate as
+DFR = Q(sqrt(n) (C(s) - C(s*)) / alpha) with n = 3r and C(s) = 1 - t/n, that is
+Q^-1(DFR) = sqrt(n) (p* - t/n) / alpha with p* = 1 - C(s*). The threshold p*
+and the slope alpha were fitted and are not published. When t'/n' <= t/n and
+p* > t/n (DFR < 1/2), sqrt(n') (p* - t'/n') >= sqrt(n'/n) sqrt(n) (p* - t/n),
+so Q^-1(DFR') >= sqrt(n'/n) Q^-1(DFR) whatever p* and alpha are. The script
+prints that bound from the Table 8 value (physical p. 15). It holds only if
+p* and alpha stay as fitted for the submitted set.
 """
 
+import math
 from fractions import Fraction
 
 
@@ -92,6 +102,32 @@ def pct(new, old):
     return f"{100 * (new - old) / old:+.2f}%"
 
 
+# log2 DFR, Table 8 (physical p. 15)
+TABLE8 = {"TRIKE-5": -256.44, "TRIKE-7": -431.23, "TRIKE-9": -525.71}
+
+
+def log2_q(z):
+    return math.log2(0.5 * math.erfc(z / math.sqrt(2)))
+
+
+def q_inverse_log2(lg):
+    lo, hi = 0.0, 60.0
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if log2_q(mid) > lg:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def fls_bound(name, r2):
+    r = SETS[name][0]
+    z = q_inverse_log2(TABLE8[name])
+    z2 = math.sqrt(r2 / r) * z
+    return z, z2, log2_q(z2)
+
+
 def main():
     print("Control, specification Table 3 (formula sk, pk, ct / stated), and gf2x_mul calls per inversion")
     print("(formula / counted in gf2x.c):")
@@ -127,6 +163,13 @@ def main():
                 f"sampler duplicate comparisons t(t-1)/2: {t * (t - 1) // 2} -> {t2 * (t2 - 1) // 2} "
                 f"({pct(t2 * (t2 - 1), t * (t - 1))})"
             )
+            if name in TABLE8:
+                z, z2, lg = fls_bound(name, r2)
+                print(
+                    f"      failure rate, section 3.1 law with p* and alpha as fitted: Table 8 log2 DFR "
+                    f"{TABLE8[name]} (Q^-1 = {z:.3f}); t'/n' <= t/n: {t2 * r <= t * r2}; "
+                    f"Q^-1(DFR') >= {z2:.3f}, log2 DFR' <= {lg:.2f}"
+                )
     r = SETS["TRIKE-5"][0]
     base = inversion_multiplications(r)
     p, seen = 36373, []

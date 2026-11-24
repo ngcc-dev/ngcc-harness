@@ -34,6 +34,25 @@ finds are costing aids, not recommended parameters.
 5. Work. Inner-loop steps of the submitted code: w*n per sparse product
    (nss_hqc_core.c:585-604; one in key generation, two in encryption, one in
    decryption) and 256*128*5 per inner block decoded (code_layer.c:225-235).
+   Decapsulation is also given with the decoder's share of it taken from
+   Table 11 (physical p. 43), decapsulation less key generation and
+   encapsulation, in place of the share that the step count gives.
+
+6. Outer decoder (kem-26-5). Field multiplications of the submitted trial
+   loop (one elimination per trial, code_layer.c:252-318,490-529) against a
+   Berlekamp-Massey errors-and-erasures decoder with fixed iteration counts,
+   the decoder of section 2.6.3 (Eqs. 19-22, physical pp. 12-13): every loop
+   runs to its maximum length, every position is processed under a mask, an
+   inversion is a^254 (13 multiplications). A table-free multiplication is
+   taken as 1 to 8 steps (8 shift-and-add rounds), one step being one table
+   multiplication of the submitted code.
+
+7. kem-26-6 at 2^80 ciphertexts (NSS-HQC-128). The pinned DS-DOOM estimator
+   is not run. Bound: 2^80 ciphertexts mixed from 2^77 real ones and
+   7*2^77 self-made encapsulations (known errors) turn a 2^80-target attack
+   into a 2^77-target one at 8 times the cost, so the cost at 2^80 is at
+   least the report's 2^127.624 at 2^77 less 3 bits. Weights from the Stern
+   line, then the failure model at those weights.
 """
 
 from math import ceil, exp, lgamma, log, log2
@@ -47,6 +66,12 @@ SETS = {  # Tables 1 and 3, physical p. 26
 TABLE_15 = {  # public key, KEM ciphertext
     "NSS-HQC-128": (3713, 5185), "NSS-HQC-256": (6844, 9084),
     "NSS-HQC-384": (15371, 18571), "NSS-HQC-512": (27302, 31462),
+}
+TABLE_11 = {  # key generation, encapsulation, decapsulation, ms (physical p. 43)
+    "NSS-HQC-128": (7.836450, 14.280550, 27.423400),
+    "NSS-HQC-256": (23.998000, 43.798600, 76.349600),
+    "NSS-HQC-384": (82.173450, 150.560700, 244.585850),
+    "NSS-HQC-512": (198.644600, 364.728050, 578.171550),
 }
 STERN = {  # report.md: raw Stern bit cost at weight 2*w_r and at weight 2*w_sk
     "NSS-HQC-128": (154.43, 167.887), "NSS-HQC-256": (234.38, 255.868),
@@ -270,8 +295,37 @@ def pct(new, old):
     return f"{100 * (new / old - 1):+.1f}%"
 
 
+def decaps_table11(name, n, w_sk, w_r, n1):
+    """Decapsulation ratio with the decoder share of Table 11."""
+    p = SETS[name]
+    kg, enc, dec = TABLE_11[name]
+    share = (dec - kg - enc) / dec
+    prod = (w_sk + 2 * w_r) * n / ((p["w_sk"] + 2 * p["w_r"]) * p["n"])
+    return (1 - share) * prod + share * n1 / p["n1"], share
+
+
 def rs_trial_steps(rows, unknowns):
     return rows * (unknowns + 1) * (unknowns + 2) // 2
+
+
+INV = 13   # a^254: 7 squarings and 6 multiplications
+
+
+def bm_decoder_mults(n1, k1):
+    """Multiplications of a fixed-iteration errors-and-erasures decoder, section 2.6.3."""
+    r = n1 - k1
+    parts = dict(
+        syndromes=r * n1,                        # Eq. (19), all n1 symbols
+        erasure_locator=n1 * r,                  # Eq. (20), every position under a mask
+        modified_syndromes=r * (r + 1) // 2,     # T = S*Gamma mod x^r
+        berlekamp_massey=r * (2 * (r + 1) + 1 + INV),   # r rounds: discrepancy, update, scale, inverse
+        combined_locator=r * (r + 1) // 2,       # Lambda = sigma*Gamma
+        chien=n1 * r,                            # Lambda at every position
+        evaluator=r * (r + 1) // 2,              # Omega = S*Lambda mod x^r
+        forney=n1 * (2 * r + 1 + INV),           # Omega, Lambda', one product, one inverse per position
+        verification=r * n1,                     # syndromes of the corrected word
+    )
+    return sum(parts.values()), parts
 
 
 def main():
@@ -328,12 +382,15 @@ def main():
                 continue
             pk, ct = sizes(r["n"], r["n1"], p["lam"])
             new = work(r["n"], w_sk, w_r, r["n1"])
+            t11, share = decaps_table11(name, r["n"], w_sk, w_r, r["n1"])
             print(f"      {decoder:8s}: n1 that fits the submitted n: {r['at_submitted_n']}; "
                   f"n {r['n']} ({pct(r['n'], p['n'])}), n1 {r['n1']}, "
                   f"p_struct {r['ps']:.4f}, failure 2^{r['fail'][0]:.1f}; "
                   f"pk {pk} ({pct(pk, pk0)}), ct {ct} ({pct(ct, ct0)}); "
                   + ", ".join(f"{lab} {pct(x, y)}" for lab, x, y in
-                              zip(("keygen", "encaps", "decaps"), new, base)))
+                              zip(("keygen", "encaps", "decaps"), new, base))
+                  + f"; decaps with the Table 11 decoder share {100 * share:.1f}%"
+                  f" (count {100 * 163840 * p['n1'] / base[2]:.1f}%): {100 * (t11 - 1):+.1f}%")
 
     print("\n5. Alternative: second component sent uncompressed (5 bits per coordinate), n kept")
     for name in ("NSS-HQC-256", "NSS-HQC-384", "NSS-HQC-512"):
@@ -352,8 +409,41 @@ def main():
         one = rs_trial_steps(p["n1"], p["k1"] + 2 * (red // 2))
         every = sum(rs_trial_steps(p["n1"], p["k1"] + 2 * e) for e in range(red // 2 + 1))
         dec = work(p["n"], p["w_sk"], p["w_r"], p["n1"])[2]
+        bm, parts = bm_decoder_mults(p["n1"], p["k1"])
         print(f"   {name}: first trial {one} ({100 * one / dec:.2f}% of {dec}), "
               f"all {red // 2 + 1} trials {every} ({100 * every / dec:.1f}%)")
+        print(f"      fixed-iteration Berlekamp-Massey decoder: {bm} multiplications; "
+              f"in place of the first trial, decapsulation changes by "
+              + ", ".join(f"{100 * (k * bm - one) / dec:+.2f}% at {k} step(s) per multiplication"
+                          for k in (1, 8)))
+        print("      " + ", ".join(f"{k} {v}" for k, v in parts.items()))
+
+    print("\n7. kem-26-6 at 2^80 ciphertexts, NSS-HQC-128")
+    name = "NSS-HQC-128"
+    p = SETS[name]
+    low = 127.624 - 3
+    print(f"   report: 2^128 or more at 2^76, 2^127.624 at 2^77; bound at 2^80: 2^{low:.3f}, "
+          f"shortfall at most {128 - low:.3f} bits")
+    pk0, ct0 = TABLE_15[name]
+    base = work(p["n"], p["w_sk"], p["w_r"], p["n1"])
+    for w_r in (66, 67, 68):
+        gain = stern(name, 2 * w_r)[0] - stern(name, 2 * p["w_r"])[0]
+        tables = block_tables(p_struct(p["n"], p["w_sk"], w_r, p["w_e"]))
+        f_err = failure(tables, p["n1"], p["k1"], "errors")[0]
+        f_era = failure(tables, p["n1"], p["k1"], "erasures")[0]
+        print(f"   w_r1 = w_r2 = {w_r}: Stern +{gain:.2f} bits; at the submitted n and n1: "
+              f"failure 2^{f_err:.1f} (errors) to 2^{f_era:.1f} (erasures), "
+              + ", ".join(f"{lab} {pct(x, y)}" for lab, x, y in
+                          zip(("keygen", "encaps", "decaps"),
+                              work(p["n"], p["w_sk"], w_r, p["n1"]), base)))
+        for decoder in ("errors", "erasures"):
+            r = search(name, p["w_sk"], w_r, decoder)
+            pk, ct = sizes(r["n"], r["n1"], p["lam"])
+            new = work(r["n"], p["w_sk"], w_r, r["n1"])
+            print(f"      at 2^-128, {decoder:8s}: n {r['n']}, n1 {r['n1']}, failure 2^{r['fail'][0]:.1f}; "
+                  f"pk {pk} ({pct(pk, pk0)}), ct {ct} ({pct(ct, ct0)}); "
+                  + ", ".join(f"{lab} {pct(x, y)}" for lab, x, y in
+                              zip(("keygen", "encaps", "decaps"), new, base)))
 
 
 if __name__ == "__main__":

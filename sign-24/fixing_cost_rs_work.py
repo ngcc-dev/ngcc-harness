@@ -7,7 +7,14 @@ Counts GF(2^16) table multiplications of one RS_encode call for
   - a radix-2 transform of the next power-of-two length, in a butterfly
     model: n/2 * log2(n) butterflies per lane, each one multiplication and
     two additions (additions of a basis conversion are not modelled);
-  - Horner evaluation at the Q_VC opened positions only (a verifier).
+  - Horner evaluation at the Q_VC opened positions only (a verifier);
+  - the team's revised encoder (github.com/QinLangT/Sigurd at 302eeeb,
+    Reference_Implementation/Sigurd-*/rsencode.c, rs_eval_codeword): per lane
+    and per coset of the order-51 subgroup, a fold of the N' coefficients
+    (N' products), a chirp (51) and a 51-point transform: 17 three-point DFTs
+    of one product, 51 twiddles and 3 direct 17-point DFTs of 289 products.
+    Products there cost two table lookups (gf_mul_log), against three in the
+    submitted gf_mul.
 
 Nothing is measured and no part of the scheme is implemented.  Inputs:
   specification Table 2 (physical p. 30), Table 3 (p. 43);
@@ -16,6 +23,7 @@ Nothing is measured and no part of the scheme is implemented.  Inputs:
     sig_core.c RS_encode       32 chunks, k = ceil(N'/32), rate*k outputs per chunk
     rsencode.c rs_encode_scalar  symbols * recovery * original multiplications
     sig_core.c Commitment_Raw (two calls), Commitment_Open_Verifier_Raw (one)
+  revised specification in the same repository (dated 2026-09-21), Table 3.
 
 Run: python3 -B sign-24/fixing_cost_rs_work.py
 """
@@ -32,6 +40,13 @@ SETS = {
     "256": (2748, 16, 171, 8, 193, 651, 5208, 140.72, 52.18),
     "512": (5676, 32, 256, 16, 293, 1239, 19824, 1277.34, 461.05),
 }
+# Revised specification, Table 3 (reference build): sign, verify Mcyc
+REVISED = {"128": (16.41, 7.00), "256": (136.18, 46.63), "512": (1149.03, 348.35)}
+
+H = 51                     # kEvalOrder
+NTT51 = 17 * 1 + 3 * 17 + 3 * 17 * 17      # eval_ntt51 products: 935
+NTT51_ADD = 17 * 6 + 3 * 17 * 17           # eval_dft3, eval_dft17 additions
+MAX_COSETS, MAX_FOLD = 400, 25             # table dimensions in rsencode.c
 
 
 def main():
@@ -71,6 +86,24 @@ def main():
         print(f"  Horner loop at the {q} opened positions only: {enc_open} "
               f"multiplications ({enc_open / enc_chunk:.2f} of the submitted "
               f"call)")
+        cosets = ceil(n / H)
+        team = tau * cosets * (nprime + H + NTT51)
+        team_add = tau * cosets * (nprime + NTT51_ADD)
+        print(f"  team's encoder: {cosets} cosets of {H}, {tau} lanes, "
+              f"{nprime + H + NTT51} products per lane and coset = {team} "
+              f"multiplications ({team / enc_chunk:.2f} of the submitted call), "
+              f"{team_add} additions ({team_add / enc_chunk:.2f})")
+        print(f"    table lookups at 2 per product against 3: {2 * team} "
+              f"against {3 * enc_chunk} ({2 * team / (3 * enc_chunk):.2f})")
+        rs, rv = REVISED[name]
+        print(f"    revised Table 3, reference: signing {rs} Mcyc "
+              f"({100 * (rs / sign_mcyc - 1):+.1f}%), verification {rv} Mcyc "
+              f"({100 * (rv / ver_mcyc - 1):+.1f}%)")
+    tables = MAX_COSETS * H + MAX_COSETS * MAX_FOLD + H * H + 17 * 17 + 17 * 3
+    setup = MAX_COSETS * (H + MAX_FOLD) + H * H
+    print(f"\nteam's encoder tables: {tables} entries of 2 bytes "
+          f"({2 * tables} bytes) beside the shared log/exp tables; setup "
+          f"once per process: {setup} products")
 
 
 if __name__ == "__main__":

@@ -5,8 +5,11 @@ Prints (1) the size formulas checked against Table 2 and evaluated at the
 costed parameters, (2) a Gaussian failure-probability model checked against
 the six values recorded in the submission and evaluated at the costed
 parameters, and (3) XOF and multiplication counts of the submitted reference
-code at module rank 8 and 9.  It implements no part of the scheme, and the
-parameter values are costing aids, not recommended parameters.
+code at module rank 8 and 9, and (4) those counts grouped per operation into
+XOF bytes, modular multiplications and coefficient passes, whose smallest and
+largest growth bound the growth of the whole operation.  It implements no part
+of the scheme, and the parameter values are costing aids, not recommended
+parameters.
 
 Run:  python3 -B kem-34/fixing_cost_params.py
 """
@@ -131,6 +134,43 @@ def work(l, n, logq, eta, lenk):
     return {"keygen": keygen, "encaps": encaps, "decaps": decaps, "matrix": matrix}, mults
 
 
+def groups(l, n, logq, logp, logt, eta, lenk):
+    """Per-operation work in three groups, from the reference call pattern.
+
+    xof: bytes absorbed plus bytes squeezed, the placeholder XOF costed by its
+      external dimensions: G (keygen 64 -> 128 bytes, encaps and decaps
+      128 -> 128), the matrix (l^2 calls, seed 67 -> LOG2Q*n bytes, indcpa.c:234),
+      the noise (65 -> eta*n/4 bytes per polynomial, indcpa.c:303,309,368-378),
+      H(pk) in keygen and encaps (KEM_lwekem512.c:63,84) and H(c||z) in
+      decaps (:130), each with a 64-byte output.
+    modmul: butterflies of the transforms, n/2*log2(n) each (keygen 2l forward,
+      indcpa.c:314,322; encaps l forward and l+1 inverse, :380,385-386;
+      decryption l forward and 1 inverse, :415,417) and the coefficient
+      products of the pointwise products (l^2 in keygen, l^2+l in encryption,
+      l in decryption).
+    passes: coefficients sampled, added, packed, compressed and unpacked:
+      keygen 2l (noise) + l (add) + 2l (pack sk, pk) polynomials; encryption
+      2l+1 + l+2 + l+1; decryption l+1 (unpack ct) + l (unpack sk) + 2.
+    """
+    kb = lenk // 8
+    pk, _, ct = sizes(l, n, logq, logp, logt, lenk)
+    mat = l * l * (kb + 3 + logq * n)
+    noise = lambda k: k * (kb + 1 + eta * n // 4)
+    bfly = n // 2 * (n.bit_length() - 1)
+    enc_xof = mat + noise(2 * l + 1)
+    enc_mul = (l + (l + 1)) * bfly + (l * l + l) * n
+    enc_pass = (2 * l + 1 + l + 2 + l + 1) * n
+    dec_mul = (l + 1) * bfly + l * n
+    dec_pass = (l + 1 + l + 2) * n
+    return {
+        "keygen": {"xof": kb + 2 * kb + mat + noise(2 * l) + pk + kb,
+                   "modmul": 2 * l * bfly + l * l * n, "passes": 5 * l * n},
+        "encaps": {"xof": pk + kb + 4 * kb + enc_xof, "modmul": enc_mul, "passes": enc_pass},
+        "decaps": {"xof": 4 * kb + enc_xof + ct + kb + kb, "modmul": dec_mul + enc_mul,
+                   "passes": dec_pass + enc_pass},
+    }
+
+
 def is_prime(x):
     return x > 1 and all(x % d for d in range(2, int(math.isqrt(x)) + 1))
 
@@ -207,6 +247,21 @@ def main():
     _, wm = work(9, 256, 13, 1, 512)
     print("   counts at l=8 -> l=9: "
           + "  ".join(f"{k} {bm[k]} -> {wm[k]} ({pct(wm[k], bm[k]):+.1f}%)" for k in bm))
+
+    print("\n4. Per-operation groups (an operation's growth is a weighted mean of its groups' growth,")
+    print("   so it lies between the smallest and the largest, whatever the unpublished weights)")
+    g0 = groups(8, 256, 13, 13, 7, 2, 512)
+    for label, par in (("l=9 eta=1 q=7681 p=2^13", (9, 256, 13, 13, 7, 1, 512)),
+                       ("l=9 eta=1 q=7681 p=2^11", (9, 256, 13, 11, 7, 1, 512)),
+                       ("l=9 eta=1 q=4001 (512-II, same call pattern)", (9, 256, 12, 12, 8, 1, 512))):
+        g1 = groups(*par)
+        print(f"   {label}:")
+        for op in ("keygen", "encaps", "decaps"):
+            parts = {k: pct(g1[op][k], g0[op][k]) for k in g0[op]}
+            shown = {k: v for k, v in parts.items() if not (label.startswith("l=9 eta=1 q=4001") and k == "modmul")}
+            print(f"     {op}: " + "  ".join(f"{k} {g0[op][k]} -> {g1[op][k]} ({parts[k]:+.1f}%)" for k in g0[op])
+                  + f";  range {min(shown.values()):+.1f}% to {max(shown.values()):+.1f}%"
+                  + ("  (modmul excluded: no NTT at q=4001)" if len(shown) < len(parts) else ""))
 
 if __name__ == "__main__":
     main()
