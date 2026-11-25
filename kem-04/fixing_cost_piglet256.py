@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """BAG-Piglet-256 parameter estimate for kem-04/fixing_cost.md (finding kem-04-3).
 
-kem-04-3 puts the zero-direction maximal-minors (ZD-MM) key-recovery estimate
-of BAG-Piglet-256 at 2^254.0, after the instance is packed over F_4 (ePrint
-2026/2994, Section 4.4 and Table 13). This script searches the smallest
+kem-04-3 gives, without claiming it, the zero-direction maximal-minors (ZD-MM)
+key-recovery estimate of BAG-Piglet-256 as 2^254.0, after the instance is
+packed over F_4 (ePrint 2026/2994, Section 4.4 and Table 13). The ZD-MM model
+is unvalidated; this costs a repair in case it is. This script searches the smallest
 change of n, m, n', eps, k and the key weight that brings every model below
 to 2^256 with no margin. The encryption weights (3, 3, 4, 4) and n1 = 2 are
 kept as submitted (Table 1, physical p. 8). Standard library only: the attack

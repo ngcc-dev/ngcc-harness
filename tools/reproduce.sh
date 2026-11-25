@@ -1511,6 +1511,7 @@ if [ -z "$only" ] || [ "$only" = kem-34 ]; then
 fi
 zc_cand=hash-30; [ "$only" = hash-31 ] && zc_cand=hash-31
 run_target "$zc_cand" "hash-30-2/hash-31-3" sh security/zc_column_trail.sh
+run_target "$zc_cand" "hash-30-2/hash-31-3 seven-round" python3 security/zc_seven_round_collisions.py
 echo
 echo "== 2026-11-03 ZC-1280-512 conditional collision leads =="
 zc1280_cand=hash-30

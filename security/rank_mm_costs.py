@@ -337,8 +337,7 @@ def check_piglet():
                     b[0] > lvl and 0 < lvl - total < 2.5)
         else:
             ck.true("both estimates above target", b[0] > lvl and total > lvl)
-    return ck.finish("ordinary MM key recovery with one error block removed is below the BAG-Piglet-128 target,"
-                     " and ZD-MM key recovery over F_4 is below the BAG-Piglet-256 target")
+    return ck.finish("ordinary MM key recovery with one error block removed is below the BAG-Piglet-128 target")
 
 
 # --- BRA (kem-06-8) ---------------------------------------------------------
