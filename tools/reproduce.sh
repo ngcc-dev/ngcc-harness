@@ -1292,8 +1292,22 @@ elif [ -z "$only" ]; then
 fi
 
 echo
-echo "== kem-41-2 ZEN: fail-open key generation under real memory exhaustion (High Confirmed) =="
+echo "== kem-41-2 ZEN: fail-open key generation under real memory exhaustion (Medium Confirmed) =="
 run_target kem-41 "kem-41-2" sh kem-41/reproduce_keygen_fail_open.sh
+
+echo
+echo "== kem-41-4 ZEN: posted weak-key failure-search estimate for ZEN-512 (High Lead) =="
+if [ "$only" = kem-41 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    if zen_python=$(find_python 'import numpy'); then
+        run_target kem-41 "kem-41-4" "$zen_python" kem-41/reproduce_failure_search.py
+    else
+        echo "SKIP   kem-41 kem-41-4 (set NGCC_ESTIMATOR_PYTHON to Python with NumPy)"
+        skipped=$((skipped + 1))
+    fi
+elif [ -z "$only" ]; then
+    echo "SKIP   kem-41 kem-41-4 slow estimate (run tools/reproduce.sh kem-41 or set NGCC_SLOW=1)"
+    skipped=$((skipped + 1))
+fi
 
 echo
 echo "== kex-02-3..6 AFS-KEX protocol findings and informational QROM bound =="
