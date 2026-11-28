@@ -1721,6 +1721,19 @@ run_target sign-24 "sign-24-6" sh sign-24/reproduce_thread_race.sh
 run_target sign-31 "sign-31-9" sh sign-31/reproduce_thread_race.sh
 run_target kem-04 "kem-04-4" python3 kem-04/reproduce_failure_rate.py
 
+echo "== 2026-11-28: MechCrypto follow-ups, runtime witnesses =="
+run_target kem-04 "kem-04-5" sh kem-04/reproduce_short_ciphertext.sh
+run_target sign-25 "sign-25-6" sh sign-25/reproduce_short_signature.sh
+run_target sign-17 "sign-17-4" sh sign-17/reproduce_sign_alloc_false_success.sh
+run_target sign-14 "sign-14-6" sh sign-14/reproduce_matrix_stride.sh
+run_target sign-14 "sign-14-6 key recovery" sh sign-14/reproduce_lynx160_key_recovery.sh
+if [ "$only" = sign-13 ] || [ "${NGCC_SLOW:-0}" = 1 ]; then
+    run_target sign-13 "sign-13-6" sh sign-13/reproduce_verify_leak.sh
+elif [ -z "$only" ]; then
+    echo "SKIP   sign-13 sign-13-6 slow leak measurement (run tools/reproduce.sh sign-13 or set NGCC_SLOW=1)"
+    skipped=$((skipped + 1))
+fi
+
 echo
 if [ "$fail" -eq 0 ] && [ "$skipped" -eq 0 ]; then
     echo "all reproducers behaved as reported"
